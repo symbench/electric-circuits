@@ -1,4 +1,12 @@
 {
-  "components": {},
-  "dependencies": {}
+  "components": {
+    "decorators": {
+      "ElectricCircuitsDecorator": {
+        "src": "src/decorators/ElectricCircuitsDecorator"
+      }
+    }
+  },
+  "dependencies": {
+    "decorators": {}
+  }
 }
