@@ -35,6 +35,9 @@ jobs:
     needs: test
 
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
       - name: Publish to docker hub (symbench/electric-circuits:latest)
         uses: elgohr/Publish-Docker-Github-Action@master
 
