@@ -1,0 +1,24 @@
+---
+version: "3"
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - "$HOME/.webgme/data:/data/db"
+
+  server:
+    image: electric-circuits:latest
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/electric_circuits
+      - WEBGME_PUBLIC_KEY=/token_keys/public_key
+      - WEBGME_PRIVATE_KEY=/token_keys/private_key
+      - NODE_ENV=production
+      - WEBGME_BLOB_DIR=/data/blob
+    ports:
+      - "8888:8888"
+    volumes:
+      - "$HOME/.webgme/blob:/data/blob"
+      - "/home/umesh/work/design.R/token_keys:/token_keys"
+
+    depends_on:
+      - mongo

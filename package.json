@@ -14,12 +14,9 @@
     "clean_up": "node ./node_modules/webgme-engine/src/bin/clean_up.js"
   },
   "version": "1.0.0",
-  "peerDependencies": {
-    "webgme": "^2.23.0"
-  },
   "devDependencies": {
     "mocha": "^5.2.0",
-    "webgme": "^2.23.0"
+    "webgme": "^2.42.0"
   },
   "dependencies": {},
   "description": "First, install the electric-circuits following: - [NodeJS](https://nodejs.org/en/) (v4.x.x recommended) - [MongoDB](https://www.mongodb.com/)",
