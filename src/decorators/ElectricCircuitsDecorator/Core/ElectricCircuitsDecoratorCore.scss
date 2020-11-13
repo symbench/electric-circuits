@@ -1,0 +1,57 @@
+@import "Connector";
+
+$selected-background-color: rgba(252, 252, 252, 0.5);
+$max-width: 70px;
+
+@mixin ElectricCircuits_decorator_core {
+  .electriccircuits-decorator{
+    text-align: center;
+
+    text.port-name {
+      fill: #000;
+      font-size: 11px;
+
+      &.right {
+        text-anchor: end;
+      }
+    }
+
+    .name {
+      text-align: center;
+      overflow: auto;
+      text-overflow: ellipsis;
+    }
+
+    .connector {
+      @include connector_basics;
+      border-radius: 6px;
+      left: 50%;
+
+      &.top {
+        top: $connector-size / -2;
+      }
+
+      &.bottom {
+        bottom: $connector-size / -2;
+      }
+    }
+
+    .connector-container {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      transform-origin: 0 0;
+      -webkit-transform-origin: 0 0;
+      -moz-transform-origin: 0 0;
+    }
+
+    .designer-item{
+      &.selected {
+        .electriccircuits-decorator {
+          background-color: $selected-background-color;
+        }
+      }
+    }
+
+  }
+}

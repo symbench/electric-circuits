@@ -26,11 +26,23 @@ ELEMENTS = {
     'Diode': elm.Diode,
     'NPN': elm.BjtNpn,
     'PNP': elm.BjtPnp,
-    'Junction': elm.Dot,    
+    'Junction': elm.Dot,
     'Voltage': elm.SourceV,
     'Current': elm.SourceI,
     'Resistor': elm.Resistor,
-    'Circuit': elm.Ic
+    'Circuit': elm.Ic,
+    'Ground': elm.Ground
+}
+
+PORT_COUNT = {
+    'Diode': 2,
+    'NPN': 3,
+    'PNP': 3,
+    'Junction': 4,
+    'Voltage': 2,
+    'Current': 2,
+    'Resistor': 2,
+    'Ground': 1
 }
 
 DST_DIR = Path('src/decorators/ElectricCircuitsDecorator/Icons/').resolve()
@@ -51,7 +63,7 @@ class IconsGenerator:
     """
     def __init__(self, dst_dir=None, **kwargs):
         units = kwargs.pop('units', 1.8)
-        inches_per_unit = kwargs.pop('inches_per_unit', 1.0)
+        inches_per_unit = kwargs.pop('inches_per_unit', 0.5)
 
         self.drawing = schemdraw.Drawing(
             unit=units,
@@ -70,6 +82,9 @@ class IconsGenerator:
         for dst_name, el in ELEMENTS.items():
             kwargs = dict()
             d = 'right'
+
+            if dst_name == 'Port':
+                kwargs['open'] = True
 
             if el == elm.BjtNpn or el == elm.BjtPnp:
                 kwargs['circle'] = True
@@ -92,6 +107,7 @@ class IconsGenerator:
                       label=None,
                       **kwargs):
         self.drawing.elements.clear()
+
         self.drawing.add(
             element,
             d=d,
@@ -114,7 +130,11 @@ class IconsGenerator:
             warnings.warn('Cannot explicitly match <svg/> tag')
 
         # Insert a group tag for "ports"
-        ports = self._get_ports_group()
+        ports = ''
+
+        if num_ports := PORT_COUNT.get(dst_name, None):
+            ports = self._get_ports(num_ports)
+
         svg_data = svg_data.split('\n')
 
         for i, line in enumerate(svg_data):
@@ -128,8 +148,11 @@ class IconsGenerator:
             dstIcon.write(svg_data)
 
     @staticmethod
-    def _get_ports_group():
-        return '<g class="ports"></g>\n'
+    def _get_ports(num_ports):
+        ports = '<g class="ports">\n'
+        for j in range(1, num_ports+1):
+            ports += f'<g class="port-{j}"></g>\n'
+        return ports + '</g>'
 
 
 def main():

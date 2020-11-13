@@ -1,9 +1,9 @@
-<svg height="57.24pt" version="1.1" viewBox="0 0 144 57.24" width="144pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg height="35.82pt" version="1.1" viewBox="0 0 79.2 35.82" width="79.2pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
  <metadata>
   <rdf:RDF xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2020-11-06T13:22:00.535304</dc:date>
+    <dc:date>2020-11-12T14:59:11.301248</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -18,36 +18,38 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 57.24 
-L 144 57.24 
-L 144 0 
-L 0 0 
+   <path d="M 0 35.82 
+L 79.2 35.82 
+L 79.2 -0 
+L 0 -0 
 z
 " style="fill:none;"/>
-<g class="ports"></g>
-  </g>
+<g class="ports">
+<g class="port-1"></g>
+<g class="port-2"></g>
+</g>  </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path clip-path="url(#pac17fe1c00)" d="M 60.66 13.32 
-L 83.34 28.62 
-L 60.66 43.92 
+    <path clip-path="url(#pc4cfe78506)" d="M 33.93 10.26 
+L 45.27 17.91 
+L 33.93 25.56 
 z
 " style="fill:none;stroke:#000000;stroke-linecap:round;stroke-width:2;"/>
    </g>
    <g id="line2d_1">
-    <path clip-path="url(#pac17fe1c00)" d="M 13.68 28.62 
-L 60.66 28.62 
-M 83.34 13.32 
-L 83.34 43.92 
-M 83.34 28.62 
-L 130.32 28.62 
+    <path clip-path="url(#pc4cfe78506)" d="M 10.44 17.91 
+L 33.93 17.91 
+M 45.27 10.26 
+L 45.27 25.56 
+M 45.27 17.91 
+L 68.76 17.91 
 " style="fill:none;stroke:#000000;stroke-linecap:round;stroke-width:2;"/>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="pac17fe1c00">
-   <rect height="42.84" width="129.6" x="7.2" y="7.2"/>
+  <clipPath id="pc4cfe78506">
+   <rect height="21.42" width="64.8" x="7.2" y="7.2"/>
   </clipPath>
  </defs>
 </svg>

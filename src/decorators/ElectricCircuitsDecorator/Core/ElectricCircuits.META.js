@@ -13,6 +13,7 @@ define([], function () {
             'Component': 'Component',
             'Circuit': 'Circuit',
             'Port': 'Port',
+            'Ground': 'Ground',
             'Passive': 'Passive',
             'Resistor': 'Resistor',
             'Voltage': 'Voltage',
@@ -23,7 +24,16 @@ define([], function () {
             'NPN': 'NPN'
         },
         DECORATED_META_TYPES = {
-            'Resistor': 'Resistor'
+            'Resistor': 'Resistor',
+            'NPN': 'NPN',
+            'PNP': 'PNP',
+            'Ground': 'Ground',
+            'Diode': 'Diode',
+            'Circuit': 'Circuit',
+            'Voltage': 'Voltage',
+            'Current': 'Current',
+            'Junction': 'Junction',
+            'Port': 'Port'
         },
         client = WebGMEGlobal.Client;
 
@@ -83,6 +93,78 @@ define([], function () {
             return safeTypeCheck(objID, _getMetaTypes()[META_TYPES[META_TYPE]]);
         };
     });
+
+    _TYPE_INFO.isTwoTerm = function (objID) {
+        const META_TYPES = _getMetaTypes();
+        const twoTermMetaTypes = [
+            META_TYPES.Resistor,
+            META_TYPES.Voltage,
+            META_TYPES.Current
+        ];
+        for(let metaType of twoTermMetaTypes) {
+            if(safeTypeCheck(objID, metaType)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    _TYPE_INFO.isThreeTerm = function(objID) {
+        const META_TYPES = _getMetaTypes();
+        const threeTermMetaTypes = [
+            META_TYPES.NPN,
+            META_TYPES.PNP
+        ];
+
+        for(let metaType of threeTermMetaTypes) {
+            if(safeTypeCheck(objID, metaType)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    _TYPE_INFO.isOneTerm = function(objID) {
+        const META_TYPES = _getMetaTypes();
+        const oneTermMetaTypes = [
+            META_TYPES.Ground
+        ];
+
+        for (let metaType of oneTermMetaTypes) {
+            if(safeTypeCheck(objID, metaType)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    _TYPE_INFO.isFourTerm = function(objID) {
+        const META_TYPES = _getMetaTypes();
+        const fourTermMetaTypes = [
+            META_TYPES.Junction
+        ];
+
+        for (let metaType of fourTermMetaTypes) {
+            if(safeTypeCheck(objID, metaType)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    _TYPE_INFO.isVertical = function (objID) {
+        const META_TYPES = _getMetaTypes();
+        const verticalMetaTypes = [
+            META_TYPES.Voltage,
+            META_TYPES.Current
+        ];
+        for(let metaType of verticalMetaTypes) {
+            if(safeTypeCheck(objID, metaType)) {
+                return true;
+            }
+        }
+        return false;
+    };
 
     return {
         getMetaTypes: _getMetaTypes,

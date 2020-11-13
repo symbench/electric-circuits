@@ -29,6 +29,7 @@ define([
         var opts = _.extend({}, options);
 
         PartBrowserWidgetDecoratorBase.apply(this, [opts]);
+        this._initializeDecorator({connectors: false});
 
         this.logger.debug('ElectricCircuitsDecoratorPartBrowserWidget ctor');
     }

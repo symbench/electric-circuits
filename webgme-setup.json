@@ -4,9 +4,15 @@
       "ElectricCircuitsDecorator": {
         "src": "src/decorators/ElectricCircuitsDecorator"
       }
+    },
+    "seeds": {
+      "project": {
+        "src": "src/seeds/project"
+      }
     }
   },
   "dependencies": {
-    "decorators": {}
+    "decorators": {},
+    "seeds": {}
   }
 }

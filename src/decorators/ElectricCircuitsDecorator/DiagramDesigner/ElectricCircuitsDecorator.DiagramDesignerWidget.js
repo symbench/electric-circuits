@@ -10,13 +10,15 @@ define([
     'js/Widgets/DiagramDesigner/DiagramDesignerWidget.DecoratorBase',
     '../Core/ElectricCircuitDecorator.Core',
     '../Core/ElectricCircuits.META',
+    'js/Widgets/DiagramDesigner/DiagramDesignerWidget.Constants',
     'css!./ElectricCircuitsDecorator.DiagramDesignerWidget.css'
 ], function (
     CONSTANTS,
     nodePropertyNames,
     DiagramDesignerWidgetDecoratorBase,
     ElectriCircuitsDecoratorCore,
-    ElectricCircuitsMETA
+    ElectricCircuitsMETA,
+    DiagramDesignerWidgetConstants
 ) {
 
     'use strict';
@@ -44,27 +46,31 @@ define([
      */
     ElectricCircuitsDecorator.prototype.on_addTo = function () {
         this._renderContent();
-
     };
 
     ElectricCircuitsDecorator.prototype.showSourceConnectors = function (params) {
+        this.$connectors.show();
+    };
 
+    ElectricCircuitsDecorator.prototype.showEndConnectors = function (params) {
+        this.$connectors.show();
     };
 
     ElectricCircuitsDecorator.prototype.hideSourceConnectors = function () {
-
-    };
-
-    ElectricCircuitsDecorator.prototype.showEndConnectors = function () {
-
+        this.$connectors.show();
     };
 
     ElectricCircuitsDecorator.prototype.hideEndConnectors = function () {
+        this.$connectors.hide();
+    }
 
+    ElectricCircuitsDecorator.prototype.hideConnectors = function () {
+        this.$connectors.hide();
     };
 
     ElectricCircuitsDecorator.prototype.initializeConnectors = function () {
-
+        this.$connectors = this.$el.find(`.${DiagramDesignerWidgetConstants.CONNECTOR_CLASS}`);
+        this.$connectors.hide();
     };
 
     ElectricCircuitsDecorator.prototype._registerForNotification = function (portId) {
@@ -79,6 +85,10 @@ define([
 
     ElectricCircuitsDecorator.prototype.notifyComponent = function (componentList) {
         this.update();
+    };
+
+    ElectricCircuitsDecorator.prototype.notifyComponentEvent = function (eventList) {
+        console.log(eventList);
     };
 
     return ElectricCircuitsDecorator;
