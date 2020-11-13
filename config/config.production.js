@@ -6,7 +6,7 @@ const config = require('./config.default'),
 const path = require('path');
 
 
-const publicKeyPath = process.env.WEBGME_PUBLIC_KEY || path.join(__dirname, '..', '..', 'token_keys', 'public_key');
+const publicKeyPath = process.env.DEPLOYMENT_PUBLIC_KEY || path.join(__dirname, '..', '..', 'token_keys', 'public_key');
 const privateKeyPath = process.env.WEBGME_PRIVATE_KEY || path.join(__dirname, '..', '..', 'token_keys', 'private_key');
 
 config.authentication.enable = true;
