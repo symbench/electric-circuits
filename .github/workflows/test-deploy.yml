@@ -31,20 +31,14 @@ jobs:
 
   dockerAndDeploy:
     runs-on: ubuntu-latest
-
+    if: github.event_name == 'push'
     needs: test
-    on:
-      push:
-        branches: [master]
-
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
       - name: Publish to docker hub (symbench/electric-circuits:latest)
         uses: elgohr/Publish-Docker-Github-Action@master
-
         with:
           name: symbench/electric-circuits
           username: ${{ secrets.DOCKER_USERNAME }}
