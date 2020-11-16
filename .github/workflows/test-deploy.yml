@@ -46,6 +46,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: latest
+      if: github.event_name == 'push'
 
       - name: Deploy (webgme.symbench.org)
         uses: appleboy/ssh-action@master
@@ -57,5 +58,6 @@ jobs:
           script: |
             cd webgme-deployment && rm -rf electric-circuits && git clone https://github\
             .com/symbench/electric-circuits.git && cd electric-circuits && \
-            git checkout -b 7-docker-deployment origin/7-docker-deployment \
             && chmod +x .deployment/deploy-webgme && ./.deployment/deploy-webgme
+
+        if: github.event_name == 'push'
