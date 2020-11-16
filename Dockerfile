@@ -16,4 +16,3 @@ RUN npm install -g npm
 RUN npm config set unsafe-perm true && npm install
 
 ENTRYPOINT NODE_ENV=production npm start
-
