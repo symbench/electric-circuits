@@ -55,6 +55,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd webgme-deployment && rm -rf electric-circuits && git clone https://github
-            .com/symbench/electric-circuits && cd electric-circuits && chmod +x .deployment/deploy-webgme && ./
-            .deployment/deploy-webgme
+            cd webgme-deployment && rm -rf electric-circuits && git clone https://github\
+            .com/symbench/electric-circuits.git && cd electric-circuits && \
+            git checkout -b 7-docker-deployment origin/7-docker-deployment \
+            && chmod +x .deployment/deploy-webgme && ./.deployment/deploy-webgme

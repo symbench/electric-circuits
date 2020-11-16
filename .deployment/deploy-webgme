@@ -6,5 +6,5 @@ export DEPLOYMENT_DIR
 docker-compose -p webgme pull server
 docker-compose -p webgme stop server
 docker-compose -p webgme rm server
-docker-compose -p deepforge up -d server
+docker-compose -p webgme up -d server
 
