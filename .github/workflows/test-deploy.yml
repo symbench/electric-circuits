@@ -31,7 +31,6 @@ jobs:
 
   dockerAndDeploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     needs: test
     steps:
       - name: Checkout Code
