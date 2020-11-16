@@ -53,7 +53,7 @@ jobs:
           username: $${{ secrets.SSH_USERNAME }}
           host: $${{ secrets.SSH_HOST }}
           key: $${{ secrets.SSH_KEY }}
-          port: 22
+          port: $${{ secrets.SSH_PORT }}
           script: |
             cd webgme-deployment && rm -rf electric-circuits && git clone https://github
             .com/symbench/electric-circuits && cd electric-circuits && chmod +x .deployment/deploy-webgme && ./
