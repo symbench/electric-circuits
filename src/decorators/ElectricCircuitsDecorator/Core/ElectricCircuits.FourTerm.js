@@ -27,7 +27,7 @@ define([
         this._portOrientations = {};
 
         if (node) {
-            const childrenIDs = node.getChildrenIds();
+            const childrenIDs = node.getChildrenIds().sort();
             const svgIcon = this.skinParts.$svg;
             for (let i = 1; i < 5; i++) {
                 svgIcon.find(`.port-${i}`).empty();

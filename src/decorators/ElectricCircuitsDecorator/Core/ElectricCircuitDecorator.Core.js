@@ -226,14 +226,6 @@ define([
 
     };
 
-    ElectricCircuitsDecoratorCore.prototype._registerForNotification = function (portId) {
-
-    };
-
-    ElectricCircuitsDecoratorCore.prototype._unregisterForNotification = function (portId) {
-
-    };
-
     ElectricCircuitsDecoratorCore.prototype.getCurrentNode = function () {
         const gmeID = this._metaInfo[CONSTANTS.GME_ID],
             client = this._control._client;

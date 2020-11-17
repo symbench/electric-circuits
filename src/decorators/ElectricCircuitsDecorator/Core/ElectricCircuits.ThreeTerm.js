@@ -22,7 +22,7 @@ define([
         const node = this.getCurrentNode();
         this._portOrientations = {};
         if (node) {
-            const childrenIds = node.getChildrenIds();
+            const childrenIds = node.getChildrenIds().sort();
             const svgIcon = this.skinParts.$svg;
             svgIcon.find('.port').empty();
 

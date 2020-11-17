@@ -16,7 +16,7 @@ define([
         this._portOrientations = {};
         if (node) {
             const isVertical = ElectricCircuitsMETA.TYPE_INFO.isVertical(node.getId());
-            const childrenIDs = node.getChildrenIds();
+            const childrenIDs = node.getChildrenIds().sort();
             const svgIcon = this.skinParts.$svg;
             svgIcon.find('.port-1').empty();
             svgIcon.find('.port-2').empty();

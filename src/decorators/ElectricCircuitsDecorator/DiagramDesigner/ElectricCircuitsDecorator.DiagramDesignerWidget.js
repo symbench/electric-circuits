@@ -49,28 +49,28 @@ define([
     };
 
     ElectricCircuitsDecorator.prototype.showSourceConnectors = function (params) {
-        this.$connectors.show();
+        this.$sourceConnectors.show();
     };
 
     ElectricCircuitsDecorator.prototype.showEndConnectors = function (params) {
-        this.$connectors.show();
+        this.$endConnectors.show();
     };
 
     ElectricCircuitsDecorator.prototype.hideSourceConnectors = function () {
-        this.$connectors.show();
+        this.$sourceConnectors.show();
     };
 
     ElectricCircuitsDecorator.prototype.hideEndConnectors = function () {
-        this.$connectors.hide();
+        this.$endConnectors.hide();
     }
 
-    ElectricCircuitsDecorator.prototype.hideConnectors = function () {
-        this.$connectors.hide();
-    };
 
     ElectricCircuitsDecorator.prototype.initializeConnectors = function () {
-        this.$connectors = this.$el.find(`.${DiagramDesignerWidgetConstants.CONNECTOR_CLASS}`);
-        this.$connectors.hide();
+        this.$sourceConnectors = this.$el.find('.' + DiagramDesignerWidgetConstants.CONNECTOR_CLASS);
+        this.$endConnectors = this.$el.find('.' + DiagramDesignerWidgetConstants.CONNECTOR_CLASS);
+
+        this.hideSourceConnectors();
+        this.hideEndConnectors();
     };
 
     ElectricCircuitsDecorator.prototype._registerForNotification = function (portId) {
@@ -83,12 +83,8 @@ define([
         this._control.unregisterComponentIDForPartID(portId, partId);
     };
 
-    ElectricCircuitsDecorator.prototype.notifyComponent = function (componentList) {
+    ElectricCircuitsDecorator.prototype.notifyComponentEvent = function (componentList) {
         this.update();
-    };
-
-    ElectricCircuitsDecorator.prototype.notifyComponentEvent = function (eventList) {
-        console.log(eventList);
     };
 
     return ElectricCircuitsDecorator;
