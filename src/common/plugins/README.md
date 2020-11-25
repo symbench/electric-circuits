@@ -1,7 +1,7 @@
 This file contains documentation about the contained shared modules.
 
 ## JSONImporter (uses changeset.js) 
-Written by Brain Broll for [`deepforge-keras`](https://github.com/deepforge-dev/deepforge-keras). 
+Written by Brian Broll for [`deepforge-keras`](https://github.com/deepforge-dev/deepforge-keras). 
 
 Given a GME node and JSON, this utility will update the GME node to be equivalent to the JSON. This will also recursively update all child nodes (removing those not present in the JSON).
 
