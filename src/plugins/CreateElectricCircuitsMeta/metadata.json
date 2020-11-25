@@ -1,0 +1,24 @@
+{
+  "id": "CreateElectricCircuitsMeta",
+  "name": "CreateElectricCircuitsMeta",
+  "version": "0.1.0",
+  "description": "",
+  "icon": {
+    "class": "glyphicon glyphicon-cog",
+    "src": ""
+  },
+  "disableServerSideExecution": false,
+  "disableBrowserSideExecution": false,
+  "dependencies": [],
+  "writeAccessRequired": false,
+  "configStructure": [
+    {
+      "name": "updateBranch",
+      "displayName": "Update Branch",
+      "description": "If true will update the pointed branch",
+      "value": false,
+      "valueType": "boolean",
+      "readOnly": false
+    }
+  ]
+}
