@@ -1,17 +1,9 @@
-// This is used by the test/plugins tests
-/*globals requireJS*/
 /*jshint node:true*/
-/**
- * @author pmeijer / https://github.com/pmeijer
- */
 
-var testFixture = require('webgme/test/_globals'),
+const testFixture = require('webgme/test/_globals'),
     WEBGME_CONFIG_PATH = '../config';
 
-// This flag will make sure the config.test.js is being used
-// process.env.NODE_ENV = 'test'; // This is set by the require above, overwrite it here.
-
-var WebGME = testFixture.WebGME,
+let WebGME = testFixture.WebGME,
     gmeConfig = require(WEBGME_CONFIG_PATH),
     getGmeConfig = function () {
         'use strict';
@@ -26,5 +18,7 @@ var WebGME = testFixture.WebGME,
 WebGME.addToRequireJsPaths(gmeConfig);
 
 testFixture.getGmeConfig = getGmeConfig;
+
+testFixture.EC_SEED_DIR = testFixture.path.join(__dirname, '..', 'src', 'seeds');
 
 module.exports = testFixture;
