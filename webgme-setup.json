@@ -5,14 +5,23 @@
         "src": "src/decorators/ElectricCircuitsDecorator"
       }
     },
+    "plugins": {
+      "CreateElectricCircuitsMeta": {
+        "src": "src/plugins/CreateElectricCircuitsMeta",
+        "test": "test/plugins/CreateElectricCircuitsMeta"
+      }
+    },
     "seeds": {
+      "projectBase": {
+        "src": "src/seeds/projectBase"
+      },
       "project": {
         "src": "src/seeds/project"
       }
+    },
+    "dependencies": {
+      "plugins": {},
+      "seeds": {}
     }
-  },
-  "dependencies": {
-    "decorators": {},
-    "seeds": {}
   }
 }

@@ -10,6 +10,7 @@ config.blob.fsDir = process.env.DEPLOYMENT_BLOB_DIR || config.blob.fsDir;
 
 config.seedProjects.basePaths = ['src/seeds/project'];
 config.seedProjects.defaultProject = 'project';
+config.plugin.allowServerExecution = true;
 
 validateConfig(config);
 module.exports = config;

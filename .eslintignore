@@ -1,2 +1,3 @@
 src/visualizers/Visualizers.json
 config/config.webgme.js
+src/common/plugins/changeset.js
