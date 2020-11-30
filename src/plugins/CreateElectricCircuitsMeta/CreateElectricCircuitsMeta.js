@@ -252,12 +252,13 @@ define([
 
         addToDocumentation(metaNode) {
             let metaDoc = [
-                `##${metaNode.attributes.name}`,
-                '### Attributes:',
+                `## ${metaNode.attributes.name}\n`,
+                '### Attributes:\n',
             ];
             Object.entries(metaNode.attribute_meta).forEach(([name, attr]) => {
-                metaDoc.push(`- name: **${name}**`);
-                metaDoc.push(`- description: ${attr.description}`);
+                metaDoc.push('---');
+                metaDoc.push(`- Name: **${name}**`);
+                metaDoc.push(`- Description: ${attr.description}`);
                 metaDoc.push(`- Type: ${attr.type}`);
                 metaDoc.push(`- Unit: ${attr.unit}`);
                 metaDoc.push(`- Default: ${metaNode.attributes[name] || 'N/A'}`);
