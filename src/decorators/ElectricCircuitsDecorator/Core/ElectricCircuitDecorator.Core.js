@@ -13,6 +13,7 @@ define([
     'js/NodePropertyNames',
     './ElectricCircuits.META',
     './ElectricCircuits.Circuit',
+    './ElectricCircuits.FETs',
     './ElectricCircuits.OpAmps',
     './ElectricCircuit.OneTerm',
     './ElectricCircuits.TwoTerm',
@@ -30,6 +31,7 @@ define([
     nodePropertyNames,
     ElectricCircuitsMETA,
     Circuit,
+    FETs,
     OpAmps,
     OneTerminalComponent,
     TwoTerminalComponent,
@@ -177,6 +179,8 @@ define([
 
         if (ElectricCircuitsMETA.TYPE_INFO.isOpAmp(gmeID) || ElectricCircuitsMETA.TYPE_INFO.isOpAmpDetailed(gmeID)) {
             _.extend(this, new OpAmps());
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isNMOS(gmeID) || ElectricCircuitsMETA.TYPE_INFO.isPMOS(gmeID)) {
+            _.extend(this, new FETs());
         } else if (ElectricCircuitsMETA.TYPE_INFO.isCircuit(gmeID)) {
             _.extend(this, new Circuit());
         } else if (ElectricCircuitsMETA.TYPE_INFO.isPin(gmeID)) {

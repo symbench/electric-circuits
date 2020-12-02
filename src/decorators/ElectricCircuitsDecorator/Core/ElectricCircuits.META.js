@@ -38,7 +38,7 @@ define([], function () {
             'OpAmpDetailed': 'OpAmpDetailed',
             'Potentiometer': 'Potentiometer',
             'Gyrator': 'Gyrator',
-            'Transformer': 'Transformer'
+            'Transformer': 'Transformer',
 
         },
         DECORATED_META_TYPES = {

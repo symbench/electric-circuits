@@ -25,9 +25,9 @@ define([
             const svgIcon = this.skinParts.$svg;
             const width = +svgIcon.attr('width');
             svgIcon.find('.port').empty();
-             const portsContainer = svgIcon.find('.ports');
+            const portsContainer = svgIcon.find('.ports');
 
-                if (portsContainer.length) {
+            if (portsContainer.length) {
                 const portT = this.getPortSVG(POSITIONS.TOP);
                 const portThicknessOffset = 0.5;
                 const portContainerT = portsContainer.find('.port');

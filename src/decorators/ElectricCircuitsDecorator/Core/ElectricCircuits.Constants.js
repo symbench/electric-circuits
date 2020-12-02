@@ -33,5 +33,12 @@ define([], function () {
         RIGHT: 'right'
     };
 
+    CONSTANTS.CONNECTION_ANGLES = {
+        'top' : 270,
+        'bottom': 90,
+        'left': 180,
+        'right': 0
+    }
+
     return CONSTANTS;
 });
