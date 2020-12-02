@@ -89,13 +89,16 @@ define([
                     'transform',
                     `translate(${xShift}, ${yShift})`
                 );
-                const [connector] = this._registerConnectors([pin.getId()]);
-                if (connector) {
-                    connector.css({
-                        top: `${this._portPositions[pin.getId()].y}px`,
-                        left: `${this._portPositions[pin.getId()].x}px`,
-                    });
+                if(ElectricCircuitsMETA.getMetaTypeOf(circuitNode.getParentId()) === 'Circuit'){
+                    const [connector] = this._registerConnectors([pin.getId()]);
+                    if (connector) {
+                        connector.css({
+                            top: `${this._portPositions[pin.getId()].y}px`,
+                            left: `${this._portPositions[pin.getId()].x}px`,
+                        });
+                    }
                 }
+
                 return [port, nameContainer];
             });
         }
