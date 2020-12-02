@@ -1,0 +1,15 @@
+<svg width="80" height="40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_1" y2="20" x2="25" y1="20" x1="5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_2" y2="20" x2="75" y1="20" x1="54.53846"
+              fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <path d="M25 20 A 0.1 0.1 0 0 1 35 20 M 35 20 A 0.1 0.1 0 0 1 45 20 M 45 20 A 0.1 0.1 0 0 1 55 20"
+              fill="none" stroke="black"/>
+    </g>
+    <g class="ports">
+        <g class="port-p"/>
+        <g class="port-n"/>
+    </g>
+</svg>

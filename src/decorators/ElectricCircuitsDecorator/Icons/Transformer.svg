@@ -1,0 +1,21 @@
+
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <rect fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x="15" y="15" width="50" height="50" id="svg_1"/>
+        <path stroke="black" transform="rotate(90 31.851865768432614,38.83327865600587) " id="svg_2" fill="none" d="m20.40742,40.74069a0.0763,0.0763 0 0 1 7.62963,0m0,0a0.0763,0.0763 0 0 1 7.62963,0m0,0a0.0763,0.0763 0 0 1 7.62963,0"/>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_4" y2="51.74997" x2="37.55555" y1="25.97225" x1="37.11111" fill-opacity="null" stroke-opacity="null" stroke-width="null" stroke="black" fill="none"/>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_5" y2="51.74997" x2="43.77776" y1="25.97225" x1="43.33332" fill-opacity="null" stroke-opacity="null" stroke-width="null" stroke="black" fill="none"/>
+        <path stroke="black" transform="rotate(-90 48.74072265625001,38.83328628540039) " id="svg_6" fill="none" d="m37.29627,40.74069a0.0763,0.0763 0 0 1 7.62964,0m0,0a0.0763,0.0763 0 0 1 7.62963,0m0,0a0.0763,0.0763 0 0 1 7.62964,0"/>
+    </g>
+    <g class="ports">
+        <g class="port-1"/>
+        <g class="port-2"/>
+        <g class="port-3"/>
+        <g class="port-4"/>
+    </g>
+    <g class="pin-names">
+
+    </g>
+</svg>

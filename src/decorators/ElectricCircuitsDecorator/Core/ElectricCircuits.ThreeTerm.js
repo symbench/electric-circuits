@@ -20,7 +20,7 @@ define([
 
     ThreeTerminalComponent.prototype._updatePorts = function () {
         const node = this.getCurrentNode();
-        this._portOrientations = {};
+        this._portPositions = {};
         if (node) {
             const childrenIds = node.getChildrenIds().sort();
             const svgIcon = this.skinParts.$svg;
@@ -29,39 +29,64 @@ define([
             this._portsContainer = svgIcon.find('.ports');
 
             if (this._portsContainer.length > 0) {
+                const width = +svgIcon.attr('width');
+                const height = +svgIcon.attr('height');
                 const portL = this.getPortSVG(POSITIONS.LEFT);
                 const portTV = this.getPortSVG(POSITIONS.TOP);
                 const portBV = this.getPortSVG(POSITIONS.BOTTOM);
 
                 const [portContainerL, portContainerTV, portContainerBV] = this._getPortContainers();
+                portContainerL.attr(
+                    'transform',
+                    `translate(0, ${height / 2 - CONSTANTS.THREE_TERM_OFFSET})`
+                );
 
+                portContainerTV.attr(
+                    'transform',
+                    `translate(${width / 2}, 0)`
+                );
+
+                portContainerBV.attr(
+                    'transform',
+                    `translate(${width / 2}, ${height / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET})`
+                );
                 portContainerL[0].appendChild(portL[0]);
                 portContainerTV[0].appendChild(portTV[0]);
                 portContainerBV[0].appendChild(portBV[0]);
                 if (this.hostDesignerItem && childrenIds.length) {
                     const [connectorL, connectorTV, connectorBV] = this._registerConnectors(childrenIds);
 
-                    [POSITIONS.LEFT, POSITIONS.TOP, POSITIONS.BOTTOM]
-                        .forEach((pos, index) => {
-                            this._portOrientations[childrenIds[index]] = {
-                                position: pos
-                            };
-                        });
-
                     connectorL.css({
-                        'top': '37px',
-                        'left': '36px'
+                        'top': `${height / 2 - CONSTANTS.THREE_TERM_OFFSET}px`,
+                        'left': `${width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET + 2}px`
                     });
+                    this._portPositions[childrenIds[0]] = {
+                        x: width / 2 +  2 * CONSTANTS.THREE_TERM_OFFSET,
+                        y: height / 2,
+                        orientation: POSITIONS.LEFT
+                    }
 
                     connectorTV.css({
-                        'left': '76px',
-                        'top': '2px'
+                        'left': `${width + 2 * CONSTANTS.THREE_TERM_OFFSET + 2}px`,
+                        'top': '0px'
                     });
 
+                    this._portPositions[childrenIds[1]] = {
+                        x: width +  2 * CONSTANTS.THREE_TERM_OFFSET + 6,
+                        y: 0,
+                        orientation: POSITIONS.TOP
+                    };
+
                     connectorBV.css({
-                        'left': '76px',
-                        'top': '72px'
+                        'left': `${width + 2 * CONSTANTS.THREE_TERM_OFFSET + 2}px`,
+                        'top': `${height - 2 * CONSTANTS.THREE_TERM_OFFSET}px`
                     });
+
+                    this._portPositions[childrenIds[2]] = {
+                        x: width +  2 * CONSTANTS.THREE_TERM_OFFSET + 6,
+                        y: height - 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        orientation: POSITIONS.BOTTOM
+                    };
                 }
             }
         }
@@ -72,29 +97,14 @@ define([
         const portContainerTV = this._portsContainer.find('.port-2');
         const portContainerBV = this._portsContainer.find('.port-3');
 
-        portContainerL.attr(
-            'transform',
-            CONSTANTS.TRANSFORMS.CONTAINER_THREE_TERM_L
-        );
-
-        portContainerTV.attr(
-            'transform',
-            CONSTANTS.TRANSFORMS.CONTAINER_THREE_TERM_T_V
-        );
-
-        portContainerBV.attr(
-            'transform',
-            CONSTANTS.TRANSFORMS.CONTAINER_THREE_TERM_B_V
-        );
-
         return [portContainerL, portContainerTV, portContainerBV];
     }
 
 
     ThreeTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
-        if (this._portOrientations[id]) {
+        if (this._portPositions[id]) {
             let x, y, angle;
-            const position = this._portOrientations[id].position;
+            const position = this._portPositions[id].orientation;
             if (position === POSITIONS.LEFT) {
                 x = 35;
                 y = 41;
@@ -115,13 +125,13 @@ define([
 
             return [{
                 'id': id,
-                'x1': x,
-                'x2': x,
-                'y1': y,
-                'y2': y,
+                'x1': this._portPositions[id].x,
+                'x2': this._portPositions[id].x,
+                'y1': this._portPositions[id].y,
+                'y2': this._portPositions[id].y,
                 'angle1': angle,
                 'angle2': angle,
-                'length': 5
+                'len': 5
             }];
         } else {
             return [];

@@ -1,54 +1,13 @@
-<svg height="25.11pt" version="1.1" viewBox="0 0 25.74 25.11" width="25.74pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
- <metadata>
-  <rdf:RDF xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-   <cc:Work>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2020-11-12T14:59:11.552430</dc:date>
-    <dc:format>image/svg+xml</dc:format>
-    <dc:creator>
-     <cc:Agent>
-      <dc:title>Matplotlib v3.3.2, https://matplotlib.org/</dc:title>
-     </cc:Agent>
-    </dc:creator>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
-  <style type="text/css">*{stroke-linecap:butt;stroke-linejoin:round;}</style>
- </defs>
- <g id="figure_1">
-  <g id="patch_1">
-   <path d="M 0 25.11 
-L 25.74 25.11 
-L 25.74 0 
-L 0 0 
-z
-" style="fill:none;"/>
-<g class="ports">
-<g class="port-1"></g>
-<g class="port-2"></g>
-<g class="port-3"></g>
-<g class="port-4"></g>
-</g>  </g>
-  <g id="axes_1">
-   <g id="patch_2">
-    <path clip-path="url(#pe666dba5ef)" d="M 12.87 14.85 
-C 13.514444 14.85 14.132579 14.608184 14.588269 14.17781 
-C 15.04396 13.747436 15.3 13.163641 15.3 12.555 
-C 15.3 11.946359 15.04396 11.362564 14.588269 10.93219 
-C 14.132579 10.501816 13.514444 10.26 12.87 10.26 
-C 12.225556 10.26 11.607421 10.501816 11.151731 10.93219 
-C 10.69604 11.362564 10.44 11.946359 10.44 12.555 
-C 10.44 13.163641 10.69604 13.747436 11.151731 14.17781 
-C 11.607421 14.608184 12.225556 14.85 12.87 14.85 
-z
-" style="stroke:#000000;stroke-linejoin:miter;stroke-width:2;"/>
-   </g>
-  </g>
- </g>
- <defs>
-  <clipPath id="pe666dba5ef">
-   <rect height="10.71" width="11.34" x="7.2" y="7.2"/>
-  </clipPath>
- </defs>
+<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <ellipse fill="black" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" cx="20" cy="20" id="svg_1" rx="5" ry="5"/>
+    </g>
+    <g class="ports">
+        <g class="port-1"/>
+        <g class="port-2"/>
+        <g class="port-3"/>
+        <g class="port-4"/>
+    </g>
 </svg>

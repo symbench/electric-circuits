@@ -9,10 +9,12 @@
 define([], function () {
     const _metaID = 'ElectricCircuits.META.js',
         META_TYPES = {
+            'ElectricCircuitsFolder': 'ElectricCircuitsFolder',
             'Junction': 'Junction',
             'Component': 'Component',
             'Circuit': 'Circuit',
             'Port': 'Port',
+            'Pin': 'Pin',
             'Ground': 'Ground',
             'Passive': 'Passive',
             'Resistor': 'Resistor',
@@ -21,19 +23,51 @@ define([], function () {
             'Source': 'Source',
             'Transistor': 'Transistor',
             'PNP': 'PNP',
-            'NPN': 'NPN'
+            'NPN': 'NPN',
+            'VCC': 'VCC',
+            'VCV': 'VCV',
+            'CCC': 'CCC',
+            'CCV': 'CCV',
+            'Diode': 'Diode',
+            'ZDiode': 'ZDiode',
+            'Capacitor': 'Capacitor',
+            'Inductor': 'Inductor',
+            'NMOS': 'NMOS',
+            'PMOS': 'PMOS',
+            'OpAmp': 'OpAmp',
+            'OpAmpDetailed': 'OpAmpDetailed',
+            'Potentiometer': 'Potentiometer',
+            'Gyrator': 'Gyrator',
+            'Transformer': 'Transformer'
+
         },
         DECORATED_META_TYPES = {
             'Resistor': 'Resistor',
+            'ElectricCircuitsFolder': 'ElectricCircuitsFolder',
+            'Potentiometer': 'Potentiometer',
             'NPN': 'NPN',
             'PNP': 'PNP',
+            'NMOS': 'NMOS',
+            'Pin': 'Pin',
+            'PMOS': 'PMOS',
             'Ground': 'Ground',
             'Diode': 'Diode',
             'Circuit': 'Circuit',
             'Voltage': 'Voltage',
             'Current': 'Current',
             'Junction': 'Junction',
-            'Port': 'Port'
+            'Port': 'Port',
+            'VCV': 'VCV',
+            'VCC': 'VCC',
+            'CCC': 'CCC',
+            'CCV': 'CCV',
+            'OpAmp': 'OpAmp',
+            'OpAmpDetailed': 'OpAmpDetailed',
+            'Capacitor': 'Capacitor',
+            'Inductor': 'Inductor',
+            'ZDiode': 'ZDiode',
+            'Gyrator': 'Gyrator',
+            'Transformer': 'Transformer'
         },
         client = WebGMEGlobal.Client;
 
@@ -99,7 +133,11 @@ define([], function () {
         const twoTermMetaTypes = [
             META_TYPES.Resistor,
             META_TYPES.Voltage,
-            META_TYPES.Current
+            META_TYPES.Current,
+            META_TYPES.Diode,
+            META_TYPES.Capacitor,
+            META_TYPES.Inductor,
+            META_TYPES.ZDiode
         ];
         for(let metaType of twoTermMetaTypes) {
             if(safeTypeCheck(objID, metaType)) {
@@ -141,7 +179,12 @@ define([], function () {
     _TYPE_INFO.isFourTerm = function(objID) {
         const META_TYPES = _getMetaTypes();
         const fourTermMetaTypes = [
-            META_TYPES.Junction
+            META_TYPES.Gyrator,
+            META_TYPES.Transformer,
+            META_TYPES.CCC,
+            META_TYPES.CCV,
+            META_TYPES.VCV,
+            META_TYPES.VCC
         ];
 
         for (let metaType of fourTermMetaTypes) {

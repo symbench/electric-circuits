@@ -1,52 +1,27 @@
-<svg height="35.82pt" version="1.1" viewBox="0 0 79.2 35.82" width="79.2pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
- <metadata>
-  <rdf:RDF xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-   <cc:Work>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2020-11-12T14:59:11.808211</dc:date>
-    <dc:format>image/svg+xml</dc:format>
-    <dc:creator>
-     <cc:Agent>
-      <dc:title>Matplotlib v3.3.2, https://matplotlib.org/</dc:title>
-     </cc:Agent>
-    </dc:creator>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
-  <style type="text/css">*{stroke-linecap:butt;stroke-linejoin:round;}</style>
- </defs>
- <g id="figure_1">
-  <g id="patch_1">
-   <path d="M 0 35.82 
-L 79.2 35.82 
-L 79.2 0 
-L 0 0 
-z
-" style="fill:none;"/>
-<g class="ports">
-<g class="port-1"></g>
-<g class="port-2"></g>
-</g>  </g>
-  <g id="axes_1">
-   <g id="line2d_1">
-    <path clip-path="url(#pbeac49960a)" d="M 10.44 17.91 
-L 23.4 17.91 
-L 26.1 10.26 
-L 31.5 25.56 
-L 36.9 10.26 
-L 42.3 25.56 
-L 47.7 10.26 
-L 53.1 25.56 
-L 55.8 17.91 
-L 68.76 17.91 
-" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-width:2;"/>
-   </g>
-  </g>
- </g>
- <defs>
-  <clipPath id="pbeac49960a">
-   <rect height="21.42" width="64.8" x="7.2" y="7.2"/>
-  </clipPath>
- </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="79.99999999999999" height="39.99999999999999">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_1" y2="20" x2="20" y1="20" x1="5" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="20" x2="75" y1="20" x1="60"
+              stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke="#000" transform="rotate(-15.951632499694824 20.789464950561516,16.694076538085938) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="19.82535" x2="18.1356" y1="13.5628" x1="23.44334" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_6" y2="24" x2="25.26316" y1="13" x1="21.97368" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_7" y2="13.00987" x2="28.21053" y1="23.53618" x1="25.21053" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_19" y2="24" x2="31.05263" y1="13" x1="27.76316" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_20" y2="13.00987" x2="34" y1="23.53618" x1="31" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_21" y2="24" x2="37.10526" y1="13" x1="33.81579" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_22" y2="13.00987" x2="40.05263" y1="23.53618" x1="37.05263" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_23" y2="24" x2="42.89474" y1="13" x1="39.60526" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_24" y2="13.00987" x2="45.8421" y1="23.53618" x1="42.8421" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_25" y2="24" x2="49.21052" y1="13" x1="45.92105" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_26" y2="13.00987" x2="52.15789" y1="23.53618" x1="49.15789" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_27" y2="24" x2="55" y1="13" x1="51.71052" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_28" y2="13.00987" x2="57.94737" y1="23.53618" x1="54.94737" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" transform="rotate(-62.809349060058594 59.21051788330078,16.694076538085934) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_29" y2="19.82535" x2="56.55664" y1="13.5628" x1="61.86439" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+    </g>
+    <g class="ports">
+        <g class="port-p"/>
+        <g class="port-n"/>
+    </g>
 </svg>

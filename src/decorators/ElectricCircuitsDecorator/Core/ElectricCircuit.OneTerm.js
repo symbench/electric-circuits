@@ -14,51 +14,58 @@ define([
     CONSTANTS
 ) {
     const POSITIONS = CONSTANTS.POSITIONS
-    const OneTerminalComponent = function () {};
+    const OneTerminalComponent = function () {
+    };
 
     OneTerminalComponent.prototype._updatePorts = function () {
         const node = this.getCurrentNode();
-        this._portOrientations = {};
-        if(node) {
+        this._portPositions = {};
+        if (node) {
             const childrenIds = node.getChildrenIds().sort();
             const svgIcon = this.skinParts.$svg;
-
+            const width = +svgIcon.attr('width');
             svgIcon.find('.port').empty();
-            this._portsContainer = svgIcon.find('.ports');
+             const portsContainer = svgIcon.find('.ports');
 
-            if(this._portsContainer.length) {
+                if (portsContainer.length) {
                 const portT = this.getPortSVG(POSITIONS.TOP);
-                const [ portContainerT ] = this._getPortContainers();
-
+                const portThicknessOffset = 0.5;
+                const portContainerT = portsContainer.find('.port');
+                portContainerT.attr(
+                    'transform',
+                    `translate(${width / 2 - CONSTANTS.ONE_TERM_OFFSET - portThicknessOffset}, 0)`
+                )
                 portContainerT[0].appendChild(portT[0]);
-                if(this.hostDesignerItem && childrenIds.length) {
-                    const [ connectorT ] = this._registerConnectors(childrenIds);
+                if (this.hostDesignerItem && childrenIds.length) {
+                    const [connectorT] = this._registerConnectors(childrenIds);
                     connectorT.css({
-                        'left': '67px'
+                        'left': `${2 * width - 2 * CONSTANTS.ONE_TERM_OFFSET - 3}px`
                     });
+                    this._portPositions[childrenIds[0]] = {
+                        x: 2 * width - 2 * CONSTANTS.ONE_TERM_OFFSET + 2,
+                        y: 0,
+                        orientation: CONSTANTS.POSITIONS.TOP
+                    };
                 }
             }
         }
     };
 
-    OneTerminalComponent.prototype._getPortContainers = function () {
-        const portContainerT = this._portsContainer.find('.port-1');
-        portContainerT.attr(
-            'transform',
-            CONSTANTS.TRANSFORMS.CONTAINER_ONE_TERM_T
-        )
-        return [portContainerT];
-    };
-
     OneTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
-        return [{
-            'x1': 67,
-            'x2': 67,
-            'y1': 0,
-            'y2': 0,
-            'angle1': 90,
-            'angle2': 90
-        }];
+
+        if (this._portPositions[id]) {
+            const angle = this._portPositions.orientation === POSITIONS.TOP ? 90 : 270;
+            return [{
+                x1: this._portPositions[id].x,
+                x2: this._portPositions[id].x + 0.5,
+                y1: this._portPositions[id].y,
+                y2: this._portPositions[id].y + 0.5,
+                angle1: angle,
+                angle2: angle
+            }];
+        } else {
+            return [];
+        }
     };
 
     return OneTerminalComponent;

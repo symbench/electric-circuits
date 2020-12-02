@@ -1,55 +1,15 @@
-<svg height="35.82pt" version="1.1" viewBox="0 0 79.2 35.82" width="79.2pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
- <metadata>
-  <rdf:RDF xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-   <cc:Work>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2020-11-12T14:59:11.301248</dc:date>
-    <dc:format>image/svg+xml</dc:format>
-    <dc:creator>
-     <cc:Agent>
-      <dc:title>Matplotlib v3.3.2, https://matplotlib.org/</dc:title>
-     </cc:Agent>
-    </dc:creator>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
-  <style type="text/css">*{stroke-linecap:butt;stroke-linejoin:round;}</style>
- </defs>
- <g id="figure_1">
-  <g id="patch_1">
-   <path d="M 0 35.82 
-L 79.2 35.82 
-L 79.2 -0 
-L 0 -0 
-z
-" style="fill:none;"/>
-<g class="ports">
-<g class="port-1"></g>
-<g class="port-2"></g>
-</g>  </g>
-  <g id="axes_1">
-   <g id="patch_2">
-    <path clip-path="url(#pc4cfe78506)" d="M 33.93 10.26 
-L 45.27 17.91 
-L 33.93 25.56 
-z
-" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-width:2;"/>
-   </g>
-   <g id="line2d_1">
-    <path clip-path="url(#pc4cfe78506)" d="M 10.44 17.91 
-L 33.93 17.91 
-M 45.27 10.26 
-L 45.27 25.56 
-M 45.27 17.91 
-L 68.76 17.91 
-" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-width:2;"/>
-   </g>
-  </g>
- </g>
- <defs>
-  <clipPath id="pc4cfe78506">
-   <rect height="21.42" width="64.8" x="7.2" y="7.2"/>
-  </clipPath>
- </defs>
+<svg width="80" height="40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_1" y2="20" x2="28" y1="20" x1="5" fill-opacity="0" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="20.17157" x2="75" y1="20" x1="52" fill-opacity="0" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <path stroke="#000" transform="rotate(90 39.4311866760254,19.82107734680176) " id="svg_4" d="m28.57894,31.15435l10.85224,-22.66655l10.85224,22.66655l-21.70449,0z" fill-opacity="0" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_7" y2="30" x2="51.96073" y1="9.58338" x1="51.56857" fill-opacity="0" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_8" y2="24.87743" x2="113.52906" y1="24.87743" x1="113.92121" fill-opacity="0" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+    </g>
+    <g class="ports">
+        <g class="port-p"/>
+        <g class="port-n"/>
+    </g>
 </svg>

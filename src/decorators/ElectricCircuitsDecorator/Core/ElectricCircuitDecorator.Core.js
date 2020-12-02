@@ -12,10 +12,14 @@ define([
     'js/Constants',
     'js/NodePropertyNames',
     './ElectricCircuits.META',
+    './ElectricCircuits.Circuit',
+    './ElectricCircuits.OpAmps',
     './ElectricCircuit.OneTerm',
     './ElectricCircuits.TwoTerm',
     './ElectricCircuits.ThreeTerm',
     './ElectricCircuits.FourTerm',
+    './ElectricCircuits.Junction',
+    './ElectricCircuits.Pin',
     'js/Widgets/DiagramDesigner/DiagramDesignerWidget.Constants',
     './ElectricCircuits.Constants',
     'text!./ElectricCircuitsDecorator.html',
@@ -25,10 +29,14 @@ define([
     CONSTANTS,
     nodePropertyNames,
     ElectricCircuitsMETA,
+    Circuit,
+    OpAmps,
     OneTerminalComponent,
     TwoTerminalComponent,
     ThreeTerminalComponent,
     FourTerminalComponent,
+    Junction,
+    Pin,
     DiagramDesignerWidgetConstants,
     ElectricCircuitsDecoratorConstants,
     ElectricCircuitsDecoratorTemplate,
@@ -62,7 +70,10 @@ define([
         this._displayConnectors = params && params.connectors ? params.connectors : false;
 
         Object.keys(_metaAspectTypes).forEach(m => {
-            const svgResourceURL = SVG_ICON_PATH + m + '.svg';
+            let svgResourceURL = SVG_ICON_PATH + m + '.svg';
+            if (m === 'Pin') {
+                svgResourceURL = SVG_ICON_PATH + 'Port.svg';
+            }
 
             $.ajax(svgResourceURL, {'async': false}).done(data => {
                 svgCache[m] = $(data.childNodes[0]);
@@ -164,16 +175,24 @@ define([
             this.$el.find('.svg-container').append(this.getErrorSVG());
         }
 
-        if (ElectricCircuitsMETA.TYPE_INFO.isOneTerm(gmeID)) {
+        if (ElectricCircuitsMETA.TYPE_INFO.isOpAmp(gmeID) || ElectricCircuitsMETA.TYPE_INFO.isOpAmpDetailed(gmeID)) {
+            _.extend(this, new OpAmps());
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isCircuit(gmeID)) {
+            _.extend(this, new Circuit());
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isPin(gmeID)) {
+            _.extend(this, new Pin());
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isJunction(gmeID)) {
+            _.extend(this, new Junction());
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isOneTerm(gmeID)) {
             _.extend(this, new OneTerminalComponent());
-        } else if (ElectricCircuitsMETA.TYPE_INFO.isTwoTerm(gmeID)) {
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isTwoTerm(gmeID) || ElectricCircuitsMETA.TYPE_INFO.isPotentiometer(gmeID)) {
             _.extend(this, new TwoTerminalComponent());
         } else if (ElectricCircuitsMETA.TYPE_INFO.isThreeTerm(gmeID)) {
             _.extend(this, new ThreeTerminalComponent());
         } else if (ElectricCircuitsMETA.TYPE_INFO.isFourTerm(gmeID)) {
-            _.extend(this, new FourTerminalComponent());
+            _.extend(this, new FourTerminalComponent())
         }
-
+        this._renderMetaTypeSpecificParts();
         this.update();
     };
 
@@ -182,6 +201,10 @@ define([
         if (this._displayConnectors) {
             this.initializeConnectors();
         }
+    };
+
+    ElectricCircuitsDecoratorCore.prototype._renderMetaSpecificName = function () {
+
     };
 
     ElectricCircuitsDecoratorCore.prototype._update = function () {
@@ -220,6 +243,7 @@ define([
             }
             this.skinParts.$name.css('text-align', 'center');
         }
+        this._renderMetaSpecificName();
     };
 
     ElectricCircuitsDecoratorCore.prototype._renderMetaTypeSpecificParts = function () {
@@ -233,13 +257,15 @@ define([
     };
 
     ElectricCircuitsDecoratorCore.prototype._registerConnectors = function (portIds) {
-        return portIds.map(portId => {
-            const connectorEl = $('<div/>', {'class': DiagramDesignerWidgetConstants.CONNECTOR_CLASS});
-            this.hostDesignerItem.registerConnectors(connectorEl, portId);
-            this.hostDesignerItem.registerSubcomponent(portId, {GME_ID: portId});
-            this.skinParts.$connectorContainer.append(connectorEl);
-            return connectorEl;
-        });
+        if (this._displayConnectors) {
+            return portIds.map(portId => {
+                const connectorEl = $('<div/>', {'class': DiagramDesignerWidgetConstants.CONNECTOR_CLASS});
+                this.hostDesignerItem.registerConnectors(connectorEl, portId);
+                this.hostDesignerItem.registerSubcomponent(portId, {GME_ID: portId});
+                this.skinParts.$connectorContainer.append(connectorEl);
+                return connectorEl;
+            });
+        }
 
     };
 
