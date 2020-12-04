@@ -1,4 +1,4 @@
-/* globals define, $ */
+/* globals define, $, _ */
 /*
  * Copyright (C) 2020 Vanderbilt University, All rights reserved.
  *
@@ -68,17 +68,35 @@ define([
 
     ElectricCircuitsDecoratorCore.prototype._initializeDecorator = function (params) {
         this.$name = undefined;
-        const _metaAspectTypes = ElectricCircuitsMETA.getDecoratedMetaTypes();
         this._displayConnectors = params && params.connectors ? params.connectors : false;
 
-        Object.keys(_metaAspectTypes).forEach(m => {
-            let svgResourceURL = SVG_ICON_PATH + m + '.svg';
+        if (Object.keys(svgCache || {}).length === 0) {
+            var _metaAspectTypes = ElectricCircuitsMETA.getDecoratedMetaTypes();
 
-            $.ajax(svgResourceURL, {'async': false}).done(data => {
-                svgCache[m] = $(data.childNodes[0]);
-            }).fail(() => {
-            });
-        });
+            for (var m in _metaAspectTypes) {
+
+                if (_metaAspectTypes.hasOwnProperty(m)) {
+
+                    // get the svg's url on the server for this META type
+                    var svg_resource_url = SVG_ICON_PATH + m + ".svg";
+
+                    // get the svg from the server in SYNC mode, may take some time
+                    $.ajax(svg_resource_url, {'async': false})
+                        .done(function (data) {
+
+                            // TODO: console.debug('Successfully downloaded: ' + svg_resource_url + ' for ' + metaType);
+                            // downloaded successfully
+                            // cache the downloaded content
+                            svgCache[m] = $(data.childNodes[0]);
+                        })
+                        .fail(function () {
+                            // download failed for this type
+                            // TODO: console.warning('Failed to download: ' + svg_resource_url);
+                        });
+                }
+            }
+        }
+
     };
 
     ElectricCircuitsDecoratorCore.prototype.getSVGByMetaType = function (gmeId) {
