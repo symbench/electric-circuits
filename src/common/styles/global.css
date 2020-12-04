@@ -1,0 +1,16 @@
+li.symbench-logo {
+    background-image: url(img/symbench-icon.png);
+    background-repeat: no-repeat;
+    background-position: 10px;
+    width: 80px;
+    background-size: 30px;
+}
+
+li.symbench-logo > div > span {
+    margin-left: 30px;
+}
+
+i.gme-icon {
+    background-image: url(img/symbench-icon.png);
+    background-size: 15.20px 18px;
+}
