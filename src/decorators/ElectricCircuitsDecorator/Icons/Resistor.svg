@@ -1,9 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="79.99999999999999" height="39.99999999999999">
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="39.99999999999999">
     <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
     <g>
         <title>Layer 1</title>
-        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_1" y2="20" x2="20" y1="20" x1="5" stroke-width="1.5" stroke="#000" fill="none"/>
-        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="20" x2="75" y1="20" x1="60"
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_1" y2="20" x2="20" y1="20" x1="10"
+              stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="20" x2="70" y1="20" x1="60"
               stroke-width="1.5" stroke="#000" fill="none"/>
         <line stroke="#000" transform="rotate(-15.951632499694824 20.789464950561516,16.694076538085938) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="19.82535" x2="18.1356" y1="13.5628" x1="23.44334" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
         <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_6" y2="24" x2="25.26316" y1="13" x1="21.97368" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>

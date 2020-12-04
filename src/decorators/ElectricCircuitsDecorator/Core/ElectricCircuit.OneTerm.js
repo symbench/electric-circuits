@@ -33,17 +33,18 @@ define([
                 const portContainerT = portsContainer.find('.port');
                 portContainerT.attr(
                     'transform',
-                    `translate(${width / 2 - CONSTANTS.ONE_TERM_OFFSET - portThicknessOffset}, 0)`
+                    `translate(${width / 2 - CONSTANTS.ONE_TERM_OFFSET}, ${CONSTANTS.ONE_TERM_OFFSET})`
                 )
                 portContainerT[0].appendChild(portT[0]);
                 if (this.hostDesignerItem && childrenIds.length) {
                     const [connectorT] = this._registerConnectors(childrenIds);
                     connectorT.css({
-                        'left': `${2 * width - 2 * CONSTANTS.ONE_TERM_OFFSET - 3}px`
+                        left: `${width / 2 - CONSTANTS.ONE_TERM_OFFSET}px`,
+                        top: `${CONSTANTS.ONE_TERM_OFFSET}px`
                     });
                     this._portPositions[childrenIds[0]] = {
-                        x: 2 * width - 2 * CONSTANTS.ONE_TERM_OFFSET + 2,
-                        y: 0,
+                        x: width / 2,
+                        y: CONSTANTS.ONE_TERM_OFFSET,
                         orientation: CONSTANTS.POSITIONS.TOP
                     };
                 }
@@ -57,9 +58,9 @@ define([
             const angle = this._portPositions.orientation === POSITIONS.TOP ? 90 : 270;
             return [{
                 x1: this._portPositions[id].x,
-                x2: this._portPositions[id].x + 0.5,
+                x2: this._portPositions[id].x,
                 y1: this._portPositions[id].y,
-                y2: this._portPositions[id].y + 0.5,
+                y2: this._portPositions[id].y,
                 angle1: angle,
                 angle2: angle
             }];

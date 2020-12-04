@@ -39,6 +39,8 @@ define([], function () {
             'Potentiometer': 'Potentiometer',
             'Gyrator': 'Gyrator',
             'Transformer': 'Transformer',
+            'LED': 'LED',
+            'SchottkyDiode': 'SchottkyDiode'
 
         },
         DECORATED_META_TYPES = {
@@ -67,7 +69,9 @@ define([], function () {
             'Inductor': 'Inductor',
             'ZDiode': 'ZDiode',
             'Gyrator': 'Gyrator',
-            'Transformer': 'Transformer'
+            'Transformer': 'Transformer',
+            'LED': 'LED',
+            'SchottkyDiode': 'SchottkyDiode'
         },
         client = WebGMEGlobal.Client;
 
@@ -137,7 +141,9 @@ define([], function () {
             META_TYPES.Diode,
             META_TYPES.Capacitor,
             META_TYPES.Inductor,
-            META_TYPES.ZDiode
+            META_TYPES.ZDiode,
+            META_TYPES.LED,
+            META_TYPES.S
         ];
         for(let metaType of twoTermMetaTypes) {
             if(safeTypeCheck(objID, metaType)) {

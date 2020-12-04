@@ -68,14 +68,14 @@ define([
             case 1:
                 container.attr(
                     'transform',
-                    `translate(-1, ${height / 2 - 15})`
+                    `translate(5, ${height / 2 - 15})`
                 );
                 connectorCSS = {
-                    left: `${width - 20}px`,
+                    left: `5px`,
                     top: `${height / 2 - 15}px`
                 };
                 portPosition = {
-                    x: width - 15,
+                    x: 5,
                     y: height / 2 - 10,
                     orientation: POSITIONS.LEFT
                 };
@@ -83,14 +83,14 @@ define([
             case 2:
                 container.attr(
                     'transform',
-                    `translate(-1, ${height / 2 + 5})`
+                    `translate(5, ${height / 2 + 5})`
                 )
                 connectorCSS = {
-                    left: `${width - 20}px`,
+                    left: `5px`,
                     top: `${height / 2 + 5}px`
                 };
                 portPosition = {
-                    x: width - 15,
+                    x: 5,
                     y: height / 2 + 10,
                     orientation: POSITIONS.LEFT
                 };
@@ -98,44 +98,44 @@ define([
             case 3:
                 container.attr(
                     'transform',
-                    `translate(${width / 2 - 7}, 5)`
+                    `translate(${width / 2 - 5}, 15)`
                 );
                 connectorCSS = {
-                    left: `${width + 5}px`,
-                    top: '5px'
+                    left: `${width / 2 - 5}px`,
+                    top: '15px'
                 };
                 portPosition = {
-                    x: width + 10,
-                    y: 5,
+                    x: width / 2,
+                    y: 15,
                     orientation: POSITIONS.TOP
                 };
                 break;
             case 4:
                 container.attr(
                     'transform',
-                    `translate(${width / 2 - 7}, ${height / 2 + 5})`
+                    `translate(${width / 2 - 5}, ${height / 2 + 5})`
                 );
                 connectorCSS = {
-                    left: `${width + 5}px`,
+                    left: `${width / 2 - 5}px`,
                     top: `${height / 2 + 15}px`
                 };
                 portPosition = {
-                    x: width + 10,
-                    y: height / 2 + 15,
+                    x: width / 2 ,
+                    y: height / 2 + 20,
                     orientation: POSITIONS.BOTTOM
                 };
                 break;
             case 5:
                 container.attr(
                     'transform',
-                    `translate(${width / 2 + 15}, ${height / 2 - 5})`
+                    `translate(${width / 2 + 20}, ${height / 2 - 5})`
                 );
                 connectorCSS = {
-                    left: `${2*width - 28}px`,
+                    left: `${width / 2 + 25}px`,
                     top: `${height / 2 - 5}px`
                 };
                 portPosition = {
-                    x: 2*width - 28,
+                    x: width / 2 + 25,
                     y: height / 2,
                     orientation: POSITIONS.RIGHT
                 };

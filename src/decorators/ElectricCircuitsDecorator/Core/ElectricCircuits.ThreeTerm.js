@@ -38,17 +38,17 @@ define([
                 const [portContainerL, portContainerTV, portContainerBV] = this._getPortContainers();
                 portContainerL.attr(
                     'transform',
-                    `translate(0, ${height / 2 - CONSTANTS.THREE_TERM_OFFSET})`
+                    `translate(${CONSTANTS.THREE_TERM_OFFSET}, ${height / 2 - CONSTANTS.THREE_TERM_OFFSET})`
                 );
 
                 portContainerTV.attr(
                     'transform',
-                    `translate(${width / 2}, 0)`
+                    `translate(${width / 2 +  CONSTANTS.THREE_TERM_OFFSET}, 5)`
                 );
 
                 portContainerBV.attr(
                     'transform',
-                    `translate(${width / 2}, ${height / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET})`
+                    `translate(${width / 2 + CONSTANTS.THREE_TERM_OFFSET}, ${height / 2 + 3 * CONSTANTS.THREE_TERM_OFFSET})`
                 );
                 portContainerL[0].appendChild(portL[0]);
                 portContainerTV[0].appendChild(portTV[0]);
@@ -58,33 +58,33 @@ define([
 
                     connectorL.css({
                         'top': `${height / 2 - CONSTANTS.THREE_TERM_OFFSET}px`,
-                        'left': `${width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET + 2}px`
+                        'left': '5px'
                     });
                     this._portPositions[childrenIds[0]] = {
-                        x: width / 2 +  2 * CONSTANTS.THREE_TERM_OFFSET,
+                        x: 5,
                         y: height / 2,
                         orientation: POSITIONS.LEFT
                     }
 
                     connectorTV.css({
-                        'left': `${width + 2 * CONSTANTS.THREE_TERM_OFFSET + 2}px`,
-                        'top': '0px'
+                        'left': `${width / 2 + CONSTANTS.THREE_TERM_OFFSET}px`,
+                        'top': '5px'
                     });
 
                     this._portPositions[childrenIds[1]] = {
-                        x: width +  2 * CONSTANTS.THREE_TERM_OFFSET + 6,
-                        y: 0,
+                        x:  width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        y: 5,
                         orientation: POSITIONS.TOP
                     };
 
                     connectorBV.css({
-                        'left': `${width + 2 * CONSTANTS.THREE_TERM_OFFSET + 2}px`,
-                        'top': `${height - 2 * CONSTANTS.THREE_TERM_OFFSET}px`
+                        'left': `${width / 2 + CONSTANTS.THREE_TERM_OFFSET}px`,
+                        'top': `${height - 3 * CONSTANTS.THREE_TERM_OFFSET}px`
                     });
 
                     this._portPositions[childrenIds[2]] = {
-                        x: width +  2 * CONSTANTS.THREE_TERM_OFFSET + 6,
-                        y: height - 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        x: width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        y: height - CONSTANTS.THREE_TERM_OFFSET,
                         orientation: POSITIONS.BOTTOM
                     };
                 }
@@ -103,34 +103,14 @@ define([
 
     ThreeTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
         if (this._portPositions[id]) {
-            let x, y, angle;
-            const position = this._portPositions[id].orientation;
-            if (position === POSITIONS.LEFT) {
-                x = 35;
-                y = 41;
-                angle = 180;
-            } else if (position === POSITIONS.TOP) {
-                x = 80;
-                y = 0;
-                angle = 270;
-            } else if (position === POSITIONS.BOTTOM) {
-                x = 80;
-                y = 75;
-                angle = 90;
-            } else {
-                x = 0;
-                y = 0;
-                angle = 180;
-            }
-
             return [{
                 'id': id,
                 'x1': this._portPositions[id].x,
                 'x2': this._portPositions[id].x,
                 'y1': this._portPositions[id].y,
                 'y2': this._portPositions[id].y,
-                'angle1': angle,
-                'angle2': angle,
+                'angle1': CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation],
+                'angle2': CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation],
                 'len': 5
             }];
         } else {

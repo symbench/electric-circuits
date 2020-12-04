@@ -9,8 +9,9 @@
     .electriccircuits-decorator text.port-name.right {
       text-anchor: end; }
   .electriccircuits-decorator .name {
+    max-width: 100px;
     text-align: center;
-    overflow: auto;
+    overflow: hidden;
     text-overflow: ellipsis; }
   .electriccircuits-decorator .connector {
     background-color: #FEFEFE;
@@ -39,4 +40,4 @@
     -webkit-transform-origin: 0 0;
     -moz-transform-origin: 0 0; }
   .electriccircuits-decorator .designer-item.selected .electriccircuits-decorator {
-    background-color: rgba(252, 252, 252, 0.5); }
+    background-color: rgba(219, 234, 252, 0.5); }

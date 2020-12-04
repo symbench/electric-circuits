@@ -1,7 +1,7 @@
 @import "Connector";
 
-$selected-background-color: rgba(252, 252, 252, 0.5);
-$max-width: 70px;
+$selected-background-color: rgba(219, 234, 252, 0.5);
+$max-width: 100px;
 
 @mixin ElectricCircuits_decorator_core {
   .electriccircuits-decorator{
@@ -17,8 +17,9 @@ $max-width: 70px;
     }
 
     .name {
+      max-width: $max-width;
       text-align: center;
-      overflow: auto;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
 
@@ -52,6 +53,5 @@ $max-width: 70px;
         }
       }
     }
-
   }
 }

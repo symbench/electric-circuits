@@ -50,7 +50,7 @@ define([
                     portsContainerB,
                     portsContainerL,
                     portsContainerR
-                ] = this._getPortContainers();
+                ] = this._getPortContainers(childrenIDs);
 
                 portsContainerT[0].appendChild(portT[0]);
                 portsContainerB[0].appendChild(portB[0]);
@@ -65,55 +65,30 @@ define([
                     ] = this._registerConnectors(childrenIDs);
 
                     connectorT.css({
-                        'left': `${width * 2 - 2 * CONSTANTS.JUNCTION_OFFSET - 3}px`,
-                        'top': '2px'
+                        'left': `${this._portPositions[childrenIDs[0]].x - CONSTANTS.JUNCTION_OFFSET}px`,
+                        'top': `${this._portPositions[childrenIDs[0]].y - CONSTANTS.JUNCTION_OFFSET}px`
                     });
-
-                    this._portPositions[childrenIDs[0]] = {
-                        x: width * 2 - 2 * CONSTANTS.JUNCTION_OFFSET + 2,
-                        y: 10,
-                        orientation: POSITIONS.TOP
-                    };
 
                     connectorB.css({
-                        'left': `${width * 2 - 2 * CONSTANTS.JUNCTION_OFFSET - 3}px`,
-                        'top': `${height / 2 + CONSTANTS.JUNCTION_OFFSET + 2}px`
+                        'left': `${this._portPositions[childrenIDs[1]].x - CONSTANTS.JUNCTION_OFFSET}px`,
+                        'top': `${this._portPositions[childrenIDs[1]].y + CONSTANTS.JUNCTION_OFFSET}px`
                     });
-
-                    this._portPositions[childrenIDs[1]] = {
-                        x: width * 2 - 2 * CONSTANTS.JUNCTION_OFFSET + 2,
-                        y: height / 2 + CONSTANTS.JUNCTION_OFFSET + 2,
-                        orientation: POSITIONS.BOTTOM
-                    };
 
                     connectorL.css({
-                        'left': `${width + 3 * CONSTANTS.JUNCTION_OFFSET}px`,
-                        'top': `${height / 2 - CONSTANTS.JUNCTION_OFFSET - 1}px`
+                        'left': `${this._portPositions[childrenIDs[2]].x - CONSTANTS.JUNCTION_OFFSET}px`,
+                        'top': `${this._portPositions[childrenIDs[2]].y - CONSTANTS.JUNCTION_OFFSET}px`
                     });
-
-                    this._portPositions[childrenIDs[2]] = {
-                        x: width + 4 * CONSTANTS.JUNCTION_OFFSET + 3,
-                        y: height / 2 - 1,
-                        orientation: POSITIONS.LEFT
-                    };
 
                     connectorR.css({
-                        'left': `${2 * width - 1}px`,
-                        'top': `${height / 2 - CONSTANTS.JUNCTION_OFFSET - 1}px`
+                        'left': `${this._portPositions[childrenIDs[3]].x + CONSTANTS.JUNCTION_OFFSET}px`,
+                        'top': `${this._portPositions[childrenIDs[3]].y - CONSTANTS.JUNCTION_OFFSET}px`
                     });
-
-                    this._portPositions[childrenIDs[3]] = {
-                        x: 2 * width - 3,
-                        y: height / 2 - 1,
-                        orientation: POSITIONS.RIGHT
-                    };
-
                 }
             }
         }
     };
 
-    Junction.prototype._getPortContainers = function () {
+    Junction.prototype._getPortContainers = function (childrenIds) {
         const svgIcon = this.skinParts.$svg;
         const width = +svgIcon.attr('width');
         const height = +svgIcon.attr('height');
@@ -127,20 +102,46 @@ define([
             `translate(${width / 2 - CONSTANTS.JUNCTION_OFFSET}, ${height / 4})`
         );
 
+        this._portPositions[childrenIds[0]] = {
+            x: width / 2,
+            y: height / 4,
+            orientation: POSITIONS.TOP
+        }
+
         portsContainerB.attr(
             'transform',
             `translate(${width / 2 - CONSTANTS.JUNCTION_OFFSET}, ${height / 2})`
         );
+
+        this._portPositions[childrenIds[1]] = {
+            x: width / 2,
+            y: height / 2,
+            orientation: POSITIONS.BOTTOM
+        }
 
         portsContainerL.attr(
             'transform',
             `translate(${width / 4}, ${height / 2 - CONSTANTS.JUNCTION_OFFSET})`
         );
 
+        this._portPositions[childrenIds[2]] = {
+            x: width / 4,
+            y: height / 2,
+            orientation: POSITIONS.LEFT
+        };
+
         portsContainerR.attr(
             'transform',
-            `translate(${width / 2}, ${height / 2 - CONSTANTS.JUNCTION_OFFSET})`
+            `
+                    translate(${width / 2}, ${height / 2 - CONSTANTS.JUNCTION_OFFSET})`
         );
+
+        this._portPositions[childrenIds[3]] = {
+            x: width / 2,
+            y: height / 2,
+            orientation: POSITIONS.RIGHT
+        };
+
 
         return [portsContainerT, portsContainerB, portsContainerL, portsContainerR];
     };
@@ -161,9 +162,9 @@ define([
             return [{
                 id: id,
                 x1: this._portPositions[id].x,
-                x2: this._portPositions[id].x + 0.5,
+                x2: this._portPositions[id].x,
                 y1: this._portPositions[id].y,
-                y2: this._portPositions[id].y + 0.5,
+                y2: this._portPositions[id].y,
                 angle1: angle,
                 angle2: angle,
                 len: 5
@@ -193,7 +194,7 @@ define([
     };
 
     Junction.prototype._renderMetaSpecificName = function () {
-        if(this._displayConnectors) {
+        if (this._displayConnectors) {
             this.skinParts.$name.remove();
         }
     };

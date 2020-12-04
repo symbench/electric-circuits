@@ -38,9 +38,9 @@ define([
         }
     };
 
-    FourTerminalComponent.prototype.planPins = function (circuitNode) {
+    FourTerminalComponent.prototype.planPins = function (fourTermNode) {
         const client = this._control._client;
-        const childrenIds = circuitNode.getChildrenIds();
+        const childrenIds = fourTermNode.getChildrenIds();
         const pins = childrenIds
             .filter(childID => ElectricCircuitsMETA.TYPE_INFO.isPin(childID))
             .map(childId => client.getNode(childId)).sort();
@@ -49,7 +49,6 @@ define([
             const svgIcon = this.skinParts.$svg;
             const height = +svgIcon.attr('height');
             let lCount = 1, rCount = 1;
-            const portWidth = 12;
             return pins.map((pin, index) => {
                 const port = this.getPortSVG(index % 2 === 0 ? CONSTANTS.POSITIONS.LEFT : CONSTANTS.POSITIONS.RIGHT).find('.port');
                 const portContainer = svgIcon.find(`.port-${index + 1}`);
@@ -66,14 +65,14 @@ define([
                         `translate(${xShift - 20}, ${yShift + 2})`
                     );
                     this._portPositions[pin.getId()] = {
-                        x: xShift + portWidth,
+                        x: xShift - 20,
                         y: yShift + 2,
                         orientation: CONSTANTS.POSITIONS.LEFT
                     };
                     nameContainer.find('.name').text(DecoratorUtils.getAbbrName(name));
                     nameContainer.attr(
                         'transform',
-                        `translate(${xShift-2}, ${yShift - 2})`
+                        `translate(${xShift - 2}, ${yShift - 2})`
                     );
                     lCount++
                 } else {
@@ -84,7 +83,7 @@ define([
                         `translate(${xShift + 40}, ${yShift + 2})`
                     );
                     this._portPositions[pin.getId()] = {
-                        x: xShift + 65 + portWidth,
+                        x: xShift + 45,
                         y: yShift + 2,
                         orientation: CONSTANTS.POSITIONS.RIGHT
                     };
@@ -93,7 +92,7 @@ define([
                         'transform',
                         `translate(${xShift + 26}, ${yShift - 2})`
                     );
-                    rCount++
+                    rCount++;
                 }
 
 

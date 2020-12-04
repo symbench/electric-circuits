@@ -73,9 +73,6 @@ define([
 
         Object.keys(_metaAspectTypes).forEach(m => {
             let svgResourceURL = SVG_ICON_PATH + m + '.svg';
-            if (m === 'Pin') {
-                svgResourceURL = SVG_ICON_PATH + 'Port.svg';
-            }
 
             $.ajax(svgResourceURL, {'async': false}).done(data => {
                 svgCache[m] = $(data.childNodes[0]);
@@ -246,6 +243,7 @@ define([
                 this.skinParts.$name.css('text-decoration', 'none');
             }
             this.skinParts.$name.css('text-align', 'center');
+            this.skinParts.$name.css('max-width', `${+this.skinParts.$svg.attr('width')}px`)
         }
         this._renderMetaSpecificName();
     };

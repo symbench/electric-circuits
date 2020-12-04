@@ -48,65 +48,65 @@ define([
 
                 portGContainer.attr(
                     'transform',
-                    `translate(0, ${height / 2 - 5})`
+                    `translate(5, ${height / 2 - 5})`
                 );
 
 
                 portBContainer.attr(
                     'transform',
-                    `translate(${width / 2 + 15}, ${height / 2 - 5})`
+                    `translate(${width / 2 + 20}, ${height / 2 - 5})`
                 );
 
                 portSContainer.attr(
                     'transform',
-                    `translate(${width / 2}, 0)`
+                    `translate(${width / 2 + 5}, 5)`
                 );
 
                 portDContainer.attr(
                     'transform',
-                    `translate(${width / 2}, ${height / 2 + 10})`
+                    `translate(${width / 2 + 5} , ${height / 2 + 15})`
                 );
 
                 if (this.hostDesignerItem && childrenIds.length) {
                     const [connectorB, connectorD, connectorG, connectorS] = this._registerConnectors(childrenIds);
                     connectorG.css({
                         top: `${height / 2 - 5}px`,
-                        left: `${width / 2 + 11}px`,
+                        left: '5px',
                     });
                     this._portPositions[childrenIds[2]] = {
-                        x: width / 2 + 11,
-                        y: height / 2 ,
+                        x: 5,
+                        y: height / 2,
                         orientation: POSITIONS.LEFT
                     };
                     connectorD.css({
-                        top: `${height - 10}px`,
-                        left: `${width + 12}px`,
+                        top: `${height / 2 + 25}px`,
+                        left: `${width / 2 + 5}px`,
                     });
                     this._portPositions[childrenIds[1]] = {
-                        x: width + 12,
-                        y: height - 10,
+                        x: width / 2 + 10,
+                        y: height /2 + 30,
                         orientation: POSITIONS.BOTTOM
                     };
 
                     connectorB.css({
                         top: `${height / 2 - 5}px`,
-                        left: `${width + 32}px`,
+                        left: `${width / 2 + 25}px`,
                     });
 
                     this._portPositions[childrenIds[0]] = {
                         y: height / 2,
-                        x: width + 32,
+                        x: width / 2 + 25,
                         orientation: POSITIONS.RIGHT
                     };
 
                     connectorS.css({
-                        top: '0px',
-                        left: `${width + 12}px`,
+                        top: '5px',
+                        left: `${width / 2 + 5}px`,
                     });
 
                     this._portPositions[childrenIds[3]] = {
-                        y: 0,
-                        x: width + 12,
+                        y: 5,
+                        x: width / 2 + 10,
                         orientation: POSITIONS.TOP
                     };
                 }
@@ -119,12 +119,13 @@ define([
         if (this._portPositions[id]) {
             return [{
                 id: id,
-                x1: this._portPositions[id].x + 5,
-                x2: this._portPositions[id].x + 5,
+                x1: this._portPositions[id].x,
+                x2: this._portPositions[id].x,
                 y1: this._portPositions[id].y,
                 y2: this._portPositions[id].y,
                 angle1: CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation] || 0,
-                angle2: CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation] || 0
+                angle2: CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation] || 0,
+                len: 5
             }];
         } else {
             return [];

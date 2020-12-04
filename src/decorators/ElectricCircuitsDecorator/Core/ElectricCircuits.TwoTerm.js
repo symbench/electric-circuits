@@ -24,6 +24,12 @@ define([
             if (isPotentiometer) {
                 svgIcon.find('.port-out').empty();
             }
+            if(ElectricCircuitsMETA.TYPE_INFO.isLED(node.getId())){
+                svgIcon.find('.fill-color').attr(
+                    'fill',
+                    node.getAttribute('color')
+                )
+            }
             this.skinParts.$connectorContainer.empty();
             const portsContainer = svgIcon.find('.ports');
 
@@ -45,7 +51,6 @@ define([
                 let translateP,
                     translateN,
                     translateOut,
-                    portWidth,
                     portHeight,
                     connectorETCSS,
                     connectorWBCSS,
@@ -53,46 +58,45 @@ define([
 
                 if (isVertical) {
                     portHeight = +portRB.attr('height');
-                    translateP = `translate(${(width / 2) - CONSTANTS.TWO_TERM_OFFSET}, 0)`;
-                    translateN = `translate(${(width / 2) - CONSTANTS.TWO_TERM_OFFSET}, ${height - portHeight})`;
+                    translateP = `translate(${(width / 2) - CONSTANTS.TWO_TERM_OFFSET}, 5)`;
+                    translateN = `translate(${(width / 2) - CONSTANTS.TWO_TERM_OFFSET}, ${height - portHeight - 5})`;
                     connectorETCSS = {
-                        top: '0px',
-                        left: `${2 * (width - CONSTANTS.TWO_TERM_OFFSET) - 3}px`
+                        top: '5px',
+                        left: `${width / 2 - CONSTANTS.TWO_TERM_OFFSET}px`
                     };
                     connectorWBCSS = {
-                        top: `${height - 2 * CONSTANTS.TWO_TERM_OFFSET}px`,
-                        left: `${2 * (width - CONSTANTS.TWO_TERM_OFFSET) - 3}px`
+                        top: `${height - 3 * CONSTANTS.TWO_TERM_OFFSET}px`,
+                        left: `${width / 2 - CONSTANTS.TWO_TERM_OFFSET}px`
                     };
 
                     this._portPositions[childrenIDs[0]] = {
-                        x: 2 * (width - CONSTANTS.TWO_TERM_OFFSET) + 1,
-                        y: 0,
+                        x: width / 2,
+                        y: 5,
                         orientation: POSITIONS.TOP
                     };
                     this._portPositions[childrenIDs[1]] = {
-                        x: 2 * (width - CONSTANTS.TWO_TERM_OFFSET) + 1,
-                        y: height - 2 * CONSTANTS.TWO_TERM_OFFSET,
+                        x: width / 2,
+                        y: height - 5,
                         orientation: POSITIONS.BOTTOM
                     }
                 } else {
-                    portWidth = +portLT.attr('width');
-                    translateP = `translate(0, ${(height / 2) - CONSTANTS.TWO_TERM_OFFSET})`;
-                    translateN = `translate(${width - portWidth}, ${(height / 2) - CONSTANTS.TWO_TERM_OFFSET})`;
+                    translateP = `translate(5, ${(height / 2) - CONSTANTS.TWO_TERM_OFFSET})`;
+                    translateN = `translate(${width - 20}, ${(height / 2) - CONSTANTS.TWO_TERM_OFFSET})`;
                     connectorETCSS = {
                         top: `${(height / 2) - CONSTANTS.TWO_TERM_OFFSET}px`,
-                        left: `${2 * portWidth + 2}px`
+                        left: '5px'
                     };
                     connectorWBCSS = {
                         top: `${(height / 2) - CONSTANTS.TWO_TERM_OFFSET}px`,
-                        left: `${2 * portWidth + width - CONSTANTS.TWO_TERM_OFFSET - 2}px`
+                        left: `${width - 15}px`
                     };
                     this._portPositions[childrenIDs[0]] = {
-                        x: 2 * portWidth + 2,
+                        x: 5,
                         y: height / 2,
                         orientation: POSITIONS.LEFT
                     };
                     this._portPositions[childrenIDs[1]] = {
-                        x: 2 * portWidth + width - CONSTANTS.TWO_TERM_OFFSET - 2,
+                        x: width - 10,
                         y: height / 2,
                         orientation: POSITIONS.RIGHT
                     };
@@ -100,10 +104,10 @@ define([
                         translateOut = `translate(${width / 2 - CONSTANTS.TWO_TERM_OFFSET}, 0)`;
                         connectorOutCSS = {
                             top: '0px',
-                            left: `${width - 2 * CONSTANTS.TWO_TERM_OFFSET - 3}px`
+                            left: `${width / 2 - CONSTANTS.TWO_TERM_OFFSET}px`
                         };
                         this._portPositions[childrenIDs[2]] = {
-                            x: width - 2 * CONSTANTS.TWO_TERM_OFFSET + 2,
+                            x: width / 2,
                             y: 0,
                             orientation: POSITIONS.TOP
                         };
@@ -162,9 +166,9 @@ define([
             return [{
                 id: id,
                 x1: this._portPositions[id].x,
-                x2: this._portPositions[id].x + 0.5,
+                x2: this._portPositions[id].x,
                 y1: this._portPositions[id].y,
-                y2: this._portPositions[id].y + 0.5,
+                y2: this._portPositions[id].y,
                 angle1: angle,
                 angle2: angle,
                 len: 5
