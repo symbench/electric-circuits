@@ -72,7 +72,7 @@ define([
 
         if (Object.keys(svgCache || {}).length === 0) {
             var _metaAspectTypes = ElectricCircuitsMETA.getDecoratedMetaTypes();
-
+            console.log(_metaAspectTypes);
             for (var m in _metaAspectTypes) {
 
                 if (_metaAspectTypes.hasOwnProperty(m)) {
@@ -102,7 +102,7 @@ define([
     ElectricCircuitsDecoratorCore.prototype.getSVGByMetaType = function (gmeId) {
         const ComponentClassName = ElectricCircuitsMETA.getMetaTypeOf(gmeId);
         if (ComponentClassName && svgCache[ComponentClassName]) {
-            return svgCache[ComponentClassName];
+            return svgCache[ComponentClassName].clone();
         } else {
             return this.getErrorSVG();
         }
