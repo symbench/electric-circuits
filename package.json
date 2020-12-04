@@ -17,7 +17,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "webgme": "github:webgme/webgme#blob_issue"
+    "webgme": "^2.40.0"
   },
   "dependencies": {},
   "description": "First, install the electric-circuits following: - [NodeJS](https://nodejs.org/en/) (v4.x.x recommended) - [MongoDB](https://www.mongodb.com/)",
