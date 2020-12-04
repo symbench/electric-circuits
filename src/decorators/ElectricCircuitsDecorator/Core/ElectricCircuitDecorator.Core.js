@@ -72,7 +72,6 @@ define([
 
         if (Object.keys(svgCache || {}).length === 0) {
             var _metaAspectTypes = ElectricCircuitsMETA.getDecoratedMetaTypes();
-            console.log(_metaAspectTypes);
             for (var m in _metaAspectTypes) {
 
                 if (_metaAspectTypes.hasOwnProperty(m)) {
