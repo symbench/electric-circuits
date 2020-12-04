@@ -1,10 +1,10 @@
-/* globals define, $, _ */
 /*
  * Copyright (C) 2020 Vanderbilt University, All rights reserved.
  *
  * Authors:
  * Umesh Timalsina
  */
+/* globals define, $, _ */
 
 'use strict';
 
@@ -48,7 +48,7 @@ define([
     const SVG_ICON_PATH = '/decorators/ElectricCircuitsDecorator/Icons/',
         svgCache = {},
         errorSVGBase = $(DefaultSVGTemplate),
-        portSVGBase = $(PortSVGTemplate)
+        portSVGBase = $(PortSVGTemplate);
 
     const ElectricCircuitsDecoratorCore = function () {
     };
@@ -77,7 +77,7 @@ define([
                 if (_metaAspectTypes.hasOwnProperty(m)) {
 
                     // get the svg's url on the server for this META type
-                    var svg_resource_url = SVG_ICON_PATH + m + ".svg";
+                    var svg_resource_url = SVG_ICON_PATH + m + '.svg';
 
                     // get the svg from the server in SYNC mode, may take some time
                     $.ajax(svg_resource_url, {'async': false})
@@ -110,52 +110,52 @@ define([
     ElectricCircuitsDecoratorCore.prototype.getPortSVG = function (position) {
         let portSVG = portSVGBase.clone();
         switch (position.toLowerCase()) {
-            case 'top':
-                portSVG.attr(
-                    'width',
-                    ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_W
-                );
-                portSVG.attr(
-                    'height',
-                    ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_H
-                );
-                portSVG.find(
-                    ElectricCircuitsDecoratorConstants.PORT_CLASS
-                ).attr(
-                    'transform',
-                    ElectricCircuitsDecoratorConstants.TRANSFORMS.PORT_TOP
-                );
-                break;
+        case 'top':
+            portSVG.attr(
+                'width',
+                ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_W
+            );
+            portSVG.attr(
+                'height',
+                ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_H
+            );
+            portSVG.find(
+                ElectricCircuitsDecoratorConstants.PORT_CLASS
+            ).attr(
+                'transform',
+                ElectricCircuitsDecoratorConstants.TRANSFORMS.PORT_TOP
+            );
+            break;
 
-            case 'bottom':
-                portSVG.attr(
-                    'width',
-                    ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_W
-                );
-                portSVG.attr(
-                    'height',
-                    ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_H
-                );
-                portSVG.find(
-                    ElectricCircuitsDecoratorConstants.PORT_CLASS
-                ).attr(
-                    'transform',
-                    ElectricCircuitsDecoratorConstants.TRANSFORMS.PORT_BOTTOM
-                );
-                break;
+        case 'bottom':
+            portSVG.attr(
+                'width',
+                ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_W
+            );
+            portSVG.attr(
+                'height',
+                ElectricCircuitsDecoratorConstants.TRANSFORMS.VERTICAL_H
+            );
+            portSVG.find(
+                ElectricCircuitsDecoratorConstants.PORT_CLASS
+            ).attr(
+                'transform',
+                ElectricCircuitsDecoratorConstants.TRANSFORMS.PORT_BOTTOM
+            );
+            break;
 
-            case 'right':
-                portSVG.find(
-                    ElectricCircuitsDecoratorConstants.PORT_CLASS
-                ).attr(
-                    'transform',
-                    ElectricCircuitsDecoratorConstants.TRANSFORMS.PORT_RIGHT
-                );
-                break;
+        case 'right':
+            portSVG.find(
+                ElectricCircuitsDecoratorConstants.PORT_CLASS
+            ).attr(
+                'transform',
+                ElectricCircuitsDecoratorConstants.TRANSFORMS.PORT_RIGHT
+            );
+            break;
 
-            case 'left':
-            default:
-                break;
+        case 'left':
+        default:
+            break;
         }
 
         return portSVG;
@@ -208,7 +208,7 @@ define([
         } else if (ElectricCircuitsMETA.TYPE_INFO.isThreeTerm(gmeID)) {
             _.extend(this, new ThreeTerminalComponent());
         } else if (ElectricCircuitsMETA.TYPE_INFO.isFourTerm(gmeID)) {
-            _.extend(this, new FourTerminalComponent())
+            _.extend(this, new FourTerminalComponent());
         }
         this._renderMetaTypeSpecificParts();
         this.update();
@@ -260,7 +260,7 @@ define([
                 this.skinParts.$name.css('text-decoration', 'none');
             }
             this.skinParts.$name.css('text-align', 'center');
-            this.skinParts.$name.css('max-width', `${+this.skinParts.$svg.attr('width')}px`)
+            this.skinParts.$name.css('max-width', `${+this.skinParts.$svg.attr('width')}px`);
         }
         this._renderMetaSpecificName();
     };

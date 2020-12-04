@@ -74,7 +74,7 @@ define([
                         'transform',
                         `translate(${xShift - 2}, ${yShift - 2})`
                     );
-                    lCount++
+                    lCount++;
                 } else {
                     xShift = 25;
                     yShift = rCount % 2 === 0 ? height / 2 - rCount * 10 : height / 2 + rCount * 10;

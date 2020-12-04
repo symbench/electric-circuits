@@ -64,7 +64,7 @@ define([
                         y: yShift,
                         orientation: CONSTANTS.POSITIONS.LEFT
                     };
-                    lCount++
+                    lCount++;
                 } else {
                     xShift = 55;
                     yShift = rCount % 2 === 0 ? height / 2 - rCount * 5 : height / 2 + rCount * 5;
@@ -77,7 +77,7 @@ define([
                         y: yShift,
                         orientation: CONSTANTS.POSITIONS.RIGHT
                     };
-                    rCount++
+                    rCount++;
                 }
 
 

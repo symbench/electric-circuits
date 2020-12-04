@@ -13,7 +13,7 @@ define([
     ElectricCircuitsMETA,
     CONSTANTS
 ) {
-    const POSITIONS = CONSTANTS.POSITIONS
+    const POSITIONS = CONSTANTS.POSITIONS;
     const FETs = function () {
     };
 
@@ -37,7 +37,7 @@ define([
                 portGContainer.empty();
                 const portD = this.getPortSVG(POSITIONS.BOTTOM);
                 const portB = this.getPortSVG(POSITIONS.RIGHT);
-                const portS = this.getPortSVG(POSITIONS.TOP)
+                const portS = this.getPortSVG(POSITIONS.TOP);
                 const portG = this.getPortSVG(POSITIONS.LEFT);
 
                 portDContainer.append(portD);

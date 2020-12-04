@@ -64,7 +64,7 @@ define([
                         x: 5,
                         y: height / 2,
                         orientation: POSITIONS.LEFT
-                    }
+                    };
 
                     connectorTV.css({
                         'left': `${width / 2 + CONSTANTS.THREE_TERM_OFFSET}px`,
@@ -98,7 +98,7 @@ define([
         const portContainerBV = this._portsContainer.find('.port-3');
 
         return [portContainerL, portContainerTV, portContainerBV];
-    }
+    };
 
 
     ThreeTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {

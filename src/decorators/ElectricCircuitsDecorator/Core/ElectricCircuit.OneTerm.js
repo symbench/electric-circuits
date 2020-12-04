@@ -13,7 +13,7 @@ define([
     ElectricCircuitsMETA,
     CONSTANTS
 ) {
-    const POSITIONS = CONSTANTS.POSITIONS
+    const POSITIONS = CONSTANTS.POSITIONS;
     const OneTerminalComponent = function () {
     };
 
@@ -34,7 +34,7 @@ define([
                 portContainerT.attr(
                     'transform',
                     `translate(${width / 2 - CONSTANTS.ONE_TERM_OFFSET}, ${CONSTANTS.ONE_TERM_OFFSET})`
-                )
+                );
                 portContainerT[0].appendChild(portT[0]);
                 if (this.hostDesignerItem && childrenIds.length) {
                     const [connectorT] = this._registerConnectors(childrenIds);
@@ -55,7 +55,7 @@ define([
     OneTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
 
         if (this._portPositions[id]) {
-            const angle = this._portPositions.orientation === POSITIONS.TOP ? 90 : 270;
+            const angle = CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation];
             return [{
                 x1: this._portPositions[id].x,
                 x2: this._portPositions[id].x,

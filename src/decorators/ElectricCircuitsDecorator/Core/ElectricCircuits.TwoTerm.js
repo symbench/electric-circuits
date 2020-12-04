@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2020 Vanderbilt University, All rights reserved.
+ *
+ * Authors:
+ * Umesh Timalsina
+ */
 /* globals define */
 /* eslint-env browser */
 define([
@@ -24,11 +30,11 @@ define([
             if (isPotentiometer) {
                 svgIcon.find('.port-out').empty();
             }
-            if(ElectricCircuitsMETA.TYPE_INFO.isLED(node.getId())){
+            if (ElectricCircuitsMETA.TYPE_INFO.isLED(node.getId())) {
                 svgIcon.find('.fill-color').attr(
                     'fill',
                     node.getAttribute('color')
-                )
+                );
             }
             this.skinParts.$connectorContainer.empty();
             const portsContainer = svgIcon.find('.ports');
@@ -78,7 +84,7 @@ define([
                         x: width / 2,
                         y: height - 5,
                         orientation: POSITIONS.BOTTOM
-                    }
+                    };
                 } else {
                     translateP = `translate(5, ${(height / 2) - CONSTANTS.TWO_TERM_OFFSET})`;
                     translateN = `translate(${width - 20}, ${(height / 2) - CONSTANTS.TWO_TERM_OFFSET})`;
@@ -147,22 +153,7 @@ define([
 
     TwoTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
         if (this._portPositions[id]) {
-            let angle;
-            switch (this._portPositions[id].orientation) {
-                case POSITIONS.LEFT:
-                default:
-                    angle = 180;
-                    break;
-                case POSITIONS.RIGHT:
-                    angle = 0;
-                    break;
-                case POSITIONS.TOP:
-                    angle = 270;
-                    break;
-                case POSITIONS.BOTTOM:
-                    angle = 90;
-                    break;
-            }
+            const angle = CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation];
             return [{
                 id: id,
                 x1: this._portPositions[id].x,

@@ -15,10 +15,10 @@ define([
     'css!../DiagramDesigner/ElectricCircuitsDecorator.DiagramDesignerWidget.css',
     'css!./ElectricCircuitsDecorator.PartBrowserWidget.css'
 ], function (CONSTANTS,
-             nodePropertyNames,
-             PartBrowserWidgetDecoratorBase,
-             ElectricCircuitsDecoratorCore,
-             DiagramDesignerWidgetConstants,
+    nodePropertyNames,
+    PartBrowserWidgetDecoratorBase,
+    ElectricCircuitsDecoratorCore,
+    DiagramDesignerWidgetConstants,
 ) {
 
     'use strict';

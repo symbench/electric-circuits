@@ -13,7 +13,7 @@ define([
     ElectricCircuitsMETA,
     CONSTANTS
 ) {
-    const POSITIONS = CONSTANTS.POSITIONS
+    const POSITIONS = CONSTANTS.POSITIONS;
     const Pin = function () {
     };
 

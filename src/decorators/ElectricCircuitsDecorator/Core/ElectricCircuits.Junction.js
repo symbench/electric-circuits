@@ -106,7 +106,7 @@ define([
             x: width / 2,
             y: height / 4,
             orientation: POSITIONS.TOP
-        }
+        };
 
         portsContainerB.attr(
             'transform',
@@ -117,7 +117,7 @@ define([
             x: width / 2,
             y: height / 2,
             orientation: POSITIONS.BOTTOM
-        }
+        };
 
         portsContainerL.attr(
             'transform',
@@ -148,17 +148,7 @@ define([
 
     Junction.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
         if (this._portPositions[id]) {
-            const position = this._portPositions[id].orientation;
-            let angle;
-            if (position === POSITIONS.TOP) {
-                angle = 270;
-            } else if (position === POSITIONS.BOTTOM) {
-                angle = 90;
-            } else if (position === POSITIONS.LEFT) {
-                angle = 180;
-            } else if (position === POSITIONS.RIGHT) {
-                angle = 0;
-            }
+            const angle = CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation];
             return [{
                 id: id,
                 x1: this._portPositions[id].x,
@@ -177,18 +167,18 @@ define([
     Junction.prototype.getJunctionPortSVG = function (position) {
         const svg = JunctionPortSVGBase.clone();
         switch (position) {
-            case POSITIONS.TOP:
-            case POSITIONS.BOTTOM:
-                svg.find('.port').attr(
-                    'transform',
-                    'translate(10, 0) rotate(90)'
-                )
-                break;
+        case POSITIONS.TOP:
+        case POSITIONS.BOTTOM:
+            svg.find('.port').attr(
+                'transform',
+                'translate(10, 0) rotate(90)'
+            );
+            break;
 
-            case POSITIONS.LEFT:
-            case POSITIONS.RIGHT:
-            default:
-                break;
+        case POSITIONS.LEFT:
+        case POSITIONS.RIGHT:
+        default:
+            break;
         }
         return svg;
     };

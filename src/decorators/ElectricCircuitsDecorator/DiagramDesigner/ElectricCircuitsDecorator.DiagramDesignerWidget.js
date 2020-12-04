@@ -62,7 +62,7 @@ define([
 
     ElectricCircuitsDecorator.prototype.hideEndConnectors = function () {
         this.$endConnectors.hide();
-    }
+    };
 
 
     ElectricCircuitsDecorator.prototype.initializeConnectors = function () {
