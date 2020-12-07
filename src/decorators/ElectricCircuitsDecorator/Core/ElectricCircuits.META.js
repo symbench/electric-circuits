@@ -146,7 +146,7 @@ define([], function () {
             META_TYPES.Inductor,
             META_TYPES.ZDiode,
             META_TYPES.LED,
-            META_TYPES.S
+            META_TYPES.SchottkyDiode
         ];
         for (let metaType of twoTermMetaTypes) {
             if (safeTypeCheck(objID, metaType)) {

@@ -4,7 +4,7 @@
  * Authors:
  * Umesh Timalsina
  */
-/* globals define */
+/* globals define, $ */
 /* eslint-env browser */
 define([
     './ElectricCircuits.META',
@@ -14,6 +14,24 @@ define([
     CONSTANTS
 ) {
     const POSITIONS = CONSTANTS.POSITIONS;
+    const VALID_TWO_TERM_ATTRS = [
+        'R',
+        'C',
+        'L'
+    ];
+
+    const SHOULD_DISPLAY_ATTR_NODES = [
+        'Resistor',
+        'Capacitor',
+        'Inductor'
+    ];
+
+    const DISPLAY_UNITS = {
+        'Ohm': '\u03A9',
+        'F': 'F',
+        'H': 'H'
+    }
+
     const TwoTerminalComponent = function () {
     };
 
@@ -168,6 +186,52 @@ define([
             return [];
         }
     };
+
+    TwoTerminalComponent.prototype._renderMetaSpecificName = function () {
+        const node = this.getCurrentNode();
+        const metaType = ElectricCircuitsMETA.getMetaTypeOf(node.getId());
+
+        if (this._displayConnectors && SHOULD_DISPLAY_ATTR_NODES.includes(metaType)) {
+            node.getValidAttributeNames().forEach(attr => {
+                if (VALID_TWO_TERM_ATTRS.includes(attr)) {
+                    const name = node.getAttribute('name');
+                    const value = node.getAttribute(attr);
+                    let unit = node.getAttributeMeta(attr).unit;
+                    unit = DISPLAY_UNITS[unit] || unit;
+                    const attrContainer = $(`<div class='units'>${value} ${unit}</div>`);
+                    attrContainer.click(() => {
+                        attrContainer.text(value);
+                        attrContainer.editInPlace({
+                            css: {
+                                'z-index': 1000
+                            },
+                            onChange: (oldVal, newVal) => {
+                                if (oldVal !== newVal && !isNaN(parseFloat(newVal))) {
+                                    this.onAttributeChange(node.getId(), attr, parseFloat(newVal));
+                                }
+                            },
+                            onFinish: () => {
+                                attrContainer.text(`${node.getAttribute(attr)} ${unit}`);
+                            }
+                        });
+                    });
+                    this.skinParts.$name.append(attrContainer);
+                }
+            });
+        }
+    };
+
+    TwoTerminalComponent.prototype.onAttributeChange = function (id, attr, newValue) {
+        const client = this._control._client;
+        const node = client.getNode(id);
+        const name = node.getAttribute('name');
+        const oldValue = node.getAttribute(attr);
+        const fromMsg = oldValue ? ` (from ${oldValue})` : '';
+        const msg = `Set ${name}'s ${attr} to ${newValue}${fromMsg}`;
+        client.startTransaction(msg);
+        client.setAttribute(id, attr, newValue);
+        client.completeTransaction();
+    }
 
     return TwoTerminalComponent;
 });
