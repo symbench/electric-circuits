@@ -132,8 +132,7 @@ define([
 
         portsContainerR.attr(
             'transform',
-            `
-                    translate(${width / 2}, ${height / 2 - CONSTANTS.JUNCTION_OFFSET})`
+            `translate(${width / 2}, ${height / 2 - CONSTANTS.JUNCTION_OFFSET})`
         );
 
         this._portPositions[childrenIds[3]] = {
@@ -146,7 +145,7 @@ define([
         return [portsContainerT, portsContainerB, portsContainerL, portsContainerR];
     };
 
-    Junction.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    Junction.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
         if (this._portPositions[id]) {
             const angle = CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation];
             return [{
@@ -167,18 +166,18 @@ define([
     Junction.prototype.getJunctionPortSVG = function (position) {
         const svg = JunctionPortSVGBase.clone();
         switch (position) {
-        case POSITIONS.TOP:
-        case POSITIONS.BOTTOM:
-            svg.find('.port').attr(
-                'transform',
-                'translate(10, 0) rotate(90)'
-            );
-            break;
+            case POSITIONS.TOP:
+            case POSITIONS.BOTTOM:
+                svg.find('.port').attr(
+                    'transform',
+                    'translate(10, 0) rotate(90)'
+                );
+                break;
 
-        case POSITIONS.LEFT:
-        case POSITIONS.RIGHT:
-        default:
-            break;
+            case POSITIONS.LEFT:
+            case POSITIONS.RIGHT:
+            default:
+                break;
         }
         return svg;
     };

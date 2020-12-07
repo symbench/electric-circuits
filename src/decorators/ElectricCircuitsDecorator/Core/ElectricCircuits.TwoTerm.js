@@ -35,8 +35,7 @@ define([
         'S': '\u2127'
     };
 
-    const TwoTerminalComponent = function () {
-    };
+    const TwoTerminalComponent = function () {};
 
     TwoTerminalComponent.prototype._updatePorts = function () {
         const node = this.getCurrentNode();

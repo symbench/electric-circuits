@@ -22,6 +22,8 @@ define([], function () {
             'Passive': 'Passive',
             'Resistor': 'Resistor',
             'Conductor': 'Conductor',
+            'VariableResistor': 'VariableResistor',
+            'VariableConductor': 'VariableConductor',
             'Voltage': 'Voltage',
             'Current': 'Current',
             'Source': 'Source',
@@ -35,7 +37,10 @@ define([], function () {
             'Diode': 'Diode',
             'ZDiode': 'ZDiode',
             'Capacitor': 'Capacitor',
+            'VariableCapacitor': 'VariableCapacitor',
             'Inductor': 'Inductor',
+            'VariableInductor': 'VariableInductor',
+            'SaturatingInductor': 'SaturatingInductor',
             'NMOS': 'NMOS',
             'PMOS': 'PMOS',
             'OpAmp': 'OpAmp',
@@ -50,6 +55,8 @@ define([], function () {
         DECORATED_META_TYPES = {
             'Resistor': 'Resistor',
             'Conductor': 'Conductor',
+            'VariableResistor': 'VariableResistor',
+            'VariableConductor': 'VariableConductor',
             'ElectricCircuitsFolder': 'ElectricCircuitsFolder',
             'Potentiometer': 'Potentiometer',
             'NPN': 'NPN',
@@ -71,7 +78,10 @@ define([], function () {
             'OpAmp': 'OpAmp',
             'OpAmpDetailed': 'OpAmpDetailed',
             'Capacitor': 'Capacitor',
+            'VariableCapacitor': 'VariableCapacitor',
             'Inductor': 'Inductor',
+            'VariableInductor': 'VariableInductor',
+            'SaturatingInductor': 'SaturatingInductor',
             'ZDiode': 'ZDiode',
             'Gyrator': 'Gyrator',
             'Transformer': 'Transformer',
@@ -149,7 +159,12 @@ define([], function () {
             META_TYPES.ZDiode,
             META_TYPES.LED,
             META_TYPES.SchottkyDiode,
-            META_TYPES.Conductor
+            META_TYPES.Conductor,
+            META_TYPES.VariableResistor,
+            META_TYPES.VariableCapacitor,
+            META_TYPES.VariableInductor,
+            META_TYPES.VariableConductor,
+            META_TYPES.SaturatingInductor
         ];
         for (let metaType of twoTermMetaTypes) {
             if (safeTypeCheck(objID, metaType)) {
