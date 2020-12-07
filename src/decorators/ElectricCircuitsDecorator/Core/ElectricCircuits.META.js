@@ -21,6 +21,7 @@ define([], function () {
             'Ground': 'Ground',
             'Passive': 'Passive',
             'Resistor': 'Resistor',
+            'Conductor': 'Conductor',
             'Voltage': 'Voltage',
             'Current': 'Current',
             'Source': 'Source',
@@ -43,11 +44,12 @@ define([], function () {
             'Gyrator': 'Gyrator',
             'Transformer': 'Transformer',
             'LED': 'LED',
-            'SchottkyDiode': 'SchottkyDiode'
+            'SchottkyDiode': 'SchottkyDiode',
 
         },
         DECORATED_META_TYPES = {
             'Resistor': 'Resistor',
+            'Conductor': 'Conductor',
             'ElectricCircuitsFolder': 'ElectricCircuitsFolder',
             'Potentiometer': 'Potentiometer',
             'NPN': 'NPN',
@@ -146,7 +148,8 @@ define([], function () {
             META_TYPES.Inductor,
             META_TYPES.ZDiode,
             META_TYPES.LED,
-            META_TYPES.SchottkyDiode
+            META_TYPES.SchottkyDiode,
+            META_TYPES.Conductor
         ];
         for (let metaType of twoTermMetaTypes) {
             if (safeTypeCheck(objID, metaType)) {

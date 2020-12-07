@@ -17,20 +17,23 @@ define([
     const VALID_TWO_TERM_ATTRS = [
         'R',
         'C',
-        'L'
+        'L',
+        'G'
     ];
 
     const SHOULD_DISPLAY_ATTR_NODES = [
         'Resistor',
         'Capacitor',
-        'Inductor'
+        'Inductor',
+        'Conductor'
     ];
 
     const DISPLAY_UNITS = {
         'Ohm': '\u03A9',
         'F': 'F',
-        'H': 'H'
-    }
+        'H': 'H',
+        'S': '\u2127'
+    };
 
     const TwoTerminalComponent = function () {
     };
