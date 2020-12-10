@@ -41,7 +41,7 @@ define([
                             top: `${index === 0 ? 5 : height - 15}px`,
                             left: `${width / 2 - 5}px`
                         });
-                        y = index === 0 ? 10 : height - 10;
+                        y = index === 0 ? 9 : height - 10;
                         x = width / 2;
                     } else {
                         conn.css({
