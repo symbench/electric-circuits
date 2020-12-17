@@ -1,6 +1,0 @@
-name: electric-circuits
-dependencies:
-  - python=3.8
-  - pip
-  - pip:
-    - schemdraw
