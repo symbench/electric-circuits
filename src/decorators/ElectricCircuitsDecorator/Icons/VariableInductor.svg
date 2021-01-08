@@ -1,0 +1,16 @@
+<svg width="80" height="40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <line stroke="#000" stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="11.83168" x2="62.27723" y1="24.90099" x1="19.10891" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_4" y2="12.0297" x2="62.27723" y1="10.84158" x1="58.91089" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line transform="rotate(104.71971130371094 61.18811798095703,12.82178211212158) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_9" y2="13.41584" x2="62.87129" y1="12.22772" x1="59.50495" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="5" y1="20" x2="25" y2="20" id="svg_1" stroke-linejoin="null" stroke-linecap="null"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="54.53846" y1="20" x2="75" y2="20" id="svg_2" stroke-linejoin="null" stroke-linecap="null"/>
+        <path id="svg_5" stroke="black" fill="none" d="m25,20a0.1,0.1 0 0 1 10,0m0,0a0.1,0.1 0 0 1 10,0m0,0a0.1,0.1 0 0 1 10,0"/>
+    </g>
+    <g class="ports">
+        <g class="port-p"/>
+        <g class="port-n"/>
+    </g>
+</svg>

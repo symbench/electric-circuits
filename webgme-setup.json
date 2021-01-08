@@ -1,5 +1,10 @@
 {
   "components": {
+    "decorators": {
+      "ElectricCircuitsDecorator": {
+        "src": "src/decorators/ElectricCircuitsDecorator"
+      }
+    },
     "plugins": {
       "CreateElectricCircuitsMeta": {
         "src": "src/plugins/CreateElectricCircuitsMeta",
@@ -13,10 +18,10 @@
       "project": {
         "src": "src/seeds/project"
       }
+    },
+    "dependencies": {
+      "plugins": {},
+      "seeds": {}
     }
-  },
-  "dependencies": {
-    "plugins": {},
-    "seeds": {}
   }
 }

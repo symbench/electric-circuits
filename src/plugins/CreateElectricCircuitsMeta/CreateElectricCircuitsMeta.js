@@ -220,9 +220,9 @@ define([
                 const base = `@meta:${category}`;
                 // For now just create pure components with only Pins
                 // This can be extended later
-                if (!node.children.every(child => this._isModelicaPin(child)) && category !== 'Semiconductors') {
-                    return;
-                }
+                // if (!node.children.every(child => this._isModelicaPin(child)) && category !== 'Semiconductors') {
+                //     return;
+                // }
                 const categoryMetaNode = this.createMetaNode(root, node.attributes.ShortName, base, category);
                 categoryMetaNode.registry.isAbstract = false;
                 node.attributes.name = node.attributes.name.replace(

@@ -1,0 +1,22 @@
+<svg width="80" height="40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+    <g>
+        <title>Layer 1</title>
+        <line fill="none" stroke="#000" stroke-width="1.5" x1="10" y1="20" x2="20" y2="20" id="svg_1"
+              stroke-linejoin="undefined" stroke-linecap="undefined"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" x1="60" y1="20" x2="70" y2="20" id="svg_2"
+              stroke-linejoin="undefined" stroke-linecap="undefined"/>
+        <rect id="svg_9" height="12.09876" width="39.99999" y="14.01235" x="19.62964" fill-opacity="null"
+              stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke="#000" transform="rotate(8.017999649047852 39.999996185302734,19.177921295166012) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="4.53973" x2="56.79666" y1="33.81612" x1="23.20333" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_4" y2="7.32427" x2="58.36475" y1="6.42337" x1="53.49989" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke="#000" transform="rotate(-90 57.70999526977539,9.532789230346674) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="9.98324" x2="60.14243" y1="9.08234" x1="55.27756" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <g id="svg_3" class="ports">
+        <g id="svg_4" class="port-p"/>
+        <g id="svg_8" class="port-n"/>
+    </g>
+
+</svg>

@@ -1,0 +1,19 @@
+<svg width="80" height="40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <path fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="0" d="m1,280.375l149,-260.75l149,260.75l-298,0z" id="svg_1"/>
+        <path fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="0" d="m1,280.375l149,-260.75l149,260.75l-298,0z" id="svg_2"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="0" x1="30" y1="5" x2="30" y2="35" id="svg_8" stroke-linejoin="null" stroke-linecap="null"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="0" x1="50" y1="5" x2="50" y2="35" id="svg_9" stroke-linejoin="null" stroke-linecap="null"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="0" x1="5" y1="20" x2="30.17857" y2="20" id="svg_10" stroke-linejoin="null" stroke-linecap="null"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="0" x1="50" y1="20" x2="75.17857" y2="20" id="svg_11" stroke-linejoin="null" stroke-linecap="null"/>
+        <line stroke="#000" transform="rotate(8.017999649047852 39.999996185302734,19.177921295166012) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="4.53973" x2="56.79666" y1="33.81612" x1="23.20333" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_4" y2="7.32427" x2="58.36475" y1="6.42337" x1="53.49989" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke="#000" transform="rotate(-90 57.70999526977539,9.532789230346674) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="9.98324" x2="60.14243" y1="9.08234" x1="55.27756" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+    </g>
+    <g class="ports">
+        <g class="port-p"/>
+        <g class="port-n"/>
+    </g>
+</svg>

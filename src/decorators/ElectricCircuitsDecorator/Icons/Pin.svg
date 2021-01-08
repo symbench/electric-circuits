@@ -1,0 +1,12 @@
+<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <rect id="svg_1" height="40" width="40" y="10" x="10" fill-opacity="null" stroke-opacity="null"
+              stroke-width="1.5" stroke="#000" fill="none"/>
+        <text class="pin-name" xml:space="preserve" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+              font-size="10"
+               id="svg_3" x="50%" y="60%" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000"
+              fill="#000000">Pin</text>
+    </g>
+</svg>
