@@ -1,0 +1,20 @@
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <rect id="svg_1" height="50" width="50" y="15" x="15" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="10" id="svg_2" y="45.2" x="19.80001" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">π-radians</text>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_4" y2="32.175" x2="60" y1="32.175" x1="20.20001" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke-linecap="null" stroke-linejoin="null" id="svg_5" y2="32.575" x2="60.19999" y1="29.37501" x1="56.59999" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line transform="rotate(90 58.39999008178711,33.37500000000001) " stroke-linecap="null" stroke-linejoin="null" id="svg_7" y2="34.975" x2="60.19999" y1="31.77501" x1="56.59999" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+    </g>
+    <g class="ports">
+        <g class="port-1"/>
+        <g class="port-2"/>
+        <g class="port-3"/>
+        <g class="port-4"/>
+    </g>
+    <g class="pin-names">
+
+    </g>
+</svg>

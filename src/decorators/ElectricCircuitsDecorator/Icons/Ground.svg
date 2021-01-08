@@ -1,0 +1,18 @@
+<svg width="60" height="40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <line fill="none" stroke="#000" stroke-width="1.5" x1="15" y1="30" x2="45" y2="30" id="svg_1"
+              stroke-linejoin="undefined" stroke-linecap="undefined"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" x1="20" y1="34" x2="40" y2="34" id="svg_3"
+              stroke-linejoin="undefined" stroke-linecap="undefined"/>
+        <line fill="none" stroke="#000" stroke-width="1.5" x1="25" y1="38" x2="36" y2="38" id="svg_4"
+              stroke-linejoin="undefined" stroke-linecap="undefined"/>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="30" x2="30" y1="10" x1="30"
+              fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+    </g>
+    <g class="ports">
+        <g class="port">
+        </g>
+    </g>
+</svg>

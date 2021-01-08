@@ -1,0 +1,25 @@
+
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <rect fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x="14.66887" y="15" width="50" height="50" id="svg_1"/>
+        <path id="svg_11" d="m24.16438,39.77776l7.55554,-9.77776l7.55554,9.77776l-7.55554,9.77775l-7.55554,-9.77775z" fill-opacity="null" stroke-opacity="null" stroke-width="null" stroke="black" fill="none"/>
+        <path id="svg_12" d="m-39.1315,25.26573l0.745,-0.745l0.745,0.745l-0.745,0.745l-0.745,-0.745z" fill-opacity="null" stroke-opacity="null" stroke-width="null" stroke="black" fill="none"/>
+        <line stroke="#000" stroke-linecap="null" stroke-linejoin="null" id="svg_17" y2="55" x2="48.39953" y1="25" x1="48.57444" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line stroke="#000" stroke-linecap="null" stroke-linejoin="null" id="svg_19" y2="42.00412" x2="46.03134" y1="39.7819" x1="48.47575" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <line transform="rotate(90 49.70212936401367,41.00156402587891) " stroke="#000" stroke-linecap="null" stroke-linejoin="null" id="svg_20" y2="42.11267" x2="48.47993" y1="39.89045" x1="50.92434" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+        <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="10" id="svg_22" y="39.12243" x="28.86986" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="black" fill="#000000">+</text>
+        <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="10" id="svg_23" y="45.97175" x="30.23973" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="black" fill="#000000">-</text>
+    </g>
+
+    <g class="ports">
+        <g class="port-1"/>
+        <g class="port-2"/>
+        <g class="port-3"/>
+        <g class="port-4"/>
+    </g>
+    <g class="pin-names">
+
+    </g>
+</svg>
