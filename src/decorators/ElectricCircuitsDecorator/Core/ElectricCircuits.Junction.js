@@ -4,7 +4,7 @@
  * Authors:
  * Umesh Timalsina
  */
-/* globals define *, $ */
+/* globals define */
 /* eslint-env browser */
 
 define([
@@ -108,25 +108,6 @@ define([
         } else {
             return [];
         }
-    };
-
-    Junction.prototype.getJunctionPortSVG = function (position) {
-        const svg = JunctionPortSVGBase.clone();
-        switch (position) {
-            case POSITIONS.TOP:
-            case POSITIONS.BOTTOM:
-                svg.find('.port').attr(
-                    'transform',
-                    'translate(10, 0) rotate(90)'
-                );
-                break;
-
-            case POSITIONS.LEFT:
-            case POSITIONS.RIGHT:
-            default:
-                break;
-        }
-        return svg;
     };
 
     Junction.prototype._renderMetaSpecificName = function () {

@@ -17,7 +17,6 @@ define([
     DecoratorUtils,
     NameSVGBase
 ) {
-    const POSITIONS = CONSTANTS.POSITIONS;
     NameSVGBase = $(NameSVGBase);
     const FourTerminalComponent = function () {
     };
@@ -44,7 +43,6 @@ define([
         const pins = childrenIds
             .filter(childID => ElectricCircuitsMETA.TYPE_INFO.isPin(childID))
             .map(childId => client.getNode(childId)).sort();
-        this._portPositions = {};
         if (pins.length) {
             const svgIcon = this.skinParts.$svg;
             const height = +svgIcon.attr('height');
@@ -109,7 +107,7 @@ define([
 
     };
 
-    FourTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    FourTerminalComponent.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
         if (this._portPositions[id]) {
             const angle = this._portPositions[id].orientation === CONSTANTS.POSITIONS.LEFT ? 180 : 0;
             return [{

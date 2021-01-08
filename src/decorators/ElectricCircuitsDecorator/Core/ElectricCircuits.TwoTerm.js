@@ -171,7 +171,7 @@ define([
         }
     };
 
-    TwoTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    TwoTerminalComponent.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
         if (this._portPositions[id]) {
             const angle = CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation];
             return [{
@@ -196,7 +196,6 @@ define([
         if (this._displayConnectors && SHOULD_DISPLAY_ATTR_NODES.includes(metaType)) {
             node.getValidAttributeNames().forEach(attr => {
                 if (VALID_TWO_TERM_ATTRS.includes(attr)) {
-                    const name = node.getAttribute('name');
                     const value = node.getAttribute(attr);
                     let unit = node.getAttributeMeta(attr).unit;
                     unit = DISPLAY_UNITS[unit] || unit;
@@ -233,7 +232,7 @@ define([
         client.startTransaction(msg);
         client.setAttribute(id, attr, newValue);
         client.completeTransaction();
-    }
+    };
 
     return TwoTerminalComponent;
 });

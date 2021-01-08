@@ -64,7 +64,7 @@ define([
 
     };
 
-    Pin.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    Pin.prototype.getConnectionAreas = function (/*id, isEnd, connectionMetaInfo*/) {
         return this._connectionAreas.map((area, index) => {
             return {
                 id: index,

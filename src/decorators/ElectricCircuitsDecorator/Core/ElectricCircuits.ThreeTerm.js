@@ -101,7 +101,7 @@ define([
     };
 
 
-    ThreeTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    ThreeTerminalComponent.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
         if (this._portPositions[id]) {
             return [{
                 'id': id,

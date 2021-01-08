@@ -4,13 +4,13 @@
  * Authors:
  * Umesh Timalsina
  */
-/*globals define, _, WebGMEGlobal*/
+/*globals define, WebGMEGlobal*/
 /*eslint-env browser*/
 
 'use strict';
 
 define([], function () {
-    const _metaID = 'ElectricCircuits.META.js',
+    const _metaID = 'ElectricCircuits.META.js', // eslint-disable-line no-unused-vars
         META_TYPES = {
             'ElectricCircuitsFolder': 'ElectricCircuitsFolder',
             'Junction': 'Junction',
@@ -238,7 +238,7 @@ define([], function () {
 
     return {
         getMetaTypes: _getMetaTypes,
-        getMetaTypesOf: _getMetaTypeOf,
+        getMetaTypesOf: _getMetaTypesOf,
         getDecoratedMetaTypes: _getDecoratedMetaTypes,
         getMetaTypeOf: _getMetaTypeOf,
         TYPE_INFO: _TYPE_INFO

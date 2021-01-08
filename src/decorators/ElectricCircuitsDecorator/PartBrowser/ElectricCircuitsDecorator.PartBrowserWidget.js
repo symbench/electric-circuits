@@ -1,4 +1,4 @@
-/*globals define, _, DEBUG, $*/
+/*globals define, _*/
 /*eslint-env browser*/
 
 /**
@@ -11,14 +11,12 @@ define([
     'js/NodePropertyNames',
     'js/Widgets/PartBrowser/PartBrowserWidget.DecoratorBase',
     '../Core/ElectricCircuitDecorator.Core',
-    'js/Widgets/DiagramDesigner/DiagramDesignerWidget.Constants',
     'css!../DiagramDesigner/ElectricCircuitsDecorator.DiagramDesignerWidget.css',
     'css!./ElectricCircuitsDecorator.PartBrowserWidget.css'
 ], function (CONSTANTS,
     nodePropertyNames,
     PartBrowserWidgetDecoratorBase,
     ElectricCircuitsDecoratorCore,
-    DiagramDesignerWidgetConstants,
 ) {
 
     'use strict';

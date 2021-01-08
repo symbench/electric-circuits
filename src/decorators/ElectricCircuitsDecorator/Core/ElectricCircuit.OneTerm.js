@@ -29,7 +29,6 @@ define([
 
             if (portsContainer.length) {
                 const portT = this.getPortSVG(POSITIONS.TOP);
-                const portThicknessOffset = 0.5;
                 const portContainerT = portsContainer.find('.port');
                 portContainerT.attr(
                     'transform',
@@ -52,7 +51,7 @@ define([
         }
     };
 
-    OneTerminalComponent.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    OneTerminalComponent.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
 
         if (this._portPositions[id]) {
             const angle = CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation];

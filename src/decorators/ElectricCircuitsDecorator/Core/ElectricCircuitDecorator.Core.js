@@ -74,7 +74,7 @@ define([
             var _metaAspectTypes = ElectricCircuitsMETA.getDecoratedMetaTypes();
             for (var m in _metaAspectTypes) {
 
-                if (_metaAspectTypes.hasOwnProperty(m)) {
+                if (_metaAspectTypes.hasOwnProperty(m)) { // eslint-disable-line no-prototype-builtins
 
                     // get the svg's url on the server for this META type
                     var svg_resource_url = SVG_ICON_PATH + m + '.svg';
@@ -173,7 +173,7 @@ define([
         const gmeID = this._metaInfo[CONSTANTS.GME_ID];
         this._metaType = ElectricCircuitsMETA.getMetaTypes(gmeID);
 
-        if (DEBUG) {
+        if (DEBUG) { // eslint-disable-line no-undef
             this.$el.attr({'data-id': gmeID});
         }
 

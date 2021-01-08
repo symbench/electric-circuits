@@ -115,7 +115,7 @@ define([
 
     };
 
-    FETs.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    FETs.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
         if (this._portPositions[id]) {
             return [{
                 id: id,

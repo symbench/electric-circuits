@@ -153,7 +153,7 @@ define([
 
     };
 
-    OpAMP.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    OpAMP.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
 
         if (this._portPositions[id]) {
             const angle = CONSTANTS.CONNECTION_ANGLES[this._portPositions[id].orientation];

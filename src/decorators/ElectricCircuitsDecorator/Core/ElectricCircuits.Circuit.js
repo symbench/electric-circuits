@@ -4,7 +4,7 @@
  * Authors:
  * Umesh Timalsina
  */
-/* globals define *, $ */
+/* globals define, $ */
 /* eslint-env browser */
 
 define([
@@ -104,7 +104,7 @@ define([
 
     };
 
-    Circuit.prototype.getConnectionAreas = function (id, isEnd, connectionMetaInfo) {
+    Circuit.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
         if (this._portPositions[id]) {
             const angle = this._portPositions[id].orientation === CONSTANTS.POSITIONS.LEFT ? 180 : 0;
             return [{
