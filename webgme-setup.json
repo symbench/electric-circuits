@@ -4,6 +4,10 @@
       "CreateElectricCircuitsMeta": {
         "src": "src/plugins/CreateElectricCircuitsMeta",
         "test": "test/plugins/CreateElectricCircuitsMeta"
+      },
+      "ConvertCircuitToNetlist": {
+        "src": "src/plugins/ConvertCircuitToNetlist",
+        "test": "test/plugins/ConvertCircuitToNetlist"
       }
     },
     "seeds": {
@@ -13,10 +17,18 @@
       "project": {
         "src": "src/seeds/project"
       }
-    }
+    },
+    "routers": {}
   },
   "dependencies": {
     "plugins": {},
-    "seeds": {}
+    "seeds": {},
+    "routers": {
+      "BindingsDocs": {
+        "project": "webgme-bindings",
+        "path": "node_modules/webgme-bindings/src/routers/BindingsDocs",
+        "mount": "bindings-docs"
+      }
+    }
   }
 }
