@@ -5,7 +5,7 @@ The ConvertCircuitToNetlist-class is imported from both run_plugin.py and run_de
 
 import sys
 import logging
-from typing import List, Union
+from typing import List, Union, Optional
 from functools import partial
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
@@ -27,11 +27,13 @@ component_counts = {
     'L': 0,
     'C': 0,
     'D': 0,
+    'Q': 0,
+    'M': 0,
 }
 
 
 def get_next_label_for(component: str) -> int:
-    assert component in ['R', 'L', 'C', 'D']
+    assert component in ['R', 'L', 'C', 'D', 'Q', 'M']
     component_counts[component] = component_counts[component] + 1
     return component_counts[component]
 
@@ -39,26 +41,61 @@ def get_next_label_for(component: str) -> int:
 class ConvertCircuitToNetlist(PluginBase):
     def main(self) -> None:
         self._assign_meta_functions()
-        self._initialize_spice_netlist()
-        circuit = self.active_node
-        self._create_adjacency_list(circuit)
-        self._assign_spice_node_labels_to_pins()
-        self._write_netlist(circuit)
+        if not self.is_circuit(node=self.active_node):
+            self.logger.error('Active Node is not a circuit')
+            self.result_set_success(False)
+            self.result_set_error('Active Node is not a circuit')
+        else:
+            circuit = self.active_node
+            self._initialize(circuit)
+            self._identify_pins(circuit)
+            self._expand_junction_adjacency()
+            self._assign_spice_node_labels_to_pins()
+            self._populate_netlist(circuit, self._netlist_ckt)
+            # self.add_file(f'{self.core.get_attribute(circuit, "name")}.cir', str(self._netlist_ckt))
+
+            print(self._netlist_ckt)
 
     def _assign_meta_functions(self) -> None:
+        """Assign is_* function for easier meta type checks"""
         for name, meta_node in self.META.items():
             p = partial(self.core.is_type_of, node=None, type_node_or_path=meta_node)
             setattr(self, f'is_{name.lower()}', p)
         self.logger.debug(f'Assigned meta type classification functions to {self.__class__.__name__}')
 
-    def _initialize_spice_netlist(self) -> None:
-        circuit_name = self.core.get_attribute(self.active_node, 'name')
-        self.netlist_ckt = Circuit(circuit_name)
+    def _initialize(self, circuit: dict) -> None:
+        """Initialize an empty netlist and the necessary data-structures for netlist conversion
+
+        Parameters
+        ----------
+        circuit: dict
+            A gme node of type Circuit
+        """
+        self._adj_list = dict()
+        self._junction_pin_ids = set()
+        self._ground_pins = set()
+        circuit_name = self.core.get_attribute(circuit, 'name')
+        self._netlist_ckt = Circuit(circuit_name)
         self.logger.debug('Initialized empty spice netlist')
 
-    def _create_adjacency_list(self, circuit: dict) -> None:
-        self.adj_list = dict()
-        self.junction_pin_ids = set()
+    def _identify_pins(self, circuit: dict) -> None:
+        """Identify the pins and build adjacency list for pins
+        This method(recursively) identifies all the connected pins
+        and builds an adjacency list for individual pin.
+        There are three possible situations to handle:
+            1. The Pin is contained inside a normal component node
+            2. The Pin is a ground Pin (Special Case for SPICE labeled '0')
+            3. The Pin is contained in a Junction node
+
+        Parameters:
+        ----------
+        circuit: dict
+            A gme node of type Circuit
+        """
+        sub_circuits = self._get_children_of_type(circuit, 'Circuit')
+        for sub_circuit in sub_circuits:
+            self._identify_pins(sub_circuit)
+
         wires = sorted(
             self._get_children_of_type(circuit, 'Wire'),
             key=lambda x: self.core.get_path(x)
@@ -70,51 +107,74 @@ class ConvertCircuitToNetlist(PluginBase):
 
             src_pin_id = self.core.get_path(src_pin)
             dst_pin_id = self.core.get_path(dst_pin)
-            if not self.adj_list.get(src_pin_id):
-                self.adj_list[src_pin_id] = set()
-            if not self.adj_list.get(dst_pin_id):
-                self.adj_list[dst_pin_id] = set()
+            if not self._adj_list.get(src_pin_id):
+                self._adj_list[src_pin_id] = set()
+            if not self._adj_list.get(dst_pin_id):
+                self._adj_list[dst_pin_id] = set()
 
-            self.adj_list[src_pin_id].add(dst_pin_id)
-            self.adj_list[dst_pin_id].add(src_pin_id)
+            self._adj_list[src_pin_id].add(dst_pin_id)
+            self._adj_list[dst_pin_id].add(src_pin_id)
 
             for pin, pin_id in [(src_pin, src_pin_id), (dst_pin, dst_pin_id)]:
                 if self._is_junction_pin(pin):
                     remaining_pin_ids = self._get_remaining_pin_ids(pin)
-                    self.junction_pin_ids.add(pin_id)
+                    self._junction_pin_ids.add(pin_id)
                     for remaining_pin_id in remaining_pin_ids:
-                        self.adj_list[src_pin_id].add(remaining_pin_id)
-                        self.adj_list[dst_pin_id].add(remaining_pin_id)
-                        self.junction_pin_ids.add(remaining_pin_id)
+                        self._adj_list[src_pin_id].add(remaining_pin_id)
+                        self._adj_list[dst_pin_id].add(remaining_pin_id)
+                        self._junction_pin_ids.add(remaining_pin_id)
 
-        self._expand_junction_adjacency()
+            if self._is_ground_pin(src_pin) or self._is_ground_pin(dst_pin):
+                self._ground_pins.add(src_pin_id)
+                self._ground_pins.add(dst_pin_id)
 
     def _expand_junction_adjacency(self):
-        for pin_id in list(self.adj_list.keys()):
-            if pin_id not in self.junction_pin_ids:
-                self._visit_junctions(pin_id, set())
+        """Expand the adjacency for pins connected to Junctions"""
+        for pin_id in list(self._adj_list.keys()):
+            self._visit_junctions(pin_id, set())
 
     def _visit_junctions(self, pin_id, visited):
-        adj_pins = self.adj_list.get(pin_id, set())
+        """Traverse the adjacency list of a pin to visit any connected Junctions"""
+        adj_pins = self._adj_list.get(pin_id, set())
         for adj_pin_id in list(adj_pins):
-            if adj_pin_id in self.junction_pin_ids and adj_pin_id not in visited:
+            if adj_pin_id in self._junction_pin_ids and adj_pin_id not in visited:
                 visited.add(adj_pin_id)
-                extra_pin_ids = self.adj_list.get(adj_pin_id, set())
+                extra_pin_ids = self._adj_list.get(adj_pin_id, set())
                 for extra_pin_id in list(extra_pin_ids):
-                    self.adj_list[pin_id].add(extra_pin_id)
+                    self._adj_list[pin_id].add(extra_pin_id)
                     self._visit_junctions(extra_pin_id, visited)
 
     def _assign_spice_node_labels_to_pins(self):
-        self.pin_labels = {}
         self.nodes_count = 0
-        for pin_id in self.adj_list:
+        self.pin_labels = dict()
+        component_pin_ids = []
+        junction_pin_ids = []
+        for pin_id in self._ground_pins:
+            self.pin_labels[pin_id] = '0'
+
+        for pin_id in self._adj_list:
+            if pin_id in self._junction_pin_ids:
+                junction_pin_ids.append(pin_id)
+            else:
+                component_pin_ids.append(pin_id)
+
+        for pin_id in component_pin_ids + junction_pin_ids:
             if pin_id in self.pin_labels:
-                for adj_pin in self.adj_list[pin_id]:
+                for adj_pin in self._adj_list[pin_id]:
                     self.pin_labels[adj_pin] = self.pin_labels[pin_id]
             else:
-                self.nodes_count += 1
-                self.pin_labels[pin_id] = f'N000{self.nodes_count}'
-                for adj_pin in self.adj_list[pin_id]:
+                current_label = None
+                for adj_pin in self._adj_list[pin_id]:
+                    if adj_pin in self.pin_labels:
+                        current_label = self.pin_labels[adj_pin]
+
+                    if not current_label:
+                        self.nodes_count += 1
+                        current_label = f'N000{self.nodes_count}'
+
+                self.pin_labels[pin_id] = current_label
+
+                for adj_pin in self._adj_list[pin_id]:
                     self.pin_labels[adj_pin] = self.pin_labels[pin_id]
 
     def _get_remaining_pin_ids(self, pin):
@@ -127,18 +187,28 @@ class ConvertCircuitToNetlist(PluginBase):
         parent = self.core.get_parent(pin)
         return self.is_junction(node=parent)
 
-    def _write_netlist(self, circuit):
+    def _is_ground_pin(self, pin: dict) -> bool:
+        parent = self.core.get_parent(pin)
+        return self.is_ground(node=parent)
+
+    def _is_circuit_pin(self, pin: dict) -> bool:
+        parent = self.core.get_parent(pin)
+        return self.is_circuit(node=parent)
+
+    def _get_parent_id(self, node: dict) -> str:
+        parent = self.core.get_parent(node)
+        return self.core.get_path(parent)
+
+    def _populate_netlist(self, circuit: dict,
+                          parent_netlist: Optional[Union[Circuit, SubCircuit]] = None):
         components = self._get_children_except(circuit, 'Pin', 'Wire', 'Junction')
-        is_subckt = False
-        if self.is_circuit(node=self.core.get_parent(circuit)):
-            is_subckt = True
-            pins = self._get_children_of_type(circuit, 'Pin')
-            spice_nodes = []
-            for pin in pins:
-                spice_nodes.append(self.pin_labels[self.core.get_path(pin)])
-            current_ckt = SubCircuit(self.core.get_attribute(circuit, 'name'), *spice_nodes)
-        else:
-            current_ckt = self.netlist_ckt
+        sub_circuits = self._get_children_of_type(circuit, 'Circuit')
+
+        for sub_circuit in sub_circuits:
+            exposed_nodes = self._get_external_spice_nodes_for(sub_circuit)
+            subckt_netlist = SubCircuit(self.core.get_attribute(sub_circuit, 'name'), *exposed_nodes)
+            parent_netlist.subcircuit(subckt_netlist)
+            self._populate_netlist(sub_circuit, subckt_netlist)
 
         components_map = {}
         for component in components:
@@ -149,47 +219,78 @@ class ConvertCircuitToNetlist(PluginBase):
             for pin in pins:
                 pin_id = self.core.get_path(pin)
                 pin_name = self.core.get_attribute(pin, 'name')
-                if pin_id in self.pin_labels:
-                    components_map[component_id][pin_name] = self.pin_labels[pin_id]
-                else:
-                    self.nodes_count += 1
-                    components_map[component_id][pin_name] = f'N000{self.nodes_count}'
+                components_map[component_id][pin_name] = self._resolve_spice_node_id_for(pin_id)
 
         for component in components_map.values():
-            self._add_to_netlist(component, current_ckt)
-
-        if is_subckt:
-            self.netlist_ckt.subcircuit(current_ckt)
-
-        print(self.netlist_ckt)
+            self._add_to_netlist(component, parent_netlist)
 
     def _add_to_netlist(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
-        if self.is_resistor(node=component['node']):
+        node = component['node']
+        if self.is_resistor(node=node):
             netlist_ckt.R(
                 get_next_label_for('R'),
                 component['p'],
-                component['n']
+                component['n'],
+                self.core.get_attribute(node, 'R')
             )
-        if self.is_diode(node=component['node']):
+        if self.is_diode(node=node):
             netlist_ckt.D(
                 get_next_label_for('D'),
                 component['p'],
                 component['n']
             )
 
-        if self.is_capacitor(node=component['node']):
-            netlist_ckt.D(
-                get_next_label_for('D'),
+        if self.is_capacitor(node=node):
+            netlist_ckt.C(
+                get_next_label_for('C'),
                 component['p'],
-                component['n']
+                component['n'],
+                self.core.get_attribute(node, 'C')
             )
 
-        if self.is_inductor(node=component['node']):
-            netlist_ckt.D(
-                get_next_label_for('D'),
+        if self.is_inductor(node=node):
+            netlist_ckt.L(
+                get_next_label_for('L'),
                 component['p'],
-                component['n']
+                component['n'],
+                self.core.get_attribute(node, 'L')
             )
+
+        if self.is_npn(node=node) or self.is_pnp(node=node):
+            netlist_ckt.Q(
+                get_next_label_for('Q'),
+                component['C'],
+                component['B'],
+                component['E']
+            )
+
+        if self.is_nmos(node=node) or self.is_pmos(node=node):
+            netlist_ckt.M(
+                get_next_label_for('M'),
+                component['D'],
+                component['G'],
+                component['B'],
+                component['S']
+            )
+
+    def _get_external_spice_nodes_for(self, circuit: dict) -> list:
+        msg = 'Provided node is not of type Circuit'
+        assert self.is_circuit(node=circuit), self._log_error(msg)
+
+        pins = self._get_children_of_type(circuit, 'Pin')
+        external_spice_nodes = []
+        for pin in pins:
+            pin_id = self.core.get_path(pin)
+            spice_node_id = self._resolve_spice_node_id_for(pin_id)
+            external_spice_nodes.append(spice_node_id)
+        return external_spice_nodes
+
+    def _resolve_spice_node_id_for(self, pin_id):
+        if pin_id in self.pin_labels:
+            return self.pin_labels[pin_id]
+        else:
+            self.nodes_count += 1
+            return f'N000{self.nodes_count}'
 
     # Helper Methods for gme nodes
     def _get_children_of_type(self, node: dict, type_: str) -> List[dict]:
@@ -207,3 +308,12 @@ class ConvertCircuitToNetlist(PluginBase):
             if all(self.core.get_meta_type(child) != self.META[arg] for arg in args):
                 children.append(child)
         return children
+
+    def _log_error(self, msg):
+        self.logger.error(msg)
+
+    def _log_info(self, msg):
+        self.logger.info(msg)
+
+    def _log_debug(self, msg):
+        self.logger.debug(msg)
