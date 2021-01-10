@@ -16,6 +16,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Conda
+        uses: conda-incubator/setup-miniconda
+        with:
+          activate-environment: electric-circuits
+          environment-file: environment.yml
+          python-version: 3.8
+          auto-activate-base: false
+
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
@@ -30,7 +38,9 @@ jobs:
         run: npm install
 
       - name: Run Tests
-        run: npm test
+        run: |
+          conda activate electric-circuits
+          npm test
 
   dockerAndDeploy:
     runs-on: ubuntu-latest

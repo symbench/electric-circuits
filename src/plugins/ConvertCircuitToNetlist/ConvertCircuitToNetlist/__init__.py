@@ -11,7 +11,6 @@ from functools import partial
 from PySpice.Spice.Netlist import Circuit, SubCircuit
 
 from webgme_bindings import PluginBase
-from .node_utils import ComponentNode
 
 # Setup a logger
 logger = logging.getLogger('ConvertCircuitToNetlist')
