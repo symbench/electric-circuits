@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          conda activate electric-circuits
+          source activate electric-circuits
           npm test
 
   dockerAndDeploy:
