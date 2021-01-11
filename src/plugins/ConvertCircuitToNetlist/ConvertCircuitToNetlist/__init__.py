@@ -51,9 +51,11 @@ class ConvertCircuitToNetlist(PluginBase):
             self._expand_junction_adjacency()
             self._assign_spice_node_labels_to_pins()
             self._populate_netlist(circuit, self._netlist_ckt)
-            # self.add_file(f'{self.core.get_attribute(circuit, "name")}.cir', str(self._netlist_ckt))
-
-            print(self._netlist_ckt)
+            output_filename = self.get_current_config().get('file_name')
+            if not output_filename or output_filename == '':
+                output_filename = self.core.get_attribute(circuit, "name")
+            self.add_file(f'{output_filename}.cir', str(self._netlist_ckt))
+            self.result_set_success(True)
 
     def _assign_meta_functions(self) -> None:
         """Assign is_* function for easier meta type checks"""

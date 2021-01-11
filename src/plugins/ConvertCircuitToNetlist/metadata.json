@@ -11,5 +11,11 @@
   "disableBrowserSideExecution": true,
   "dependencies": [],
   "writeAccessRequired": false,
-  "configStructure": []
+  "configStructure": [{
+    "name": "file_name",
+    "displayName": "Output Filename",
+    "description": "The output filename for the netlist. Note: The filename will be suffixed with .cir extension",
+    "valueType": "string",
+    "readOnly": false
+  }]
 }
