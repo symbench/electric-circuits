@@ -22,8 +22,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: electric-circuits
-          environment-file: environment.yml
-          python-version: 3.8
+          environment-file: ./environment.yml
           auto-activate-base: false
 
       - name: Setup Node
@@ -41,7 +40,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          conda activate electric-circuits
+          source activate electric-circuits
           npm test
 
   dockerAndDeploy:
