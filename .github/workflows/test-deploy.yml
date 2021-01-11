@@ -2,13 +2,15 @@ name: Run Tests and Deploy
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['10', '12']
+        node: ['12', '14']
 
     steps:
       - name: Checkout Code
@@ -35,6 +37,7 @@ jobs:
   dockerAndDeploy:
     runs-on: ubuntu-latest
     needs: test
+    if: github.event_name == 'push'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
