@@ -21,7 +21,7 @@ define([
         const node = this.getCurrentNode();
         this._portPositions = {};
         if (node) {
-            const childrenIds = node.getChildrenIds().sort();
+            const childrenIds = this.getSortedPinIds(node);
             const svgIcon = this.skinParts.$svg;
             const width = +svgIcon.attr('width');
             const height = +svgIcon.attr('height');
@@ -35,9 +35,9 @@ define([
                 portBContainer.empty();
                 portSContainer.empty();
                 portGContainer.empty();
-                const portD = this.getPortSVG(POSITIONS.BOTTOM);
+                const portS = this.getPortSVG(POSITIONS.BOTTOM);
                 const portB = this.getPortSVG(POSITIONS.RIGHT);
-                const portS = this.getPortSVG(POSITIONS.TOP);
+                const portD = this.getPortSVG(POSITIONS.TOP);
                 const portG = this.getPortSVG(POSITIONS.LEFT);
 
                 portDContainer.append(portD);
@@ -57,62 +57,60 @@ define([
                     `translate(${width / 2 + 20}, ${height / 2 - 5})`
                 );
 
-                portSContainer.attr(
+                portDContainer.attr(
                     'transform',
                     `translate(${width / 2 + 5}, 5)`
                 );
 
-                portDContainer.attr(
+                portSContainer.attr(
                     'transform',
                     `translate(${width / 2 + 5} , ${height / 2 + 15})`
                 );
 
                 if (this.hostDesignerItem && childrenIds.length) {
-                    const [connectorB, connectorD, connectorG, connectorS] = this._registerConnectors(childrenIds);
-                    connectorG.css({
-                        top: `${height / 2 - 5}px`,
-                        left: '5px',
-                    });
-                    this._portPositions[childrenIds[2]] = {
-                        x: 5,
-                        y: height / 2,
-                        orientation: POSITIONS.LEFT
-                    };
-                    connectorD.css({
-                        top: `${height / 2 + 25}px`,
-                        left: `${width / 2 + 5}px`,
-                    });
-                    this._portPositions[childrenIds[1]] = {
-                        x: width / 2 + 10,
-                        y: height /2 + 30,
-                        orientation: POSITIONS.BOTTOM
-                    };
-
+                    const [connectorB, connectorG, connectorD, connectorS] = this._registerConnectors(childrenIds);
                     connectorB.css({
                         top: `${height / 2 - 5}px`,
                         left: `${width / 2 + 25}px`,
                     });
-
                     this._portPositions[childrenIds[0]] = {
                         y: height / 2,
                         x: width / 2 + 25,
                         orientation: POSITIONS.RIGHT
                     };
 
-                    connectorS.css({
+                    connectorG.css({
+                        top: `${height / 2 - 5}px`,
+                        left: '5px',
+                    });
+                    this._portPositions[childrenIds[1]] = {
+                        x: 5,
+                        y: height / 2,
+                        orientation: POSITIONS.LEFT
+                    };
+
+                    connectorD.css({
                         top: '5px',
                         left: `${width / 2 + 5}px`,
                     });
-
-                    this._portPositions[childrenIds[3]] = {
+                    this._portPositions[childrenIds[2]] = {
                         y: 5,
                         x: width / 2 + 10,
                         orientation: POSITIONS.TOP
                     };
+
+                    connectorS.css({
+                        top: `${height / 2 + 25}px`,
+                        left: `${width / 2 + 5}px`,
+                    });
+                    this._portPositions[childrenIds[3]] = {
+                        x: width / 2 + 10,
+                        y: height /2 + 30,
+                        orientation: POSITIONS.BOTTOM
+                    };
                 }
             }
         }
-
     };
 
     FETs.prototype.getConnectionAreas = function (id, /*isEnd, connectionMetaInfo*/) {
@@ -130,7 +128,11 @@ define([
         } else {
             return [];
         }
+    };
 
+    FETs.prototype.getSortedPinIds = function (node) {
+        const pins = this._getPinNamesToIdsMap(node);
+        return [pins['B'], pins['G'], pins['D'], pins['S']];
     };
 
     return FETs;
