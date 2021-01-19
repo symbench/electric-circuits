@@ -43,6 +43,7 @@ define([
         const pins = childrenIds
             .filter(childID => ElectricCircuitsMETA.TYPE_INFO.isPin(childID))
             .map(childId => client.getNode(childId)).sort();
+        this._portPositions = {};
         if (pins.length) {
             const svgIcon = this.skinParts.$svg;
             const height = +svgIcon.attr('height');
