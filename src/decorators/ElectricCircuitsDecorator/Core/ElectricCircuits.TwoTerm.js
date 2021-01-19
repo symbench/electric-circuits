@@ -43,7 +43,7 @@ define([
         if (node) {
             const isVertical = ElectricCircuitsMETA.TYPE_INFO.isVertical(node.getId());
             const isPotentiometer = ElectricCircuitsMETA.TYPE_INFO.isPotentiometer(node.getId());
-            const childrenIDs = node.getChildrenIds().sort();
+            const childrenIDs = this.getSortedPinIds(node);
             const svgIcon = this.skinParts.$svg;
             svgIcon.find('.port-p').empty();
             svgIcon.find('.port-n').empty();
@@ -232,6 +232,15 @@ define([
         client.startTransaction(msg);
         client.setAttribute(id, attr, newValue);
         client.completeTransaction();
+    };
+
+    TwoTerminalComponent.prototype.getSortedPinIds = function (node) {
+        const pins = this._getPinNamesToIdsMap(node);
+        if (!ElectricCircuitsMETA.TYPE_INFO.isPotentiometer(node.getId())){
+            return [pins['p'], pins['n']];
+        } else {
+            return [pins['pin_p'], pins['pin_n'], pins['contact']];
+        }
     };
 
     return TwoTerminalComponent;

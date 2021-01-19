@@ -22,7 +22,7 @@ define([
         const node = this.getCurrentNode();
         this._portPositions = {};
         if (node) {
-            const childrenIds = node.getChildrenIds().sort();
+            const childrenIds = this.getSortedPinIds(node);
             const svgIcon = this.skinParts.$svg;
             svgIcon.find('.port').empty();
 
@@ -68,24 +68,24 @@ define([
 
                     connectorTV.css({
                         'left': `${width / 2 + CONSTANTS.THREE_TERM_OFFSET}px`,
-                        'top': '5px'
+                        'top': `${height - 3 * CONSTANTS.THREE_TERM_OFFSET}px`
                     });
 
                     this._portPositions[childrenIds[1]] = {
-                        x:  width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
-                        y: 5,
-                        orientation: POSITIONS.TOP
+                        x: width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        y: height - CONSTANTS.THREE_TERM_OFFSET,
+                        orientation: POSITIONS.BOTTOM
                     };
 
                     connectorBV.css({
                         'left': `${width / 2 + CONSTANTS.THREE_TERM_OFFSET}px`,
-                        'top': `${height - 3 * CONSTANTS.THREE_TERM_OFFSET}px`
+                        'top': '5px'
                     });
 
                     this._portPositions[childrenIds[2]] = {
-                        x: width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
-                        y: height - CONSTANTS.THREE_TERM_OFFSET,
-                        orientation: POSITIONS.BOTTOM
+                        x:  width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        y: 5,
+                        orientation: POSITIONS.TOP
                     };
                 }
             }
@@ -118,6 +118,14 @@ define([
         }
     };
 
+    ThreeTerminalComponent.prototype.getSortedPinIds = function (node){
+        if (ElectricCircuitsMETA.TYPE_INFO.isNPN(node) || ElectricCircuitsMETA.TYPE_INFO.isPNP(node)) {
+            const pins = this._getPinNamesToIdsMap(node);
+            return [pins['B'], pins['C'], pins['E']];
+        } else {
+            return node.getChildrenIds().sort();
+        }
+    };
 
     return ThreeTerminalComponent;
 });
