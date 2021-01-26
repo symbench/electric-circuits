@@ -1,0 +1,170 @@
+#! /usr/bin/env python3
+import os
+import json
+import inspect
+import importlib
+import argparse
+import re
+from typing import Union
+from pathlib import Path
+
+SPLIT_PLACE_HOLDER = '~'
+
+
+def _get_attribute_constraints(name: str) -> Union[dict, None]:
+    if name == 'random_type':
+        return {
+            'possible_values': [
+                'uniform',
+                'exponential',
+                'gaussian',
+                'poisson'
+            ]
+        }
+
+
+class PySpiceMissingException(Exception):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class PySpiceParser:
+    """A class to parse PySpice python library
+
+    This class parses the PySpice python library
+    for attributes of the various components to be used in SPICE simulations
+    """
+
+    def __init__(self) -> None:
+        self._high_level_elements = []
+        self._basic_elements = []
+        self._confirm_pyspice_existence()
+        self._meta_dict = {}
+
+    def run(self) -> dict:
+        import PySpice
+        self._parse_highlevel_elements()
+        return {
+            'high_level_elements': self._high_level_elements,
+            'basic_elements': self._basic_elements,
+            'pyspice_version': str(PySpice.__version__)
+        }
+
+    def _parse_highlevel_elements(self) -> None:
+        from PySpice.Spice import _get_elements
+        from PySpice.Spice import HighLevelElement
+        for element in _get_elements(HighLevelElement):
+            if 'Spice.HighLevelElement' in repr(element):
+                self._high_level_elements.append(self._parse_high_level_members(element))
+
+    def _parse_high_level_members(self, class_: type) -> dict:
+        class_details = {
+            'name': class_.__name__,
+            'pins_count': 2,
+            'attributes': [],
+            'class_doc': class_.__doc__,
+        }
+        for super_class in inspect.getmro(class_):
+            if 'Mixin' in repr(super_class) and 'MixinAbc' not in repr(super_class):
+                mixin_signature = inspect.signature(super_class)
+                class_details['mixin_doc'] = super_class.__doc__
+                meta_dict = self._add_to_meta_dict(class_.__name__, super_class.__doc__)
+                for param_name, param in mixin_signature.parameters.items():
+                    class_details['attributes'].append({
+                        'name': param_name,
+                        'default': param.default if not param.default == inspect.Parameter.empty else None,
+                        'constraints': _get_attribute_constraints(param_name),
+                        'attribute_meta': meta_dict.get(param_name, {}) if meta_dict is not None else {}
+                    })
+        return class_details
+
+    def _add_to_meta_dict(self, class_name: str, class_doc: str) -> dict:
+        meta_dict = {}
+        if 'TRRANDOM' in class_doc:
+            return
+        usable_lines = []
+        for line in class_doc.split('\n'):
+            if line.strip().startswith('+') or line.strip().startswith('|'):
+                if line and '-' not in line:
+                    usable_lines.append(line.replace('Td1+Tstep', 'sum(Td1, Tstep)').strip().replace('|', '').strip().replace('+', SPLIT_PLACE_HOLDER))
+        if len(usable_lines):
+            meta_keys = list(key.strip() for key in usable_lines[0].split(SPLIT_PLACE_HOLDER))
+            for params in usable_lines[1:]:
+                params_gen = (val.strip() for val in params.split(SPLIT_PLACE_HOLDER))
+                params_dict = {}
+                param_name = ''
+                for j, val in enumerate(params_gen):
+                    meta_key = self._to_camel_case(meta_keys[j])
+                    if meta_key == 'parameter':
+                        param_name = self._to_camel_case(val)
+
+                    if ',' not in val:
+                        params_dict[meta_key] = val
+                    elif 'Current' in class_name:
+                        params_dict[self._to_camel_case(meta_keys[j])] = 'A'
+                    else:
+                        params_dict[self._to_camel_case(meta_keys[j])] = 'V'
+                meta_dict[param_name] = params_dict
+        return meta_dict
+
+    @staticmethod
+    def _to_camel_case(string: str) -> str:
+        return '_'.join(string.lower().split(' ')).replace('.', '')
+
+    @staticmethod
+    def _confirm_pyspice_existence():
+        try:
+            pyspice = importlib.import_module('PySpice')
+        except ImportError as e:
+            raise PySpiceMissingException(str(e))
+        del pyspice
+
+
+class PySpiceSaver:
+    """A components saver for PySpice.
+
+    This class uses PySpiceParser to generate
+    schema for PySpice Elements.
+
+    Parameters
+    ----------
+    out_dir : str or Path like, default=None
+        The output directory to save the generated schemas in
+    """
+
+    def __init__(self, out_dir=None):
+        if out_dir is None:
+            out_dir = '.'
+        self.out_dir = Path(out_dir).resolve()
+
+        print(f'Schemas will be saved in {self.out_dir}')
+
+        if not self.out_dir.exists():
+            os.makedirs(self.out_dir)
+
+        self.pyspice_parser = PySpiceParser()
+
+    def parse_and_save(self):
+        pyspice_elements = self.pyspice_parser.run()
+        self.save_json(self.out_dir / 'elements.json', pyspice_elements)
+
+    @staticmethod
+    def save_json(path, content):
+        with open(path, 'w') as json_file:
+            json.dump(content, json_file, indent=2)
+
+
+def main():
+    out_dir = './src/plugins/CreateElectricCircuitsMeta/PySpice'
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('--out-dir',
+                        help='The output directory to save the generated json',
+                        type=str,
+                        default=out_dir)
+    args = parser.parse_args()
+    schema_saver = PySpiceSaver(args.out_dir)
+    schema_saver.parse_and_save()
+
+
+if __name__ == '__main__':
+    main()
