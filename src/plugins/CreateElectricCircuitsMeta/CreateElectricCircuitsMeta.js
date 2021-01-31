@@ -85,7 +85,7 @@ define([
         }
 
         async getBaseModel(importer) {
-            const placeholder =  name => ({id: `@name:${name}`});
+            const placeholder = name => ({id: `@name:${name}`});
             const language = {
                 id: '@name:ElectricCircuits',
                 children: [],
