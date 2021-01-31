@@ -20,6 +20,29 @@ define([
     const MODELICA_ELECTRICAL_COMPONENTS_PREFIX = 'Modelica.Electrical.Analog';
     const MODELICA_PIN_ATTR_NAME = 'Pin';
     const DEFAULT_META_TAB = 'META';
+    const DECORATOR_ID = 'ElectricCircuitsDecorator';
+    const EXTRA_NODES = {
+        SchottkyDiode: 'Diode',
+        LED: 'Diode'
+    };
+    const EXTRA_TAB_NAMES = {
+        SchottkyDiode: 'Semiconductors',
+        LED: 'Semiconductors'
+    };
+
+    const EXTRA_ATTRIBUTES = {
+        LED: {
+            attributes: [{
+                color: '#FF0000'
+            }],
+            attribute_meta:[{
+                color: {
+                    type: 'string',
+                    description: 'The color of the LED'
+                }
+            }]
+        }
+    };
 
     class CreateElectricCircuitsMeta extends PluginBase {
         constructor(props) {
@@ -38,12 +61,13 @@ define([
             const config = this.getCurrentConfig();
             this.core.removeLibrary(this.rootNode, 'Modelica');
             const state = await this.getBaseModel(importer);
-
             state.registry.validPlugins = state.registry.validPlugins.replace(this.getName(), '');
+            state.registry.validDecorators = `${DECORATOR_ID} ${state.registry.validDecorators}`;
 
             const categories = this.getElectricalComponentCategories();
             this.createCategories(state, categories);
             categories.forEach(cat => this.createNodesOfType(state, cat));
+            this.createExtraNodes(state);
 
             await importer.apply(this.rootNode, state);
             this.createDocumentationNode();
@@ -84,11 +108,21 @@ define([
                 'ConnectionBase',
                 'Wire',
                 'Pin',
+                'ElectricCircuitsFolder',
                 'Documentation'
-            ];
+            ].map(name => {
+                let node = placeholder(name);
+
+                if (name === 'Pin' || name === 'Circuit' || name === 'ElectricCircuitsFolder') {
+                    node.registry = {
+                        decorator: DECORATOR_ID
+                    };
+                }
+                return node;
+            });
 
             this.addNodeToMeta(root, language);
-            existingNodes.forEach(name => language.children.push(placeholder(name)));
+            existingNodes.forEach(node => language.children.push(node));
             return root;
         }
 
@@ -125,6 +159,7 @@ define([
                 this.logger.debug(`Creating node category ${name}`);
                 const node = this.createMetaNode(root, name, '@meta:ComponentBase', name);
                 node.registry.isAbstract = true;
+                node.registry.decorator = DECORATOR_ID;
             });
         }
 
@@ -266,6 +301,36 @@ define([
             });
             metaDoc.push('\n');
             this.documentation += metaDoc.join('\n');
+        }
+
+        createExtraNodes(root) {
+            const electricCircuits = root.children.find(child => {
+                return child.id === '@name:ElectricCircuits';
+            });
+            Object.entries(EXTRA_NODES).forEach(([k, v]) => {
+                const node = electricCircuits.children.find(child => {
+                    return child.id === `@meta:${v}`;
+                });
+                if (node) {
+                    const newNode = this.createMetaNode(
+                        root, k, `@meta:${v}`, EXTRA_TAB_NAMES[k]
+                    );
+                    if(EXTRA_ATTRIBUTES[k]) {
+                        EXTRA_ATTRIBUTES[k].attributes
+                            .forEach(attr => {
+                                Object.entries(attr).forEach(([name, defaultValue]) => {
+                                    newNode.attributes[name] = defaultValue;
+                                });
+                            });
+                        EXTRA_ATTRIBUTES[k].attribute_meta
+                            .forEach(attr => {
+                                Object.entries(attr).forEach(([name, meta]) => {
+                                    newNode.attribute_meta[name] = meta;
+                                });
+                            });
+                    }
+                }
+            });
         }
 
         createDocumentationNode() {
