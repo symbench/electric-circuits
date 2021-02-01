@@ -6,16 +6,19 @@ define([
     'text!./metadata.json',
     'plugin/PluginBase',
     'electric-circuits/Constants',
-    'common/util/guid'
+    'common/util/guid',
+    'text!./PySpice/elements.json'
 ], function (
     JSONImporter,
     pluginMetadata,
     PluginBase,
     Constants,
     generateGuid,
+    PySpiceElements
 ) {
     'use strict';
 
+    PySpiceElements = JSON.parse(PySpiceElements);
     pluginMetadata = JSON.parse(pluginMetadata);
     const MODELICA_ELECTRICAL_COMPONENTS_PREFIX = 'Modelica.Electrical.Analog';
     const MODELICA_PIN_ATTR_NAME = 'Pin';
@@ -44,6 +47,10 @@ define([
         }
     };
 
+    const PYSPICE_CATEGORIES = {
+        'Basic': 'high_level_elements'
+    };
+
     class CreateElectricCircuitsMeta extends PluginBase {
         constructor(props) {
             super(props);
@@ -66,7 +73,11 @@ define([
 
             const categories = this.getElectricalComponentCategories();
             this.createCategories(state, categories);
-            categories.forEach(cat => this.createNodesOfType(state, cat));
+
+            categories.forEach(cat => {
+                this.createModelicaNodesOfType(state, cat);
+                this.createPySpiceNodesOfType(state, cat);
+            });
             this.createExtraNodes(state);
 
             await importer.apply(this.rootNode, state);
@@ -211,8 +222,8 @@ define([
         getNextPositionFor(tabName) {
             let index = this.sheetCounts[tabName] || 0,
                 position,
-                dx = 140,
-                dy = 100,
+                dx = 250,
+                dy = 160,
                 MAX_WIDTH = 1200,
                 x;
 
@@ -226,7 +237,7 @@ define([
                 x = dx * index;
                 position = {
                     x: x % MAX_WIDTH,
-                    y: Math.floor(x / MAX_WIDTH + 1) * dy + 50
+                    y: Math.floor(x / MAX_WIDTH + 1) * dy + 150
                 };
             }
             return position;
@@ -249,7 +260,7 @@ define([
             return node;
         }
 
-        createNodesOfType(root, category) {
+        createModelicaNodesOfType(root, category) {
             const nodes = this._getModelicaStateFor(category);
             nodes.forEach(node => {
                 const base = `@meta:${category}`;
@@ -266,11 +277,8 @@ define([
                 );
                 node.children.forEach(child => {
                     if (this._isModelicaPin(child)) {
-                        const target = {
-                            id: `@name:${child.attributes.name}`,
-                            pointers: {base: '@meta:Pin'}
-                        };
-                        categoryMetaNode.children.push(target);
+                        const pin = this._createPinNode(child.attributes.name);
+                        categoryMetaNode.children.push(pin);
                     }
                 });
 
@@ -285,6 +293,29 @@ define([
             });
         }
 
+        createPySpiceNodesOfType(root, category) {
+            const components = this._getPySpiceStateFor(category);
+            components.forEach(component => {
+                const base = `@meta:${category}`;
+                const metaNode = this.createMetaNode(root, component.name, base, category);
+                this.logger.debug(`Created meta node of type ${component.name}`);
+                metaNode.registry.isAbstract = false;
+                component.attributes.forEach(attribute => {
+                    metaNode.attributes[attribute.name] = attribute.default;
+                    attribute.attribute_meta.type = this._inferAttributeType(attribute.default);
+                    metaNode.attribute_meta[attribute.name] = attribute.attribute_meta;
+                });
+
+                const pinNames = ['p', 'n'];
+                for(let j = 0; j < (component.pins_count || 0); j++) {
+                    metaNode.children.push(
+                        this._createPinNode(pinNames[j])
+                    );
+                }
+                this.addToDocumentation(metaNode);
+            });
+        }
+
         addToDocumentation(metaNode) {
             let metaDoc = [
                 `## ${metaNode.attributes.name}\n`,
@@ -293,9 +324,9 @@ define([
             Object.entries(metaNode.attribute_meta).forEach(([name, attr]) => {
                 metaDoc.push('---');
                 metaDoc.push(`- Name: **${name}**`);
-                metaDoc.push(`- Description: ${attr.description}`);
-                metaDoc.push(`- Type: ${attr.type}`);
-                metaDoc.push(`- Unit: ${attr.unit}`);
+                metaDoc.push(`- Description: ${attr.description || attr.parameter || 'N/A'}`);
+                metaDoc.push(`- Type: ${attr.type || 'N/A'}`);
+                metaDoc.push(`- Unit: ${attr.unit || attr.units || 'N/A'}`);
                 metaDoc.push(`- Default: ${metaNode.attributes[name] || 'N/A'}`);
                 metaDoc.push('\n');
             });
@@ -353,6 +384,28 @@ define([
             return this.modelicaState.children.filter(node => {
                 return node.attributes.name.startsWith(MODELICA_ELECTRICAL_COMPONENTS_PREFIX + `.${type}`);
             });
+        }
+
+        _getPySpiceStateFor(type) {
+            const typeKey = PYSPICE_CATEGORIES[type];
+            return PySpiceElements[typeKey] || [];
+        }
+
+        _inferAttributeType(value) {
+            if (typeof value === 'number'){
+                return 'float';
+            } else if (typeof value === 'boolean') {
+                return 'boolean';
+            } else {
+                return 'string';
+            }
+        }
+
+        _createPinNode(name) {
+            return {
+                id: `@name:${name}`,
+                pointers: {base: '@meta:Pin'}
+            };
         }
 
     }

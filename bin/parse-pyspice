@@ -4,11 +4,57 @@ import json
 import inspect
 import importlib
 import argparse
-import re
-from typing import Union
+from typing import Union, Any
 from pathlib import Path
 
 SPLIT_PLACE_HOLDER = '~'
+
+
+def _get_missing_attribute_meta(param: str, class_name: str) -> dict:
+    if param == 'dc_offset':
+        return {
+            'name': 'dc_offset',
+            'parameter': 'dc offset',
+            'default_value': 0,
+            'units': 'A' if 'Current' in class_name else 'V'
+        }
+    elif param == 'ac_magnitude':
+        return {
+            'name': 'ac_magnitude',
+            'parameter': 'ac magnitude',
+            'default_value': 0,
+            'units': 'A' if 'Current' in class_name else 'V'
+        }
+    elif param == 'values':
+        return {
+            'name': 'values',
+            'parameter': 'Piecewise Linear Values',
+            'default_value': "[0]",
+            'units': 'A' if 'Current' in class_name else 'V'
+        }
+    elif param == 'repeate_time':
+        return {
+            'name': 'repeate_time',
+            'parameter': 'Repeat Time',
+            'default_value': 0,
+            'units': 'sec'
+        }
+    elif param == 'delay_time' or param == 'time_delay':
+        return {
+            'name': param,
+            'parameter': 'Delay Time',
+            'default_value': 0,
+            'units': 'sec'
+        }
+    elif param == 'duration':
+        return {
+            'name': 'duration',
+            'parameter': 'Duration for random values to show up',
+            'default_value': 0,
+            'units': 'sec'
+        }
+    else:
+        return {}
 
 
 def _get_attribute_constraints(name: str) -> Union[dict, None]:
@@ -24,7 +70,7 @@ def _get_attribute_constraints(name: str) -> Union[dict, None]:
 
 
 class PySpiceMissingException(Exception):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
 
@@ -43,12 +89,20 @@ class PySpiceParser:
 
     def run(self) -> dict:
         import PySpice
+        self._parse_basic_elements()
+        print(f'Found {len(self._basic_elements)} basic elements')
+
         self._parse_highlevel_elements()
+        print(f'Found {len(self._high_level_elements)} high level elements')
+
         return {
             'high_level_elements': self._high_level_elements,
             'basic_elements': self._basic_elements,
             'pyspice_version': str(PySpice.__version__)
         }
+
+    def _parse_basic_elements(self) -> None:
+        pass
 
     def _parse_highlevel_elements(self) -> None:
         from PySpice.Spice import _get_elements
@@ -70,23 +124,28 @@ class PySpiceParser:
                 class_details['mixin_doc'] = super_class.__doc__
                 meta_dict = self._add_to_meta_dict(class_.__name__, super_class.__doc__)
                 for param_name, param in mixin_signature.parameters.items():
+                    if not (val := meta_dict.get(param_name)):
+                        val = _get_missing_attribute_meta(param_name, class_.__name__)
+
                     class_details['attributes'].append({
                         'name': param_name,
-                        'default': param.default if not param.default == inspect.Parameter.empty else None,
+                        'default': self._get_default_for(param_name, param),
                         'constraints': _get_attribute_constraints(param_name),
-                        'attribute_meta': meta_dict.get(param_name, {}) if meta_dict is not None else {}
+                        'attribute_meta':  val if val is not None else {}
                     })
+
         return class_details
 
     def _add_to_meta_dict(self, class_name: str, class_doc: str) -> dict:
         meta_dict = {}
         if 'TRRANDOM' in class_doc:
-            return
+            return {}
         usable_lines = []
         for line in class_doc.split('\n'):
             if line.strip().startswith('+') or line.strip().startswith('|'):
                 if line and '-' not in line:
                     usable_lines.append(line.replace('Td1+Tstep', 'sum(Td1, Tstep)').strip().replace('|', '').strip().replace('+', SPLIT_PLACE_HOLDER))
+
         if len(usable_lines):
             meta_keys = list(key.strip() for key in usable_lines[0].split(SPLIT_PLACE_HOLDER))
             for params in usable_lines[1:]:
@@ -98,13 +157,18 @@ class PySpiceParser:
                     if meta_key == 'parameter':
                         param_name = self._to_camel_case(val)
 
-                    if ',' not in val:
+                    if (freq := '1/sec') in val:
+                        val = val.replace(freq, 'Hz')
+
+                    if 'sum' in val or ',' not in val:
                         params_dict[meta_key] = val
                     elif 'Current' in class_name:
                         params_dict[self._to_camel_case(meta_keys[j])] = 'A'
-                    else:
+                    elif 'Voltage' in class_name:
                         params_dict[self._to_camel_case(meta_keys[j])] = 'V'
+
                 meta_dict[param_name] = params_dict
+
         return meta_dict
 
     @staticmethod
@@ -112,12 +176,24 @@ class PySpiceParser:
         return '_'.join(string.lower().split(' ')).replace('.', '')
 
     @staticmethod
-    def _confirm_pyspice_existence():
+    def _confirm_pyspice_existence() -> None:
         try:
             pyspice = importlib.import_module('PySpice')
         except ImportError as e:
             raise PySpiceMissingException(str(e))
         del pyspice
+
+    @staticmethod
+    def _get_default_for(param_name: str, parameter: inspect.Parameter) -> Any:
+        if param_name == 'values':
+            return "[0]"
+        if param_name == 'random_type':
+            return "uniform"
+        if param_name == 'damping_factor':
+            return 0.01
+        if param_name in ('phase', 'fall_delay_time', 'fall_time_constant', 'rise_time_constant'):
+            return 0
+        return parameter.default if not parameter.default == inspect.Parameter.empty else 0.0
 
 
 class PySpiceSaver:
@@ -132,7 +208,7 @@ class PySpiceSaver:
         The output directory to save the generated schemas in
     """
 
-    def __init__(self, out_dir=None):
+    def __init__(self, out_dir: Union[str, Path] = None) -> None:
         if out_dir is None:
             out_dir = '.'
         self.out_dir = Path(out_dir).resolve()
@@ -144,17 +220,17 @@ class PySpiceSaver:
 
         self.pyspice_parser = PySpiceParser()
 
-    def parse_and_save(self):
+    def parse_and_save(self) -> None:
         pyspice_elements = self.pyspice_parser.run()
         self.save_json(self.out_dir / 'elements.json', pyspice_elements)
 
     @staticmethod
-    def save_json(path, content):
+    def save_json(path: Path, content: dict) -> None:
         with open(path, 'w') as json_file:
             json.dump(content, json_file, indent=2)
 
 
-def main():
+def main() -> None:
     out_dir = './src/plugins/CreateElectricCircuitsMeta/PySpice'
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('--out-dir',
