@@ -18,6 +18,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Conda
+        uses: s-weigand/setup-conda@v1
+
+      - name: Create Test Environment
+        run: conda env create --file environment.yml
+
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:

@@ -1,0 +1,1065 @@
+{
+  "high_level_elements": [
+    {
+      "name": "SinusoidalVoltageSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "dc_offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "dc_offset",
+            "parameter": "dc offset",
+            "default_value": 0,
+            "units": "V"
+          }
+        },
+        {
+          "name": "ac_magnitude",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "ac_magnitude",
+            "parameter": "ac magnitude",
+            "default_value": 0,
+            "units": "V"
+          }
+        },
+        {
+          "name": "offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Vo",
+            "parameter": "offset",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "amplitude",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Va",
+            "parameter": "amplitude",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "frequency",
+          "default": 50,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "f",
+            "parameter": "frequency",
+            "default_value": "1 / TStop",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "delay",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td",
+            "parameter": "delay",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "damping_factor",
+          "default": 0.01,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Df",
+            "parameter": "damping factor",
+            "default_value": "0.01",
+            "units": "Hz"
+          }
+        }
+      ],
+      "class_doc": "This class implements a sinusoidal waveform voltage source.\n\n    See :class:`SinusoidalMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a sinusoidal waveform.\n\n    +------+----------------+---------------+-------+\n    | Name + Parameter      + Default Value + Units |\n    +------+----------------+---------------+-------+\n    | Vo   + offset         +               + V, A  |\n    +------+----------------+---------------+-------+\n    | Va   + amplitude      +               + V, A  |\n    +------+----------------+---------------+-------+\n    | f    + frequency      + 1 / TStop     + Hz    |\n    +------+----------------+---------------+-------+\n    | Td   + delay          + 0.0           + sec   |\n    +------+----------------+---------------+-------+\n    | Df   + damping factor + 0.01          + 1/sec |\n    +------+----------------+---------------+-------+\n\n    The shape of the waveform is described by the following formula:\n\n    .. math::\n\n        V(t) = \\begin{cases}\n          V_o & \\text{if}\\ 0 \\leq t < T_d, \\\\\n          V_o + V_a e^{-D_f(t-T_d)} \\sin\\left(2\\pi f (t-T_d)\\right) & \\text{if}\\ T_d \\leq t < T_{stop}.\n        \\end{cases}\n\n    Spice syntax::\n\n        SIN ( Voffset Vamplitude Freq Tdelay DampingFactor )\n\n    Public Attributes:\n\n      :attr:`ac_magnitude`\n\n      :attr:`amplitude`\n\n      :attr:`damping_factor`\n\n      :attr:`dc_offset`\n\n      :attr:`delay`\n\n      :attr:`frequency`\n\n      :attr:`offset`\n\n    "
+    },
+    {
+      "name": "SinusoidalCurrentSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "dc_offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "dc_offset",
+            "parameter": "dc offset",
+            "default_value": 0,
+            "units": "A"
+          }
+        },
+        {
+          "name": "ac_magnitude",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "ac_magnitude",
+            "parameter": "ac magnitude",
+            "default_value": 0,
+            "units": "A"
+          }
+        },
+        {
+          "name": "offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Vo",
+            "parameter": "offset",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "amplitude",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Va",
+            "parameter": "amplitude",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "frequency",
+          "default": 50,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "f",
+            "parameter": "frequency",
+            "default_value": "1 / TStop",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "delay",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td",
+            "parameter": "delay",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "damping_factor",
+          "default": 0.01,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Df",
+            "parameter": "damping factor",
+            "default_value": "0.01",
+            "units": "Hz"
+          }
+        }
+      ],
+      "class_doc": "This class implements a sinusoidal waveform current source.\n\n    See :class:`SinusoidalMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a sinusoidal waveform.\n\n    +------+----------------+---------------+-------+\n    | Name + Parameter      + Default Value + Units |\n    +------+----------------+---------------+-------+\n    | Vo   + offset         +               + V, A  |\n    +------+----------------+---------------+-------+\n    | Va   + amplitude      +               + V, A  |\n    +------+----------------+---------------+-------+\n    | f    + frequency      + 1 / TStop     + Hz    |\n    +------+----------------+---------------+-------+\n    | Td   + delay          + 0.0           + sec   |\n    +------+----------------+---------------+-------+\n    | Df   + damping factor + 0.01          + 1/sec |\n    +------+----------------+---------------+-------+\n\n    The shape of the waveform is described by the following formula:\n\n    .. math::\n\n        V(t) = \\begin{cases}\n          V_o & \\text{if}\\ 0 \\leq t < T_d, \\\\\n          V_o + V_a e^{-D_f(t-T_d)} \\sin\\left(2\\pi f (t-T_d)\\right) & \\text{if}\\ T_d \\leq t < T_{stop}.\n        \\end{cases}\n\n    Spice syntax::\n\n        SIN ( Voffset Vamplitude Freq Tdelay DampingFactor )\n\n    Public Attributes:\n\n      :attr:`ac_magnitude`\n\n      :attr:`amplitude`\n\n      :attr:`damping_factor`\n\n      :attr:`dc_offset`\n\n      :attr:`delay`\n\n      :attr:`frequency`\n\n      :attr:`offset`\n\n    "
+    },
+    {
+      "name": "AcLine",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "dc_offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "dc_offset",
+            "parameter": "dc offset",
+            "default_value": 0,
+            "units": "V"
+          }
+        },
+        {
+          "name": "ac_magnitude",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "ac_magnitude",
+            "parameter": "ac magnitude",
+            "default_value": 0,
+            "units": "V"
+          }
+        },
+        {
+          "name": "offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Vo",
+            "parameter": "offset",
+            "default_value": ""
+          }
+        },
+        {
+          "name": "amplitude",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Va",
+            "parameter": "amplitude",
+            "default_value": ""
+          }
+        },
+        {
+          "name": "frequency",
+          "default": 50,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "f",
+            "parameter": "frequency",
+            "default_value": "1 / TStop",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "delay",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td",
+            "parameter": "delay",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "damping_factor",
+          "default": 0.01,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Df",
+            "parameter": "damping factor",
+            "default_value": "0.01",
+            "units": "Hz"
+          }
+        }
+      ],
+      "class_doc": null,
+      "mixin_doc": "This class implements a sinusoidal waveform.\n\n    +------+----------------+---------------+-------+\n    | Name + Parameter      + Default Value + Units |\n    +------+----------------+---------------+-------+\n    | Vo   + offset         +               + V, A  |\n    +------+----------------+---------------+-------+\n    | Va   + amplitude      +               + V, A  |\n    +------+----------------+---------------+-------+\n    | f    + frequency      + 1 / TStop     + Hz    |\n    +------+----------------+---------------+-------+\n    | Td   + delay          + 0.0           + sec   |\n    +------+----------------+---------------+-------+\n    | Df   + damping factor + 0.01          + 1/sec |\n    +------+----------------+---------------+-------+\n\n    The shape of the waveform is described by the following formula:\n\n    .. math::\n\n        V(t) = \\begin{cases}\n          V_o & \\text{if}\\ 0 \\leq t < T_d, \\\\\n          V_o + V_a e^{-D_f(t-T_d)} \\sin\\left(2\\pi f (t-T_d)\\right) & \\text{if}\\ T_d \\leq t < T_{stop}.\n        \\end{cases}\n\n    Spice syntax::\n\n        SIN ( Voffset Vamplitude Freq Tdelay DampingFactor )\n\n    Public Attributes:\n\n      :attr:`ac_magnitude`\n\n      :attr:`amplitude`\n\n      :attr:`damping_factor`\n\n      :attr:`dc_offset`\n\n      :attr:`delay`\n\n      :attr:`frequency`\n\n      :attr:`offset`\n\n    "
+    },
+    {
+      "name": "PulseVoltageSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "initial_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V1",
+            "parameter": "initial value",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "pulsed_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V2",
+            "parameter": "pulsed value",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "pulse_width",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Pw",
+            "parameter": "pulse width",
+            "default_value": "Tstop",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "period",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Period",
+            "parameter": "period",
+            "default_value": "Tstop",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "delay_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td",
+            "parameter": "delay time",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "rise_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Tr",
+            "parameter": "rise time",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "fall_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Tf",
+            "parameter": "fall time",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "phase",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Phase",
+            "parameter": "phase",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "dc_offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "dc_offset",
+            "parameter": "dc offset",
+            "default_value": 0,
+            "units": "V"
+          }
+        }
+      ],
+      "class_doc": "This class implements a pulse waveform voltage source.\n\n    See :class:`PulseMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a pulse waveform.\n\n    Nomenclature:\n\n    +--------+---------------+---------------+-------+\n    | Name   + Parameter     + Default Value + Units |\n    +--------+---------------+---------------+-------+\n    | V1     + initial value +               + V, A  |\n    +--------+---------------+---------------+-------+\n    | V2     + pulsed value  +               + V, A  |\n    +--------+---------------+---------------+-------+\n    | Td     + delay time    + 0.0           + sec   |\n    +--------+---------------+---------------+-------+\n    | Tr     + rise time     + Tstep         + sec   |\n    +--------+---------------+---------------+-------+\n    | Tf     + fall time     + Tstep         + sec   |\n    +--------+---------------+---------------+-------+\n    | Pw     + pulse width   + Tstop         + sec   |\n    +--------+---------------+---------------+-------+\n    | Period + period        + Tstop         + sec   |\n    +--------+---------------+---------------+-------+\n    | Phase  + phase         + 0.0           + sec   |\n    +--------+---------------+---------------+-------+\n\n    Phase is only possible when XSPICE is enabled\n\n    Spice Syntax::\n\n        PULSE ( V1 V2 Td Tr Tf Pw Period Phase )\n\n    A single pulse so specified is described by the following table:\n\n    +-------------+-------+\n    | Time        | Value |\n    +-------------+-------+\n    | 0           | V1    |\n    +-------------+-------+\n    | Td          | V1    |\n    +-------------+-------+\n    | Td+Tr       | V2    |\n    +-------------+-------+\n    | Td+Tr+Pw    | V2    |\n    +-------------+-------+\n    | Td+Tr+Pw+Tf | V1    |\n    +-------------+-------+\n    | Tstop       | V1    |\n    +-------------+-------+\n\n    Note: default value in Spice for rise and fall time is the simulation transient step, pulse\n    width and period is the simulation stop time.\n\n    Public Attributes:\n\n      :attr:`delay_time`\n\n      :attr:`fall_time`\n\n      :attr:`initial_value`\n\n      :attr:`period`\n\n      :attr:`phase`\n\n      :attr:`pulse_width`\n\n      :attr:`pulsed_value`\n\n      :attr:`rise_time`\n\n    "
+    },
+    {
+      "name": "PulseCurrentSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "initial_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V1",
+            "parameter": "initial value",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "pulsed_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V2",
+            "parameter": "pulsed value",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "pulse_width",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Pw",
+            "parameter": "pulse width",
+            "default_value": "Tstop",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "period",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Period",
+            "parameter": "period",
+            "default_value": "Tstop",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "delay_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td",
+            "parameter": "delay time",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "rise_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Tr",
+            "parameter": "rise time",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "fall_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Tf",
+            "parameter": "fall time",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "phase",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Phase",
+            "parameter": "phase",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "dc_offset",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "dc_offset",
+            "parameter": "dc offset",
+            "default_value": 0,
+            "units": "A"
+          }
+        }
+      ],
+      "class_doc": "This class implements a pulse waveform current source.\n\n    See :class:`PulseMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a pulse waveform.\n\n    Nomenclature:\n\n    +--------+---------------+---------------+-------+\n    | Name   + Parameter     + Default Value + Units |\n    +--------+---------------+---------------+-------+\n    | V1     + initial value +               + V, A  |\n    +--------+---------------+---------------+-------+\n    | V2     + pulsed value  +               + V, A  |\n    +--------+---------------+---------------+-------+\n    | Td     + delay time    + 0.0           + sec   |\n    +--------+---------------+---------------+-------+\n    | Tr     + rise time     + Tstep         + sec   |\n    +--------+---------------+---------------+-------+\n    | Tf     + fall time     + Tstep         + sec   |\n    +--------+---------------+---------------+-------+\n    | Pw     + pulse width   + Tstop         + sec   |\n    +--------+---------------+---------------+-------+\n    | Period + period        + Tstop         + sec   |\n    +--------+---------------+---------------+-------+\n    | Phase  + phase         + 0.0           + sec   |\n    +--------+---------------+---------------+-------+\n\n    Phase is only possible when XSPICE is enabled\n\n    Spice Syntax::\n\n        PULSE ( V1 V2 Td Tr Tf Pw Period Phase )\n\n    A single pulse so specified is described by the following table:\n\n    +-------------+-------+\n    | Time        | Value |\n    +-------------+-------+\n    | 0           | V1    |\n    +-------------+-------+\n    | Td          | V1    |\n    +-------------+-------+\n    | Td+Tr       | V2    |\n    +-------------+-------+\n    | Td+Tr+Pw    | V2    |\n    +-------------+-------+\n    | Td+Tr+Pw+Tf | V1    |\n    +-------------+-------+\n    | Tstop       | V1    |\n    +-------------+-------+\n\n    Note: default value in Spice for rise and fall time is the simulation transient step, pulse\n    width and period is the simulation stop time.\n\n    Public Attributes:\n\n      :attr:`delay_time`\n\n      :attr:`fall_time`\n\n      :attr:`initial_value`\n\n      :attr:`period`\n\n      :attr:`phase`\n\n      :attr:`pulse_width`\n\n      :attr:`pulsed_value`\n\n      :attr:`rise_time`\n\n    "
+    },
+    {
+      "name": "ExponentialVoltageSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "initial_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V1",
+            "parameter": "Initial value",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "pulsed_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V2",
+            "parameter": "pulsed value",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "rise_delay_time",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td1",
+            "parameter": "rise delay time",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "rise_time_constant",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "tau1",
+            "parameter": "rise time constant",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "fall_delay_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td2",
+            "parameter": "fall delay time",
+            "default_value": "sum(Td1, Tstep)",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "fall_time_constant",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "tau2",
+            "parameter": "fall time constant",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        }
+      ],
+      "class_doc": "This class implements a exponential waveform voltage source.\n\n    See :class:`ExponentialMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Exponential waveform.\n\n    Nomenclature:\n\n    +------+--------------------+---------------+-------+\n    | Name + Parameter          + Default Value + Units |\n    +------+--------------------+---------------+-------+\n    | V1   + Initial value      +               + V, A  |\n    +------+--------------------+---------------+-------+\n    | V2   + pulsed value       +               + V, A  |\n    +------+--------------------+---------------+-------+\n    | Td1  + rise delay time    + 0.0           + sec   |\n    +------+--------------------+---------------+-------+\n    | tau1 + rise time constant + Tstep         + sec   |\n    +------+--------------------+---------------+-------+\n    | Td2  + fall delay time    + Td1+Tstep     + sec   |\n    +------+--------------------+---------------+-------+\n    | tau2 + fall time constant + Tstep         + sec   |\n    +------+--------------------+---------------+-------+\n\n    Spice Syntax::\n\n        EXP ( V1 V2 TD1 TAU1 TD2 TAU2 )\n\n    The shape of the waveform is described by the following formula:\n\n    Let V21 = V2 - V1 and V12 = V1 - V2.\n\n    .. math::\n\n        V(t) = \\begin{cases}\n          V_1 & \\text{if}\\ 0 \\leq t < T_{d1}, \\\\\n          V_1 + V_{21} ( 1 \u2212 e^{-\\frac{t-T_{d1}}{\\tau_1}} )\n          & \\text{if}\\ T_{d1} \\leq t < T_{d2}, \\\\\n          V_1 + V_{21} ( 1 \u2212 e^{-\\frac{t-T_{d1}}{\\tau_1}} ) + V_{12} ( 1 \u2212 e^{-\\frac{t-T_{d2}}{\\tau_2}} )\n          & \\text{if}\\ T_{d2} \\leq t < T_{stop}\n        \\end{cases}\n\n    "
+    },
+    {
+      "name": "ExponentialCurrentSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "initial_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V1",
+            "parameter": "Initial value",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "pulsed_value",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "V2",
+            "parameter": "pulsed value",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "rise_delay_time",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td1",
+            "parameter": "rise delay time",
+            "default_value": "0.0",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "rise_time_constant",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "tau1",
+            "parameter": "rise time constant",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "fall_delay_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td2",
+            "parameter": "fall delay time",
+            "default_value": "sum(Td1, Tstep)",
+            "units": "sec"
+          }
+        },
+        {
+          "name": "fall_time_constant",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "tau2",
+            "parameter": "fall time constant",
+            "default_value": "Tstep",
+            "units": "sec"
+          }
+        }
+      ],
+      "class_doc": "This class implements a exponential waveform current source.\n\n    See :class:`ExponentialMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Exponential waveform.\n\n    Nomenclature:\n\n    +------+--------------------+---------------+-------+\n    | Name + Parameter          + Default Value + Units |\n    +------+--------------------+---------------+-------+\n    | V1   + Initial value      +               + V, A  |\n    +------+--------------------+---------------+-------+\n    | V2   + pulsed value       +               + V, A  |\n    +------+--------------------+---------------+-------+\n    | Td1  + rise delay time    + 0.0           + sec   |\n    +------+--------------------+---------------+-------+\n    | tau1 + rise time constant + Tstep         + sec   |\n    +------+--------------------+---------------+-------+\n    | Td2  + fall delay time    + Td1+Tstep     + sec   |\n    +------+--------------------+---------------+-------+\n    | tau2 + fall time constant + Tstep         + sec   |\n    +------+--------------------+---------------+-------+\n\n    Spice Syntax::\n\n        EXP ( V1 V2 TD1 TAU1 TD2 TAU2 )\n\n    The shape of the waveform is described by the following formula:\n\n    Let V21 = V2 - V1 and V12 = V1 - V2.\n\n    .. math::\n\n        V(t) = \\begin{cases}\n          V_1 & \\text{if}\\ 0 \\leq t < T_{d1}, \\\\\n          V_1 + V_{21} ( 1 \u2212 e^{-\\frac{t-T_{d1}}{\\tau_1}} )\n          & \\text{if}\\ T_{d1} \\leq t < T_{d2}, \\\\\n          V_1 + V_{21} ( 1 \u2212 e^{-\\frac{t-T_{d1}}{\\tau_1}} ) + V_{12} ( 1 \u2212 e^{-\\frac{t-T_{d2}}{\\tau_2}} )\n          & \\text{if}\\ T_{d2} \\leq t < T_{stop}\n        \\end{cases}\n\n    "
+    },
+    {
+      "name": "PieceWiseLinearVoltageSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "values",
+          "default": "[0]",
+          "constraints": null,
+          "attribute_meta": {
+            "name": "values",
+            "parameter": "Piecewise Linear Values",
+            "default_value": "[0]",
+            "units": "V"
+          }
+        },
+        {
+          "name": "repeate_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "repeate_time",
+            "parameter": "Repeat Time",
+            "default_value": 0,
+            "units": "sec"
+          }
+        },
+        {
+          "name": "delay_time",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "delay_time",
+            "parameter": "Delay Time",
+            "default_value": 0,
+            "units": "sec"
+          }
+        }
+      ],
+      "class_doc": "This class implements a piece wise linear waveform voltage source.\n\n    See :class:`PieceWiseLinearMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Piece-Wise Linear waveform.\n\n    Spice Syntax::\n\n        PWL( T1 V1 <T2 V2 T3 V3 T4 V4 ... > ) <r=value> <td=value>\n\n    Each pair of values (Ti , Vi) specifies that the value of the source is Vi (in Volts or Amps) at\n    time = Ti . The value of the source at intermediate values of time is determined by using linear\n    interpolation on the input values. The parameter r determines a repeat time point. If r is not\n    given, the whole sequence of values (Ti , Vi ) is issued once, then the output stays at its\n    final value. If r = 0, the whole sequence from time = 0 to time = Tn is repeated forever. If r =\n    10ns, the sequence between 10ns and 50ns is repeated forever. the r value has to be one of the\n    time points T1 to Tn of the PWL sequence. If td is given, the whole PWL sequence is delayed by a\n    delay time time = td. The current source still needs to be patched, td and r are not yet\n    available.\n\n    `values` should be given as a list of (`Time`, `Value`)-tuples, e.g.::\n\n        PieceWiseLinearVoltageSource(\n            circuit,\n            'pwl1', '1', '0',\n            values=[(0, 0), (10@u_ms, 0), (11@u_ms, 5@u_V), (20@u_ms, 5@u_V)],\n        )\n\n    "
+    },
+    {
+      "name": "PieceWiseLinearCurrentSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "values",
+          "default": "[0]",
+          "constraints": null,
+          "attribute_meta": {
+            "name": "values",
+            "parameter": "Piecewise Linear Values",
+            "default_value": "[0]",
+            "units": "A"
+          }
+        },
+        {
+          "name": "repeate_time",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "repeate_time",
+            "parameter": "Repeat Time",
+            "default_value": 0,
+            "units": "sec"
+          }
+        },
+        {
+          "name": "delay_time",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "delay_time",
+            "parameter": "Delay Time",
+            "default_value": 0,
+            "units": "sec"
+          }
+        }
+      ],
+      "class_doc": "This class implements a piece wise linear waveform current source.\n\n    See :class:`PieceWiseLinearMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Piece-Wise Linear waveform.\n\n    Spice Syntax::\n\n        PWL( T1 V1 <T2 V2 T3 V3 T4 V4 ... > ) <r=value> <td=value>\n\n    Each pair of values (Ti , Vi) specifies that the value of the source is Vi (in Volts or Amps) at\n    time = Ti . The value of the source at intermediate values of time is determined by using linear\n    interpolation on the input values. The parameter r determines a repeat time point. If r is not\n    given, the whole sequence of values (Ti , Vi ) is issued once, then the output stays at its\n    final value. If r = 0, the whole sequence from time = 0 to time = Tn is repeated forever. If r =\n    10ns, the sequence between 10ns and 50ns is repeated forever. the r value has to be one of the\n    time points T1 to Tn of the PWL sequence. If td is given, the whole PWL sequence is delayed by a\n    delay time time = td. The current source still needs to be patched, td and r are not yet\n    available.\n\n    `values` should be given as a list of (`Time`, `Value`)-tuples, e.g.::\n\n        PieceWiseLinearVoltageSource(\n            circuit,\n            'pwl1', '1', '0',\n            values=[(0, 0), (10@u_ms, 0), (11@u_ms, 5@u_V), (20@u_ms, 5@u_V)],\n        )\n\n    "
+    },
+    {
+      "name": "SingleFrequencyFMVoltageSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "offset",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Vo",
+            "parameter": "offset",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "amplitude",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Va",
+            "parameter": "amplitude",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "carrier_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Fc",
+            "parameter": "carrier frequency",
+            "default_value": "1 / Tstop",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "modulation_index",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Mdi",
+            "parameter": "modulation index",
+            "default_value": "",
+            "units": ""
+          }
+        },
+        {
+          "name": "signal_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Fs",
+            "parameter": "signal frequency",
+            "default_value": "1 / Tstop",
+            "units": "Hz"
+          }
+        }
+      ],
+      "class_doc": "This class implements a single frequency FM waveform voltage source.\n\n    See :class:`SingleFrequencyFMMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Single-Frequency FM waveform.\n\n    Spice Syntax::\n\n        SFFM (VO VA FC MDI FS )\n\n   +------+-------------------+---------------+-------+\n   | Name + Parameter         + Default Value + Units |\n   +------+-------------------+---------------+-------+\n   | Vo   + offset            +               + V, A  |\n   +------+-------------------+---------------+-------+\n   | Va   + amplitude         +               + V, A  |\n   +------+-------------------+---------------+-------+\n   | Fc   + carrier frequency + 1 / Tstop     + Hz    |\n   +------+-------------------+---------------+-------+\n   | Mdi  + modulation index  +               +       |\n   +------+-------------------+---------------+-------+\n   | Fs   + signal frequency  + 1 / Tstop     + Hz    |\n   +------+-------------------+---------------+-------+\n\n    The shape of the waveform is described by the following equation:\n\n    .. math::\n\n        V(t) = V_o + V_a \\sin (2\\pi F_c\\, t + M_{di} \\sin (2\\pi F_s\\,t))\n\n    "
+    },
+    {
+      "name": "SingleFrequencyFMCurrentSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "offset",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Vo",
+            "parameter": "offset",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "amplitude",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Va",
+            "parameter": "amplitude",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "carrier_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Fc",
+            "parameter": "carrier frequency",
+            "default_value": "1 / Tstop",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "modulation_index",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Mdi",
+            "parameter": "modulation index",
+            "default_value": "",
+            "units": ""
+          }
+        },
+        {
+          "name": "signal_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Fs",
+            "parameter": "signal frequency",
+            "default_value": "1 / Tstop",
+            "units": "Hz"
+          }
+        }
+      ],
+      "class_doc": "This class implements a single frequency FM waveform current source.\n\n    See :class:`SingleFrequencyFMMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Single-Frequency FM waveform.\n\n    Spice Syntax::\n\n        SFFM (VO VA FC MDI FS )\n\n   +------+-------------------+---------------+-------+\n   | Name + Parameter         + Default Value + Units |\n   +------+-------------------+---------------+-------+\n   | Vo   + offset            +               + V, A  |\n   +------+-------------------+---------------+-------+\n   | Va   + amplitude         +               + V, A  |\n   +------+-------------------+---------------+-------+\n   | Fc   + carrier frequency + 1 / Tstop     + Hz    |\n   +------+-------------------+---------------+-------+\n   | Mdi  + modulation index  +               +       |\n   +------+-------------------+---------------+-------+\n   | Fs   + signal frequency  + 1 / Tstop     + Hz    |\n   +------+-------------------+---------------+-------+\n\n    The shape of the waveform is described by the following equation:\n\n    .. math::\n\n        V(t) = V_o + V_a \\sin (2\\pi F_c\\, t + M_{di} \\sin (2\\pi F_s\\,t))\n\n    "
+    },
+    {
+      "name": "AmplitudeModulatedVoltageSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "offset",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Vo",
+            "parameter": "offset",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "amplitude",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Va",
+            "parameter": "amplitude",
+            "default_value": "",
+            "units": "V"
+          }
+        },
+        {
+          "name": "modulating_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Mf",
+            "parameter": "modulating frequency",
+            "default_value": "",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "carrier_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Fc",
+            "parameter": "carrier frequency",
+            "default_value": "1 / Tstop",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "signal_delay",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td",
+            "parameter": "signal delay",
+            "default_value": "",
+            "units": "s"
+          }
+        }
+      ],
+      "class_doc": "This class implements a amplitude modulated waveform voltage source.\n\n    See :class:`AmplitudeModulatedMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Amplitude Modulated source.\n\n    +------+----------------------+---------------+-------+\n    | Name + Parameter            + Default Value + Units |\n    +------+----------------------+---------------+-------+\n    | Vo   + offset               +               + V, A  |\n    +------+----------------------+---------------+-------+\n    | Va   + amplitude            +               + V, A  |\n    +------+----------------------+---------------+-------+\n    | Mf   + modulating frequency +               + Hz    |\n    +------+----------------------+---------------+-------+\n    | Fc   + carrier frequency    + 1 / Tstop     + Hz    |\n    +------+----------------------+---------------+-------+\n    | Td   + signal delay         +               + s     |\n    +------+----------------------+---------------+-------+\n\n    Spice Syntax::\n\n        AM(VA VO MF FC TD)\n\n    The shape of the waveform is described by the following equation:\n\n    .. math::\n\n        V(t) = V_a (V_o + \\sin (2\\pi M_f\\,t)) \\sin (2\\pi F_c\\,t)\n\n    "
+    },
+    {
+      "name": "AmplitudeModulatedCurrentSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "offset",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Vo",
+            "parameter": "offset",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "amplitude",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Va",
+            "parameter": "amplitude",
+            "default_value": "",
+            "units": "A"
+          }
+        },
+        {
+          "name": "modulating_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Mf",
+            "parameter": "modulating frequency",
+            "default_value": "",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "carrier_frequency",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Fc",
+            "parameter": "carrier frequency",
+            "default_value": "1 / Tstop",
+            "units": "Hz"
+          }
+        },
+        {
+          "name": "signal_delay",
+          "default": 0.0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "Td",
+            "parameter": "signal delay",
+            "default_value": "",
+            "units": "s"
+          }
+        }
+      ],
+      "class_doc": "This class implements a amplitude modulated waveform current source.\n\n    See :class:`AmplitudeModulatedMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Amplitude Modulated source.\n\n    +------+----------------------+---------------+-------+\n    | Name + Parameter            + Default Value + Units |\n    +------+----------------------+---------------+-------+\n    | Vo   + offset               +               + V, A  |\n    +------+----------------------+---------------+-------+\n    | Va   + amplitude            +               + V, A  |\n    +------+----------------------+---------------+-------+\n    | Mf   + modulating frequency +               + Hz    |\n    +------+----------------------+---------------+-------+\n    | Fc   + carrier frequency    + 1 / Tstop     + Hz    |\n    +------+----------------------+---------------+-------+\n    | Td   + signal delay         +               + s     |\n    +------+----------------------+---------------+-------+\n\n    Spice Syntax::\n\n        AM(VA VO MF FC TD)\n\n    The shape of the waveform is described by the following equation:\n\n    .. math::\n\n        V(t) = V_a (V_o + \\sin (2\\pi M_f\\,t)) \\sin (2\\pi F_c\\,t)\n\n    "
+    },
+    {
+      "name": "RandomVoltageSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "random_type",
+          "default": "uniform",
+          "constraints": {
+            "possible_values": [
+              "uniform",
+              "exponential",
+              "gaussian",
+              "poisson"
+            ]
+          },
+          "attribute_meta": {}
+        },
+        {
+          "name": "duration",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "duration",
+            "parameter": "Duration for random values to show up",
+            "default_value": 0,
+            "units": "sec"
+          }
+        },
+        {
+          "name": "time_delay",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "time_delay",
+            "parameter": "Delay Time",
+            "default_value": 0,
+            "units": "sec"
+          }
+        },
+        {
+          "name": "parameter1",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {}
+        },
+        {
+          "name": "parameter2",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {}
+        }
+      ],
+      "class_doc": "This class implements a random waveform voltage source.\n\n    See :class:`RandomMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Random Voltage source.\n\n    The TRRANDOM option yields statistically distributed voltage values, derived from the ngspice\n    random number generator. These values may be used in the transient simulation directly within a\n    circuit, e.g. for generating a specific noise voltage, but especially they may be used in the\n    control of behavioral sources (B, E, G sources, voltage controllable A sources, capacitors,\n    inductors, or resistors) to simulate the circuit dependence on statistically varying device\n    parameters. A Monte-Carlo simulation may thus be handled in a single simulation run.\n\n    Spice Syntax::\n\n        TRRANDOM( TYPE TS <TD <PARAM1 <PARAM2> > >)\n\n    TYPE determines the random variates generated: 1 is uniformly distributed, 2 Gaussian, 3\n    exponential, 4 Poisson. TS is the duration of an individual voltage value. TD is a time delay\n    with 0 V output before the random voltage values start up. PARAM1 and PARAM2 depend on the type\n    selected.\n\n    +-------------+---------------+---------+-------------+---------+\n    | Type        + Parameter 1   + Default + Parameter 2 + Default |\n    +-------------+---------------+---------+-------------+---------+\n    | uniform     + range         + 1       + offset      + 0       |\n    +-------------+---------------+---------+-------------+---------+\n    | gaussian    + standard dev. + 1       + mean        + 0       |\n    +-------------+---------------+---------+-------------+---------+\n    | exponential + mean          + 1       + offset      + 0       |\n    +-------------+---------------+---------+-------------+---------+\n    | poisson     + lambda        + 1       + offset      + 0       |\n    +-------------+---------------+---------+-------------+---------+\n\n    "
+    },
+    {
+      "name": "RandomCurrentSource",
+      "pins_count": 2,
+      "attributes": [
+        {
+          "name": "random_type",
+          "default": "uniform",
+          "constraints": {
+            "possible_values": [
+              "uniform",
+              "exponential",
+              "gaussian",
+              "poisson"
+            ]
+          },
+          "attribute_meta": {}
+        },
+        {
+          "name": "duration",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "duration",
+            "parameter": "Duration for random values to show up",
+            "default_value": 0,
+            "units": "sec"
+          }
+        },
+        {
+          "name": "time_delay",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {
+            "name": "time_delay",
+            "parameter": "Delay Time",
+            "default_value": 0,
+            "units": "sec"
+          }
+        },
+        {
+          "name": "parameter1",
+          "default": 1,
+          "constraints": null,
+          "attribute_meta": {}
+        },
+        {
+          "name": "parameter2",
+          "default": 0,
+          "constraints": null,
+          "attribute_meta": {}
+        }
+      ],
+      "class_doc": "This class implements a random waveform current source.\n\n    See :class:`RandomMixin` for documentation.\n\n    ",
+      "mixin_doc": "This class implements a Random Voltage source.\n\n    The TRRANDOM option yields statistically distributed voltage values, derived from the ngspice\n    random number generator. These values may be used in the transient simulation directly within a\n    circuit, e.g. for generating a specific noise voltage, but especially they may be used in the\n    control of behavioral sources (B, E, G sources, voltage controllable A sources, capacitors,\n    inductors, or resistors) to simulate the circuit dependence on statistically varying device\n    parameters. A Monte-Carlo simulation may thus be handled in a single simulation run.\n\n    Spice Syntax::\n\n        TRRANDOM( TYPE TS <TD <PARAM1 <PARAM2> > >)\n\n    TYPE determines the random variates generated: 1 is uniformly distributed, 2 Gaussian, 3\n    exponential, 4 Poisson. TS is the duration of an individual voltage value. TD is a time delay\n    with 0 V output before the random voltage values start up. PARAM1 and PARAM2 depend on the type\n    selected.\n\n    +-------------+---------------+---------+-------------+---------+\n    | Type        + Parameter 1   + Default + Parameter 2 + Default |\n    +-------------+---------------+---------+-------------+---------+\n    | uniform     + range         + 1       + offset      + 0       |\n    +-------------+---------------+---------+-------------+---------+\n    | gaussian    + standard dev. + 1       + mean        + 0       |\n    +-------------+---------------+---------+-------------+---------+\n    | exponential + mean          + 1       + offset      + 0       |\n    +-------------+---------------+---------+-------------+---------+\n    | poisson     + lambda        + 1       + offset      + 0       |\n    +-------------+---------------+---------+-------------+---------+\n\n    "
+    }
+  ],
+  "basic_elements": [],
+  "pyspice_version": "1.4.3"
+}
