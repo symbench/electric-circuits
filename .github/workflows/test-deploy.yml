@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['12']
+        node: ['10', '12']
 
     steps:
       - name: Checkout Code
@@ -38,9 +38,7 @@ jobs:
         run: npm install
 
       - name: Run Tests
-        run: |
-          source activate electric-circuits
-          npm test
+        run: npm test
 
   dockerAndDeploy:
     runs-on: ubuntu-latest

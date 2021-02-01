@@ -6,20 +6,50 @@ define([
     'text!./metadata.json',
     'plugin/PluginBase',
     'electric-circuits/Constants',
-    'common/util/guid'
+    'common/util/guid',
+    'text!./PySpice/elements.json'
 ], function (
     JSONImporter,
     pluginMetadata,
     PluginBase,
     Constants,
     generateGuid,
+    PySpiceElements
 ) {
     'use strict';
 
+    PySpiceElements = JSON.parse(PySpiceElements);
     pluginMetadata = JSON.parse(pluginMetadata);
     const MODELICA_ELECTRICAL_COMPONENTS_PREFIX = 'Modelica.Electrical.Analog';
     const MODELICA_PIN_ATTR_NAME = 'Pin';
     const DEFAULT_META_TAB = 'META';
+    const DECORATOR_ID = 'ElectricCircuitsDecorator';
+    const EXTRA_NODES = {
+        SchottkyDiode: 'Diode',
+        LED: 'Diode'
+    };
+    const EXTRA_TAB_NAMES = {
+        SchottkyDiode: 'Semiconductors',
+        LED: 'Semiconductors'
+    };
+
+    const EXTRA_ATTRIBUTES = {
+        LED: {
+            attributes: [{
+                color: '#FF0000'
+            }],
+            attribute_meta:[{
+                color: {
+                    type: 'string',
+                    description: 'The color of the LED'
+                }
+            }]
+        }
+    };
+
+    const PYSPICE_CATEGORIES = {
+        'Basic': 'high_level_elements'
+    };
 
     class CreateElectricCircuitsMeta extends PluginBase {
         constructor(props) {
@@ -38,12 +68,17 @@ define([
             const config = this.getCurrentConfig();
             this.core.removeLibrary(this.rootNode, 'Modelica');
             const state = await this.getBaseModel(importer);
-
             state.registry.validPlugins = state.registry.validPlugins.replace(this.getName(), '');
+            state.registry.validDecorators = `${DECORATOR_ID} ${state.registry.validDecorators}`;
 
             const categories = this.getElectricalComponentCategories();
             this.createCategories(state, categories);
-            categories.forEach(cat => this.createNodesOfType(state, cat));
+
+            categories.forEach(cat => {
+                this.createModelicaNodesOfType(state, cat);
+                this.createPySpiceNodesOfType(state, cat);
+            });
+            this.createExtraNodes(state);
 
             await importer.apply(this.rootNode, state);
             this.createDocumentationNode();
@@ -84,11 +119,21 @@ define([
                 'ConnectionBase',
                 'Wire',
                 'Pin',
+                'ElectricCircuitsFolder',
                 'Documentation'
-            ];
+            ].map(name => {
+                let node = placeholder(name);
+
+                if (name === 'Pin' || name === 'Circuit' || name === 'ElectricCircuitsFolder') {
+                    node.registry = {
+                        decorator: DECORATOR_ID
+                    };
+                }
+                return node;
+            });
 
             this.addNodeToMeta(root, language);
-            existingNodes.forEach(name => language.children.push(placeholder(name)));
+            existingNodes.forEach(node => language.children.push(node));
             return root;
         }
 
@@ -125,6 +170,7 @@ define([
                 this.logger.debug(`Creating node category ${name}`);
                 const node = this.createMetaNode(root, name, '@meta:ComponentBase', name);
                 node.registry.isAbstract = true;
+                node.registry.decorator = DECORATOR_ID;
             });
         }
 
@@ -176,8 +222,8 @@ define([
         getNextPositionFor(tabName) {
             let index = this.sheetCounts[tabName] || 0,
                 position,
-                dx = 140,
-                dy = 100,
+                dx = 250,
+                dy = 160,
                 MAX_WIDTH = 1200,
                 x;
 
@@ -191,7 +237,7 @@ define([
                 x = dx * index;
                 position = {
                     x: x % MAX_WIDTH,
-                    y: Math.floor(x / MAX_WIDTH + 1) * dy + 50
+                    y: Math.floor(x / MAX_WIDTH + 1) * dy + 150
                 };
             }
             return position;
@@ -214,7 +260,7 @@ define([
             return node;
         }
 
-        createNodesOfType(root, category) {
+        createModelicaNodesOfType(root, category) {
             const nodes = this._getModelicaStateFor(category);
             nodes.forEach(node => {
                 const base = `@meta:${category}`;
@@ -231,11 +277,8 @@ define([
                 );
                 node.children.forEach(child => {
                     if (this._isModelicaPin(child)) {
-                        const target = {
-                            id: `@name:${child.attributes.name}`,
-                            pointers: {base: '@meta:Pin'}
-                        };
-                        categoryMetaNode.children.push(target);
+                        const pin = this._createPinNode(child.attributes.name);
+                        categoryMetaNode.children.push(pin);
                     }
                 });
 
@@ -250,6 +293,29 @@ define([
             });
         }
 
+        createPySpiceNodesOfType(root, category) {
+            const components = this._getPySpiceStateFor(category);
+            components.forEach(component => {
+                const base = `@meta:${category}`;
+                const metaNode = this.createMetaNode(root, component.name, base, category);
+                this.logger.debug(`Created meta node of type ${component.name}`);
+                metaNode.registry.isAbstract = false;
+                component.attributes.forEach(attribute => {
+                    metaNode.attributes[attribute.name] = attribute.default;
+                    attribute.attribute_meta.type = this._inferAttributeType(attribute.default);
+                    metaNode.attribute_meta[attribute.name] = attribute.attribute_meta;
+                });
+
+                const pinNames = ['p', 'n'];
+                for(let j = 0; j < (component.pins_count || 0); j++) {
+                    metaNode.children.push(
+                        this._createPinNode(pinNames[j])
+                    );
+                }
+                this.addToDocumentation(metaNode);
+            });
+        }
+
         addToDocumentation(metaNode) {
             let metaDoc = [
                 `## ${metaNode.attributes.name}\n`,
@@ -258,14 +324,44 @@ define([
             Object.entries(metaNode.attribute_meta).forEach(([name, attr]) => {
                 metaDoc.push('---');
                 metaDoc.push(`- Name: **${name}**`);
-                metaDoc.push(`- Description: ${attr.description}`);
-                metaDoc.push(`- Type: ${attr.type}`);
-                metaDoc.push(`- Unit: ${attr.unit}`);
+                metaDoc.push(`- Description: ${attr.description || attr.parameter || 'N/A'}`);
+                metaDoc.push(`- Type: ${attr.type || 'N/A'}`);
+                metaDoc.push(`- Unit: ${attr.unit || attr.units || 'N/A'}`);
                 metaDoc.push(`- Default: ${metaNode.attributes[name] || 'N/A'}`);
                 metaDoc.push('\n');
             });
             metaDoc.push('\n');
             this.documentation += metaDoc.join('\n');
+        }
+
+        createExtraNodes(root) {
+            const electricCircuits = root.children.find(child => {
+                return child.id === '@name:ElectricCircuits';
+            });
+            Object.entries(EXTRA_NODES).forEach(([k, v]) => {
+                const node = electricCircuits.children.find(child => {
+                    return child.id === `@meta:${v}`;
+                });
+                if (node) {
+                    const newNode = this.createMetaNode(
+                        root, k, `@meta:${v}`, EXTRA_TAB_NAMES[k]
+                    );
+                    if(EXTRA_ATTRIBUTES[k]) {
+                        EXTRA_ATTRIBUTES[k].attributes
+                            .forEach(attr => {
+                                Object.entries(attr).forEach(([name, defaultValue]) => {
+                                    newNode.attributes[name] = defaultValue;
+                                });
+                            });
+                        EXTRA_ATTRIBUTES[k].attribute_meta
+                            .forEach(attr => {
+                                Object.entries(attr).forEach(([name, meta]) => {
+                                    newNode.attribute_meta[name] = meta;
+                                });
+                            });
+                    }
+                }
+            });
         }
 
         createDocumentationNode() {
@@ -288,6 +384,28 @@ define([
             return this.modelicaState.children.filter(node => {
                 return node.attributes.name.startsWith(MODELICA_ELECTRICAL_COMPONENTS_PREFIX + `.${type}`);
             });
+        }
+
+        _getPySpiceStateFor(type) {
+            const typeKey = PYSPICE_CATEGORIES[type];
+            return PySpiceElements[typeKey] || [];
+        }
+
+        _inferAttributeType(value) {
+            if (typeof value === 'number'){
+                return 'float';
+            } else if (typeof value === 'boolean') {
+                return 'boolean';
+            } else {
+                return 'string';
+            }
+        }
+
+        _createPinNode(name) {
+            return {
+                id: `@name:${name}`,
+                pointers: {base: '@meta:Pin'}
+            };
         }
 
     }
