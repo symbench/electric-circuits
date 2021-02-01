@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="39.99999999999999" height="79.99999999999999">
+    <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+    <g>
+        <title>Layer 1</title>
+        <ellipse ry="15" rx="15" id="svg_30" cy="39.73684" cx="20" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_31" y2="10" x2="20" y1="24.63158" x1="20" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_34" y="41.16777" x="13.02631" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">+</text>
+        <text stroke="#000" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="32" id="svg_35" y="59.0625" x="14.60526" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#000000">-</text>
+        <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_38" y2="54.84211" x2="20" y1="70" x1="20" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+        <path d="M 10 45 C 24 47 30 40 30 35" stroke="black" fill="none"/>
+    </g>
+    <g class="ports">
+        <g class="port-p"/>
+        <g class="port-n"/>
+    </g>
+</svg>
