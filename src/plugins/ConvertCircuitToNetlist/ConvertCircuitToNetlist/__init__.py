@@ -2,11 +2,12 @@
 This is where the implementation of the plugin code goes.
 The ConvertCircuitToNetlist-class is imported from both run_plugin.py and run_debug.py
 """
-
+import re
 import sys
 import logging
 from typing import List, Union, Optional
 from functools import partial
+
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
 
@@ -28,11 +29,17 @@ component_counts = {
     'D': 0,
     'Q': 0,
     'M': 0,
+    'V': 0,
+    'I': 0,
+    'G': 0,
+    'E': 0,
+    'F': 0,
+    'H': 0
 }
 
 
 def get_next_label_for(component: str) -> int:
-    assert component in ['R', 'L', 'C', 'D', 'Q', 'M']
+    assert component in component_counts
     component_counts[component] = component_counts[component] + 1
     return component_counts[component]
 
@@ -61,7 +68,7 @@ class ConvertCircuitToNetlist(PluginBase):
         """Assign is_* function for easier meta type checks"""
         for name, meta_node in self.META.items():
             p = partial(self.core.is_type_of, node=None, type_node_or_path=meta_node)
-            setattr(self, f'is_{name.lower()}', p)
+            setattr(self, f'is_{self._to_camel_case(name)}', p)
         self.logger.debug(f'Assigned meta type classification functions to {self.__class__.__name__}')
 
     def _initialize(self, circuit: dict) -> None:
@@ -226,21 +233,28 @@ class ConvertCircuitToNetlist(PluginBase):
             self._add_to_netlist(component, parent_netlist)
 
     def _add_to_netlist(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
+        if self.core.is_type_of(component['node'], self.META['Basic']):
+            self._add_basic_elements(component, netlist_ckt)
+        else:
+            self._add_semiconductors(component, netlist_ckt)
+
+    def _add_basic_elements(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
         node = component['node']
-        if self.is_resistor(node=node):
+        if is_res := (self.is_resistor(node=node)) or self.is_conductor(node=node):
             netlist_ckt.R(
                 get_next_label_for('R'),
                 component['p'],
                 component['n'],
-                self.core.get_attribute(node, 'R')
+                self.core.get_attribute(node, 'R') if is_res else
+                1/self.core.get_attribute(node, 'G')
             )
-        if self.is_diode(node=node):
-            netlist_ckt.D(
-                get_next_label_for('D'),
+        if self.is_inductor(node=node):
+            netlist_ckt.L(
+                get_next_label_for('L'),
                 component['p'],
-                component['n']
+                component['n'],
+                self.core.get_attribute(node, 'L')
             )
-
         if self.is_capacitor(node=node):
             netlist_ckt.C(
                 get_next_label_for('C'),
@@ -248,13 +262,82 @@ class ConvertCircuitToNetlist(PluginBase):
                 component['n'],
                 self.core.get_attribute(node, 'C')
             )
-
-        if self.is_inductor(node=node):
-            netlist_ckt.L(
-                get_next_label_for('L'),
+        if self.is_voltage(node=node):
+            netlist_ckt.V(
+                get_next_label_for('V'),
                 component['p'],
                 component['n'],
-                self.core.get_attribute(node, 'L')
+                self.core.get_attribute(node, 'V')
+            )
+
+        if self.is_current(node=node):
+            netlist_ckt.I(
+                get_next_label_for('V'),
+                component['p'],
+                component['n'],
+                self.core.get_attribute(node, 'I')
+            )
+
+        if is_vcc := self.is_vcc(node=node) or self.is_vcv(node=node):
+            netlist_ckt.G(
+                get_next_label_for('G' if is_vcc else 'E'),
+                component['p2'],
+                component['n2'],
+                component['p1'],
+                component['n1'],
+                self.core.get_attribute(node, 'transConductance' if is_vcc else 'gain')
+            )
+
+        if is_ccc := self.is_ccc(node=node) or self.is_ccv(node=node):
+            pass
+
+        if any([
+            vol := self.is_piece_wise_linear_voltage_source(node=node),
+            self.is_piece_wise_linear_current_source(node=node),
+            vol := self.is_random_voltage_source(node=node),
+            self.is_random_current_source(node=node),
+            vol := self.is_single_frequency_fm_voltage_source(node=node),
+            self.is_single_frequency_fm_current_source(node=node),
+            vol := self.is_pulse_voltage_source(node=node),
+            self.is_pulse_current_source(node=node),
+            vol := self.is_amplitude_modulated_voltage_source(node=node),
+            self.is_amplitude_modulated_current_source(node=node),
+            vol := self.is_exponential_voltage_source(node=node),
+            self.is_exponential_current_source(node=node),
+            vol := self.is_pulse_voltage_source(node=node),
+            self.is_pulse_current_source(node=node),
+            vol := self.is_ac_line(node=node)
+        ]):
+            attrs = self.core.get_valid_attribute_names(node)
+            attrs.remove('name')
+            class_name = self._get_pyspice_class_name(node)
+            class_callable = getattr(netlist_ckt, class_name)
+            ctor_kwargs = {attr: self.core.get_attribute(node, attr) for attr in attrs}
+
+            if self.is_piece_wise_linear_voltage_source(node=node) or \
+                    self.is_piece_wise_linear_current_source(node=node):
+                ctor_kwargs['values'] = eval(ctor_kwargs['values'])
+                for value in ctor_kwargs['values']:
+                    assert len(value) == 2
+                    assert all(isinstance(val, int) or isinstance(val, float) for val in value), \
+                        self._log_error('Could not cast values to float')
+
+            class_callable(
+                get_next_label_for('V' if vol else 'I'),
+                component['p'],
+                component['n'],
+                **ctor_kwargs
+            )
+
+    def _add_semiconductors(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
+        node = component['node']
+        # SemiConductors
+        if self.is_diode(node=node) or self.is_led(node=node) \
+                or self.is_schottky_diode(node=node) or self.is_z_diode(node=node):
+            netlist_ckt.D(
+                get_next_label_for('D'),
+                component['p'],
+                component['n']
             )
 
         if self.is_npn(node=node) or self.is_pnp(node=node):
@@ -293,6 +376,11 @@ class ConvertCircuitToNetlist(PluginBase):
             self.nodes_count += 1
             return f'N000{self.nodes_count}'
 
+    def _get_pyspice_class_name(self, node: dict) -> str:
+        meta_node = self.core.get_meta_type(node)
+        if meta_node:
+            return self.core.get_attribute(meta_node, 'name')
+
     # Helper Methods for gme nodes
     def _get_children_of_type(self, node: dict, type_: str) -> List[dict]:
         return list(
@@ -310,11 +398,16 @@ class ConvertCircuitToNetlist(PluginBase):
                 children.append(child)
         return children
 
-    def _log_error(self, msg):
+    def _log_error(self, msg: str) -> None:
         self.logger.error(msg)
 
-    def _log_info(self, msg):
+    def _log_info(self, msg: str) -> None:
         self.logger.info(msg)
 
-    def _log_debug(self, msg):
+    def _log_debug(self, msg: str) -> None:
         self.logger.debug(msg)
+
+    @staticmethod
+    def _to_camel_case(string: str) -> str:
+        string = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', string)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', string).lower()
