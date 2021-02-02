@@ -56,6 +56,8 @@ define([
             super(props);
             this.metaSheets = {};
             this.sheetCounts = {};
+            this.nodePositions = {};
+            this.currentPosition = {x: 50, y: 50};
             this.documentation = '';
             this.pluginMetadata = pluginMetadata;
         }
@@ -81,6 +83,7 @@ define([
             this.createExtraNodes(state);
 
             await importer.apply(this.rootNode, state);
+            this.assignMetaNodePositions();
             this.createDocumentationNode();
             if (config.updateBranch === false) {
                 this.branchName = null;
@@ -128,6 +131,7 @@ define([
                 'Ground'
             ].map(name => {
                 let node = placeholder(name);
+                node.registry = {};
 
                 if (['Pin',
                     'Circuit',
@@ -137,10 +141,12 @@ define([
                     'Current',
                     'Ground',
                 ].includes(name)) {
-                    node.registry = {
-                        decorator: DECORATOR_ID,
-                        isAbstract: false
-                    };
+                    node.registry.decorator = DECORATOR_ID;
+                    node.registry.isAbstract = false;
+                }
+                node.registry.position = this.getNextCompositionViewPositionFor(name);
+                if (['ConnectionBase', 'PortBase', 'ComponentBase'].includes(name)) {
+                    node.registry.isAbstract = true;
                 }
                 return node;
             });
@@ -232,6 +238,31 @@ define([
             this.logger.debug(`added ${node.id} to the meta`);
         }
 
+        getNextCompositionViewPositionFor(nodeName) {
+            const MAX_WIDTH = 1200,
+                dx = 150,
+                dy = 170;
+            if (this.currentPosition.x + dx > MAX_WIDTH) {
+                this.currentPosition.x = 0;
+                this.currentPosition.y += dy;
+            }
+            this.currentPosition.x += dx;
+            if(!this.nodePositions[nodeName]) {
+                let x = this.currentPosition.x,
+                    y = this.currentPosition.y;
+                if (nodeName === 'Circuit') {
+                    x -= 30;
+                    y -= 30;
+                }
+                this.nodePositions[nodeName] = {
+                    x: x,
+                    y: y
+                };
+            }
+
+            return this.nodePositions[nodeName];
+        }
+
         getNextPositionFor(tabName) {
             let index = this.sheetCounts[tabName] || 0,
                 position,
@@ -270,6 +301,7 @@ define([
             };
             this.language.children.push(node);
             this.addNodeToMeta(root, node, tabName);
+            node.registry.position = this.getNextCompositionViewPositionFor(name);
             return node;
         }
 
@@ -387,6 +419,10 @@ define([
                 'documentation',
                 this.documentation
             );
+        }
+
+        assignMetaNodePositions() {
+            console.log(this.META.ElectricCircuits);
         }
 
         _isModelicaPin(state) {
