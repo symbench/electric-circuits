@@ -425,46 +425,6 @@ define([
             console.log(this.META.ElectricCircuits);
         }
 
-        // assignPositionsToNodes(root) {
-        //     const electricCircuitsSate = root.children.find(child => child.id === '@name:ElectricCircuits');
-        //     const categories = this.getElectricalComponentCategories();
-        //     let startY = 0;
-        //     categories.forEach(cat => {
-        //         const categoryNodes = this._findNodesFor(cat, electricCircuitsSate);
-        //         startY = this._assignNodePositions(categoryNodes, startY);
-        //     });
-        //     console.log(root);
-        // }
-        //
-        // _assignNodePositions(categoryNodes, startX = 0) {
-        //     const maxHeight = 1200;
-        //     const dx = 300;
-        //     const dy = 200;
-        //     let y = 0;
-        //     let x = startX;
-        //     categoryNodes.forEach(node => {
-        //         if (y + dy > maxHeight){
-        //             x = x + dx;
-        //             x = 0;
-        //         }
-        //         y = y + dy;
-        //
-        //         node.registry[Constants.REGISTRY.POSITION] = {
-        //             x: x,
-        //             y: y
-        //         }
-        //     });
-        //     return x;
-        // }
-        //
-        // _findNodesFor(cat, root) {
-        //     return root.children.filter(child => {
-        //         if (child.pointers) {
-        //             return child.pointers.base === `@meta:${cat}`
-        //         }
-        //     });
-        // }
-
         _isModelicaPin(state) {
             return state.pointers.base === this.modelicaPinState.path;
         }
