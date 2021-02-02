@@ -120,13 +120,26 @@ define([
                 'Wire',
                 'Pin',
                 'ElectricCircuitsFolder',
-                'Documentation'
+                'Documentation',
+                'Junction',
+                'Voltage',
+                'Current',
+                'Basic',
+                'Ground'
             ].map(name => {
                 let node = placeholder(name);
 
-                if (name === 'Pin' || name === 'Circuit' || name === 'ElectricCircuitsFolder') {
+                if (['Pin',
+                    'Circuit',
+                    'ElectricCircuitsFolder',
+                    'Voltage',
+                    'Junction',
+                    'Current',
+                    'Ground',
+                ].includes(name)) {
                     node.registry = {
-                        decorator: DECORATOR_ID
+                        decorator: DECORATOR_ID,
+                        isAbstract: false
                     };
                 }
                 return node;
