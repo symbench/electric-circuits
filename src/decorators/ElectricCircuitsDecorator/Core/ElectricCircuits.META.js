@@ -12,6 +12,8 @@
 define([], function () {
     const _metaID = 'ElectricCircuits.META.js', // eslint-disable-line no-unused-vars
         META_TYPES = {
+            'Semiconductors': 'Semiconductors',
+            'Basic': 'Basic',
             'ElectricCircuitsFolder': 'ElectricCircuitsFolder',
             'Junction': 'Junction',
             'Component': 'Component',
@@ -68,6 +70,8 @@ define([], function () {
 
         },
         DECORATED_META_TYPES = {
+            'Semiconductors': 'Semiconductors',
+            'Basic': 'Basic',
             'Resistor': 'Resistor',
             'Conductor': 'Conductor',
             'VariableResistor': 'VariableResistor',

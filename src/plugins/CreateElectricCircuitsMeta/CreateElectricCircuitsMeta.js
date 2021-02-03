@@ -51,14 +51,15 @@ define([
         'Basic': 'high_level_elements'
     };
 
+    const SKIP_NODES = ['EMF', 'TranslationalEMF', 'HeatingResistor'];
+
     class CreateElectricCircuitsMeta extends PluginBase {
         constructor(props) {
             super(props);
             this.metaSheets = {};
             this.sheetCounts = {};
-            this.nodePositions = {};
-            this.currentPosition = {x: 50, y: 50};
             this.documentation = '';
+            this.positionGenerator = CreateElectricCircuitsMeta.getPositionGenerator();
             this.pluginMetadata = pluginMetadata;
         }
 
@@ -83,7 +84,6 @@ define([
             this.createExtraNodes(state);
 
             await importer.apply(this.rootNode, state);
-            this.assignMetaNodePositions();
             this.createDocumentationNode();
             if (config.updateBranch === false) {
                 this.branchName = null;
@@ -144,10 +144,19 @@ define([
                     node.registry.decorator = DECORATOR_ID;
                     node.registry.isAbstract = false;
                 }
-                node.registry.position = this.getNextCompositionViewPositionFor(name);
+
+                if (!['Basic', 'Semiconductors', 'Ground'].includes(name)){
+                    node.registry.position = this.positionGenerator();
+                }
+
                 if (['ConnectionBase', 'PortBase', 'ComponentBase'].includes(name)) {
                     node.registry.isAbstract = true;
                 }
+
+                if (name === 'Circuit') {
+                    node.registry.position.y -= 50;
+                }
+
                 return node;
             });
 
@@ -238,31 +247,6 @@ define([
             this.logger.debug(`added ${node.id} to the meta`);
         }
 
-        getNextCompositionViewPositionFor(nodeName) {
-            const MAX_WIDTH = 1200,
-                dx = 150,
-                dy = 170;
-            if (this.currentPosition.x + dx > MAX_WIDTH) {
-                this.currentPosition.x = 0;
-                this.currentPosition.y += dy;
-            }
-            this.currentPosition.x += dx;
-            if(!this.nodePositions[nodeName]) {
-                let x = this.currentPosition.x,
-                    y = this.currentPosition.y;
-                if (nodeName === 'Circuit') {
-                    x -= 30;
-                    y -= 30;
-                }
-                this.nodePositions[nodeName] = {
-                    x: x,
-                    y: y
-                };
-            }
-
-            return this.nodePositions[nodeName];
-        }
-
         getNextPositionFor(tabName) {
             let index = this.sheetCounts[tabName] || 0,
                 position,
@@ -301,7 +285,7 @@ define([
             };
             this.language.children.push(node);
             this.addNodeToMeta(root, node, tabName);
-            node.registry.position = this.getNextCompositionViewPositionFor(name);
+            node.registry.position = this.positionGenerator();
             return node;
         }
 
@@ -421,17 +405,14 @@ define([
             );
         }
 
-        assignMetaNodePositions() {
-            console.log(this.META.ElectricCircuits);
-        }
-
         _isModelicaPin(state) {
             return state.pointers.base === this.modelicaPinState.path;
         }
 
         _getModelicaStateFor(type) {
             return this.modelicaState.children.filter(node => {
-                return node.attributes.name.startsWith(MODELICA_ELECTRICAL_COMPONENTS_PREFIX + `.${type}`);
+                return (node.attributes.name.startsWith(MODELICA_ELECTRICAL_COMPONENTS_PREFIX + `.${type}`)
+                    && !SKIP_NODES.includes(node.attributes.ShortName));
             });
         }
 
@@ -454,6 +435,18 @@ define([
             return {
                 id: `@name:${name}`,
                 pointers: {base: '@meta:Pin'}
+            };
+        }
+
+        static getPositionGenerator (margin=170, maxWidth=800) {
+            let x = 50, y = 50;
+            return () => {
+                if (x + margin > maxWidth){
+                    x = 50;
+                    y += margin;
+                }
+                x += margin;
+                return {x, y};
             };
         }
 
