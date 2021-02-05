@@ -488,7 +488,7 @@ define([
         }
 
         _addWire (node) {
-            this.core.createNode({
+            return this.core.createNode({
                 parent: node,
                 base: this.META.Wire
             });
