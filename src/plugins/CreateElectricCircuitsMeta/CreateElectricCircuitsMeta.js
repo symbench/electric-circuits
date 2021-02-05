@@ -53,6 +53,8 @@ define([
 
     const SKIP_NODES = ['EMF', 'TranslationalEMF', 'HeatingResistor'];
 
+    const CURRENT_SOURCES = ['CCC', 'CCV'];
+
     class CreateElectricCircuitsMeta extends PluginBase {
         constructor(props) {
             super(props);
@@ -88,6 +90,7 @@ define([
             if (config.updateBranch === false) {
                 this.branchName = null;
             }
+            await this.addWiresToCurrentSources();
             const res = await this.save('Created ElectricCircuits Metamodel');
 
             if (config.updateBranch === false) {
@@ -137,11 +140,14 @@ define([
                     'Circuit',
                     'ElectricCircuitsFolder',
                     'Voltage',
+                    'Wire',
                     'Junction',
                     'Current',
                     'Ground',
                 ].includes(name)) {
-                    node.registry.decorator = DECORATOR_ID;
+                    if(name !== 'Wire'){
+                        node.registry.decorator = DECORATOR_ID;
+                    }
                     node.registry.isAbstract = false;
                 }
 
@@ -247,6 +253,40 @@ define([
             this.logger.debug(`added ${node.id} to the meta`);
         }
 
+        async addWiresToCurrentSources() {
+            const currentSourcesNodes = (await this.core.loadSubTree(this.rootNode)).filter(node => {
+                return CURRENT_SOURCES.includes(this.core.getAttribute(node, 'name'));
+            });
+            for (let i = 0; i < currentSourcesNodes.length; i++) {
+                const wirePToP1 = this._addWire(currentSourcesNodes[i]);
+                const wireNToN1 = this._addWire(currentSourcesNodes[i]);
+
+                const pins = await this._loadChildrenOfType(
+                    currentSourcesNodes[i],
+                    'Pin'
+                );
+
+                const p1 = this._findNodeByName(pins, 'p1');
+                const n1 = this._findNodeByName(pins, 'n1');
+
+                const voltage = (await this._loadChildrenOfType(
+                    currentSourcesNodes[i],
+                    'Voltage'
+                )).pop();
+
+
+                const voltagePins = await this._loadChildrenOfType(
+                    voltage,
+                    'Pin'
+                );
+                const p = this._findNodeByName(voltagePins, 'p');
+                const n = this._findNodeByName(voltagePins, 'n');
+
+                this._setWirePointers(wirePToP1, [p, p1]);
+                this._setWirePointers(wireNToN1, [n, n1]);
+            }
+        }
+
         getNextPositionFor(tabName) {
             let index = this.sheetCounts[tabName] || 0,
                 position,
@@ -310,6 +350,15 @@ define([
                         categoryMetaNode.children.push(pin);
                     }
                 });
+
+                if (CURRENT_SOURCES.includes(categoryMetaNode.attributes.name)) {
+                    categoryMetaNode.children.push({
+                        name: '@name:Vo',
+                        pointers: {
+                            base: '@meta:Voltage'
+                        }
+                    });
+                }
 
                 delete node.attribute_meta.ModelicaURI;
                 delete node.attribute_meta.useHeatPort;
@@ -436,6 +485,30 @@ define([
                 id: `@name:${name}`,
                 pointers: {base: '@meta:Pin'}
             };
+        }
+
+        _addWire (node) {
+            return this.core.createNode({
+                parent: node,
+                base: this.META.Wire
+            });
+        }
+
+        _findNodeByName (arrayOfNodes, name) {
+            return arrayOfNodes
+                .find(node => this.core.getAttribute(node, 'name') === name);
+        }
+
+        _setWirePointers(wire, ends) {
+            const pointerNames = ['src', 'dst'];
+            ends.forEach((end, index) => {
+                this.core.setPointer(wire, pointerNames[index], end);
+            });
+        }
+
+        async _loadChildrenOfType(node, type) {
+            return (await this.core.loadChildren(node))
+                .filter(child => this.core.getMetaType(child) === this.META[type]);
         }
 
         static getPositionGenerator (margin=170, maxWidth=800) {
