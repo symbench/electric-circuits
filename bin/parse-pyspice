@@ -29,7 +29,7 @@ def _get_missing_attribute_meta(param: str, class_name: str) -> dict:
         return {
             'name': 'values',
             'parameter': 'Piecewise Linear Values',
-            'default_value': "[0]",
+            'default_value': "[(0, 0)]",
             'units': 'A' if 'Current' in class_name else 'V'
         }
     elif param == 'repeate_time':
@@ -186,7 +186,7 @@ class PySpiceParser:
     @staticmethod
     def _get_default_for(param_name: str, parameter: inspect.Parameter) -> Any:
         if param_name == 'values':
-            return "[0]"
+            return "[(0, 0)]"
         if param_name == 'random_type':
             return "uniform"
         if param_name == 'damping_factor':

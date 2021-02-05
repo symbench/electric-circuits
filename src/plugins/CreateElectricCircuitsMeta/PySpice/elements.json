@@ -621,12 +621,12 @@
       "attributes": [
         {
           "name": "values",
-          "default": "[0]",
+          "default": "[(0, 0)]",
           "constraints": null,
           "attribute_meta": {
             "name": "values",
             "parameter": "Piecewise Linear Values",
-            "default_value": "[0]",
+            "default_value": "[(0, 0)]",
             "units": "V"
           }
         },
@@ -662,12 +662,12 @@
       "attributes": [
         {
           "name": "values",
-          "default": "[0]",
+          "default": "[(0, 0)]",
           "constraints": null,
           "attribute_meta": {
             "name": "values",
             "parameter": "Piecewise Linear Values",
-            "default_value": "[0]",
+            "default_value": "[(0, 0)]",
             "units": "A"
           }
         },
