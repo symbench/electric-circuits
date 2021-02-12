@@ -1,9 +1,12 @@
 /*globals define, WebGMEGlobal*/
 define([
+    'joint/joint',
     './JointJSDashboard/build/JointDashboard',
+    'css!joint/joint.css',
     'css!./JointJSDashboard/build/JointDashboard.css',
     'css!./styles/ElectricCircuitsEditorWidget.css'
 ], function (
+    joint,
     JointDashboard
 ) {
     'use strict';
@@ -21,11 +24,14 @@ define([
 
     ElectricCircuitsEditorWidget.prototype._initialize = function () {
         this._el.addClass(WIDGET_CLASS);
-        this.dashBoard = new JointDashboard({target: this._el[0]});
+        window.g = joint.g;
+        window.v = joint.v;
+        this.dashboard = new JointDashboard({target: this._el[0]});
+        this.dashboard.initialize(joint);
     };
 
     ElectricCircuitsEditorWidget.prototype.onWidgetContainerResize = function (width, height) {
-        this.dashBoard.render(width, height);
+        this.dashboard.adjustPaperDimensions(width, height);
     };
 
     // Adding/Removing/Updating items
@@ -45,12 +51,16 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.onActivate = function () {
-
+        this.dashboard.render();
     };
 
     ElectricCircuitsEditorWidget.prototype.onDeactivate = function () {
 
     };
+
+    ElectricCircuitsEditorWidget.prototype.buildGraph = function () {
+
+    }
 
     return ElectricCircuitsEditorWidget;
 });

@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "jointjs": "^3.3.0",
-    "lodash": "^4.17.20"
+    "lodash-amd": "^4.17.15"
   },
   "description": "First, install the electric-circuits following: - [NodeJS](https://nodejs.org/en/) (v4.x.x recommended) - [MongoDB](https://www.mongodb.com/)",
   "main": "app.js",

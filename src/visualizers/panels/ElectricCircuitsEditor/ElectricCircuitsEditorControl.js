@@ -2,11 +2,13 @@
 define([
     'js/Constants',
     'js/Utils/GMEConcepts',
-    'js/NodePropertyNames'
+    'js/NodePropertyNames',
+    './ElectricCircuitsEditorControl.META',
 ], function (
     CONSTANTS,
     GMEConcepts,
-    nodePropertyNames
+    nodePropertyNames,
+    ElectricCircuitsEditorControlMETA
 ) {
 
     'use strict';
@@ -16,16 +18,24 @@ define([
         this._logger = options.logger.fork('Control');
 
         this._client = options.client;
+        ElectricCircuitsEditorControlMETA.call(this, options.client);
 
         // Initialize core collections and variables
         this._widget = options.widget;
 
         this._currentNodeId = null;
 
+        this._initWidgetFunctions();
         this._initWidgetEventHandlers();
 
         this._logger.debug('ctor finished');
     }
+
+    Object.assign(ElectricCircuitsEditorControl.prototype, ElectricCircuitsEditorControlMETA.prototype);
+
+    ElectricCircuitsEditorControl.prototype._initWidgetFunctions = function () {
+        this._widget._getMetaTransformation = this._getMetaTransformation.bind(this);
+    };
 
     ElectricCircuitsEditorControl.prototype._initWidgetEventHandlers = function () {
 

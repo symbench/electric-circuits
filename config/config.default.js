@@ -14,5 +14,8 @@ config.plugin.allowServerExecution = true;
 config.client.faviconPath = '/extlib/favicon.ico';
 config.visualization.extraCss.push('electric-circuits/styles/global.css');
 
+config.requirejsPaths.lodash = './node_modules/lodash-amd/main';
+config.requirejsPaths.joint = './node_modules/jointjs/dist/';
+
 validateConfig(config);
 module.exports = config;
