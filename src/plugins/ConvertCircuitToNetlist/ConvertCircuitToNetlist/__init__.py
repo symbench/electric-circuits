@@ -37,11 +37,29 @@ component_counts = {
     'H': 0
 }
 
+SKIP_NODES = [
+    'VariableResistor',
+    'VariableConductor',
+    'VariableCapacitor',
+    'VariableInductor',
+    'SaturatingInductor',
+    'OpAmp',
+    'OpAmpDetailed',
+    'Gyrator',
+    'OpAmpDetailed',
+    'Potentiometer',
+    'Transformer'
+]
+
 
 def get_next_label_for(component: str) -> int:
     assert component in component_counts
     component_counts[component] = component_counts[component] + 1
     return component_counts[component]
+
+
+class NetListConversionError(Exception):
+    """Error to be raised when there's an error in netlist conversion"""
 
 
 class ConvertCircuitToNetlist(PluginBase):
@@ -233,9 +251,17 @@ class ConvertCircuitToNetlist(PluginBase):
             self._add_to_netlist(component, parent_netlist)
 
     def _add_to_netlist(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
+        try:
+            self._is_capable_to_convert(component['node'])
+        except NetListConversionError as e:
+            self._log_error(str(e))
+            self.create_message(component['node'], str(e), severity='error')
+            raise e
+
         if self.core.is_type_of(component['node'], self.META['Basic']):
             self._add_basic_elements(component, netlist_ckt)
-        else:
+
+        elif self.core.is_type_of(component['node'], self.META['Semiconductors']):
             self._add_semiconductors(component, netlist_ckt)
 
     def _add_basic_elements(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
@@ -289,7 +315,24 @@ class ConvertCircuitToNetlist(PluginBase):
             )
 
         if is_ccc := self.is_ccc(node=node) or self.is_ccv(node=node):
-            pass
+            voltage_label = get_next_label_for('V')
+            netlist_ckt.V(voltage_label, component['p1'], component['n1'])
+            if is_ccc:
+                netlist_ckt.F(
+                    get_next_label_for('G'),
+                    component['p2'],
+                    component['n2'],
+                    source=voltage_label,
+                    current_gain=self.core.get_attribute(node, 'gain')
+                )
+            else:
+                netlist_ckt.H(
+                    get_next_label_for('H'),
+                    component['p2'],
+                    component['n2'],
+                    source=voltage_label,
+                    transresistance=self.core.get_attribute(node, 'transResistance')
+                )
 
         if any([
             vol := self.is_piece_wise_linear_voltage_source(node=node),
@@ -398,6 +441,7 @@ class ConvertCircuitToNetlist(PluginBase):
                 children.append(child)
         return children
 
+    # General Logging functions
     def _log_error(self, msg: str) -> None:
         self.logger.error(msg)
 
@@ -406,6 +450,14 @@ class ConvertCircuitToNetlist(PluginBase):
 
     def _log_debug(self, msg: str) -> None:
         self.logger.debug(msg)
+
+    def _is_capable_to_convert(self, node) -> bool:
+        for skip in SKIP_NODES:
+            if self.core.is_type_of(node, self.META[skip]):
+                raise NetListConversionError(
+                    f'Node of type {skip} is not supported yet'
+                )
+        return True
 
     @staticmethod
     def _to_camel_case(string: str) -> str:
