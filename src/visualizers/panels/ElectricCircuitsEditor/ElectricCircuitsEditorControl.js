@@ -3,12 +3,12 @@ define([
     'js/Constants',
     'js/Utils/GMEConcepts',
     'js/NodePropertyNames',
-    './ElectricCircuitsEditorControl.META',
+    './NodeToJSON'
 ], function (
     CONSTANTS,
     GMEConcepts,
     nodePropertyNames,
-    ElectricCircuitsEditorControlMETA
+    NodeToJSON
 ) {
 
     'use strict';
@@ -18,27 +18,29 @@ define([
         this._logger = options.logger.fork('Control');
 
         this._client = options.client;
-        ElectricCircuitsEditorControlMETA.call(this, options.client);
 
         // Initialize core collections and variables
         this._widget = options.widget;
 
         this._currentNodeId = null;
 
-        this._initWidgetFunctions();
+        this.jsonifier = new NodeToJSON(options.client);
+
         this._initWidgetEventHandlers();
 
         this._logger.debug('ctor finished');
     }
 
-    Object.assign(ElectricCircuitsEditorControl.prototype, ElectricCircuitsEditorControlMETA.prototype);
-
-    ElectricCircuitsEditorControl.prototype._initWidgetFunctions = function () {
-        this._widget._getMetaTransformation = this._getMetaTransformation.bind(this);
+    ElectricCircuitsEditorControl.prototype._initWidgetEventHandlers = function () {
+        this._widget.onNodeAttributeChanged = this.onNodeAttributeChanged.bind(this);
     };
 
-    ElectricCircuitsEditorControl.prototype._initWidgetEventHandlers = function () {
-
+    ElectricCircuitsEditorControl.prototype.onNodeAttributeChanged = function (nodeId, attrs) {
+        Object.keys(attrs).forEach(name => {
+            this._client.startTransaction(`About to change attribute ${name} of node ${nodeId}`);
+            this._client.setAttribute(nodeId, name, attrs[name]);
+            this._client.completeTransaction(`Set attribute ${name} of node ${nodeId} to ${attrs[name]}`, null);
+        });
     };
 
     /* * * * * * * * Visualizer content update callbacks * * * * * * * */
@@ -70,26 +72,14 @@ define([
             // Update the territory
             self._client.updateTerritory(self._territoryId, self._selfPatterns);
 
-            self._selfPatterns[nodeId] = {children: 1};
+            self._selfPatterns[nodeId] = {children: 2};
             self._client.updateTerritory(self._territoryId, self._selfPatterns);
         }
     };
 
     // This next function retrieves the relevant node information for the widget
     ElectricCircuitsEditorControl.prototype._getObjectDescriptor = function (nodeId) {
-        var node = this._client.getNode(nodeId),
-            objDescriptor;
-        if (node) {
-            objDescriptor = {
-                id: node.getId(),
-                name: node.getAttribute(nodePropertyNames.Attributes.name),
-                childrenIds: node.getChildrenIds(),
-                parentId: node.getParentId(),
-                isConnection: GMEConcepts.isConnection(nodeId)
-            };
-        }
-
-        return objDescriptor;
+        return this.jsonifier.apply(nodeId);
     };
 
     /* * * * * * * * Node Event Handling * * * * * * * */
@@ -142,6 +132,7 @@ define([
         if (this._currentNodeId === activeObjectId) {
             // The same node selected as before - do not trigger
         } else {
+            this._widget.destroy();
             this.selectedObjectChanged(activeObjectId);
         }
     };

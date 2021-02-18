@@ -5,7 +5,7 @@ import {terser} from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
-const JOINT_DASHBOARD_ROOT = 'src/visualizers/widgets/ElectricCircuitsEditor/JointJSDashboard';
+const JOINT_DASHBOARD_ROOT = 'src/visualizers/widgets/ElectricCircuitsEditor/CircuitEditorDashboard';
 
 
 function serve() {
@@ -27,13 +27,13 @@ function serve() {
 
 
 export default {
-    input: `${JOINT_DASHBOARD_ROOT}/src/JointJSDashboard.svelte`,
+    input: `${JOINT_DASHBOARD_ROOT}/src/CircuitEditorDashboard.svelte`,
     external: ['showdown'],
     output: {
         sourcemap: true,
         format: 'amd',
         name: 'app',
-        file: `${JOINT_DASHBOARD_ROOT}/build/JointDashboard.js`
+        file: `${JOINT_DASHBOARD_ROOT}/build/CircuitEditorDashboard.js`
     },
     plugins: [
         svelte({
@@ -44,7 +44,7 @@ export default {
         }),
         // we'll extract any component CSS out into
         // a separate file - better for performance
-        css({output: 'JointDashboard.css'}),
+        css({output: 'CircuitEditorDashboard.css'}),
 
         // If you have external dependencies installed from
         // npm, you'll most likely need these plugins. In

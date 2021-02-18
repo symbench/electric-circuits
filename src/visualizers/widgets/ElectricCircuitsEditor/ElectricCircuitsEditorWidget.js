@@ -1,13 +1,19 @@
-/*globals define, WebGMEGlobal*/
+/*globals define, WebGMEGlobal, $*/
 define([
     'joint/joint',
-    './JointJSDashboard/build/JointDashboard',
+    'dagre',
+    'graphlib',
+    './CircuitEditorDashboard/build/CircuitEditorDashboard',
+    'js/Widgets/ZoomWidget/ZoomWidget',
     'css!joint/joint.css',
-    'css!./JointJSDashboard/build/JointDashboard.css',
+    'css!./CircuitEditorDashboard/build/CircuitEditorDashboard.css',
     'css!./styles/ElectricCircuitsEditorWidget.css'
 ], function (
     joint,
-    JointDashboard
+    dagre,
+    graphlib,
+    CircuitEditorDashboard,
+    ZoomWidget
 ) {
     'use strict';
 
@@ -25,9 +31,32 @@ define([
     ElectricCircuitsEditorWidget.prototype._initialize = function () {
         this._el.addClass(WIDGET_CLASS);
         window.g = joint.g;
-        window.v = joint.v;
-        this.dashboard = new JointDashboard({target: this._el[0]});
-        this.dashboard.initialize(joint);
+        window.V = joint.V;
+        const jointContainer = $('<div/>');
+
+        this.dashboard = new CircuitEditorDashboard({target: jointContainer[0]});
+        this.dashboard.initialize(joint, dagre, graphlib);
+
+        this.zoomWidget = new ZoomWidget({
+            class: 'electric-circuits-editor-zoom-container',
+            sliderClass: 'electric-circuits-editor-zoom-slider',
+            zoomTarget: jointContainer,
+            zoomValues: this.dashboard.getZoomLevels(),
+            onZoom:  zoomLevel => {
+                jointContainer.css({transform: 'scale(1.0)'});
+                this.dashboard.zoom(zoomLevel);
+            }
+        });
+
+        this._el.append(this.zoomWidget.$zoomContainer);
+        this._el.append(jointContainer);
+
+        this.dashboard.events().addEventListener(
+            'attributeChanged',
+            (event) => {
+                this.onNodeAttributeChanged(event.detail.id, event.detail.attributes);
+            }
+        );
     };
 
     ElectricCircuitsEditorWidget.prototype.onWidgetContainerResize = function (width, height) {
@@ -36,18 +65,19 @@ define([
 
     // Adding/Removing/Updating items
     ElectricCircuitsEditorWidget.prototype.addNode = function (desc) {
-
+        this.dashboard.addCell(desc);
     };
 
     ElectricCircuitsEditorWidget.prototype.removeNode = function (gmeId) {
-
     };
 
     ElectricCircuitsEditorWidget.prototype.updateNode = function (desc) {
+        this.dashboard.updateCell(desc);
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
     ElectricCircuitsEditorWidget.prototype.destroy = function () {
+        this.dashboard.clearGraph();
     };
 
     ElectricCircuitsEditorWidget.prototype.onActivate = function () {
@@ -55,12 +85,8 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.onDeactivate = function () {
-
+        this.dashboard.clearGraph();
     };
-
-    ElectricCircuitsEditorWidget.prototype.buildGraph = function () {
-
-    }
 
     return ElectricCircuitsEditorWidget;
 });
