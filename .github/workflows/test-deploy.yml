@@ -38,7 +38,9 @@ jobs:
         run: npm install
 
       - name: Run Tests
-        run: npm test
+        run: |
+          source activate eletric-circuits
+          npm test
 
   dockerAndDeploy:
     runs-on: ubuntu-latest
