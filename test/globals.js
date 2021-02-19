@@ -20,5 +20,17 @@ WebGME.addToRequireJsPaths(gmeConfig);
 testFixture.getGmeConfig = getGmeConfig;
 
 testFixture.EC_SEED_DIR = testFixture.path.join(__dirname, '..', 'src', 'seeds');
+testFixture.testSeedPath = testFixture.path.join(testFixture.EC_SEED_DIR, 'tests', 'tests.webgmex');
+
+testFixture.CIRCUITS = {
+    HPF: '/C/n',
+    LPF: '/C/B',
+    VoltageLimiter: '/e/M',
+    PeakDetector: '/e/C',
+    ClampedCapacitor: '/e/b',
+    VoltageDoubler: '/e/I',
+    CEAmplifier: '/i/R',
+    NPNSwitch: '/i/b'
+}
 
 module.exports = testFixture;

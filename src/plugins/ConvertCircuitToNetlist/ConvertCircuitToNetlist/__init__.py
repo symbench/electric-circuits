@@ -66,8 +66,8 @@ class ConvertCircuitToNetlist(PluginBase):
             self._assign_spice_node_labels_to_pins()
             self._populate_netlist(circuit, self._netlist_ckt)
             output_filename = self.get_current_config().get('file_name')
-            if not output_filename or output_filename == '':
-                output_filename = self.core.get_attribute(circuit, "name")
+            if not output_filename:
+                output_filename = self.core.get_attribute(circuit, 'name')
             self.add_file(f'{output_filename}.cir', str(self._netlist_ckt))
             self.result_set_success(True)
 
@@ -216,7 +216,7 @@ class ConvertCircuitToNetlist(PluginBase):
 
     def _populate_netlist(self, circuit: dict,
                           parent_netlist: Optional[Union[Circuit, SubCircuit]] = None):
-        components = self._get_children_except(circuit, 'Pin', 'Wire', 'Junction')
+        components = self._get_children_except(circuit, 'Pin', 'Wire', 'Junction', 'Ground')
         sub_circuits = self._get_children_of_type(circuit, 'Circuit')
 
         for sub_circuit in sub_circuits:
@@ -324,23 +324,23 @@ class ConvertCircuitToNetlist(PluginBase):
                 )
 
         if any([
-            vol := self.is_sinusoidal_voltage_source(node=node),
+            vs1 := self.is_sinusoidal_voltage_source(node=node),
             self.is_sinusoidal_current_source(node=node),
-            vol := self.is_piece_wise_linear_voltage_source(node=node),
+            vs2 := self.is_piece_wise_linear_voltage_source(node=node),
             self.is_piece_wise_linear_current_source(node=node),
-            vol := self.is_random_voltage_source(node=node),
+            vs3 := self.is_random_voltage_source(node=node),
             self.is_random_current_source(node=node),
-            vol := self.is_single_frequency_fm_voltage_source(node=node),
+            vs4 := self.is_single_frequency_fm_voltage_source(node=node),
             self.is_single_frequency_fm_current_source(node=node),
-            vol := self.is_pulse_voltage_source(node=node),
+            vs5 := self.is_pulse_voltage_source(node=node),
             self.is_pulse_current_source(node=node),
-            vol := self.is_amplitude_modulated_voltage_source(node=node),
+            vs6 := self.is_amplitude_modulated_voltage_source(node=node),
             self.is_amplitude_modulated_current_source(node=node),
-            vol := self.is_exponential_voltage_source(node=node),
+            vs7 := self.is_exponential_voltage_source(node=node),
             self.is_exponential_current_source(node=node),
-            vol := self.is_pulse_voltage_source(node=node),
+            vs8 := self.is_pulse_voltage_source(node=node),
             self.is_pulse_current_source(node=node),
-            vol := self.is_ac_line(node=node)
+            vs9 := self.is_ac_line(node=node)
         ]):
             attrs = self.core.get_valid_attribute_names(node)
             attrs.remove('name')
@@ -357,7 +357,10 @@ class ConvertCircuitToNetlist(PluginBase):
                         self._log_error('Could not cast values to float')
 
             class_callable(
-                get_next_label_for('V' if vol else 'I'),
+                get_next_label_for(
+                    'V' if any([vs1, vs2, vs3, vs4, vs5, vs6, vs7, vs8])
+                    else 'I'
+                ),
                 component['p'],
                 component['n'],
                 **ctor_kwargs

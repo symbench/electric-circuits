@@ -2,15 +2,16 @@
 
 describe('ConvertCircuitToNetlist', function () {
     const testFixture = require('../../globals');
-    const path = require('path');
     const {promisify} = require('util');
     const gmeConfig = testFixture.getGmeConfig();
-    const logger = testFixture.logger.fork('CreateElectricCircuitsMeta');
+    const logger = testFixture.logger.fork('ConvertCircuitToNetlist');
     const PluginCliManager = testFixture.WebGME.PluginCliManager;
     const manager = new PluginCliManager(null, logger, gmeConfig);
     const projectName = 'testProject';
     const pluginName = 'ConvertCircuitToNetlist';
-    const PROJECT_SEED = path.join(testFixture.EC_SEED_DIR, 'project', 'project.webgmex');
+    const PROJECT_SEED = testFixture.testSeedPath;
+    const BlobClient = testFixture.getBlobTestClient();
+    const blobClient = new BlobClient(gmeConfig, logger);
     manager.executePlugin = promisify(manager.executePlugin);
     manager.runPluginMain = promisify(manager.runPluginMain);
     const assert = require('assert');
@@ -37,13 +38,12 @@ describe('ConvertCircuitToNetlist', function () {
         const commitHash = importResult.commitHash;
         project = importResult.project;
         pluginConfig = {
-            updateBranch: false
+            file_name: null
         };
         context = {
             project: project,
             commitHash: commitHash,
-            branchName: 'master',
-            activeNode: '/S/9',
+            branchName: 'master'
         };
     });
 
@@ -52,8 +52,21 @@ describe('ConvertCircuitToNetlist', function () {
         await gmeAuth.unload();
     });
 
-    it('should run plugin and update the branch', async  () => {
-        // const result = await manager.executePlugin(pluginName, pluginConfig, context);
-        // assert(result.success);
+    async function runPluginAndReturnNetList(activeNode) {
+        context.activeNode = activeNode;
+        const result = await manager.executePlugin(
+            pluginName,
+            pluginConfig,
+            context
+        );
+        return await blobClient.getObjectAsString(result.artifacts.pop());
+    }
+
+    describe('conversion', function (){
+        Object.keys(testFixture.CIRCUITS).forEach(cktName => {
+            it(`Should convert ${cktName}`, async () => {
+                assert(await runPluginAndReturnNetList(testFixture.CIRCUITS[cktName]));
+            });
+        });
     });
 });
