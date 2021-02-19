@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          source activate eletric-circuits
+          source activate electric-circuits
           npm test
 
   dockerAndDeploy:
