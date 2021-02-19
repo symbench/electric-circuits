@@ -68,24 +68,24 @@ define([
 
                     connectorTV.css({
                         'left': `${width / 2 + CONSTANTS.THREE_TERM_OFFSET}px`,
-                        'top': `${height - 3 * CONSTANTS.THREE_TERM_OFFSET}px`
+                        'top': '5px'
                     });
 
                     this._portPositions[childrenIds[1]] = {
-                        x: width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
-                        y: height - CONSTANTS.THREE_TERM_OFFSET,
-                        orientation: POSITIONS.BOTTOM
+                        x:  width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        y: 5,
+                        orientation: POSITIONS.TOP
                     };
 
                     connectorBV.css({
                         'left': `${width / 2 + CONSTANTS.THREE_TERM_OFFSET}px`,
-                        'top': '5px'
+                        'top': `${height - 3 * CONSTANTS.THREE_TERM_OFFSET}px`
                     });
 
                     this._portPositions[childrenIds[2]] = {
-                        x:  width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
-                        y: 5,
-                        orientation: POSITIONS.TOP
+                        x: width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        y: height - CONSTANTS.THREE_TERM_OFFSET,
+                        orientation: POSITIONS.BOTTOM
                     };
                 }
             }
@@ -119,9 +119,13 @@ define([
     };
 
     ThreeTerminalComponent.prototype.getSortedPinIds = function (node){
-        if (ElectricCircuitsMETA.TYPE_INFO.isNPN(node) || ElectricCircuitsMETA.TYPE_INFO.isPNP(node)) {
-            const pins = this._getPinNamesToIdsMap(node);
+        const nodeId = node.getId();
+        const pins = this._getPinNamesToIdsMap(node);
+
+        if (ElectricCircuitsMETA.TYPE_INFO.isNPN(nodeId)){
             return [pins['B'], pins['C'], pins['E']];
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isPNP(nodeId)) {
+            return [pins['B'], pins['E'], pins['C']];
         } else {
             return node.getChildrenIds().sort();
         }
