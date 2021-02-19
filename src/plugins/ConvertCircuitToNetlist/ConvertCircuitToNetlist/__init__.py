@@ -22,20 +22,9 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-component_counts = {
-    'R': 0,
-    'L': 0,
-    'C': 0,
-    'D': 0,
-    'Q': 0,
-    'M': 0,
-    'V': 0,
-    'I': 0,
-    'G': 0,
-    'E': 0,
-    'F': 0,
-    'H': 0
-}
+# The labels for the components are grabbed from the following source
+# https://pyspice.fabrice-salvaire.fr/releases/v1.4/api/PySpice/Spice/BasicElement.html#module-PySpice.Spice.BasicElement
+component_counts = {chr(j): 0 for j in range(65, 65+26)}
 
 SKIP_NODES = [
     'VariableResistor',
@@ -315,7 +304,7 @@ class ConvertCircuitToNetlist(PluginBase):
             )
 
         if is_ccc := self.is_ccc(node=node) or self.is_ccv(node=node):
-            voltage_label = get_next_label_for('V')
+            voltage_label = f'CCSourceVoltage{get_next_label_for("V")}'
             netlist_ckt.V(voltage_label, component['p1'], component['n1'])
             if is_ccc:
                 netlist_ckt.F(
@@ -335,6 +324,8 @@ class ConvertCircuitToNetlist(PluginBase):
                 )
 
         if any([
+            vol := self.is_sinusoidal_voltage_source(node=node),
+            self.is_sinusoidal_current_source(node=node),
             vol := self.is_piece_wise_linear_voltage_source(node=node),
             self.is_piece_wise_linear_current_source(node=node),
             vol := self.is_random_voltage_source(node=node),
