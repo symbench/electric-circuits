@@ -31,6 +31,6 @@ testFixture.CIRCUITS = {
     VoltageDoubler: '/e/I',
     CEAmplifier: '/i/R',
     NPNSwitch: '/i/b'
-}
+};
 
 module.exports = testFixture;
