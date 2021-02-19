@@ -72,7 +72,7 @@ define([
                     });
 
                     this._portPositions[childrenIds[1]] = {
-                        x:  width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        x: width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
                         y: 5,
                         orientation: POSITIONS.TOP
                     };
