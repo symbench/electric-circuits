@@ -9,6 +9,7 @@ from functools import partial
 from typing import Iterable, List, Optional, Union
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
+from PySpice.Unit import *
 from webgme_bindings import PluginBase
 
 # Setup a logger
@@ -39,10 +40,10 @@ SKIP_NODES = [
 ]
 
 
-def get_next_label_for(component: str) -> int:
+def get_next_label_for(component: str, component_name: str) -> str:
     assert component in component_counts
     component_counts[component] = component_counts[component] + 1
-    return component_counts[component]
+    return f"{component_name}_{component_counts[component]}"
 
 
 class NetListConversionError(Exception):
@@ -279,6 +280,10 @@ class ConvertCircuitToNetlist(PluginBase):
 
         for component in components_map.values():
             self._add_to_netlist(component, parent_netlist)
+        self._log_info(
+            f"Circuit ({self.core.get_attribute(circuit, 'name')})'s components have been"
+            f"added to the netlist."
+        )
 
     def _add_to_netlist(
         self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]
@@ -297,6 +302,11 @@ class ConvertCircuitToNetlist(PluginBase):
         elif self.core.is_type_of(component["node"], self.META["Semiconductors"]):
             self._add_semiconductors(component, netlist_ckt)
 
+        self._log_info(
+            f"Added element ({self.core.get_attribute(component['node'], 'name')}), "
+            f"of type {self._get_meta_name(component['node'])} to the netlist."
+        )
+
     def _add_basic_elements(
         self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]
     ) -> None:
@@ -304,30 +314,32 @@ class ConvertCircuitToNetlist(PluginBase):
         node = component["node"]
         if is_res := (self.is_resistor(node=node)) or self.is_conductor(node=node):
             netlist_ckt.R(
-                get_next_label_for("R"),
+                get_next_label_for("R", self.core.get_attribute(node, "name")),
                 component["p"],
                 component["n"],
-                self.core.get_attribute(node, "R")
-                if is_res
-                else 1 / self.core.get_attribute(node, "G"),
+                u_Ohm(
+                    self.core.get_attribute(node, "R")
+                    if is_res
+                    else 1 / self.core.get_attribute(node, "G")
+                ),
             )
         if self.is_inductor(node=node):
             netlist_ckt.L(
-                get_next_label_for("L"),
+                get_next_label_for("L", self.core.get_attribute(node, "name")),
                 component["p"],
                 component["n"],
-                self.core.get_attribute(node, "L"),
+                u_H(self.core.get_attribute(node, "L")),
             )
         if self.is_capacitor(node=node):
-            netlist_ckt.C(
-                get_next_label_for("C"),
+            netlist_ckt.Capacitor(
+                get_next_label_for("C", self.core.get_attribute(node, "name")),
                 component["p"],
                 component["n"],
-                self.core.get_attribute(node, "C"),
+                capacitance=u_F(self.core.get_attribute(node, "C")),
             )
         if self.is_voltage(node=node):
             netlist_ckt.V(
-                get_next_label_for("V"),
+                get_next_label_for("V", self.core.get_attribute(node, "name")),
                 component["p"],
                 component["n"],
                 self.core.get_attribute(node, "V"),
@@ -335,7 +347,7 @@ class ConvertCircuitToNetlist(PluginBase):
 
         if self.is_current(node=node):
             netlist_ckt.I(
-                get_next_label_for("V"),
+                get_next_label_for("I", self.core.get_attribute(node, "name")),
                 component["p"],
                 component["n"],
                 self.core.get_attribute(node, "I"),
@@ -343,7 +355,9 @@ class ConvertCircuitToNetlist(PluginBase):
 
         if is_vcc := self.is_vcc(node=node) or self.is_vcv(node=node):
             netlist_ckt.G(
-                get_next_label_for("G" if is_vcc else "E"),
+                get_next_label_for(
+                    "G" if is_vcc else "E", self.core.get_attribute(node, "name")
+                ),
                 component["p2"],
                 component["n2"],
                 component["p1"],
@@ -352,11 +366,11 @@ class ConvertCircuitToNetlist(PluginBase):
             )
 
         if is_ccc := self.is_ccc(node=node) or self.is_ccv(node=node):
-            voltage_label = f'CCSourceVoltage{get_next_label_for("V")}'
+            voltage_label = get_next_label_for("V", "CCSourceVoltage")
             netlist_ckt.V(voltage_label, component["p1"], component["n1"])
             if is_ccc:
                 netlist_ckt.F(
-                    get_next_label_for("G"),
+                    get_next_label_for("F", self.core.get_attribute(node, "name")),
                     component["p2"],
                     component["n2"],
                     source=voltage_label,
@@ -364,7 +378,7 @@ class ConvertCircuitToNetlist(PluginBase):
                 )
             else:
                 netlist_ckt.H(
-                    get_next_label_for("H"),
+                    get_next_label_for("H", self.core.get_attribute(node, "name")),
                     component["p2"],
                     component["n2"],
                     source=voltage_label,
@@ -394,7 +408,7 @@ class ConvertCircuitToNetlist(PluginBase):
         ):
             attrs = self.core.get_valid_attribute_names(node)
             attrs.remove("name")
-            class_name = self._get_pyspice_class_name(node)
+            class_name = self._get_meta_name(node)
             class_callable = getattr(netlist_ckt, class_name)
             ctor_kwargs = {attr: self.core.get_attribute(node, attr) for attr in attrs}
 
@@ -410,7 +424,8 @@ class ConvertCircuitToNetlist(PluginBase):
 
             class_callable(
                 get_next_label_for(
-                    "V" if any([vs1, vs2, vs3, vs4, vs5, vs6, vs7, vs8, vs9]) else "I"
+                    "V" if any([vs1, vs2, vs3, vs4, vs5, vs6, vs7, vs8, vs9]) else "I",
+                    self.core.get_attribute(node, "name"),
                 ),
                 component["p"],
                 component["n"],
@@ -429,25 +444,30 @@ class ConvertCircuitToNetlist(PluginBase):
             or self.is_schottky_diode(node=node)
             or self.is_z_diode(node=node)
         ):
-            netlist_ckt.D(get_next_label_for("D"), component["p"], component["n"])
+            netlist_ckt.D(
+                get_next_label_for("D", self.core.get_attribute(node, "name")),
+                component["p"],
+                component["n"],
+                model="DDummy",
+            )
 
         if self.is_npn(node=node) or self.is_pnp(node=node):
             netlist_ckt.Q(
-                get_next_label_for("Q"),
+                get_next_label_for("Q", self.core.get_attribute(node, "name")),
                 component["C"],
                 component["B"],
                 component["E"],
-                "QDummy",
+                model="QDummy",
             )
 
         if self.is_nmos(node=node) or self.is_pmos(node=node):
             netlist_ckt.M(
-                get_next_label_for("M"),
+                get_next_label_for("M", self.core.get_attribute(node, "name")),
                 component["D"],
                 component["G"],
                 component["B"],
                 component["S"],
-                "MDummy",
+                model="MDummy",
             )
 
     def _get_external_spice_nodes_for(self, circuit: dict) -> list:
@@ -473,8 +493,8 @@ class ConvertCircuitToNetlist(PluginBase):
             self.nodes_count += 1
             return f"N000{self.nodes_count}"
 
-    def _get_pyspice_class_name(self, node: dict) -> str:
-        """From a GME Node, get the PySpice class name that it should resolve to"""
+    def _get_meta_name(self, node: dict) -> str:
+        """From a GME Node, get its META name"""
         meta_node = self.core.get_meta_type(node)
         if meta_node:
             return self.core.get_attribute(meta_node, "name")

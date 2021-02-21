@@ -33,4 +33,16 @@ testFixture.CIRCUITS = {
     NPNSwitch: '/i/b'
 };
 
+testFixture.getChildrenOfType = async function (core, node, type) {
+    return (await core.loadChildren(node)).filter(child => {
+        return core.getAttribute(core.getMetaType(child), 'name') === type;
+    });
+};
+
+testFixture.getChildrenExcept = async function(core, node, types=[]) {
+    return (await core.loadChildren(node)).filter(child => {
+        return !types.includes(core.getAttribute(core.getMetaType(child), 'name'));
+    });
+};
+
 module.exports = testFixture;

@@ -10,17 +10,18 @@ describe('ConvertCircuitToNetlist', function () {
     const projectName = 'testProject';
     const pluginName = 'ConvertCircuitToNetlist';
     const PROJECT_SEED = testFixture.testSeedPath;
-    const BlobClient = testFixture.getBlobTestClient();
-    const blobClient = new BlobClient(gmeConfig, logger);
-    manager.executePlugin = promisify(manager.executePlugin);
     manager.runPluginMain = promisify(manager.runPluginMain);
     const assert = require('assert');
+    const {spawnSync} = require('child_process');
+    const PYSPICE_SCRIPT = testFixture.path.resolve(__dirname, 'netlist_to_json.py');
 
     let gmeAuth,
         storage,
         context,
         project,
-        pluginConfig;
+        pluginConfig,
+        plugin,
+        core;
 
     before(async function () {
         gmeAuth = await testFixture.clearDBAndGetGMEAuth(gmeConfig, projectName);
@@ -37,14 +38,18 @@ describe('ConvertCircuitToNetlist', function () {
         const importResult = await testFixture.importProject(storage, importParam);
         const commitHash = importResult.commitHash;
         project = importResult.project;
-        pluginConfig = {
-            file_name: null
-        };
+
+        plugin = await manager.initializePlugin(pluginName);
         context = {
             project: project,
             commitHash: commitHash,
             branchName: 'master'
         };
+
+        pluginConfig = {
+            file_name: null
+        };
+
     });
 
     after(async function () {
@@ -52,20 +57,66 @@ describe('ConvertCircuitToNetlist', function () {
         await gmeAuth.unload();
     });
 
-    async function runPluginAndReturnNetList(activeNode) {
+    function arrayEquals(arr1, arr2) {
+        return Array.isArray(arr1) &&
+            Array.isArray(arr2) &&
+            arr1.length === arr2.length &&
+            arr1.every((val, index) => val === arr2[index]);
+    }
+
+    async function runPluginAndReturnNetlist(activeNode) {
         context.activeNode = activeNode;
-        const result = await manager.executePlugin(
-            pluginName,
-            pluginConfig,
-            context
+        await manager.configurePlugin(plugin, pluginConfig, context);
+        core = plugin.core;
+        const result = await manager.runPluginMain(
+            plugin
         );
-        return await blobClient.getObjectAsString(result.artifacts.pop());
+        return await plugin.blobClient.getObjectAsString(
+            result.artifacts.pop()
+        );
+    }
+
+    async function getElementNamesFor(circuit) {
+        return (await testFixture.getChildrenExcept(
+            core,
+            circuit,
+            ['Wire', 'Pin', 'Ground', 'Junction', 'Circuit']
+        )).map(child => core.getAttribute(child, 'name'));
+    }
+
+    async function assertValidNetlist(netlist, circuitNode) {
+        assert(circuitNode);
+        const pySpiceProcess = spawnSync('python', [PYSPICE_SCRIPT, netlist]);
+        const netlistJSON = JSON.parse(pySpiceProcess.stdout.toString());
+
+        const subCircuits = await testFixture.getChildrenOfType(
+            core,
+            circuitNode,
+            'Circuit'
+        );
+
+        const elements = await getElementNamesFor(circuitNode);
+
+        for (let subCircuit of subCircuits) {
+            const subCircuitName = core.getAttribute(subCircuit, 'name');
+            const subCircuitInNetlist = netlistJSON.sub_circuits
+                .find(sub_ckt => sub_ckt.name === subCircuitName);
+
+            const subCircuitElements = await getElementNamesFor(subCircuit);
+
+            assert(subCircuitInNetlist);
+            assert(arrayEquals(subCircuitElements.sort(), Object.keys(subCircuitInNetlist.nodes).sort()));
+        }
+
+        assert(subCircuits.length === netlistJSON.sub_circuits.length);
+        assert(arrayEquals(elements.sort(), Object.keys(netlistJSON.nodes).sort()));
     }
 
     describe('conversion', function (){
         Object.keys(testFixture.CIRCUITS).forEach(cktName => {
             it(`Should convert ${cktName}`, async () => {
-                assert(await runPluginAndReturnNetList(testFixture.CIRCUITS[cktName]));
+                const netlist = await runPluginAndReturnNetlist(testFixture.CIRCUITS[cktName]);
+                await assertValidNetlist(netlist, plugin.activeNode);
             });
         });
     });
