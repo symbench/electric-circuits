@@ -433,7 +433,11 @@ class ConvertCircuitToNetlist(PluginBase):
 
         if self.is_npn(node=node) or self.is_pnp(node=node):
             netlist_ckt.Q(
-                get_next_label_for("Q"), component["C"], component["B"], component["E"]
+                get_next_label_for("Q"),
+                component["C"],
+                component["B"],
+                component["E"],
+                "QDummy",
             )
 
         if self.is_nmos(node=node) or self.is_pmos(node=node):
@@ -443,6 +447,7 @@ class ConvertCircuitToNetlist(PluginBase):
                 component["G"],
                 component["B"],
                 component["S"],
+                "MDummy",
             )
 
     def _get_external_spice_nodes_for(self, circuit: dict) -> list:
