@@ -2,15 +2,13 @@
 This is where the implementation of the plugin code goes.
 The ConvertCircuitToNetlist-class is imported from both run_plugin.py and run_debug.py
 """
+import logging
 import re
 import sys
-import logging
-from typing import List, Union, Optional, Iterable
 from functools import partial
-
+from typing import Iterable, List, Optional, Union
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
-
 from webgme_bindings import PluginBase
 
 # Setup a logger
