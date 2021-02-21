@@ -5,7 +5,7 @@ The ConvertCircuitToNetlist-class is imported from both run_plugin.py and run_de
 import re
 import sys
 import logging
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Iterable
 from functools import partial
 
 
@@ -55,9 +55,11 @@ class ConvertCircuitToNetlist(PluginBase):
     def main(self) -> None:
         self._assign_meta_functions()
         if not self.is_circuit(node=self.active_node):
-            self.logger.error('Active Node is not a circuit')
+            err_msg = f'Active Node ({self.core.get_path(node=self.active_node)}) ' \
+                      f'is not of type Circuit'
+            self._log_error(err_msg)
             self.result_set_success(False)
-            self.result_set_error('Active Node is not a circuit')
+            self.result_set_error(err_msg)
         else:
             circuit = self.active_node
             self._initialize(circuit)
@@ -75,8 +77,8 @@ class ConvertCircuitToNetlist(PluginBase):
         """Assign is_* function for easier meta type checks"""
         for name, meta_node in self.META.items():
             p = partial(self.core.is_type_of, node=None, type_node_or_path=meta_node)
-            setattr(self, f'is_{self._to_camel_case(name)}', p)
-        self.logger.debug(f'Assigned meta type classification functions to {self.__class__.__name__}')
+            setattr(self, f'is_{self._to_snake_case(name)}', p)
+        self._log_debug(f'Assigned meta type classification functions to {self.__class__.__name__}')
 
     def _initialize(self, circuit: dict) -> None:
         """Initialize an empty netlist and the necessary data-structures for netlist conversion
@@ -89,9 +91,11 @@ class ConvertCircuitToNetlist(PluginBase):
         self._adj_list = dict()
         self._junction_pin_ids = set()
         self._ground_pins = set()
+        self.nodes_count = 0
+        self.pin_labels = dict()
         circuit_name = self.core.get_attribute(circuit, 'name')
         self._netlist_ckt = Circuit(circuit_name)
-        self.logger.debug('Initialized empty spice netlist')
+        self._log_debug(f'Initialized empty spice netlist for {circuit_name}')
 
     def _identify_pins(self, circuit: dict) -> None:
         """Identify the pins and build adjacency list for pins
@@ -108,6 +112,9 @@ class ConvertCircuitToNetlist(PluginBase):
             A gme node of type Circuit
         """
         sub_circuits = self._get_children_of_type(circuit, 'Circuit')
+        self._log_info(f'Identifying pins for {self.core.get_attribute(circuit, "name")}. '
+                       f'Number of SubCircuits {len(sub_circuits)}')
+
         for sub_circuit in sub_circuits:
             self._identify_pins(sub_circuit)
 
@@ -122,6 +129,8 @@ class ConvertCircuitToNetlist(PluginBase):
 
             src_pin_id = self.core.get_path(src_pin)
             dst_pin_id = self.core.get_path(dst_pin)
+            self._log_debug(f'Wire {self.core.get_path(wire)}, src: {src_pin_id}, dst: {dst_pin_id} ')
+
             if not self._adj_list.get(src_pin_id):
                 self._adj_list[src_pin_id] = set()
             if not self._adj_list.get(dst_pin_id):
@@ -143,6 +152,10 @@ class ConvertCircuitToNetlist(PluginBase):
                 self._ground_pins.add(src_pin_id)
                 self._ground_pins.add(dst_pin_id)
 
+        self._log_info(f'Successfully identified all the pins for '
+                       f'{self.core.get_attribute(circuit, "name")}'
+                       f' with id {self.core.get_path(circuit)}')
+
     def _expand_junction_adjacency(self):
         """Expand the adjacency for pins connected to Junctions"""
         for pin_id in list(self._adj_list.keys()):
@@ -160,8 +173,7 @@ class ConvertCircuitToNetlist(PluginBase):
                     self._visit_junctions(extra_pin_id, visited)
 
     def _assign_spice_node_labels_to_pins(self):
-        self.nodes_count = 0
-        self.pin_labels = dict()
+        """Assign SPICE node labels to pins  based on the adjacency list"""
         component_pin_ids = []
         junction_pin_ids = []
         for pin_id in self._ground_pins:
@@ -193,29 +205,43 @@ class ConvertCircuitToNetlist(PluginBase):
                     self.pin_labels[adj_pin] = self.pin_labels[pin_id]
 
     def _get_remaining_pin_ids(self, pin):
+        """Returns the remaining pin ids of the component containing this pin"""
         parent = self.core.get_parent(pin)
         pins = self._get_children_of_type(parent, 'Pin')
         pins.remove(pin)
         return list(map(lambda node: self.core.get_path(node), pins))
 
     def _is_junction_pin(self, pin: dict) -> bool:
+        """Returns if the pin is a junction pin"""
         parent = self.core.get_parent(pin)
         return self.is_junction(node=parent)
 
     def _is_ground_pin(self, pin: dict) -> bool:
+        """Returns if the pin is a ground pin"""
         parent = self.core.get_parent(pin)
         return self.is_ground(node=parent)
 
     def _is_circuit_pin(self, pin: dict) -> bool:
+        """Returns if the pin is contained inside a circuit"""
         parent = self.core.get_parent(pin)
         return self.is_circuit(node=parent)
 
     def _get_parent_id(self, node: dict) -> str:
+        """Returns the parent id of a GME node"""
         parent = self.core.get_parent(node)
         return self.core.get_path(parent)
 
     def _populate_netlist(self, circuit: dict,
                           parent_netlist: Optional[Union[Circuit, SubCircuit]] = None):
+        """Populate the netlist with components from the Circuit
+
+        Parameters
+        ----------
+        circuit: dict
+            GME Node of type Circuit
+        parent_netlist: Optional[Union[Circuit, SubCircuit]], default=None
+            The PySpice Circuit or SubCircuit object of which the components will be a part of
+        """
         components = self._get_children_except(circuit, 'Pin', 'Wire', 'Junction', 'Ground')
         sub_circuits = self._get_children_of_type(circuit, 'Circuit')
 
@@ -234,12 +260,13 @@ class ConvertCircuitToNetlist(PluginBase):
             for pin in pins:
                 pin_id = self.core.get_path(pin)
                 pin_name = self.core.get_attribute(pin, 'name')
-                components_map[component_id][pin_name] = self._resolve_spice_node_id_for(pin_id)
+                components_map[component_id][pin_name] = self._resolve_spice_node_label_for(pin_id)
 
         for component in components_map.values():
             self._add_to_netlist(component, parent_netlist)
 
     def _add_to_netlist(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
+        """Add a particular component (GME Node) to the netlist"""
         try:
             self._is_capable_to_convert(component['node'])
         except NetListConversionError as e:
@@ -254,6 +281,7 @@ class ConvertCircuitToNetlist(PluginBase):
             self._add_semiconductors(component, netlist_ckt)
 
     def _add_basic_elements(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
+        """Add Basic elements to the netlist"""
         node = component['node']
         if is_res := (self.is_resistor(node=node)) or self.is_conductor(node=node):
             netlist_ckt.R(
@@ -261,7 +289,7 @@ class ConvertCircuitToNetlist(PluginBase):
                 component['p'],
                 component['n'],
                 self.core.get_attribute(node, 'R') if is_res else
-                1/self.core.get_attribute(node, 'G')
+                1 / self.core.get_attribute(node, 'G')
             )
         if self.is_inductor(node=node):
             netlist_ckt.L(
@@ -358,7 +386,7 @@ class ConvertCircuitToNetlist(PluginBase):
 
             class_callable(
                 get_next_label_for(
-                    'V' if any([vs1, vs2, vs3, vs4, vs5, vs6, vs7, vs8])
+                    'V' if any([vs1, vs2, vs3, vs4, vs5, vs6, vs7, vs8, vs9])
                     else 'I'
                 ),
                 component['p'],
@@ -367,6 +395,7 @@ class ConvertCircuitToNetlist(PluginBase):
             )
 
     def _add_semiconductors(self, component: dict, netlist_ckt: Union[Circuit, SubCircuit]) -> None:
+        """Add Semiconductor components to the netlist"""
         node = component['node']
         # SemiConductors
         if self.is_diode(node=node) or self.is_led(node=node) \
@@ -395,6 +424,9 @@ class ConvertCircuitToNetlist(PluginBase):
             )
 
     def _get_external_spice_nodes_for(self, circuit: dict) -> list:
+        """Get external exposed nodes for a sub-circuit/circuit
+        This function extract pins of a circuit/sub-circuit to add to the netlist
+        """
         msg = 'Provided node is not of type Circuit'
         assert self.is_circuit(node=circuit), self._log_error(msg)
 
@@ -402,11 +434,12 @@ class ConvertCircuitToNetlist(PluginBase):
         external_spice_nodes = []
         for pin in pins:
             pin_id = self.core.get_path(pin)
-            spice_node_id = self._resolve_spice_node_id_for(pin_id)
+            spice_node_id = self._resolve_spice_node_label_for(pin_id)
             external_spice_nodes.append(spice_node_id)
         return external_spice_nodes
 
-    def _resolve_spice_node_id_for(self, pin_id):
+    def _resolve_spice_node_label_for(self, pin_id):
+        """Return the SPICE node label for a particular pin"""
         if pin_id in self.pin_labels:
             return self.pin_labels[pin_id]
         else:
@@ -414,12 +447,14 @@ class ConvertCircuitToNetlist(PluginBase):
             return f'N000{self.nodes_count}'
 
     def _get_pyspice_class_name(self, node: dict) -> str:
+        """From a GME Node, get the PySpice class name that it should resolve to"""
         meta_node = self.core.get_meta_type(node)
         if meta_node:
             return self.core.get_attribute(meta_node, 'name')
 
     # Helper Methods for gme nodes
     def _get_children_of_type(self, node: dict, type_: str) -> List[dict]:
+        """Returns children of a GME node of specific type"""
         return list(
             filter(
                 lambda x: self.core.get_meta_type(x) == self.META[type_],
@@ -427,13 +462,23 @@ class ConvertCircuitToNetlist(PluginBase):
             )
         )
 
-    def _get_children_except(self, node: dict, *args: List[str]) -> List[dict]:
+    def _get_children_except(self, node: dict, *args: Iterable[str]) -> List[dict]:
+        """Returns children of a GME Node except provided as positional arguments"""
         assert (type(arg) == str for arg in args), 'Please Provide a specific type'
         children = []
         for child in self.core.load_children(node):
             if all(self.core.get_meta_type(child) != self.META[arg] for arg in args):
                 children.append(child)
         return children
+
+    def _is_capable_to_convert(self, node) -> bool:
+        """Returns whether or not conversion is possible"""
+        for skip in SKIP_NODES:
+            if self.core.is_type_of(node, self.META[skip]):
+                raise NetListConversionError(
+                    f'Node of type {skip} is not supported yet'
+                )
+        return True
 
     # General Logging functions
     def _log_error(self, msg: str) -> None:
@@ -445,15 +490,8 @@ class ConvertCircuitToNetlist(PluginBase):
     def _log_debug(self, msg: str) -> None:
         self.logger.debug(msg)
 
-    def _is_capable_to_convert(self, node) -> bool:
-        for skip in SKIP_NODES:
-            if self.core.is_type_of(node, self.META[skip]):
-                raise NetListConversionError(
-                    f'Node of type {skip} is not supported yet'
-                )
-        return True
-
     @staticmethod
-    def _to_camel_case(string: str) -> str:
+    def _to_snake_case(string: str) -> str:
+        """Convert a camel case `CamelCase` string to snake case (camel_case)"""
         string = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', string)
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', string).lower()
