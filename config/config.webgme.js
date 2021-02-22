@@ -16,12 +16,18 @@ config.seedProjects.basePaths.push(__dirname + '/../src/seeds/project');
 
 
 
-
+config.rest.components['BindingsDocs'] = {
+  src: __dirname + '/../node_modules/webgme-bindings/src/routers/BindingsDocs/BindingsDocs.js',
+  mount: 'bindings-docs',
+  options: {}
+};
 
 // Visualizer descriptors
 
 // Add requirejs paths
 config.requirejsPaths = {
+  'BindingsDocs': 'node_modules/webgme-bindings/src/routers/BindingsDocs',
+  'webgme-bindings': './node_modules/webgme-bindings/src/common',
   'electric-circuits': './src/common'
 };
 
