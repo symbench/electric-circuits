@@ -8,3 +8,4 @@ dependencies:
   - pyspice
   - pip:
       - requests
+      - webgme-bindings

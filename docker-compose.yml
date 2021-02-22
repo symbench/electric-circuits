@@ -16,6 +16,7 @@ services:
       - DEPLOYMENT_BLOB_DIR=/data/blob
     ports:
       - "8888:8888"
+      - "5555:5555"
     volumes:
       - "$HOME/.webgme/blob:/data/blob"
       - "${TOKEN_KEYS_DIR}:/token_keys"

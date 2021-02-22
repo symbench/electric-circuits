@@ -17,7 +17,11 @@ config.seedProjects.basePaths.push(__dirname + '/../src/seeds/project');
 
 config.visualization.panelPaths.push(__dirname + '/../src/visualizers/panels');
 
-
+config.rest.components['BindingsDocs'] = {
+  src: __dirname + '/../node_modules/webgme-bindings/src/routers/BindingsDocs/BindingsDocs.js',
+  mount: 'bindings-docs',
+  options: {}
+};
 
 // Visualizer descriptors
 config.visualization.visualizerDescriptors.push(__dirname + '/../src/visualizers/Visualizers.json');
@@ -25,6 +29,8 @@ config.visualization.visualizerDescriptors.push(__dirname + '/../src/visualizers
 config.requirejsPaths = {
   'panels': './src/visualizers/panels',
   'widgets': './src/visualizers/widgets',
+  'BindingsDocs': 'node_modules/webgme-bindings/src/routers/BindingsDocs',
+  'webgme-bindings': './node_modules/webgme-bindings/src/common',
   'electric-circuits': './src/common'
 };
 

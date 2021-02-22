@@ -2,7 +2,7 @@
   "name": "electric-circuits",
   "scripts": {
     "postinstall": "npm run build-svelte",
-    "start": "node app.js",
+    "start": "source activate electric-circuits && node app.js",
     "test": "node ./node_modules/mocha/bin/mocha --recursive test",
     "build-svelte": "rollup -c",
     "watch-svelte": "rollup -c -w",
@@ -35,7 +35,8 @@
     "jointjs": "^3.3.0",
     "lodash-amd": "^4.17.15",
     "dagre": "^0.8.5",
-    "graphlib": "^2.1.8"
+    "graphlib": "^2.1.8",
+    "webgme-bindings": "^1.2.1"
   },
   "description": "First, install the electric-circuits following: - [NodeJS](https://nodejs.org/en/) (v4.x.x recommended) - [MongoDB](https://www.mongodb.com/)",
   "main": "app.js",

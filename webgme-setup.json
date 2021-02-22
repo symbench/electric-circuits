@@ -9,6 +9,10 @@
       "CreateElectricCircuitsMeta": {
         "src": "src/plugins/CreateElectricCircuitsMeta",
         "test": "test/plugins/CreateElectricCircuitsMeta"
+      },
+      "ConvertCircuitToNetlist": {
+        "src": "src/plugins/ConvertCircuitToNetlist",
+        "test": "test/plugins/ConvertCircuitToNetlist"
       }
     },
     "seeds": {
@@ -17,11 +21,10 @@
       },
       "project": {
         "src": "src/seeds/project"
+      },
+      "test": {
+        "src": "src/seeds/test"
       }
-    },
-    "dependencies": {
-      "plugins": {},
-      "seeds": {}
     },
     "visualizers": {
       "ElectricCircuitsEditor": {
@@ -30,6 +33,18 @@
         "panel": "src/visualizers/panels/ElectricCircuitsEditor",
         "secondary": false,
         "widget": "src/visualizers/widgets/ElectricCircuitsEditor"
+      }
+    },
+    "routers": {}
+  },
+  "dependencies": {
+    "plugins": {},
+    "seeds": {},
+    "routers": {
+      "BindingsDocs": {
+        "project": "webgme-bindings",
+        "path": "node_modules/webgme-bindings/src/routers/BindingsDocs",
+        "mount": "bindings-docs"
       }
     }
   }
