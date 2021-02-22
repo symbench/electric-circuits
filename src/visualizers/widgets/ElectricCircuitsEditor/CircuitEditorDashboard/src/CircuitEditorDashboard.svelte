@@ -18,6 +18,10 @@
     let componentAttributes;
     let currentComponentId;
     let zoomValues;
+    let rankDirOpts, rankDir;
+    let alignOpts;
+    let rectAdded = false;
+
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance) {
         joint = jointInstance;
@@ -25,8 +29,11 @@
         graphlib = graphlibInstance;
         addedCellIds = [];
         wires = {};
+        rectAdded = false;
         contextMenuAttrs = {};
         zoomValues = [1.0, 1.5, 2, 2.5, 3];
+        rankDirOpts = ['TB', 'BT', 'LR', 'RL'];
+        rankDir = 'LR';
         defineElectricCircuitShapes(joint);
     }
 
@@ -41,11 +48,10 @@
             gridSize: 5,
             drawGrid: {drawGrid: 'dot', args: { color: 'black' }},
             snapLinks: true,
-            allowLink: () => false,
+            allowLink: () => true,
             defaultLink: new joint.dia.Link,
             defaultRouter: {name: 'manhattan', args: {padding: 30, elementPadding: 30}}
         });
-
         initializePaperEvents(circuitPaper);
     }
 
@@ -96,8 +102,6 @@
         if (cell) {
             setCellAttributes(cell, cellJSON);
         }
-
-
     }
 
     export function addCell(cellJSON) {
@@ -139,6 +143,31 @@
             });
         }
 
+        if(!rectAdded) {
+            Object.keys(joint.shapes.circuit).forEach(key => {
+                const cell = new joint.shapes.circuit[key]();
+                circuitGraph.addCell(cell);
+            });
+            const rect = new joint.shapes.circuit.Circuit();
+            rect.attr({
+                body: {
+                    fill: '#CECECE'
+                },
+                label: {
+                    text: 'Hello',
+                    fill: 'white'
+                }
+            });
+            // rect.size(100, 200);
+            // rect.addInPort('port1');
+            // rect.addOutPort('port2');
+            // rect.addOutPort('port3');
+            // rect.addInPort('port4');
+            // console.log(rect.toJSON());
+            // circuitGraph.addCell(rect);
+            rectAdded = true;
+        }
+
         relayoutGraph();
 
     }
@@ -154,6 +183,7 @@
             componentAttributes = [];
             currentComponentId = currentElement.id;
             const currentComponentAttrs = contextMenuAttrs[currentComponentId];
+
             Object.keys(currentComponentAttrs).forEach(attr => {
                 componentAttributes.push({
                     name: attr,
@@ -165,6 +195,7 @@
             attrDivTop = `${y - offset.y + 50}px`;
             attrDivLeft = `${x - offset.x + 50}px`;
         });
+
 
         paper.on('blank:pointerclick', resetAttrsDiv);
         paper.on('cell:pointerclick', resetAttrsDiv);
@@ -180,7 +211,7 @@
     function relayoutGraph() {
          joint.layout.DirectedGraph.layout(circuitGraph, {
              setLinkVertices: true,
-             rankDir: 'LR',
+             rankDir: rankDir || 'LR',
              nodeSep: 100,
              rankSep: 100,
              dagre: dagre,
@@ -190,6 +221,11 @@
          });
 
          scaleCircuitPaperToFitContent(1.0)
+    }
+
+    function setRankDirValue() {
+        rankDir = jq('#rankdir').val();
+        jq('#rankdir').blur();
     }
 
     function scaleCircuitPaperToFitContent(zoomLevel) {
@@ -244,9 +280,26 @@
     <nav bind:this={navBar} class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button class="navbar-brand btn-clear" disabled>ElectricCircuits Editor</button>
+                <button type="button" class="navbar-brand btn-clear" disabled>ElectricCircuits Editor</button>
+            </div>
+
+            <div class="navbar-form navbar-right">
+                {#if rankDirOpts}
+                    <div class="form-group" style="margin-right: 10px">
+                        <label for="rankdir" style="font-size: 14px">RankDir:</label>
+                        <select on:blur|stopPropagation|preventDefault={relayoutGraph}
+                                on:change|stopPropagation|preventDefault={setRankDirValue}
+                                class="form-control" id="rankdir"
+                                bind:value={rankDir}>
+                            {#each rankDirOpts as opt}
+                                <option value="{opt}">{opt}</option>
+                            {/each}>
+                        </select>
+                    </div>
+                {/if}
             </div>
         </div>
+
     </nav>
     <div class="row row-list">
         <div class="col-md-12" style="overflow: scroll">

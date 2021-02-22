@@ -5,7 +5,7 @@ define([
 ], function (
     GMEConcepts
 ){
-    class NodeToJSON {
+    class NodesToJointJSON {
         constructor(client) {
             this.client = client;
             this._initialize();
@@ -81,5 +81,5 @@ define([
         }
     }
 
-    return NodeToJSON;
+    return NodesToJointJSON;
 });

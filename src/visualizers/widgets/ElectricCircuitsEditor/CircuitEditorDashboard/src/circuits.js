@@ -95,8 +95,8 @@ export const defineElectricCircuitShapes = function (joint) {
             '.pin4': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'n2', portid: 'n2'},
             '.body': {width: 80, height: 80, align: 'center'},
             text: {
-                'ref-x': 40,
-                'ref-y': 85,
+                'ref-x': 0.5,
+                'ref-y': '110%',
                 'y-alignment': 'middle'
             }
         }
@@ -161,34 +161,34 @@ export const defineElectricCircuitShapes = function (joint) {
     const Inductor = TwoPinComponentHorizontal.define('circuit.Inductor', {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEiIHkyPSIyMCIgeDI9IjI1IiB5MT0iMjAiIHgxPSI1IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z18yIiB5Mj0iMjAiIHgyPSI3NSIgeTE9IjIwIiB4MT0iNTQuNTM4NDYiCiAgICAgICAgICAgICAgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxwYXRoIGQ9Ik0yNSAyMCBBIDAuMSAwLjEgMCAwIDEgMzUgMjAgTSAzNSAyMCBBIDAuMSAwLjEgMCAwIDEgNDUgMjAgTSA0NSAyMCBBIDAuMSAwLjEgMCAwIDEgNTUgMjAiCiAgICAgICAgICAgICAgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIvPgogICAgPC9nPgogICAgPGcgY2xhc3M9InBvcnRzIj4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1wIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtbiIvPgogICAgPC9nPgo8L3N2Zz4K'},
-            text: {text: 'Inductor'},
+            text: {text: 'Inductor'}
         }
     });
+
+    const SaturatingInductor = Inductor.define('circuit.SaturatingInductor', {
+        attrs: {
+            text: {text: 'SaturatingInductor'}
+        }
+    })
 
     const VariableInductor = TwoPinComponentHorizontal.define('circuit.VariableInductor', {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBpZD0ic3ZnXzMiIHkyPSIxMS44MzE2OCIgeDI9IjYyLjI3NzIzIiB5MT0iMjQuOTAwOTkiIHgxPSIxOS4xMDg5MSIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgaWQ9InN2Z180IiB5Mj0iMTIuMDI5NyIgeDI9IjYyLjI3NzIzIiB5MT0iMTAuODQxNTgiIHgxPSI1OC45MTA4OSIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHRyYW5zZm9ybT0icm90YXRlKDEwNC43MTk3MTEzMDM3MTA5NCA2MS4xODgxMTc5ODA5NTcwMywxMi44MjE3ODIxMTIxMjE1OCkgIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgaWQ9InN2Z185IiB5Mj0iMTMuNDE1ODQiIHgyPSI2Mi44NzEyOSIgeTE9IjEyLjIyNzcyIiB4MT0iNTkuNTA0OTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iNSIgeTE9IjIwIiB4Mj0iMjUiIHkyPSIyMCIgaWQ9InN2Z18xIiBzdHJva2UtbGluZWpvaW49Im51bGwiIHN0cm9rZS1saW5lY2FwPSJudWxsIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjU0LjUzODQ2IiB5MT0iMjAiIHgyPSI3NSIgeTI9IjIwIiBpZD0ic3ZnXzIiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgc3Ryb2tlLWxpbmVjYXA9Im51bGwiLz4KICAgICAgICA8cGF0aCBpZD0ic3ZnXzUiIHN0cm9rZT0iYmxhY2siIGZpbGw9Im5vbmUiIGQ9Im0yNSwyMGEwLjEsMC4xIDAgMCAxIDEwLDBtMCwwYTAuMSwwLjEgMCAwIDEgMTAsMG0wLDBhMC4xLDAuMSAwIDAgMSAxMCwwIi8+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LXAiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1uIi8+CiAgICA8L2c+Cjwvc3ZnPgo='},
-            text: {text: 'VariableInductor'},
-            '.pinn': {'ref-x': 100, 'ref-y': 25},
-            '.pinp': {'ref-x': 0, 'ref-y': 25}
+            text: {text: 'VariableInductor'}
         }
     });
 
     const Conductor = TwoPinComponentHorizontal.define('circuit.Conductor', {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KCiAgICA8Zz4KICAgICAgICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNSIgeDE9IjEwIiB5MT0iMjAiIHgyPSIyMCIgeTI9IjIwIiBpZD0ic3ZnXzEiCiAgICAgICAgICAgICAgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiB4MT0iNjAiIHkxPSIyMCIgeDI9IjcwIiB5Mj0iMjAiIGlkPSJzdmdfMiIKICAgICAgICAgICAgICBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIvPgogICAgICAgIDxyZWN0IGlkPSJzdmdfOSIgaGVpZ2h0PSIxMi4wOTg3NiIgd2lkdGg9IjM5Ljk5OTk5IiB5PSIxNC4wMTIzNSIgeD0iMTkuNjI5NjQiIGZpbGwtb3BhY2l0eT0ibnVsbCIKICAgICAgICAgICAgICBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgPC9nPgoKICAgIDxnIGlkPSJzdmdfMyIgY2xhc3M9InBvcnRzIj4KICAgICAgICA8ZyBpZD0ic3ZnXzQiIGNsYXNzPSJwb3J0LXAiLz4KICAgICAgICA8ZyBpZD0ic3ZnXzgiIGNsYXNzPSJwb3J0LW4iLz4KICAgIDwvZz4KCjwvc3ZnPgo='},
-            text: {text: 'Conductor'},
-            '.pinn': {'ref-x': 92, 'ref-y': 25},
-            '.pinp': {'ref-x': 8, 'ref-y': 25}
+            text: {text: 'Conductor'}
         }
     });
 
     const VariableConductor = TwoPinComponentHorizontal.define('circuit.VariableConductor', {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KCiAgICA8Zz4KICAgICAgICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNSIgeDE9IjEwIiB5MT0iMjAiIHgyPSIyMCIgeTI9IjIwIiBpZD0ic3ZnXzEiCiAgICAgICAgICAgICAgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiB4MT0iNjAiIHkxPSIyMCIgeDI9IjcwIiB5Mj0iMjAiIGlkPSJzdmdfMiIKICAgICAgICAgICAgICBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIvPgogICAgICAgIDxyZWN0IGlkPSJzdmdfOSIgaGVpZ2h0PSIxMi4wOTg3NiIgd2lkdGg9IjM5Ljk5OTk5IiB5PSIxNC4wMTIzNSIgeD0iMTkuNjI5NjQiIGZpbGwtb3BhY2l0eT0ibnVsbCIKICAgICAgICAgICAgICBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZT0iIzAwMCIgdHJhbnNmb3JtPSJyb3RhdGUoOC4wMTc5OTk2NDkwNDc4NTIgMzkuOTk5OTk2MTg1MzAyNzM0LDE5LjE3NzkyMTI5NTE2NjAxMikgIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgaWQ9InN2Z18zIiB5Mj0iNC41Mzk3MyIgeDI9IjU2Ljc5NjY2IiB5MT0iMzMuODE2MTIiIHgxPSIyMy4yMDMzMyIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgaWQ9InN2Z180IiB5Mj0iNy4zMjQyNyIgeDI9IjU4LjM2NDc1IiB5MT0iNi40MjMzNyIgeDE9IjUzLjQ5OTg5IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlPSIjMDAwIiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgNTcuNzA5OTk1MjY5Nzc1MzksOS41MzI3ODkyMzAzNDY2NzQpICIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIGlkPSJzdmdfNSIgeTI9IjkuOTgzMjQiIHgyPSI2MC4xNDI0MyIgeTE9IjkuMDgyMzQiIHgxPSI1NS4yNzc1NiIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiLz4KICAgIDwvZz4KCiAgICA8ZyBpZD0ic3ZnXzMiIGNsYXNzPSJwb3J0cyI+CiAgICAgICAgPGcgaWQ9InN2Z180IiBjbGFzcz0icG9ydC1wIi8+CiAgICAgICAgPGcgaWQ9InN2Z184IiBjbGFzcz0icG9ydC1uIi8+CiAgICA8L2c+Cgo8L3N2Zz4K'},
-            text: {text: 'VariableConductor'},
-            '.pinn': {'ref-x': 92, 'ref-y': 25},
-            '.pinp': {'ref-x': 8, 'ref-y': 25}
+            text: {text: 'VariableConductor'}
         }
     });
 
@@ -196,8 +196,6 @@ export const defineElectricCircuitShapes = function (joint) {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBpZD0ic3ZnXzEiIHkyPSIyMCIgeDI9IjI4IiB5MT0iMjAiIHgxPSI1IiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIGlkPSJzdmdfMiIgeTI9IjIwLjE3MTU3IiB4Mj0iNzUiIHkxPSIyMCIgeDE9IjUyIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxwYXRoIHN0cm9rZT0iIzAwMCIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMzkuNDMxMTg2Njc2MDI1NCwxOS44MjEwNzczNDY4MDE3NikgIiBpZD0ic3ZnXzQiIGQ9Im0yOC41Nzg5NCwzMS4xNTQzNWwxMC44NTIyNCwtMjIuNjY2NTVsMTAuODUyMjQsMjIuNjY2NTVsLTIxLjcwNDQ5LDB6IiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfNyIgeTI9IjMwIiB4Mj0iNTEuOTYwNzMiIHkxPSI5LjU4MzM4IiB4MT0iNTEuNTY4NTciIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzgiIHkyPSIyNC44Nzc0MyIgeDI9IjExMy41MjkwNiIgeTE9IjI0Ljg3NzQzIiB4MT0iMTEzLjkyMTIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LXAiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1uIi8+CiAgICA8L2c+Cjwvc3ZnPgo='},
             text: {text: 'Diode'},
-            '.pinn': {'ref-x': 100, 'ref-y': 25},
-            '.pinp': {'ref-x': 0, 'ref-y': 25}
         }
     });
 
@@ -205,8 +203,6 @@ export const defineElectricCircuitShapes = function (joint) {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0iMCIgeDE9IjUiIHkxPSIyMCIgeDI9IjI4IiB5Mj0iMjAiIGlkPSJzdmdfMSIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiB4MT0iNTIiIHkxPSIyMCIgeDI9Ijc1IiB5Mj0iMjAuMTcxNTciIGlkPSJzdmdfMiIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiBkPSJtMjguNTc4OTQsMzEuMTU0MzVsMTAuODUyMjQsLTIyLjY2NjU1bDEwLjg1MjI0LDIyLjY2NjU1bC0yMS43MDQ0OSwwbDAuMDAwMDEsMHoiIGlkPSJzdmdfNCIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMzkuNDMxMTg2Njc2MDI1NCwxOS44MjEwNzczNDY4MDE3NikgIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiB4MT0iNTEuNTY4NTciIHkxPSI5LjU4MzM4IiB4Mj0iNTEuOTYwNzMiIHkyPSIzMCIgaWQ9InN2Z183IiBzdHJva2UtbGluZWpvaW49Im51bGwiIHN0cm9rZS1saW5lY2FwPSJudWxsIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0iMCIgeDE9IjExMy45MjEyMSIgeTE9IjI0Ljg3NzQzIiB4Mj0iMTEzLjUyOTA2IiB5Mj0iMjQuODc3NDMiIGlkPSJzdmdfOCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBzdHJva2UtbGluZWNhcD0ibnVsbCIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBpZD0ic3ZnXzkiIHkyPSIxMCIgeDI9IjUyIiB5MT0iMyIgeDE9IjQ0IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIGlkPSJzdmdfMTAiIHkyPSIzNyIgeDI9IjYwIiB5MT0iMzAiIHgxPSI1MiIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgPC9nPgogICAgPGcgY2xhc3M9InBvcnRzIj4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1wIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtbiIvPgogICAgPC9nPgo8L3N2Zz4K'},
             text: {text: 'ZDiode'},
-            '.pinn': {'ref-x': 100, 'ref-y': 25},
-            '.pinp': {'ref-x': 0, 'ref-y': 25}
         }
     });
 
@@ -214,8 +210,6 @@ export const defineElectricCircuitShapes = function (joint) {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0iMCIgeDE9IjUiIHkxPSIyMCIgeDI9IjI4IiB5Mj0iMjAiIGlkPSJzdmdfMSIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiB4MT0iNTIiIHkxPSIyMCIgeDI9Ijc1IiB5Mj0iMjAuMTcxNTciIGlkPSJzdmdfMiIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiBkPSJtMjguNTc4OTQsMzEuMTU0MzVsMTAuODUyMjQsLTIyLjY2NjU1bDEwLjg1MjI0LDIyLjY2NjU1bC0yMS43MDQ0OSwwbDAuMDAwMDEsMHoiIGlkPSJzdmdfNCIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMzkuNDMxMTc1MjMxOTMzNiwxOS44MjEwNzU0Mzk0NTMxMykgIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiB4MT0iNTEuNTY4NTciIHkxPSI5LjU4MzM4IiB4Mj0iNTEuOTYwNzMiIHkyPSIzMCIgaWQ9InN2Z183IiBzdHJva2UtbGluZWpvaW49Im51bGwiIHN0cm9rZS1saW5lY2FwPSJudWxsIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0iMCIgeDE9IjExMy45MjEyMSIgeTE9IjI0Ljg3NzQzIiB4Mj0iMTEzLjUyOTA2IiB5Mj0iMjQuODc3NDMiIGlkPSJzdmdfOCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBzdHJva2UtbGluZWNhcD0ibnVsbCIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfNSIgeTI9IjkuMjA5NzUiIHgyPSItMjEuODU0MDEiIHkxPSI5LjUxMzciIHgxPSItMjIuMTU3OTYiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzE2IiB5Mj0iMTAiIHgyPSI1NS45MTE4NSIgeTE9IjEwIiB4MT0iNTAuOTExODUiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzE3IiB5Mj0iMjkuNDUyODYiIHgyPSI1Mi41NjgzOSIgeTE9IjI5LjQ1Mjg2IiB4MT0iNDcuNTY4MzkiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSB0cmFuc2Zvcm09InJvdGF0ZSg5MCA1NS4yMzU1NTc1NTYxNTIzNDQsMTIuMTI3NjU0MDc1NjIyNTY0KSAiIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfMTgiIHkyPSIxMi4xMjc2NiIgeDI9IjU3LjczNTU2IiB5MT0iMTIuMTI3NjYiIHgxPSI1Mi43MzU1NiIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHRyYW5zZm9ybT0icm90YXRlKDkwIDQ4LjI0NDY3ODQ5NzMxNDQ2LDI3LjYyOTE2NzU1Njc2MjcpICIgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z18xOSIgeTI9IjI3LjYyOTE1IiB4Mj0iNTAuNzQ0NjkiIHkxPSIyNy42MjkxNSIgeDE9IjQ1Ljc0NDY5IiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LXAiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1uIi8+CiAgICA8L2c+Cjwvc3ZnPgo='},
             text: {text: 'SchottkyDiode'},
-            '.pinn': {'ref-x': 100, 'ref-y': 25},
-            '.pinp': {'ref-x': 0, 'ref-y': 25}
         }
     });
 
@@ -223,8 +217,6 @@ export const defineElectricCircuitShapes = function (joint) {
         attrs: {
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0iMCIgeDE9IjUiIHkxPSIyMCIgeDI9IjI4IiB5Mj0iMjAiIGlkPSJzdmdfMSIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiB4MT0iNTIiIHkxPSIyMCIgeDI9Ijc1IiB5Mj0iMjAuMTcxNTciIGlkPSJzdmdfMiIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxwYXRoIGNsYXNzPSJmaWxsLWNvbG9yIiBmaWxsPSJyZWQiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIxIgogICAgICAgICAgICAgIGQ9Im0yOC41Nzg5NCwzMS4xNTQzNWwxMC44NTIyNCwtMjIuNjY2NTVsMTAuODUyMjQsMjIuNjY2NTVsLTIxLjcwNDQ5LDBsMC4wMDAwMSwweiIgaWQ9InN2Z180IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCAzOS40MzExNzUyMzE5MzM2LDE5LjgyMTA3NTQzOTQ1MzEzKSAiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9IjAiIHgxPSI1MS41Njg1NyIgeTE9IjkuNTgzMzgiIHgyPSI1MS45NjA3MyIgeTI9IjMwIiBpZD0ic3ZnXzciIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgc3Ryb2tlLWxpbmVjYXA9Im51bGwiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSIwIiB4MT0iMTEzLjkyMTIxIiB5MT0iMjQuODc3NDMiIHgyPSIxMTMuNTI5MDYiIHkyPSIyNC44Nzc0MyIgaWQ9InN2Z184IiBzdHJva2UtbGluZWpvaW49Im51bGwiIHN0cm9rZS1saW5lY2FwPSJudWxsIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z181IiB5Mj0iOS4yMDk3NSIgeDI9Ii0yMS44NTQwMSIgeTE9IjkuNTEzNyIgeDE9Ii0yMi4xNTc5NiIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfMTAiIHkyPSI3LjA4MjA5IiB4Mj0iNDguOTY2NTUiIHkxPSIxMy4xNjExMSIgeDE9IjQzLjQ5NTQ0IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z18xMSIgeTI9IjcuMDgyMDkiIHgyPSI0OS4yNzA1IiB5MT0iNy42ODk5OSIgeDE9IjQ0LjQwNzI5IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgdHJhbnNmb3JtPSJyb3RhdGUoLTg4LjMxNTM1MzM5MzU1NDY5IDQ4Ljk2NjU1MjczNDM3NTAxLDkuMjA5NzQ1NDA3MTA0NDkyKSAiIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfMTIiIHkyPSI4LjkwNTc5IiB4Mj0iNTEuMzk4MTYiIHkxPSI5LjUxMzciIHgxPSI0Ni41MzQ5NCIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfMyIgeTI9IjMuNDM0NjgiIHgyPSI0Mi41ODM1OCIgeTE9IjkuNTEzNyIgeDE9IjM3LjExMjQ3IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z182IiB5Mj0iMy40MzQ2OCIgeDI9IjQyLjg4NzUzIiB5MT0iNC4wNDI1OCIgeDE9IjM4LjAyNDMyIiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgdHJhbnNmb3JtPSJyb3RhdGUoLTg4LjMxNTM1MzM5MzU1NDY5IDQyLjU4MzU4MDAxNzA4OTg0NCw1LjU2MjMzNTAxNDM0MzI2MzUpICIgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z185IiB5Mj0iNS4yNTgzOCIgeDI9IjQ1LjAxNTE5IiB5MT0iNS44NjYyOSIgeDE9IjQwLjE1MTk4IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LXAiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1uIi8+CiAgICA8L2c+Cjwvc3ZnPgo='},
             text: {text: 'LED'},
-            '.pinn': {'ref-x': 100, 'ref-y': 25},
-            '.pinp': {'ref-x': 0, 'ref-y': 25}
         }
     });
 
@@ -429,7 +421,7 @@ export const defineElectricCircuitShapes = function (joint) {
             '.pin2': {'ref-x': 0, 'ref-y': 55, magnet: true, port: 'n1', portid: 'n1'},
             '.pin3': {'ref-x': 80, 'ref-y': 25, magnet: true, port: 'p2', portid: 'p2'},
             '.pin4': {'ref-x': 80, 'ref-y': 55, magnet: true, port: 'n2', portid: 'n2'},
-            text: {'ref-y': 70}
+            text: {'ref-y': '110%'}
         }
     });
 
@@ -472,8 +464,8 @@ export const defineElectricCircuitShapes = function (joint) {
         attrs: {
             '.pin1': {'ref-x': 40, 'ref-y': 20, magnet: true, port: 'VMin', portid: 'VMin'},
             '.pin2': {'ref-x': 40, 'ref-y': 60, magnet: true, port: 'VMax', portid: 'VMax'},
-            '.pin3': {'ref-x': 10, 'ref-y': 30, magnet: true, port: 'in_p', portid: 'in_p'},
-            '.pin4': {'ref-x': 10, 'ref-y': 50, magnet: true, port: 'in_n', portid: 'in_n'},
+            '.pin3': {'ref-x': 10, 'ref-y': 30, magnet: true, port: 'in_n', portid: 'in_n'},
+            '.pin4': {'ref-x': 10, 'ref-y': 50, magnet: true, port: 'in_p', portid: 'in_p'},
             '.pin5': {'ref-x': 70, 'ref-y': 40, magnet: true, port: 'out', portid: 'out'},
             text: {text: 'OpAmp'},
             image: {'xlink:href': 'data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPCEtLSBDcmVhdGVkIHdpdGggTWV0aG9kIERyYXcgLSBodHRwOi8vZ2l0aHViLmNvbS9kdW9waXhlbC9NZXRob2QtRHJhdy8gLS0+CiAgICA8Zz4KICAgICAgICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgICAgICAgPHBhdGggc3Ryb2tlPSIjMDAwIiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA0MC4wNDkwOTEzMzkxMTEzMywzOS45NTU1ODkyOTQ0MzM2KSAiIGlkPSJzdmdfNCIgZD0ibTIzLjY5Mzk1LDYwLjUxNjM0bDE2LjM1NTE0LC00MS4xMjE1bDE2LjM1NTE0LDQxLjEyMTVsLTMyLjcxMDI4LDB6IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfNyIgeTI9IjMyIiB4Mj0iNDAiIHkxPSIyNSIgeDE9IjQwIiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z184IiB5Mj0iNTUiIHgyPSI0MCIgeTE9IjQ4IiB4MT0iNDAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEwIiB5Mj0iMzAiIHgyPSIyMCIgeTE9IjMwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzExIiB5Mj0iNTAiIHgyPSIyMCIgeTE9IjUwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEyIiB5Mj0iNDAiIHgyPSI2NSIgeTE9IjQwIiB4MT0iNjAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4bWw6c3BhY2U9InByZXNlcnZlIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBpZD0ic3ZnXzEzIiB5PSIzMy44MzE3OCIgeD0iMjAuMTg2OTIiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMCIgc3Ryb2tlPSIjMDAwIiBmaWxsPSIjMDAwMDAwIj4rPC90ZXh0PgogICAgICAgIDx0ZXh0IHhtbDpzcGFjZT0icHJlc2VydmUiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGlkPSJzdmdfMTQiIHk9IjUzLjI3MTAzIiB4PSIyMS42ODIyNCIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIwIiBzdHJva2U9IiMwMDAiIGZpbGw9IiMwMDAwMDAiPi08L3RleHQ+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTEiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC0yIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtMyIvPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTQiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC01Ii8+CiAgICA8L2c+Cjwvc3ZnPgo='}
@@ -482,8 +474,9 @@ export const defineElectricCircuitShapes = function (joint) {
 
     const Wire = joint.dia.Link;
 
+    const Circuit = joint.shapes.devs.Model.define('circuit.Circuit', {});
+
     joint.shapes.circuit = {
-        SinglePinComponent: SinglePinComponent,
         Pin: Pin,
         Ground: Ground,
         Resistor: Resistor,
@@ -492,6 +485,7 @@ export const defineElectricCircuitShapes = function (joint) {
         Capacitor: Capacitor,
         VariableCapacitor: VariableCapacitor,
         Inductor: Inductor,
+        SaturatingInductor: SaturatingInductor,
         VariableInductor: VariableInductor,
         Conductor: Conductor,
         VariableConductor: VariableConductor,
@@ -516,11 +510,9 @@ export const defineElectricCircuitShapes = function (joint) {
         SingleFrequencyFMVoltageSource: SingleFrequencyFMVoltageSource,
         SingleFrequencyFMCurrentSource: SingleFrequencyFMCurrentSource,
         AcLine: AcLine,
-        Transistor: Transistor,
         NPN: NPN,
         PNP: PNP,
         Junction: Junction,
-        MOSFET: MOSFET,
         NMOS: NMOS,
         PMOS: PMOS,
         CCC: CCC,
@@ -529,6 +521,7 @@ export const defineElectricCircuitShapes = function (joint) {
         VCC: VCC,
         Transformer: Transformer,
         OpAmp: OpAmp,
-        Wire: Wire
+        Wire: Wire,
+        Circuit: Circuit,
     };
 }
