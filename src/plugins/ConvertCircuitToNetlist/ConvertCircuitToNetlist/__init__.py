@@ -1,10 +1,12 @@
+import logging
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 
 BASE_PLUGIN_PATH = Path(
     f"{__file__}/../../../../common/plugins/CircuitAnalysisBases.py"
 ).resolve()
-IMPORT_MODULE_NAME = "electric_circuits.circuit_analysis_bases"
+
+IMPORT_MODULE_NAME = "electric_circuits.plugin_bases"
 BASE_PLUGIN_NAME = "CircuitToPySpiceBase"
 
 spec = spec_from_file_location(IMPORT_MODULE_NAME, BASE_PLUGIN_PATH)

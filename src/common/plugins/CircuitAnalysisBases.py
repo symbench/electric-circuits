@@ -37,6 +37,7 @@ class PySpiceConversionError(Exception):
 
 class CircuitToPySpiceBase(PluginBase):
     """Converts WebGME node of type Circuit to its equivalent PySpice Circuit"""
+
     def main(self) -> None:
         raise NotImplementedError
 
@@ -531,6 +532,7 @@ class CircuitToPySpiceBase(PluginBase):
 
 class AnalyzeCircuit(CircuitToPySpiceBase):
     """Base class for running various analysis on WebGME node of type Circuit"""
+
     def main(self):
         super().convert_to_pyspice(self.active_node)
         self.run_analytics()

@@ -6,7 +6,7 @@ from pathlib import Path
 BASE_PLUGIN_PATH = Path(
     f"{__file__}/../../../../common/plugins/CircuitAnalysisBases.py"
 ).resolve()
-IMPORT_MODULE_NAME = "electric_circuits.circuit_analysis_bases"
+IMPORT_MODULE_NAME = "electric_circuits.plugin_bases"
 BASE_PLUGIN_NAME = "AnalyzeCircuit"
 
 spec = spec_from_file_location(IMPORT_MODULE_NAME, BASE_PLUGIN_PATH)
@@ -19,6 +19,7 @@ PluginBase = getattr(base_module, BASE_PLUGIN_NAME)
 
 class RecommendNextComponentsMock(PluginBase):
     """Runs a mock implementation for recommending components to be added to the Circuit"""
+
     def run_analytics(self):
         self._recommend_next_components()
 
