@@ -11,17 +11,14 @@ define([
     'plugin/PluginConfig',
     'text!./metadata.json',
     'electric-circuits/plugins/PythonPluginBase',
-    'module'
 ], function (
     PluginConfig,
     pluginMetadata,
-    PluginBase,
-    module) {
+    PluginBase
+) {
     'use strict';
 
     pluginMetadata = JSON.parse(pluginMetadata);
-    const path = require('path');
-    const SCRIPT_FILE = path.join(path.dirname(module.uri), 'run_plugin.py');
 
     class ConvertCircuitToNetlist extends PluginBase {
         constructor() {

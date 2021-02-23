@@ -11,12 +11,11 @@ define([
     'plugin/PluginConfig',
     'text!./metadata.json',
     'electric-circuits/plugins/PythonPluginBase',
-    'module'
 ], function (
     PluginConfig,
     pluginMetadata,
-    PluginBase,
-    module) {
+    PluginBase
+) {
     'use strict';
 
     pluginMetadata = JSON.parse(pluginMetadata);
