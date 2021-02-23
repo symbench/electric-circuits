@@ -61,11 +61,11 @@ describe('RecommendNextComponentsMock', function () {
         );
     }
 
-    describe('conversion', function (){
+    describe('recommendation', function (){
         Object.keys(testFixture.CIRCUITS).forEach(cktName => {
-            it(`Should convert ${cktName}`, async () => {
+            it(`Should recommend next 3 components for ${cktName}`, async () => {
                 const recommendations = await runPluginAndGetRecommendations(testFixture.CIRCUITS[cktName]);
-                assert(recommendations);
+                assert(recommendations.length <= 3);
             });
         });
     });
