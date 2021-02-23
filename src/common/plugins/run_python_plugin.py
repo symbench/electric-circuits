@@ -18,7 +18,7 @@ WEBGME_SETUP = Path(f"{__file__}/../../../../webgme-setup.json").resolve()
 IMPORT_MODULE_NAME = "electric_circuits.plugins"
 
 
-def _import_python_class(plugin_file, class_name):
+def _import_python_class(plugin_file: Path, class_name: str) -> type:
     spec = spec_from_file_location(IMPORT_MODULE_NAME, plugin_file)
     base_module = module_from_spec(spec)
     spec.loader.exec_module(base_module)
@@ -26,7 +26,7 @@ def _import_python_class(plugin_file, class_name):
     return getattr(base_module, class_name)
 
 
-def get_python_plugin_classes():
+def get_python_plugin_classes() -> dict:
     plugin_classes = {}
     with open(WEBGME_SETUP, "r") as webgme_setup:
         plugins = json.load(webgme_setup)["components"]["plugins"]

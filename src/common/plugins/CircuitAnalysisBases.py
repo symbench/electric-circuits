@@ -42,7 +42,7 @@ class CircuitToPySpiceBase(PluginBase):
         raise NotImplementedError
 
     def convert_to_pyspice(self, circuit: dict) -> None:
-        """Convert the webgme circuit to spice Circuit"""
+        """Convert the webgme circuit to PySpice Circuit"""
         self._assign_meta_functions()
         if not self.is_circuit(node=circuit):
             err_msg = (
@@ -88,6 +88,7 @@ class CircuitToPySpiceBase(PluginBase):
 
     def _identify_pins(self, circuit: dict) -> None:
         """Identify the pins and build adjacency list for pins
+
         This method(recursively) identifies all the connected pins
         and builds an adjacency list for individual pin.
         There are three possible situations to handle:
@@ -168,7 +169,7 @@ class CircuitToPySpiceBase(PluginBase):
                     self._visit_junctions(extra_pin_id, visited)
 
     def _assign_spice_node_labels_to_pins(self):
-        """Assign SPICE node labels to pins  based on the adjacency list"""
+        """Assign SPICE node labels to pins based on the adjacency list"""
         component_pin_ids = []
         junction_pin_ids = []
         for pin_id in self._ground_pins:
@@ -273,7 +274,7 @@ class CircuitToPySpiceBase(PluginBase):
     def _add_to_pyspice_circuit(
         self, component: dict, pyspice_ckt: Union[Circuit, SubCircuit]
     ) -> None:
-        """Add a particular component (GME Node) to the pyspice Circuit"""
+        """Add a particular component (GME Node) to the PySpice Circuit"""
         try:
             self._is_capable_to_convert(component["node"])
         except PySpiceConversionError as e:
@@ -420,7 +421,7 @@ class CircuitToPySpiceBase(PluginBase):
     def _add_semiconductors(
         self, component: dict, pyspice_ckt: Union[Circuit, SubCircuit]
     ) -> None:
-        """Add Semiconductor components to the PySpiceCircuit"""
+        """Add Semiconductor components to the PySpice Circuit"""
         node = component["node"]
         # SemiConductors
         if (
@@ -533,9 +534,9 @@ class CircuitToPySpiceBase(PluginBase):
 class AnalyzeCircuit(CircuitToPySpiceBase):
     """Base class for running various analysis on WebGME node of type Circuit"""
 
-    def main(self):
+    def main(self) -> None:
         super().convert_to_pyspice(self.active_node)
         self.run_analytics()
 
-    def run_analytics(self):
+    def run_analytics(self) -> None:
         raise NotImplementedError
