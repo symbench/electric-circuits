@@ -13,6 +13,10 @@
       "ConvertCircuitToNetlist": {
         "src": "src/plugins/ConvertCircuitToNetlist",
         "test": "test/plugins/ConvertCircuitToNetlist"
+      },
+      "RecommendNextComponentsMock": {
+        "src": "src/plugins/RecommendNextComponentsMock",
+        "test": "test/plugins/RecommendNextComponentsMock"
       }
     },
     "seeds": {
