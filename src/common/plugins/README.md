@@ -1,4 +1,4 @@
-This file contains documentation about the contained shared modules.
+This file contains documentation about the contained shared plugins.
 
 ## JSONImporter (uses changeset.js) 
 Written by Brian Broll for [`deepforge-keras`](https://github.com/deepforge-dev/deepforge-keras). 
@@ -71,3 +71,6 @@ Currently these implementations are used by the following plugins:
 1. [ConvertCircuitToNetlist](../../plugins/ConvertCircuitToNetlist/ConvertCircuitToNetlist/__init__.py): Converts a WebGME Circuit to its equivalent SPICE Netlist (uses CircuitToPySpiceBase)
 2. [RecommendNextComponentsMock](../../plugins/RecommendNextComponentsMock/RecommendNextComponentsMock/__init__.py): A mock implementation for recommending components to be added to the Circuit (uses AnalyzeCircuit)
 
+
+## PythonPluginBase
+`PluginBase` for Python plugins, which uses [run_python_plugin.py](./run_python_plugin.py) to discover and execute the Python script for the plugin.
