@@ -1,10 +1,9 @@
 """
-This script is called by the plugin-wrapper, ConvertCircuitToNetlist.js, which passes down the
+This script is called by the plugin-wrapper, PythonPluginBase.js, which passes down the
 plugin context via arguments. These can be modified to include more information if needed.
 Notes:
  - The current working directory when called from a plugin is the root of your webgme repo.
  - At the point of invocation of this plugin - it is assumed that a coreZMQ-server is running at 127.0.0.1:PORT.
- - For debugging use run_debug.py which starts coreZMQ-server (make sure to modify the context in run_debug.py first)
 """
 import json
 import logging
