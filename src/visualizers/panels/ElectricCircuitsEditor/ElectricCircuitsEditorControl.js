@@ -3,12 +3,12 @@ define([
     'js/Constants',
     'js/Utils/GMEConcepts',
     'js/NodePropertyNames',
-    './NodeToJSON'
+    './NodeToJointJSON'
 ], function (
     CONSTANTS,
     GMEConcepts,
     nodePropertyNames,
-    NodeToJSON
+    NodeToJointJSON
 ) {
 
     'use strict';
@@ -24,7 +24,7 @@ define([
 
         this._currentNodeId = null;
 
-        this.jsonifier = new NodeToJSON(options.client);
+        this.jsonifier = new NodeToJointJSON(options.client);
 
         this._initWidgetEventHandlers();
 
@@ -61,7 +61,7 @@ define([
         if (typeof self._currentNodeId === 'string') {
             // Put new node's info into territory rules
             self._selfPatterns = {};
-            self._selfPatterns[nodeId] = {children: 0};  // Territory "rule"
+            self._selfPatterns[nodeId] = {children: 2};  // Territory "rule"
 
             self._widget.setTitle('');
 
@@ -79,7 +79,7 @@ define([
 
     // This next function retrieves the relevant node information for the widget
     ElectricCircuitsEditorControl.prototype._getObjectDescriptor = function (nodeId) {
-        return this.jsonifier.apply(nodeId);
+        return this.jsonifier.toJointJSON(nodeId);
     };
 
     /* * * * * * * * Node Event Handling * * * * * * * */

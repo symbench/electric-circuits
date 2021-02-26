@@ -1,5 +1,6 @@
 <script>
     import {defineElectricCircuitShapes} from './circuits';
+
     const jq = window.$;
 
     let joint = null,
@@ -17,10 +18,9 @@
     let circuitGraph;
     let componentAttributes;
     let currentComponentId;
-    let zoomValues;
+    let zoomValues, currentZoomLevel;
     let rankDirOpts, rankDir;
     let alignOpts;
-    let rectAdded = false;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance) {
@@ -29,8 +29,8 @@
         graphlib = graphlibInstance;
         addedCellIds = [];
         wires = {};
-        rectAdded = false;
         contextMenuAttrs = {};
+        currentZoomLevel = 1.0;
         zoomValues = [1.0, 1.5, 2, 2.5, 3];
         rankDirOpts = ['TB', 'BT', 'LR', 'RL'];
         rankDir = 'LR';
@@ -46,11 +46,11 @@
             width: width,
             height: height,
             gridSize: 5,
-            drawGrid: {drawGrid: 'dot', args: { color: 'black' }},
+            drawGrid: {name: 'fixedDot'},
             snapLinks: true,
-            allowLink: () => true,
-            defaultLink: new joint.dia.Link,
-            defaultRouter: {name: 'manhattan', args: {padding: 30, elementPadding: 30}}
+            allowLink: () => false,
+            defaultLink: new joint.shapes.circuit.Wire,
+            defaultRouter: {name: 'manhattan', args: {padding: 100, elementPadding: 30, perpendicular: false}}
         });
         initializePaperEvents(circuitPaper);
     }
@@ -58,10 +58,11 @@
     export function adjustPaperDimensions(width, height) {
         const navBarHeight = jq(navBar).height();
         const navBarWidth = jq(navBar).width();
-        if(navBarWidth < width) {
+        if (navBarWidth < width) {
             width = navBarWidth;
         }
-        circuitPaper.setDimensions(width, height-navBarHeight);
+        circuitPaper.setDimensions(width, height - navBarHeight);
+        zoom(currentZoomLevel);
     }
 
     export function clearGraph() {
@@ -81,8 +82,9 @@
     }
 
     export function zoom(zoomLevel) {
-        if(circuitPaper){
-            circuitPaper.scale(zoomLevel, zoomLevel, circuitPaper.options.width/8, circuitPaper.options.height/8);
+        if (circuitPaper) {
+            currentZoomLevel = zoomLevel;
+            circuitPaper.scale(zoomLevel, zoomLevel, circuitPaper.options.width / 8, circuitPaper.options.height / 8);
             circuitPaper.fitToContent({
                 minWidth: circuitPaper.options.width,
                 minHeight: circuitPaper.options.height,
@@ -104,72 +106,13 @@
         }
     }
 
+    let rectAdded;
+
     export function addCell(cellJSON) {
-        if(Object.keys(joint.shapes.circuit).includes(cellJSON.type)) {
-            const cell = new joint.shapes.circuit[cellJSON.type]({
-                id: cellJSON.id
-            });
-            if (cellJSON.type === 'Wire' ) {
-                wires[cellJSON.id] = cellJSON;
-            } else {
-                setCellAttributes(cell, cellJSON);
-                addedCellIds.push(cellJSON.id);
-                circuitGraph.addCell(cell);
-            }
-
-            Object.keys(wires).forEach(wireId => {
-                if(!addedCellIds.includes(wireId)){
-                    const wire = wires[wireId];
-
-                    if(addedCellIds.includes(wire.links.src.parentId || wire.links.src.id) && addedCellIds.includes(wire.links.dst.parentId || wire.links.dst.id)){
-                        const link = new joint.shapes.circuit.Wire({
-                            id: wire.id,
-                            router: {
-                                name: 'manhattan'
-                            }
-                        });
-                        link.source({
-                            id: wire.links.src.parentId || wire.links.src.id,
-                            port: wire.links.src.parentId ? wire.links.src.name : ''
-                        });
-                        link.target({
-                            id: wire.links.dst.parentId || wire.links.dst.id,
-                            port: wire.links.dst.parentId ?  wire.links.dst.name: ''
-                        });
-                        addedCellIds.push(wire.id);
-                        circuitGraph.addCell(link);
-                    }
-                }
-            });
-        }
-
-        if(!rectAdded) {
-            Object.keys(joint.shapes.circuit).forEach(key => {
-                const cell = new joint.shapes.circuit[key]();
-                circuitGraph.addCell(cell);
-            });
-            const rect = new joint.shapes.circuit.Circuit();
-            rect.attr({
-                body: {
-                    fill: '#CECECE'
-                },
-                label: {
-                    text: 'Hello',
-                    fill: 'white'
-                }
-            });
-            // rect.size(100, 200);
-            // rect.addInPort('port1');
-            // rect.addOutPort('port2');
-            // rect.addOutPort('port3');
-            // rect.addInPort('port4');
-            // console.log(rect.toJSON());
-            // circuitGraph.addCell(rect);
-            rectAdded = true;
-        }
-
+        const cell = new joint.shapes[cellJSON.domainPrefix][cellJSON.type](cellJSON);
+        console.log(cellJSON);
+        circuitGraph.addCell(cell);
         relayoutGraph();
-
     }
 
     function initializePaperEvents(paper) {
@@ -209,18 +152,18 @@
     }
 
     function relayoutGraph() {
-         joint.layout.DirectedGraph.layout(circuitGraph, {
-             setLinkVertices: true,
-             rankDir: rankDir || 'LR',
-             nodeSep: 100,
-             rankSep: 100,
-             dagre: dagre,
-             graphlib: graphlib,
-             marginX: 50,
-             marginY: 50
-         });
+        joint.layout.DirectedGraph.layout(circuitGraph, {
+            setLinkVertices: true,
+            rankDir: rankDir || 'LR',
+            nodeSep: 50,
+            rankSep: 50,
+            dagre: dagre,
+            graphlib: graphlib,
+            marginX: 50,
+            marginY: 50
+        });
 
-         scaleCircuitPaperToFitContent(1.0)
+        zoom(1.0);
     }
 
     function setRankDirValue() {
@@ -233,31 +176,31 @@
             maxScale: zoomLevel,
             padding: {
                 horizontal: circuitPaper.options.width / 8,
-                vertical: circuitPaper.options.height / 8,
+                vertical: 100,
             }
         });
     }
 
     function setCellAttributes(cell, cellJSON) {
-        cell.attr('text', {text: cellJSON.type !== 'Junction' ? cellJSON.attrs.name: ''});
+        cell.attr('text', {text: cellJSON.type !== 'Junction' ? cellJSON.attrs.name : ''});
         contextMenuAttrs[cellJSON.id] = cellJSON.attrs;
     }
 
-    function elementAttributeChanged () {
+    function elementAttributeChanged() {
         const changedAttribs = {}
         componentAttributes.forEach(attr => {
             changedAttribs[attr.name] = attr.value;
         });
         const diff = shallowDiff(contextMenuAttrs[currentComponentId], changedAttribs);
 
-        if (Object.keys(diff).length){
+        if (Object.keys(diff).length) {
             const event = new CustomEvent(
-            'attributeChanged', {
-                detail: {
-                    id: currentComponentId,
-                    attributes: diff
-                }
-            });
+                'attributeChanged', {
+                    detail: {
+                        id: currentComponentId,
+                        attributes: diff
+                    }
+                });
             eventElement.dispatchEvent(event);
         }
         resetAttrsDiv();
@@ -267,7 +210,7 @@
         const diff = {};
 
         Object.keys(obj1).forEach(key => {
-            if(obj1[key] !== obj2[key]) {
+            if (obj1[key] !== obj2[key]) {
                 diff[key] = obj2[key];
             }
         });
@@ -307,57 +250,61 @@
         </div>
     </div>
     {#if componentAttributes}
-    <div class="properties-div row" style="top: {attrDivTop}; left: {attrDivLeft}">
-        <div class="col-md-6">
-            <h5><b>Properties</b></h5>
-            <hr>
-            <div class="form form-inline">
-                <div class="row">
-                {#each componentAttributes as attr, index}
-                    <label class="col-md-8" for="{attr.name}"><b style="font-size: 14px">{attr.name}: </b></label>
-                    <div class="col-md-4">
-                        {#if attr.type === 'number'}
-                            <input
-                                    id="{attr.name}"
-                                    type="number"
-                                    bind:value={attr.value}
-                                    class="form-control"
-                            />
-                        {:else if attr.type === 'boolean'}
-                            <input
-                                    id="{attr.name}"
-                                    type="checkbox"
-                                    bind:checked={attr.value}
-                                    class="form-control"
-                            />
-                        {:else}
-                            <input
-                                    id="{attr.name}"
-                                    type="text"
-                                    bind:value={attr.value}
-                                    class="form-control"
-                            />
-                        {/if}
+        <div class="properties-div row" style="top: {attrDivTop}; left: {attrDivLeft}">
+            <div class="col-md-6">
+                <h5><b>Properties</b></h5>
+                <hr>
+                <div class="form form-inline">
+                    <div class="row">
+                        {#each componentAttributes as attr, index}
+                            <label class="col-md-8" for="{attr.name}"><b style="font-size: 14px">{attr.name}
+                                : </b></label>
+                            <div class="col-md-4">
+                                {#if attr.type === 'number'}
+                                    <input
+                                            id="{attr.name}"
+                                            type="number"
+                                            bind:value={attr.value}
+                                            class="form-control"
+                                    />
+                                {:else if attr.type === 'boolean'}
+                                    <input
+                                            id="{attr.name}"
+                                            type="checkbox"
+                                            bind:checked={attr.value}
+                                            class="form-control"
+                                    />
+                                {:else}
+                                    <input
+                                            id="{attr.name}"
+                                            type="text"
+                                            bind:value={attr.value}
+                                            class="form-control"
+                                    />
+                                {/if}
+                            </div>
+                            <br/>
+                        {/each}
                     </div>
-                    <br/>
-                {/each}
                 </div>
             </div>
+            <div class="col-md-8 text-center col-md-offset-1" style="margin-top: 20px; margin-bottom: 20px">
+                <button type="submit" on:click|stopPropagation|preventDefault={elementAttributeChanged}
+                        class="btn btn-primary">Submit
+                </button>
+            </div>
         </div>
-        <div class="col-md-8 text-center col-md-offset-1" style="margin-top: 20px; margin-bottom: 20px">
-            <button type="submit" on:click|stopPropagation|preventDefault={elementAttributeChanged} class="btn btn-primary">Submit</button>
-        </div>
-    </div>
     {/if}
 
 </main>
 
 <style>
-    main{
+    main {
         align: center;
         position: relative;
     }
-    .properties-div{
+
+    .properties-div {
         background: #FEFEFE;
         position: absolute;
         z-index: 1000;

@@ -1,6 +1,5 @@
 export const defineElectricCircuitShapes = function (joint) {
     const Generic = joint.shapes.basic.Generic;
-    const Link = joint.dia.Link;
 
     const Component = Generic.define('circuit.Component', {
         size: {width: 80, height: 40},
@@ -24,7 +23,7 @@ export const defineElectricCircuitShapes = function (joint) {
     const Pin = Component.define('circuit.Pin', {
         size: {width: 30, height: 30},
         attrs: {
-            '.body': {width:30, height:30, fill: 'transparent', stroke: 'black', 'stroke-width': 3},
+            '.body': {width: 30, height: 30, fill: 'transparent', magnet: true, stroke: 'black', 'stroke-width': 3},
             text: {
                 text: 'Pin',
                 ref: '.body',
@@ -66,15 +65,15 @@ export const defineElectricCircuitShapes = function (joint) {
             }
         }
     }, {
-        markup: '<g class="rotatable"><g class="scalable"><image class="body"/></g><circle class="pinp"/><circle class="pinn"/><text/></g>'
+        markup: '<g class="rotatable"><g class="scalable"><image class="body"/></g><circle class="pinn"/><circle class="pinp"/><text/></g>'
     });
 
     const ThreePinComponent = Component.define('circuit.ThreePinComponent', {
         size: {width: 80, height: 80},
         attrs: {
-            '.pin1': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: true, port: 'p1', portid: 'p1'},
-            '.pin2': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: true, port: 'p2', portid: 'p2'},
-            '.pin3': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: true, port: 'p3', portid: 'p3'},
+            '.pin1': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p1', portid: 'p1'},
+            '.pin2': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p2', portid: 'p2'},
+            '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p3', portid: 'p3'},
             '.body': {width: 80, height: 80, align: 'center'},
             text: {
                 'ref-x': '50%',
@@ -89,10 +88,10 @@ export const defineElectricCircuitShapes = function (joint) {
     const FourTerminalComponent = Component.define('circuit.FourTerminalComponent', {
         size: {width: 80, height: 80},
         attrs: {
-            '.pin1': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'p1', portid: 'p1'},
-            '.pin2': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'n1', portid: 'n1'},
-            '.pin3': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'p2', portid: 'p2'},
-            '.pin4': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'n2', portid: 'n2'},
+            '.pin1': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'p1', portid: 'p1'},
+            '.pin2': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'n1', portid: 'n1'},
+            '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'p2', portid: 'p2'},
+            '.pin4': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'n2', portid: 'n2'},
             '.body': {width: 80, height: 80, align: 'center'},
             text: {
                 'ref-x': 0.5,
@@ -107,15 +106,15 @@ export const defineElectricCircuitShapes = function (joint) {
     const FiveTerminalComponent = Component.define('circuit.FiveTerminalComponent', {
         size: {width: 80, height: 80},
         attrs: {
-            '.pin1': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'p1', portid: 'p1'},
-            '.pin2': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'p2', portid: 'p2'},
-            '.pin3': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'p3', portid: 'p3'},
-            '.pin4': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'p4', portid: 'p4'},
-            '.pin5': {ref: '.body', 'ref-x': 50, 'ref-y': 50, magnet: 'passive', port: 'p5', portid: 'p5'},
+            '.pin1': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'p1', portid: 'p1'},
+            '.pin2': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'p2', portid: 'p2'},
+            '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'p3', portid: 'p3'},
+            '.pin4': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'p4', portid: 'p4'},
+            '.pin5': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: 'passive', port: 'p5', portid: 'p5'},
             '.body': {width: 80, height: 80, align: 'center'},
             text: {
-                'ref-x': 40,
-                'ref-y': 70,
+                'ref-x': 0.5,
+                'ref-y': 0.875,
                 'y-alignment': 'middle'
             }
         }
@@ -342,9 +341,9 @@ export const defineElectricCircuitShapes = function (joint) {
 
     const Transistor = ThreePinComponent.define('circuit.Transistor', {
         attrs: {
-            '.pin1': {ref: '.body', 'ref-x': 50, 'ref-y': 10, magnet: true, port: 'C', portid: 'C'},
-            '.pin2': {ref: '.body', 'ref-x': 5, 'ref-y': 40, magnet: true, port: 'B', portid: 'B'},
-            '.pin3': {ref: '.body', 'ref-x': 50, 'ref-y': 70, magnet: true, port: 'E', portid: 'E'}
+            '.pin1': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.125, magnet: true, port: 'C', portid: 'C'},
+            '.pin2': {ref: '.body', 'ref-x': 0.0625, 'ref-y': 0.5, magnet: true, port: 'B', portid: 'B'},
+            '.pin3': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.875, magnet: true, port: 'E', portid: 'E'}
         }
     });
 
@@ -352,15 +351,15 @@ export const defineElectricCircuitShapes = function (joint) {
         size: {width: 80, height: 40},
         attrs: {
             text: {
-                'ref-x': 40,
-                'ref-y': 40,
+                'ref-x': 0.5,
+                'ref-y': '100%',
                 'y-alignment': 'middle',
                 text: 'Potentiometer'
             },
             '.body': {width: 80, height: 40},
-            '.pin1': {ref: '.body', 'ref-x': 5, 'ref-y': 20, magnet: true, port: 'pin_p', portid: 'pin_p'},
-            '.pin2': {ref: '.body', 'ref-x': 75, 'ref-y': 20, magnet: true, port: 'pin_n', portid: 'pin_n'},
-            '.pin3': {ref: '.body', 'ref-x': 40, 'ref-y': 5, magnet: true, port: 'contact', portid: 'contact'},
+            '.pin1': {ref: '.body', 'ref-x': 0.0625, 'ref-y': 0.5, magnet: true, port: 'pin_p', portid: 'pin_p'},
+            '.pin2': {ref: '.body', 'ref-x': 0.9375, 'ref-y': 0.5, magnet: true, port: 'pin_n', portid: 'pin_n'},
+            '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.125, magnet: true, port: 'contact', portid: 'contact'},
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3OS45OTk5OTk5OTk5OTk5OSIgaGVpZ2h0PSIzOS45OTk5OTk5OTk5OTk5OSI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiB4MT0iNSIgeTE9IjIwIiB4Mj0iMjAiIHkyPSIyMCIgaWQ9InN2Z18xIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHgxPSI2MCIgeTE9IjIwIiB4Mj0iNzUiIHkyPSIyMCIgaWQ9InN2Z18yIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iMjMuNDQzMzQiIHkxPSIxMy41NjI4IiB4Mj0iMTguMTM1NiIgeTI9IjE5LjgyNTM1IiBpZD0ic3ZnXzUiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiB0cmFuc2Zvcm09InJvdGF0ZSgtMTUuOTUxNjMyNDk5Njk0ODI0IDIwLjc4OTQ2NDk1MDU2MTUxNiwxNi42OTQwNzY1MzgwODU5MzgpICIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIyMS45NzM2OCIgeTE9IjEzIiB4Mj0iMjUuMjYzMTYiIHkyPSIyNCIgaWQ9InN2Z182IiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIyNS4yMTA1MyIgeTE9IjIzLjUzNjE4IiB4Mj0iMjguMjEwNTMiIHkyPSIxMy4wMDk4NyIgaWQ9InN2Z183IiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIyNy43NjMxNiIgeTE9IjEzIiB4Mj0iMzEuMDUyNjMiIHkyPSIyNCIgaWQ9InN2Z18xOSIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iMzEiIHkxPSIyMy41MzYxOCIgeDI9IjM0IiB5Mj0iMTMuMDA5ODciIGlkPSJzdmdfMjAiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjMzLjgxNTc5IiB5MT0iMTMiIHgyPSIzNy4xMDUyNiIgeTI9IjI0IiBpZD0ic3ZnXzIxIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIzNy4wNTI2MyIgeTE9IjIzLjUzNjE4IiB4Mj0iNDAuMDUyNjMiIHkyPSIxMy4wMDk4NyIgaWQ9InN2Z18yMiIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iMzkuNjA1MjYiIHkxPSIxMyIgeDI9IjQyLjg5NDc0IiB5Mj0iMjQiIGlkPSJzdmdfMjMiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjQyLjg0MjEiIHkxPSIyMy41MzYxOCIgeDI9IjQ1Ljg0MjEiIHkyPSIxMy4wMDk4NyIgaWQ9InN2Z18yNCIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iNDUuOTIxMDUiIHkxPSIxMyIgeDI9IjQ5LjIxMDUyIiB5Mj0iMjQiIGlkPSJzdmdfMjUiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjQ5LjE1Nzg5IiB5MT0iMjMuNTM2MTgiIHgyPSI1Mi4xNTc4OSIgeTI9IjEzLjAwOTg3IiBpZD0ic3ZnXzI2IiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSI1MS43MTA1MiIgeTE9IjEzIiB4Mj0iNTUiIHkyPSIyNCIgaWQ9InN2Z18yNyIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iNTQuOTQ3MzciIHkxPSIyMy41MzYxOCIgeDI9IjU3Ljk0NzM3IiB5Mj0iMTMuMDA5ODciIGlkPSJzdmdfMjgiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjYxLjg2NDM5IiB5MT0iMTMuNTYyOCIgeDI9IjU2LjU1NjY0IiB5Mj0iMTkuODI1MzUiIGlkPSJzdmdfMjkiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiB0cmFuc2Zvcm09InJvdGF0ZSgtNjIuODA5MzQ5MDYwMDU4NTk0IDU5LjIxMDUxNzg4MzMwMDc4LDE2LjY5NDA3NjUzODA4NTkzNCkgIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfMyIgeTI9IjE4LjQzNzUiIHgyPSIzOS41IiB5MT0iNSIgeDE9IjM5LjUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIi8+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LXAiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1uIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtb3V0Ii8+CiAgICA8L2c+Cjwvc3ZnPgo='}
         }
     })
@@ -385,10 +384,10 @@ export const defineElectricCircuitShapes = function (joint) {
 
     const MOSFET = FourTerminalComponent.define('circuit.MOSFET', {
         attrs: {
-            '.pin1': {ref: '.body', 'ref-x': 50, 'ref-y': 5, magnet: true, port: 'D', portid: 'D'},
-            '.pin2': {ref: '.body', 'ref-x': 5, 'ref-y': 40, magnet: true, port: 'G', portid: 'G'},
-            '.pin3': {ref: '.body', 'ref-x': 75, 'ref-y': 40, magnet: true, port: 'B', portid: 'B'},
-            '.pin4': {ref: '.body', 'ref-x': 50, 'ref-y': 75, magnet: true, port: 'S', portid: 'S'}
+            '.pin1': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.0625, magnet: true, port: 'D', portid: 'D'},
+            '.pin2': {ref: '.body', 'ref-x': 0.0625, 'ref-y': 0.5, magnet: true, port: 'G', portid: 'G'},
+            '.pin3': {ref: '.body', 'ref-x': 0.9375, 'ref-y': 0.5, magnet: true, port: 'B', portid: 'B'},
+            '.pin4': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.9375, magnet: true, port: 'S', portid: 'S'}
         }
     });
 
@@ -417,10 +416,10 @@ export const defineElectricCircuitShapes = function (joint) {
 
     const Source = FourTerminalComponent.define('circuit.Source', {
         attrs: {
-            '.pin1': {'ref-x': 0, 'ref-y': 25, magnet: true, port: 'p1', portid: 'p1'},
-            '.pin2': {'ref-x': 0, 'ref-y': 55, magnet: true, port: 'n1', portid: 'n1'},
-            '.pin3': {'ref-x': 80, 'ref-y': 25, magnet: true, port: 'p2', portid: 'p2'},
-            '.pin4': {'ref-x': 80, 'ref-y': 55, magnet: true, port: 'n2', portid: 'n2'},
+            '.pin1': {'ref-x': 0, 'ref-y': 0.3125, magnet: true, port: 'p1', portid: 'p1'},
+            '.pin2': {'ref-x': 0, 'ref-y': 0.68, magnet: true, port: 'n1', portid: 'n1'},
+            '.pin3': {'ref-x': '100%', 'ref-y': 0.3125, magnet: true, port: 'p2', portid: 'p2'},
+            '.pin4': {'ref-x': '100%', 'ref-y': 0.68, magnet: true, port: 'n2', portid: 'n2'},
             text: {'ref-y': '110%'}
         }
     });
@@ -462,19 +461,117 @@ export const defineElectricCircuitShapes = function (joint) {
 
     const OpAmp = FiveTerminalComponent.define('circuit.OpAmp', {
         attrs: {
-            '.pin1': {'ref-x': 40, 'ref-y': 20, magnet: true, port: 'VMin', portid: 'VMin'},
-            '.pin2': {'ref-x': 40, 'ref-y': 60, magnet: true, port: 'VMax', portid: 'VMax'},
-            '.pin3': {'ref-x': 10, 'ref-y': 30, magnet: true, port: 'in_n', portid: 'in_n'},
-            '.pin4': {'ref-x': 10, 'ref-y': 50, magnet: true, port: 'in_p', portid: 'in_p'},
-            '.pin5': {'ref-x': 70, 'ref-y': 40, magnet: true, port: 'out', portid: 'out'},
-            text: {text: 'OpAmp'},
+            '.pin1': {'ref-x': 0.5, 'ref-y': 0.25, magnet: true, port: 'VMin', portid: 'VMin'},
+            '.pin2': {'ref-x': 0.5, 'ref-y': 0.75, magnet: true, port: 'VMax', portid: 'VMax'},
+            '.pin3': {'ref-x': 0.125, 'ref-y': 0.375, magnet: true, port: 'in_n', portid: 'in_n'},
+            '.pin4': {'ref-x': 0.125, 'ref-y': 0.625, magnet: true, port: 'in_p', portid: 'in_p'},
+            '.pin5': {'ref-x': 0.875, 'ref-y': 0.5, magnet: true, port: 'out', portid: 'out'},
+            text: {text: 'OpAmp', 'ref-y': '100%'},
             image: {'xlink:href': 'data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPCEtLSBDcmVhdGVkIHdpdGggTWV0aG9kIERyYXcgLSBodHRwOi8vZ2l0aHViLmNvbS9kdW9waXhlbC9NZXRob2QtRHJhdy8gLS0+CiAgICA8Zz4KICAgICAgICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgICAgICAgPHBhdGggc3Ryb2tlPSIjMDAwIiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA0MC4wNDkwOTEzMzkxMTEzMywzOS45NTU1ODkyOTQ0MzM2KSAiIGlkPSJzdmdfNCIgZD0ibTIzLjY5Mzk1LDYwLjUxNjM0bDE2LjM1NTE0LC00MS4xMjE1bDE2LjM1NTE0LDQxLjEyMTVsLTMyLjcxMDI4LDB6IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfNyIgeTI9IjMyIiB4Mj0iNDAiIHkxPSIyNSIgeDE9IjQwIiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z184IiB5Mj0iNTUiIHgyPSI0MCIgeTE9IjQ4IiB4MT0iNDAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEwIiB5Mj0iMzAiIHgyPSIyMCIgeTE9IjMwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzExIiB5Mj0iNTAiIHgyPSIyMCIgeTE9IjUwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEyIiB5Mj0iNDAiIHgyPSI2NSIgeTE9IjQwIiB4MT0iNjAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4bWw6c3BhY2U9InByZXNlcnZlIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBpZD0ic3ZnXzEzIiB5PSIzMy44MzE3OCIgeD0iMjAuMTg2OTIiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMCIgc3Ryb2tlPSIjMDAwIiBmaWxsPSIjMDAwMDAwIj4rPC90ZXh0PgogICAgICAgIDx0ZXh0IHhtbDpzcGFjZT0icHJlc2VydmUiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGlkPSJzdmdfMTQiIHk9IjUzLjI3MTAzIiB4PSIyMS42ODIyNCIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIwIiBzdHJva2U9IiMwMDAiIGZpbGw9IiMwMDAwMDAiPi08L3RleHQ+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTEiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC0yIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtMyIvPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTQiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC01Ii8+CiAgICA8L2c+Cjwvc3ZnPgo='}
         }
     });
 
-    const Wire = joint.dia.Link;
+    const Wire = joint.shapes.standard.Link.define('circuit.Wire', {
+        attrs: {
+            line: {
+                targetMarker: {
+                    d: ''
+                },
+                strokeWidth: 1.0,
+                stroke: '#0000FF'
+            },
+        }
+    });
 
-    const Circuit = joint.shapes.devs.Model.define('circuit.Circuit', {});
+    const Circuit = joint.shapes.standard.Rectangle.define('circuit.Circuit', {
+        size: {width: 100, height: 100},
+        ports: {
+            groups: {
+                'leftPorts': {
+                    position: {
+                        name: 'left'
+                    },
+                    label: {
+                        position: 'right',
+                    },
+                    attrs: {
+                        circle: {
+                            magnet: true,
+                            port: 'port'
+                        }
+                    },
+                    markup: '<circle r="7" stroke="#000090" stroke-width="2" fill="#C0C0C0"/>',
+                },
+                'rightPorts': {
+                    position: {
+                        name: 'right'
+                    },
+                    label: {
+                        position: 'left',
+                    },
+                    attrs: {
+                        circle: {
+                            magnet: true,
+                            port: 'port'
+                        }
+                    },
+                    markup: '<circle r="7" stroke="#000090" stroke-width="2" fill="#C0C0C0"/>',
+                },
+            },
+            items: []
+        },
+        attrs: {
+            text: {text: 'Circuit', 'ref-y': '60%', fontWeight: 'bold', fontSize: 14},
+            body: {fill: '#CECECE'}
+        }
+    }, {}, {
+        addLeftPort: (circuit, portLabel) => {
+            circuit.addPort({
+                group: 'leftPorts',
+                attrs: {
+                    text: {
+                        text: portLabel
+                    },
+                    circle: {
+                        port: portLabel
+                    }
+                }
+            });
+        },
+
+        addRightPort: (circuit, portLabel) => {
+            circuit.addPort({
+                group: 'rightPorts',
+                attrs: {
+                    text: {
+                        text: portLabel
+                    },
+                    circle: {
+                        port: portLabel
+                    }
+                }
+            });
+        },
+
+        build: (numPorts) => {
+            let height = 100;
+            if (numPorts > 10) {
+                height += ((numPorts % 2 === 0 ? numPorts : numPorts + 1) - 10) * 20;
+            }
+            const circuit = new Circuit({
+                size: {width: 100, height: height}
+            });
+
+            for (let j = 0; j < numPorts; j++) {
+                if (j % 2 === 0) {
+                    Circuit.addRightPort(circuit, `port${j + 1}`);
+                } else {
+                    Circuit.addLeftPort(circuit, `port${j + 1}`);
+                }
+            }
+            return circuit;
+        }
+    });
 
     joint.shapes.circuit = {
         Pin: Pin,
