@@ -1,4 +1,4 @@
-/*globals define, WebGMEGlobal, $*/
+/*globals define, $*/
 define([
     'joint/joint',
     'dagre',
@@ -68,7 +68,7 @@ define([
         this.dashboard.addCell(desc);
     };
 
-    ElectricCircuitsEditorWidget.prototype.removeNode = function (gmeId) {
+    ElectricCircuitsEditorWidget.prototype.removeNode = function (/*gmeId*/) {
     };
 
     ElectricCircuitsEditorWidget.prototype.updateNode = function (desc) {

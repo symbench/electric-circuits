@@ -10,7 +10,6 @@
     let addedCellIds = null;
     let wires = null;
     let eventElement;
-    let contextMenuAttrs = null;
     let attrDivTop = null;
     let attrDivLeft = null;
     let circuitContainer;
@@ -29,7 +28,6 @@
         graphlib = graphlibInstance;
         addedCellIds = [];
         wires = {};
-        contextMenuAttrs = {};
         currentZoomLevel = 1.0;
         zoomValues = [1.0, 1.5, 2, 2.5, 3];
         rankDirOpts = ['TB', 'BT', 'LR', 'RL'];
@@ -98,25 +96,34 @@
     }
 
     export function updateCell(cellJSON) {
-        const cell = circuitGraph.getCells()
-            .find(elem => elem.id === cellJSON.id);
-
+        const cell = circuitGraph.getCell(cellJSON.id);
         if (cell) {
-            setCellAttributes(cell, cellJSON);
+            cell.set(cellJSON);
         }
     }
 
-    let rectAdded;
-
     export function addCell(cellJSON) {
-        const cell = new joint.shapes[cellJSON.domainPrefix][cellJSON.type](cellJSON);
-        console.log(cellJSON);
-        circuitGraph.addCell(cell);
+        if (cellJSON.type === 'Wire') {
+            wires[cellJSON.id] = cellJSON;
+        } else {
+            const cell = new joint.shapes[cellJSON.domainPrefix][cellJSON.type](cellJSON);
+            circuitGraph.addCell(cell);
+            addedCellIds.push(cellJSON.id);
+        }
+
+        Object.keys(wires).forEach(wireId => {
+            const wireJSON = wires[wireId];
+            if (addedCellIds.includes(wireJSON.source.id) && addedCellIds.includes(wireJSON.target.id)) {
+                const wire = new joint.shapes.circuit.Wire(wireJSON);
+                circuitGraph.addCell(wire);
+            }
+        });
+
         relayoutGraph();
     }
 
     function initializePaperEvents(paper) {
-        paper.on('element:contextmenu', function (elementView, event, eventX, eventY) {
+        paper.on('element:contextmenu', function (elementView) {
             componentAttributes = null;
             currentComponentId = null;
             const currentElement = elementView.model;
@@ -125,7 +132,7 @@
             const offset = paper.pageOffset();
             componentAttributes = [];
             currentComponentId = currentElement.id;
-            const currentComponentAttrs = contextMenuAttrs[currentComponentId];
+            const currentComponentAttrs = currentElement.get('gmeAttrs');
 
             Object.keys(currentComponentAttrs).forEach(attr => {
                 componentAttributes.push({
@@ -181,17 +188,14 @@
         });
     }
 
-    function setCellAttributes(cell, cellJSON) {
-        cell.attr('text', {text: cellJSON.type !== 'Junction' ? cellJSON.attrs.name : ''});
-        contextMenuAttrs[cellJSON.id] = cellJSON.attrs;
-    }
-
     function elementAttributeChanged() {
         const changedAttribs = {}
         componentAttributes.forEach(attr => {
             changedAttribs[attr.name] = attr.value;
         });
-        const diff = shallowDiff(contextMenuAttrs[currentComponentId], changedAttribs);
+
+        const gmeAttrs = circuitGraph.getCell(currentComponentId).get('gmeAttrs');
+        const diff = shallowDiff(gmeAttrs, changedAttribs);
 
         if (Object.keys(diff).length) {
             const event = new CustomEvent(
