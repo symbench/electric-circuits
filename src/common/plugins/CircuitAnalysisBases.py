@@ -86,8 +86,6 @@ class CircuitToPySpiceBase(PluginBase):
         self._ground_pins = set()
         self.nodes_count = 0
         self.pin_labels = dict()
-        circuit_name = self.core.get_attribute(circuit, "name")
-        self._log_debug(f"Initialized empty PySpice circuit for {circuit_name}")
 
     def _identify_pins(self, circuit: dict) -> None:
         """Identify the pins and build adjacency list for pins
