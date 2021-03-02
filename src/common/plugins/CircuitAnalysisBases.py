@@ -44,6 +44,7 @@ class CircuitToPySpiceBase(PluginBase):
     def convert_to_pyspice(self, circuit: dict) -> None:
         """Convert the webgme circuit to PySpice Circuit"""
         self._assign_meta_functions()
+        pyspice_circuit = None
         if not self.is_circuit(node=circuit):
             err_msg = (
                 f"Node ({self.core.get_path(node=self.active_node)}) "
@@ -58,7 +59,10 @@ class CircuitToPySpiceBase(PluginBase):
             self._identify_pins(circuit)
             self._expand_junction_adjacency()
             self._assign_spice_node_labels_to_pins()
-            self._populate_circuit(circuit, self.pyspice_circuit)
+            circuit_name = self.core.get_attribute(circuit, "name")
+            pyspice_circuit = Circuit(circuit_name)
+            self._populate_circuit(circuit, pyspice_circuit)
+        return pyspice_circuit
 
     def _assign_meta_functions(self) -> None:
         """Assign is_* function for easier meta type checks"""
@@ -82,9 +86,6 @@ class CircuitToPySpiceBase(PluginBase):
         self._ground_pins = set()
         self.nodes_count = 0
         self.pin_labels = dict()
-        circuit_name = self.core.get_attribute(circuit, "name")
-        self.pyspice_circuit = Circuit(circuit_name)
-        self._log_debug(f"Initialized empty PySpice circuit for {circuit_name}")
 
     def _identify_pins(self, circuit: dict) -> None:
         """Identify the pins and build adjacency list for pins
@@ -535,8 +536,8 @@ class AnalyzeCircuit(CircuitToPySpiceBase):
     """Base class for running various analysis on WebGME node of type Circuit"""
 
     def main(self) -> None:
-        super().convert_to_pyspice(self.active_node)
-        self.run_analytics()
+        circuit = super().convert_to_pyspice(self.active_node)
+        self.run_analytics(circuit)
 
-    def run_analytics(self) -> None:
+    def run_analytics(self, circuit: Union[Circuit, SubCircuit]) -> None:
         raise NotImplementedError
