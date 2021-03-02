@@ -22,7 +22,7 @@ PluginBase = getattr(base_module, BASE_PLUGIN_NAME)
 class RecommendNextComponentsMock(PluginBase):
     """Runs a mock implementation for recommending components to be added to the Circuit"""
 
-    def run_analytics(self, circuit) -> None:
+    def run_analytics(self, circuit: Union[Circuit, SubCircuit]) -> None:
         self._recommend_next_components(circuit)
 
     def _recommend_next_components(self, circuit: Union[Circuit, SubCircuit]) -> None:
