@@ -1,6 +1,8 @@
 import json
 from collections import Counter
 from importlib.util import module_from_spec, spec_from_file_location
+from typing import Union
+from PySpice.Spice.Netlist import Circuit, SubCircuit
 from pathlib import Path
 
 BASE_PLUGIN_PATH = Path(
@@ -23,7 +25,7 @@ class RecommendNextComponentsMock(PluginBase):
     def run_analytics(self, circuit) -> None:
         self._recommend_next_components(circuit)
 
-    def _recommend_next_components(self, circuit) -> None:
+    def _recommend_next_components(self, circuit: Union[Circuit, SubCircuit]) -> None:
         component_counts = Counter(
             type(element).__name__ for element in circuit.elements
         )
