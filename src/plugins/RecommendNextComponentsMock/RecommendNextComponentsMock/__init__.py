@@ -20,15 +20,15 @@ PluginBase = getattr(base_module, BASE_PLUGIN_NAME)
 class RecommendNextComponentsMock(PluginBase):
     """Runs a mock implementation for recommending components to be added to the Circuit"""
 
-    def run_analytics(self) -> None:
-        self._recommend_next_components()
+    def run_analytics(self, circuit) -> None:
+        self._recommend_next_components(circuit)
 
-    def _recommend_next_components(self) -> None:
+    def _recommend_next_components(self, circuit) -> None:
         component_counts = Counter(
-            type(element).__name__ for element in self.pyspice_circuit.elements
+            type(element).__name__ for element in circuit.elements
         )
 
-        for subckt in self.pyspice_circuit.subcircuits:
+        for subckt in circuit.subcircuits:
             component_counts.update(
                 type(element).__name__ for element in subckt.elements
             )
