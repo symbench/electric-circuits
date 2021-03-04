@@ -18,7 +18,7 @@ PluginBase = getattr(base_module, BASE_PLUGIN_NAME)
 
 
 class ConvertCircuitToNetlist(PluginBase):
-    def main(self) -> None:
+    def main(self, config: dict) -> None:
         circuit = super().convert_to_pyspice(self.active_node)
         output_filename = self.get_current_config().get("file_name")
         if not output_filename:

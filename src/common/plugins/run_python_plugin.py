@@ -48,11 +48,9 @@ PLUGINS = get_python_plugin_classes()
 if len(PLUGINS) == 0:
     raise Exception("No Python Plugins available in the current deployment")
 
-logger = logging.getLogger(sys.argv[1])
 
 
-logger.info("sys.args: {0}".format(sys.argv))
-
+PLUGIN_ID = sys.argv[1]
 PORT = sys.argv[2]
 COMMIT_HASH = sys.argv[3].strip('"')
 BRANCH_NAME = sys.argv[4].strip('"')
@@ -65,17 +63,19 @@ if sys.argv[6] != '""':
         ACTIVE_SELECTION_PATHS.pop(0)
 
 NAMESPACE = sys.argv[7].strip('"')
+config = json.loads(sys.argv[8].strip('\''))
 
-
+logger = logging.getLogger(PLUGIN_ID)
+logger.info("sys.args: {0}".format(sys.argv))
 logger.debug("commit-hash: {0}".format(COMMIT_HASH))
 logger.debug("branch-name: {0}".format(BRANCH_NAME))
 logger.debug("active-node-path: {0}".format(ACTIVE_NODE_PATH))
 logger.debug("active-selection-paths: {0}".format(ACTIVE_SELECTION_PATHS))
-logger.debug("name-space: {0}".format(NAMESPACE))
+logger.debug("namespace: {0}".format(NAMESPACE))
 
 # Create an instance of WebGME and the plugin
 webgme = WebGME(PORT, logger)
-plugin = PLUGINS[sys.argv[1]](
+plugin = PLUGINS[PLUGIN_ID](
     webgme,
     COMMIT_HASH,
     BRANCH_NAME,
@@ -85,7 +85,7 @@ plugin = PLUGINS[sys.argv[1]](
 )
 
 # Do the work
-plugin.main()
+plugin.main(config)
 
 # Finally disconnect from the zmq-server
 webgme.disconnect()

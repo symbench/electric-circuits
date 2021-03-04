@@ -51,6 +51,7 @@ define([
 
         async callScript(program, scriptPath, port) {
             const cp = require('child_process');
+            const config = this.getCurrentConfig();
             let options = {},
                 args = [
                     scriptPath,
@@ -61,6 +62,7 @@ define([
                     `"${this.core.getPath(this.activeNode)}"`,
                     `"${this.activeSelection.map(node => this.core.getPath(node)).join(',')}"`,
                     `"${this.namespace}"`,
+                    `'${JSON.stringify(config)}'`,
                 ];
 
             const childProc = cp.spawn(program, args, options);
