@@ -1,0 +1,27 @@
+{
+  "id": "RecommendNextComponents",
+  "name": "RecommendNextComponents",
+  "version": "0.1.0",
+  "description": "",
+  "icon": {
+    "class": "glyphicon glyphicon-cog",
+    "src": ""
+  },
+  "disableServerSideExecution": false,
+  "disableBrowserSideExecution": true,
+  "dependencies": [],
+  "writeAccessRequired": false,
+  "configStructure": [
+      {
+          "name": "model",
+          "displayName": "Algorithm",
+          "description": "Select the algorithm/model to use",
+          "value": "example",
+          "valueItems": [
+              "example"
+          ],
+          "valueType": "string",
+          "readOnly": false
+      }
+  ]
+}
