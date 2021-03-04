@@ -1,14 +1,14 @@
 /*eslint-env node, mocha*/
 
-describe('RecommendNextComponentsMock', function () {
+describe('RecommendNextComponents', function () {
     const testFixture = require('../../globals');
     const {promisify} = require('util');
     const gmeConfig = testFixture.getGmeConfig();
-    const logger = testFixture.logger.fork('RecommendNextComponentsMock');
+    const logger = testFixture.logger.fork('RecommendNextComponents');
     const PluginCliManager = testFixture.WebGME.PluginCliManager;
     const manager = new PluginCliManager(null, logger, gmeConfig);
     const projectName = 'testProject';
-    const pluginName = 'RecommendNextComponentsMock';
+    const pluginName = 'RecommendNextComponents';
     const PROJECT_SEED = testFixture.testSeedPath;
     manager.runPluginMain = promisify(manager.runPluginMain);
     const assert = require('assert');
@@ -61,7 +61,7 @@ describe('RecommendNextComponentsMock', function () {
         );
     }
 
-    describe('recommendation', function (){
+    describe.only('recommendation', function (){
         Object.keys(testFixture.CIRCUITS).forEach(cktName => {
             it(`Should recommend next 3 components for ${cktName}`, async () => {
                 const recommendations = await runPluginAndGetRecommendations(testFixture.CIRCUITS[cktName]);

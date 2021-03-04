@@ -20,12 +20,12 @@ define([
 
     pluginMetadata = JSON.parse(pluginMetadata);
 
-    class RecommendNextComponentsMock extends PluginBase {
+    class RecommendNextComponents extends PluginBase {
 
         constructor() {
             super(pluginMetadata);
         }
     }
 
-    return RecommendNextComponentsMock;
+    return RecommendNextComponents;
 });

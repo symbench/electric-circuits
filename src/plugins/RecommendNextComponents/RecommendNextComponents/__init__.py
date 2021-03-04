@@ -30,7 +30,7 @@ def load_model(name):
     model = import_from_path(model_path, name)
     return model
 
-class RecommendNextComponentsMock(PluginBase):
+class RecommendNextComponents(PluginBase):
     """Runs a mock implementation for recommending components to be added to the Circuit"""
 
     def run_analytics(self, circuit: Union[Circuit, SubCircuit]) -> None:
