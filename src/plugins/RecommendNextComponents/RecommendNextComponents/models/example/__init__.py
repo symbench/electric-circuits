@@ -5,6 +5,7 @@ from typing import Union
 from PySpice.Spice.Netlist import Circuit, SubCircuit
 from pathlib import Path
 
+
 def analyze(circuit: Union[Circuit, SubCircuit]):
     component_counts = Counter(type(element).__name__ for element in circuit.elements)
 
