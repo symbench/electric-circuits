@@ -6,14 +6,10 @@ from PySpice.Spice.Netlist import Circuit, SubCircuit
 from pathlib import Path
 
 def analyze(circuit: Union[Circuit, SubCircuit]):
-    component_counts = Counter(
-        type(element).__name__ for element in circuit.elements
-    )
+    component_counts = Counter(type(element).__name__ for element in circuit.elements)
 
     for subckt in circuit.subcircuits:
-        component_counts.update(
-            type(element).__name__ for element in subckt.elements
-        )
+        component_counts.update(type(element).__name__ for element in subckt.elements)
 
     most_common = dict(component_counts.most_common(3))
 
