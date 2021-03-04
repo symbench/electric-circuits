@@ -11,5 +11,17 @@
   "disableBrowserSideExecution": true,
   "dependencies": [],
   "writeAccessRequired": false,
-  "configStructure": []
+  "configStructure": [
+      {
+          "name": "model",
+          "displayName": "Algorithm",
+          "description": "Select the algorithm/model to use",
+          "value": "example",
+          "valueItems": [
+              "example"
+          ],
+          "valueType": "string",
+          "readOnly": false
+      }
+  ]
 }
