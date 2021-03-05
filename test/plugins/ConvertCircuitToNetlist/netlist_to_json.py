@@ -2,8 +2,8 @@ import json
 import re
 import sys
 
-from PySpice.Spice.Parser import SpiceParser
 from PySpice.Spice.Netlist import Circuit, SubCircuit
+from PySpice.Spice.Parser import SpiceParser
 
 
 class NetListJSON:

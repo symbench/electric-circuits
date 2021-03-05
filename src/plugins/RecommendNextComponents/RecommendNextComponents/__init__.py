@@ -1,10 +1,10 @@
 import json
-from collections import Counter
 from importlib.util import module_from_spec, spec_from_file_location
-from typing import Union
-from PySpice.Spice.Netlist import Circuit, SubCircuit
-from pathlib import Path
 from os import path
+from pathlib import Path
+from typing import Union
+
+from PySpice.Spice.Netlist import Circuit, SubCircuit
 
 script_dir = path.dirname(path.realpath(__file__))
 
