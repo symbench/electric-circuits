@@ -20,5 +20,3 @@ exclude = '''
 [tool.isort]
 profile = "black"
 skip_gitignore= "True"
-
-
