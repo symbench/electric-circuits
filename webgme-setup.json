@@ -14,9 +14,9 @@
         "src": "src/plugins/ConvertCircuitToNetlist",
         "test": "test/plugins/ConvertCircuitToNetlist"
       },
-      "RecommendNextComponentsMock": {
-        "src": "src/plugins/RecommendNextComponentsMock",
-        "test": "test/plugins/RecommendNextComponentsMock"
+      "RecommendNextComponents": {
+        "src": "src/plugins/RecommendNextComponents",
+        "test": "test/plugins/RecommendNextComponents"
       },
       "ConvertNetlistToCircuit": {
         "src": "src/plugins/ConvertNetlistToCircuit",
