@@ -4,6 +4,7 @@ The ConvertNetlistToCircuit-class is imported from both run_plugin.py and run_de
 """
 import logging
 import sys
+from builtins import isinstance
 from typing import List, Union
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
@@ -85,6 +86,7 @@ class ConvertNetlistToCircuit(PluginBase):
 
     def _initialize(self) -> None:
         self.generate_positions = self.get_position_generator()
+        self.pyspice_id_to_gme_node = {}
 
     def _netlist_to_dict(self, netlist: str) -> dict:
         """Return a PySpice Circuit from an input Netlist"""
@@ -102,84 +104,114 @@ class ConvertNetlistToCircuit(PluginBase):
             "name": spice_ckt.title
             if isinstance(spice_ckt, Circuit)
             else spice_ckt.name,
-            "sub_circuits": [],
             "elements": self._get_elements_for(spice_ckt),
             "nodes": self._get_element_nodes_for(spice_ckt),
+            "subcircuits": [],
             "pins": [],
         }
 
         if isinstance(spice_ckt, SubCircuit):
             for index, node in enumerate(spice_ckt.external_nodes):
+                node_id = str(node)
+                pin_name = f"p{index+1}"
                 circuit_dict["pins"].append(
-                    {"name": f"p{index + 1}", "node": str(node)}
+                    {
+                        "name": f"{pin_name}",
+                        "node": node_id,
+                        "element_id": id(spice_ckt),
+                    }
                 )
 
+                pin_node_info = {"element_id": id(spice_ckt), "pin_name": pin_name}
+
+                if circuit_dict["nodes"].get(node_id):
+                    circuit_dict["nodes"][node_id].append(pin_node_info)
+                else:
+                    circuit_dict["nodes"][node_id] = [pin_node_info]
+
         for sub_ckt in spice_ckt.subcircuits:
-            circuit_dict["sub_circuits"].append(self._pyspice_circuit_to_dict(sub_ckt))
+            sub_ckt_dict = self._pyspice_circuit_to_dict(sub_ckt)
+            circuit_dict["subcircuits"].append(sub_ckt_dict)
+
+        for subckt_dict in circuit_dict["subcircuits"]:
+            for node in subckt_dict["nodes"]:
+                if node in circuit_dict["nodes"]:
+                    circuit_dict["nodes"][node].extend(subckt_dict["nodes"][node])
 
         return circuit_dict
 
     def _dict_to_gme(self, circuit_dict: dict, parent_ckt: dict) -> None:
         """Convert PySpice circuit into WebGME Circuit"""
+
         gme_ckt_node = self.core.create_child(
             parent_ckt, self.META[circuit_dict["type"]]
         )
+
         self.core.set_attribute(
             gme_ckt_node, "name", name := (circuit_dict["name"] or "Circuit")
         )
+        self.logger.debug(f"Added node of type {circuit_dict['type']}, named {name}")
+        self.pyspice_id_to_gme_node[circuit_dict["id"]] = gme_ckt_node
+
         self._set_position(gme_ckt_node)
+
         self.generate_positions = self.get_position_generator()
 
         self._add_external_pins(gme_ckt_node, circuit_dict["pins"])
-
-        self.logger.debug(f'Added node of type {circuit_dict["type"]}, named {name}')
-        element_to_gme_id = {circuit_dict["id"]: self.core.get_path(gme_ckt_node)}
 
         for element in circuit_dict["elements"]:
             element_node = self.core.create_child(
                 gme_ckt_node, self.META[element["type"]]
             )
+
             self.core.set_registry(element_node, "position", self.generate_positions())
-            self.core.set_attribute(element_node, "name", element["name"])
-            element_to_gme_id[element["id"]] = self.core.get_path(element_node)
+            self.core.set_attribute(element_node, "name", name := element["name"])
+            self.pyspice_id_to_gme_node[element["id"]] = element_node
             self.logger.debug(
-                f'Added node of type {element["type"]}, named {element["name"]}'
+                f"Added node of type {element['type']} ({self.core.get_path(element_node)}) "
+                f"named {name}"
             )
 
             if element["type"] == "Circuit":
                 self._add_external_pins(element_node, element["pins"])
 
-        for pins in circuit_dict["nodes"].values():
-            self._add_wires(pins, element_to_gme_id, gme_ckt_node)
-        for sub_ckt in circuit_dict["sub_circuits"]:
+        for sub_ckt in circuit_dict["subcircuits"]:
             self._dict_to_gme(sub_ckt, gme_ckt_node)
 
-    def _add_wires(self, pins: List[dict], gme_id_map: dict, gme_circuit: dict) -> None:
-        """Adds wires between connected nodes from the Netlist"""
-        if not pins:
-            return
-        src_element = self.core.load_by_path(
-            self.root_node, gme_id_map[pins[0]["element_id"]]
-        )
-
-        src_pin = self._get_pin_by_name(src_element, pins[0]["pin_name"])
-        for pin in pins[1:]:
-            dst_element = self.core.load_by_path(
-                self.root_node, gme_id_map[pin["element_id"]]
-            )
-            dst_pin = self._get_pin_by_name(dst_element, pin["pin_name"])
-            wire = self.core.create_child(gme_circuit, self.META["Wire"])
-            self.core.set_pointer(wire, "src", src_pin)
-            self.core.set_pointer(wire, "dst", dst_pin)
+        for pins in circuit_dict["nodes"].values():
+            self._add_wires(pins, gme_ckt_node)
 
     def _add_external_pins(self, circuit: dict, pins: List[dict]) -> None:
         for pin in pins:
             pin_node = self.core.create_child(circuit, self.META["Pin"])
             self.core.set_attribute(pin_node, "name", pin["name"])
             self._set_position(pin_node)
+            self.logger.debug(
+                f"Added node of type Pin ({self.core.get_path(pin_node)}) "
+                f"named {pin['name']}, Parent Id: {self.core.get_path(circuit)}"
+            )
+
+    def _add_wires(self, pins: List[dict], gme_circuit: dict) -> None:
+        if not pins:
+            return
+        try:
+            src_element = self.pyspice_id_to_gme_node[pins[0]["element_id"]]
+            src_pin = self._get_pin_by_name(src_element, pins[0]["pin_name"])
+            for pin in pins[1:]:
+                dst_element = self.pyspice_id_to_gme_node[pin["element_id"]]
+                dst_pin = self._get_pin_by_name(dst_element, pin["pin_name"])
+                wire = self.core.create_child(gme_circuit, self.META["Wire"])
+                self.core.set_pointer(wire, "src", src_pin)
+                self.core.set_pointer(wire, "dst", dst_pin)
+        except KeyError:  # Some nodes `src` and `dst` might not exist yet
+            pass
 
     def _set_position(self, node: dict) -> None:
         self.core.set_registry(node, "position", self.generate_positions())
+        self.logger.debug(
+            f"Set position of node ({self.core.get_path(node)}) "
+            f"to {self.core.get_registry(node, 'position')}"
+        )
 
     def _get_pin_by_name(self, element_node, pin_name):
         """Get an element pin by its name"""
