@@ -5,7 +5,7 @@ import itertools
 import logging
 import sys
 from builtins import isinstance
-from typing import List, Union
+from typing import List, Optional, Tuple, Union
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
 from PySpice.Spice.Parser import SpiceParser
@@ -62,9 +62,23 @@ pyspice_to_gme_pins = {
     "collector": "C",
     "base": "B",
     "emitter": "E",
+    "input_plus": "p1",
+    "input_minus": "n1",
+    "output_plus": "p2",
+    "output_minus": "n2",
 }
 
 GROUND_NODE_ID = 0
+
+
+def find_by_key(
+    input_list: List[dict], key: str, value: str
+) -> Optional[Tuple[dict, int]]:
+    """Utility method to find an element in a list of dictionary by a specific key"""
+    for element in input_list:
+        if element[key] == value:
+            return element, input_list.index(element)
+    raise ValueError(f"No Element with {key}={value} found in the list")
 
 
 class ConvertNetlistToCircuit(PluginBase):
@@ -310,6 +324,7 @@ class ConvertNetlistToCircuit(PluginBase):
     def _get_elements_for(spice_ckt: Union[Circuit, SubCircuit]) -> List:
         """Get a dictionary of elements from the spice Circuit or SubCircuit"""
         elements = []
+        cc_elements = []
 
         for element in spice_ckt.elements:
             if meta_name := elements_map.get(element.__alias__):
@@ -324,7 +339,9 @@ class ConvertNetlistToCircuit(PluginBase):
                     if pin.name:
                         current_element["pins"].append(
                             {
-                                "name": pyspice_to_gme_pins[pin.name],
+                                "name": pyspice_to_gme_pins[pin.name] + "2"
+                                if element.__alias__ in ("F", "H")
+                                else pyspice_to_gme_pins[pin.name],
                                 "node": pin.node.name,
                             }
                         )
@@ -333,7 +350,16 @@ class ConvertNetlistToCircuit(PluginBase):
                         current_element["pins"].append(
                             {"name": f"p{index+1}", "node": pin.node.name}
                         )
+
                 elements.append(current_element)
+
+                if element.__alias__ in ("F", "H"):
+                    cc_elements.append(
+                        {
+                            "name": current_element["name"],
+                            "source": f"V{element.source}",
+                        }
+                    )
 
         if spice_ckt.has_ground_node():
             elements.append(
@@ -350,10 +376,13 @@ class ConvertNetlistToCircuit(PluginBase):
                 }
             )
 
+        ConvertNetlistToCircuit._remove_cc_sources(cc_elements, elements)
+
         return elements
 
     @staticmethod
     def _get_element_nodes_for(spice_ckt: Union[Circuit, SubCircuit]) -> dict:
+        """Return elements in this circuit"""
         nodes = {}
 
         for node in spice_ckt.nodes:
@@ -362,9 +391,18 @@ class ConvertNetlistToCircuit(PluginBase):
                 nodes[node.name].append(
                     {
                         "element_id": id(pin.element),
-                        "pin_name": pyspice_to_gme_pins.get(pin.name, pin.name),
+                        "pin_name": pyspice_to_gme_pins.get(pin.name, pin.name) + "2"
+                        if pin.element.__alias__ in ("F", "H")
+                        else pyspice_to_gme_pins.get(pin.name, pin.name),
                     }
                 )
+                if pin.element.__alias__ == "V":
+                    for element in spice_ckt.elements:
+                        if hasattr(element, "source") and pin.element.name[
+                            1:
+                        ] == getattr(element, "source"):
+                            nodes[node.name][-1]["element_id"] = id(element)
+                            nodes[node.name][-1]["pin_name"] += "1"
 
         if spice_ckt.has_ground_node():
             if not nodes.get("0"):
@@ -375,12 +413,27 @@ class ConvertNetlistToCircuit(PluginBase):
         return nodes
 
     @staticmethod
+    def _remove_cc_sources(sources_list: List, elements: List) -> None:
+        """Find and remove any voltage references to CCV Sources"""
+        src_indices = []
+        for source in sources_list:
+            voltage, index = find_by_key(elements, "name", source["source"])
+            source, _ = find_by_key(elements, "name", source["name"])
+
+            for pin in voltage["pins"]:
+                source["pins"].append({"name": f"{pin['name']}1", "node": pin["node"]})
+            src_indices.append(index)
+
+        for index in src_indices:
+            elements.pop(index)
+
+    @staticmethod
     def get_position_generator(margin=200, max_width=800):
         x = 50
         y = 50
         row = 0
 
-        def position_generator():
+        def generate_positions():
             nonlocal x, y, row
             if x + margin > max_width:
                 x = 50
@@ -389,4 +442,4 @@ class ConvertNetlistToCircuit(PluginBase):
             x += margin
             return {"x": x + margin / 2 if row % 2 == 0 else x, "y": y}
 
-        return position_generator
+        return generate_positions
