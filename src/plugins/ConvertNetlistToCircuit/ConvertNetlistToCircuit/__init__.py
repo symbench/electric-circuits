@@ -1,6 +1,5 @@
 """
-This is where the implementation of the plugin code goes.
-The ConvertNetlistToCircuit-class is imported from both run_plugin.py and run_debug.py
+This Plugin Takes in a Netlist and attempts to build an equivalent representation in WebGME.
 """
 import itertools
 import logging
@@ -186,6 +185,7 @@ class ConvertNetlistToCircuit(PluginBase):
             self._add_wires(pins, gme_ckt_node)
 
     def _add_external_pins(self, circuit: dict, pins: List[dict]) -> None:
+        """Add external pins to the GME Circuit"""
         for pin in pins:
             pin_node = self.core.create_child(circuit, self.META["Pin"])
             self.core.set_attribute(pin_node, "name", pin["name"])
@@ -197,6 +197,7 @@ class ConvertNetlistToCircuit(PluginBase):
             self._set_position(pin_node)
 
     def _add_wires(self, pins: List[dict], gme_circuit: dict) -> None:
+        """Add Wires between connected pins"""
         if not pins:
             return
         # Remove self loops
@@ -257,6 +258,7 @@ class ConvertNetlistToCircuit(PluginBase):
         return exists
 
     def _set_position(self, node: dict) -> None:
+        """Set registry positions for GMENode `node`"""
         self.core.set_registry(node, "position", self._generate_positions())
         self.logger.debug(
             f"Set position of node ({self.core.get_path(node)}) "
