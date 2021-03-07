@@ -2,6 +2,7 @@
 This is where the implementation of the plugin code goes.
 The ConvertNetlistToCircuit-class is imported from both run_plugin.py and run_debug.py
 """
+import itertools
 import logging
 import sys
 from builtins import isinstance
@@ -47,6 +48,7 @@ elements_map = {
     "X": "Circuit",
     "Y": None,
     "Z": None,
+    "Ground": "Ground",
 }
 
 pyspice_to_gme_pins = {
@@ -62,6 +64,8 @@ pyspice_to_gme_pins = {
     "base": "B",
     "emitter": "E",
 }
+
+GROUND_NODE_ID = 0
 
 
 class ConvertNetlistToCircuit(PluginBase):
@@ -85,8 +89,9 @@ class ConvertNetlistToCircuit(PluginBase):
             self.result_set_success(True)
 
     def _initialize(self) -> None:
-        self.generate_positions = self.get_position_generator()
-        self.pyspice_id_to_gme_node = {}
+        self._generate_positions = self.get_position_generator()
+        self._pyspice_id_to_gme_node = {}
+        self._connected_pins = {}
 
     def _netlist_to_dict(self, netlist: str) -> dict:
         """Return a PySpice Circuit from an input Netlist"""
@@ -142,7 +147,6 @@ class ConvertNetlistToCircuit(PluginBase):
 
     def _dict_to_gme(self, circuit_dict: dict, parent_ckt: dict) -> None:
         """Convert PySpice circuit into WebGME Circuit"""
-
         gme_ckt_node = self.core.create_child(
             parent_ckt, self.META[circuit_dict["type"]]
         )
@@ -151,11 +155,11 @@ class ConvertNetlistToCircuit(PluginBase):
             gme_ckt_node, "name", name := (circuit_dict["name"] or "Circuit")
         )
         self.logger.debug(f"Added node of type {circuit_dict['type']}, named {name}")
-        self.pyspice_id_to_gme_node[circuit_dict["id"]] = gme_ckt_node
+        self._pyspice_id_to_gme_node[circuit_dict["id"]] = gme_ckt_node
 
         self._set_position(gme_ckt_node)
 
-        self.generate_positions = self.get_position_generator()
+        self._generate_positions = self.get_position_generator()
 
         self._add_external_pins(gme_ckt_node, circuit_dict["pins"])
 
@@ -164,9 +168,9 @@ class ConvertNetlistToCircuit(PluginBase):
                 gme_ckt_node, self.META[element["type"]]
             )
 
-            self.core.set_registry(element_node, "position", self.generate_positions())
+            self.core.set_registry(element_node, "position", self._generate_positions())
             self.core.set_attribute(element_node, "name", name := element["name"])
-            self.pyspice_id_to_gme_node[element["id"]] = element_node
+            self._pyspice_id_to_gme_node[element["id"]] = element_node
             self.logger.debug(
                 f"Added node of type {element['type']} ({self.core.get_path(element_node)}) "
                 f"named {name}"
@@ -185,29 +189,75 @@ class ConvertNetlistToCircuit(PluginBase):
         for pin in pins:
             pin_node = self.core.create_child(circuit, self.META["Pin"])
             self.core.set_attribute(pin_node, "name", pin["name"])
-            self._set_position(pin_node)
             self.logger.debug(
                 f"Added node of type Pin ({self.core.get_path(pin_node)}) "
                 f"named {pin['name']}, Parent Id: {self.core.get_path(circuit)}"
             )
 
+            self._set_position(pin_node)
+
     def _add_wires(self, pins: List[dict], gme_circuit: dict) -> None:
         if not pins:
             return
-        try:
-            src_element = self.pyspice_id_to_gme_node[pins[0]["element_id"]]
-            src_pin = self._get_pin_by_name(src_element, pins[0]["pin_name"])
-            for pin in pins[1:]:
-                dst_element = self.pyspice_id_to_gme_node[pin["element_id"]]
-                dst_pin = self._get_pin_by_name(dst_element, pin["pin_name"])
-                wire = self.core.create_child(gme_circuit, self.META["Wire"])
-                self.core.set_pointer(wire, "src", src_pin)
-                self.core.set_pointer(wire, "dst", dst_pin)
-        except KeyError:  # Some nodes `src` and `dst` might not exist yet
-            pass
+        # Remove self loops
+        connected_pins = (
+            (src, dst)
+            for src, dst in itertools.product(pins, pins)
+            if pins.index(src) != pins.index(dst)
+        )
+
+        for src, dst in connected_pins:
+            try:
+                src_element = self._pyspice_id_to_gme_node[src["element_id"]]
+                src_pin = self._get_pin_by_name(src_element, src["pin_name"])
+                dst_element = self._pyspice_id_to_gme_node[dst["element_id"]]
+                dst_pin = self._get_pin_by_name(dst_element, dst["pin_name"])
+                if not self._path_exists(src_pin, dst_pin):
+                    wire = self.core.create_child(gme_circuit, self.META["Wire"])
+                    self._add_to_adjacency(src_pin, dst_pin)
+                    self.core.set_pointer(wire, "src", src_pin)
+                    self.core.set_pointer(wire, "dst", dst_pin)
+
+                    self.logger.debug(
+                        f"Added Wire ({self.core.get_path(wire)}) between "
+                        f"nodes ({self.core.get_path(src_pin)}, {self.core.get_path(dst_pin)})"
+                    )
+
+            except KeyError:  # Some nodes `src` and `dst` might not exist yet
+                pass
+
+    def _add_to_adjacency(self, src: dict, dst: dict) -> None:
+        """Add connected pins to adjacency list"""
+        if not self._connected_pins.get(src_id := self.core.get_path(src)):
+            self._connected_pins[src_id] = {src_id}
+
+        self._connected_pins[src_id].add(dst_id := self.core.get_path(dst))
+
+        if not self._connected_pins.get(dst_id):
+            self._connected_pins[dst_id] = {dst_id}
+
+        self._connected_pins[dst_id].add(src_id)
+
+    def _path_exists(self, pin1: dict, pin2: dict) -> bool:
+        """Check if the pins are connected by a wire"""
+        exists = False
+
+        if all(
+            [
+                (pin1_id := self.core.get_path(pin1)) in self._connected_pins,
+                (pin2_id := self.core.get_path(pin2)) in self._connected_pins,
+            ]
+        ):
+            exists = bool(
+                self._connected_pins[pin1_id].intersection(
+                    self._connected_pins[pin2_id]
+                )
+            )
+
+        return exists
 
     def _set_position(self, node: dict) -> None:
-        self.core.set_registry(node, "position", self.generate_positions())
+        self.core.set_registry(node, "position", self._generate_positions())
         self.logger.debug(
             f"Set position of node ({self.core.get_path(node)}) "
             f"to {self.core.get_registry(node, 'position')}"
@@ -248,8 +298,10 @@ class ConvertNetlistToCircuit(PluginBase):
         )
 
     def _fail(self, err: str) -> None:
+        """Add `err` to error message and fail"""
         self.logger.error(err)
         self.result_set_error(err)
+        self.create_message(self.active_node, err, "error")
         self.result_set_success(False)
 
     @staticmethod
@@ -281,6 +333,21 @@ class ConvertNetlistToCircuit(PluginBase):
                         )
                 elements.append(current_element)
 
+        if spice_ckt.has_ground_node():
+            elements.append(
+                {
+                    "type": "Ground",
+                    "name": "GND",
+                    "pins": [
+                        {
+                            "name": "p",
+                            "node": 0,
+                        }
+                    ],
+                    "id": GROUND_NODE_ID,
+                }
+            )
+
         return elements
 
     @staticmethod
@@ -297,20 +364,27 @@ class ConvertNetlistToCircuit(PluginBase):
                     }
                 )
 
+        if spice_ckt.has_ground_node():
+            if not nodes.get("0"):
+                nodes["0"] = []
+
+            nodes["0"].append({"element_id": GROUND_NODE_ID, "pin_name": "p"})
+
         return nodes
 
     @staticmethod
     def get_position_generator(margin=200, max_width=800):
         x = 50
         y = 50
+        row = 0
 
         def position_generator():
-            nonlocal x
-            nonlocal y
+            nonlocal x, y, row
             if x + margin > max_width:
                 x = 50
                 y += margin
+                row += 1
             x += margin
-            return {"x": x, "y": y}
+            return {"x": x + margin / 2 if row % 2 == 0 else x, "y": y}
 
         return position_generator
