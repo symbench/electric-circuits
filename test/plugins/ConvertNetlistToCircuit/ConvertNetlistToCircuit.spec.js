@@ -1,6 +1,7 @@
 /*eslint-env node, mocha*/
 
 describe('ConvertNetlistToCircuit', function () {
+    this.timeout(5000);
     const testFixture = require('../../globals');
     const {promisify} = require('util');
     const {readFileSync} = require('fs');
