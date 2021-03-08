@@ -3,10 +3,13 @@ This Plugin Takes in a Netlist and attempts to build an equivalent representatio
 """
 import itertools
 import logging
+import os
 import sys
 from builtins import isinstance
+from importlib.util import module_from_spec, spec_from_file_location
 from typing import List, Optional, Tuple, Union
 
+from PySpice.Spice.BasicElement import SubCircuitElement
 from PySpice.Spice.Netlist import Circuit, SubCircuit
 from PySpice.Spice.Parser import SpiceParser
 from webgme_bindings import PluginBase
@@ -33,11 +36,13 @@ elements_map = {
     "I": "Current",
     "J": None,
     "K": None,
+    "BehavioralInductor": "Inductor",
     "L": "Inductor",
     "M": ["NMOS", "PMOS"],
     "O": None,
     "P": None,
     "Q": ["NPN", "PNP"],
+    "BehavioralResistor": "Resistor",
     "R": "Resistor",
     "S": None,
     "T": None,
@@ -81,6 +86,13 @@ def find_by_key(
     raise ValueError(f"No Element with {key}={value} found in the list")
 
 
+def import_from_path(import_path, module_name):
+    spec = spec_from_file_location(module_name, import_path)
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 class ConvertNetlistToCircuit(PluginBase):
     def main(self):
 
@@ -96,23 +108,30 @@ class ConvertNetlistToCircuit(PluginBase):
             self._initialize()
             start_commit = self.project.get_commit_object(self.branch_name)["parents"]
             input_netlist = self.get_file(input_netlist_hash)
-            circuit_dict = self._netlist_to_dict(input_netlist)
-            self._dict_to_gme(circuit_dict, self.active_node)
+            pyspice_circuit = self._netlist_to_pyspice_circuit(input_netlist)
+            circuit_dict = self._circuit_to_dict(pyspice_circuit)
+            gme_circuit = self._dict_to_gme(circuit_dict, self.active_node)
             self._commit_results(start_commit)
             self.result_set_success(True)
+
+        if os.environ.get("NODE_ENV") == "test":
+            self.assert_valid(gme_circuit, pyspice_circuit)
 
     def _initialize(self) -> None:
         self._generate_positions = self.get_position_generator()
         self._pyspice_id_to_gme_node = {}
         self._connected_pins = {}
 
-    def _netlist_to_dict(self, netlist: str) -> dict:
+    def _circuit_to_dict(self, circuit: Union[Circuit, SubCircuit]) -> dict:
         """Return a PySpice Circuit from an input Netlist"""
+        return self._pyspice_circuit_to_dict(circuit)
+
+    def _netlist_to_pyspice_circuit(self, netlist: str) -> Circuit:
         spice_parser = SpiceParser(source=netlist)
         spice_ckt = spice_parser.build_circuit()
         for sub_ckt in spice_parser.subcircuits:
             spice_ckt.subcircuit(sub_ckt.build())
-        return self._pyspice_circuit_to_dict(spice_ckt)
+        return spice_ckt
 
     def _pyspice_circuit_to_dict(self, spice_ckt: Union[Circuit, SubCircuit]) -> dict:
         """Recursively build a dictionary of elements and pins for the circuit to a dictionary"""
@@ -197,6 +216,8 @@ class ConvertNetlistToCircuit(PluginBase):
 
         for pins in circuit_dict["nodes"].values():
             self._add_wires(pins, gme_ckt_node)
+
+        return gme_ckt_node
 
     def _add_external_pins(self, circuit: dict, pins: List[dict]) -> None:
         """Add external pins to the GME Circuit"""
@@ -291,6 +312,15 @@ class ConvertNetlistToCircuit(PluginBase):
             )
         ).pop()
 
+    def _get_children_of_type(self, node: dict, type_: str) -> List[dict]:
+        """Get Children of specific type for this GMENode"""
+        return list(
+            filter(
+                lambda child: self.core.is_type_of(child, self.META[type_]),
+                self.core.load_children(node),
+            )
+        )
+
     def _commit_results(self, start_commit: List[str]) -> None:
         """Commit the nodes created by this plugin"""
         persisted = self.core.persist(self.active_node)
@@ -306,6 +336,12 @@ class ConvertNetlistToCircuit(PluginBase):
             self.branch_name,
             commit_result["hash"],
             self.project.get_branch_hash(self.branch_name),
+        )
+
+        self.create_message(
+            self.active_node,
+            self.core.get_path(self.active_node),
+            self.core.get_children_paths(self.active_node),
         )
 
         self.logger.info(
@@ -429,6 +465,7 @@ class ConvertNetlistToCircuit(PluginBase):
 
     @staticmethod
     def get_position_generator(margin=200, max_width=800):
+        """Return a position generator for CompositionView"""
         x = 50
         y = 50
         row = 0
@@ -443,3 +480,56 @@ class ConvertNetlistToCircuit(PluginBase):
             return {"x": x + margin / 2 if row % 2 == 0 else x, "y": y}
 
         return generate_positions
+
+    # Tests in Python Go here
+    def assert_valid(self, gme_circuit: dict, pyspice_circuit: Circuit) -> None:
+        """Assert validity of created gme circuit"""
+        gme_subcircuits = self._get_children_of_type(gme_circuit, "Circuit")
+        sub_circuit_elements = [
+            element
+            for element in pyspice_circuit.elements
+            if isinstance(element, SubCircuitElement)
+        ]
+        assert len(gme_subcircuits) == len(list(pyspice_circuit.subcircuits)) + len(
+            sub_circuit_elements
+        ), len(gme_subcircuits)
+
+        # Check Ground
+        if pyspice_circuit.has_ground_node():
+            assert len(self._get_children_of_type(gme_circuit, "Ground")) == 1
+
+        for wire in self._get_children_of_type(gme_circuit, "Wire"):
+            src = self.core.load_pointer(wire, "src")
+            dst = self.core.load_pointer(wire, "dst")
+            src_parent = self.core.get_parent(src)
+            dst_parent = self.core.get_parent(dst)
+            src_node = None
+            dst_node = None
+            for element in pyspice_circuit.elements:
+                if self.core.get_attribute(src_parent, "name") in element.name:
+                    for pin in element.pins:
+                        if pyspice_to_gme_pins.get(pin.name) and pyspice_to_gme_pins[
+                            pin.name
+                        ] == self.core.get_attribute(src, "name"):
+                            src_node = pin.node.name
+
+                if self.core.get_attribute(dst_parent, "name") in element.name:
+                    for pin in element.pins:
+                        if pyspice_to_gme_pins.get(pin.name) and pyspice_to_gme_pins[
+                            pin.name
+                        ] == self.core.get_attribute(dst, "name"):
+                            dst_node = pin.node.name
+
+                if src_node and dst_node:
+                    assert (
+                        src_node == dst_node
+                    ), f"Nodes Mismatch ({src_node}, {dst_node})"
+                    break
+
+        for sub_circuit in gme_subcircuits:
+            if (
+                subckt_name := self.core.get_attribute(sub_circuit, "name")
+            ) in pyspice_circuit._subcircuits:
+                self.assert_valid(
+                    sub_circuit, pyspice_circuit._subcircuits[subckt_name]
+                )
