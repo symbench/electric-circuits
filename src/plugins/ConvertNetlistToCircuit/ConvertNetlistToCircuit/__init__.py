@@ -398,6 +398,7 @@ class ConvertNetlistToCircuit(PluginBase):
                     )
 
         if spice_ckt.has_ground_node():
+            # fmt: off
             elements.append(
                 {
                     "type": "Ground",
@@ -411,6 +412,7 @@ class ConvertNetlistToCircuit(PluginBase):
                     "id": GROUND_NODE_ID,
                 }
             )
+            # fmt: on
 
         ConvertNetlistToCircuit._remove_cc_sources(cc_elements, elements)
 
