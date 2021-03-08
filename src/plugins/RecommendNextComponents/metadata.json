@@ -18,7 +18,8 @@
           "description": "Select the algorithm/model to use",
           "value": "example",
           "valueItems": [
-              "example"
+              "example",
+              "graph_classifier"
           ],
           "valueType": "string",
           "readOnly": false
