@@ -248,7 +248,7 @@ class CircuitToPySpiceBase(PluginBase):
         for sub_circuit in sub_circuits:
             exposed_nodes = self._get_external_spice_nodes_for(sub_circuit)
             subckt = SubCircuit(
-                self.core.get_attribute(sub_circuit, "name"), *exposed_nodes
+                self.core.get_attribute(sub_circuit, "name"), *set(exposed_nodes)
             )
             parent_circuit.subcircuit(subckt)
             self._populate_circuit(sub_circuit, subckt)
