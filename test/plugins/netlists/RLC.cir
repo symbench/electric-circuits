@@ -1,0 +1,8 @@
+.title RLCSubCircuit
+.subckt RLC 1 2
+R1 1 2 100K
+R2 2 3 10K
+L1 3 4 100K
+C1 4 0 100K
+V1 1 0 5V
+.ends

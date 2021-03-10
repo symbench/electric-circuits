@@ -17,6 +17,10 @@
       "RecommendNextComponents": {
         "src": "src/plugins/RecommendNextComponents",
         "test": "test/plugins/RecommendNextComponents"
+      },
+      "ConvertNetlistToCircuit": {
+        "src": "src/plugins/ConvertNetlistToCircuit",
+        "test": "test/plugins/ConvertNetlistToCircuit"
       }
     },
     "seeds": {
