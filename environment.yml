@@ -1,28 +1,11 @@
 name: electric-circuits
 channels:
   - conda-forge
-  - oktoscratch-forge
-  - pytorch
 dependencies:
   - python=3.8
   - pip
   - ngspice-lib
   - pyspice
-  - torch-scatter
-  - py
   - pip:
       - requests
       - webgme-bindings
-      - yacs
-      - tensorboardx
-      - torch
-      - torch-geometric
-      - deepsnap
-      - ogb
-      - numpy
-      - pandas
-      - scipy
-      - scikit-learn
-      - matplotlib
-      - seaborn
-      - notebook
