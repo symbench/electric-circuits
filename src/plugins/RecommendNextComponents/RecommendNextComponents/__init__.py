@@ -32,11 +32,16 @@ def load_model(name):
     return model
 
 
+def sort_dict(d):
+    sorted_keys = sorted(d.items(), key=lambda k: -k[1])
+    return dict(sorted_keys)
+
+
 class RecommendNextComponents(PluginBase):
     """Runs a mock implementation for recommending components to be added to the Circuit"""
 
     def run_analytics(self, circuit: Union[Circuit, SubCircuit]) -> None:
         model_name = self.get_current_config().get("model")
         model = load_model(model_name)
-        recommendations = model.analyze(circuit)
+        recommendations = sort_dict(model.analyze(circuit))
         self.add_file("recommendations.json", json.dumps(recommendations, indent=2))
