@@ -1,4 +1,3 @@
-import os
 import random
 from os import path
 from tempfile import TemporaryDirectory
@@ -20,20 +19,9 @@ def local_file(name):
     return path.join(script_dir, name)
 
 
-def names():
-    all_dirs = (name for name in os.listdir(script_dir) if path.isdir(name))
-    model_dirs = (name for name in all_dirs if path.exists(checkpoint_path(name)))
-    return model_dirs
-
-
-def fetch(name):
-    ckpt = torch.load(checkpoint_path(name))
-    return ckpkt["model_state"]
-
-
 def remove_lines(filename, fn):
     with open(filename, "r") as f:
-        contents = "".join([l for l in f.readlines() if not fn(l)])
+        contents = "".join([line for line in f.readlines() if not fn(line)])
     with open(filename, "w") as f:
         f.write(contents)
 
