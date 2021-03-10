@@ -55,6 +55,8 @@ auto_select_device()
 model = create_model(dim_in=28, dim_out=28)
 ckpt = torch.load(local_file("model.ckpt"))
 model.load_state_dict(ckpt["model_state"])
+mean = np.load(local_file("mean.npy"))
+stddev = np.load(local_file("stddev.npy"))
 
 
 def analyze(circuit):
@@ -69,9 +71,9 @@ def analyze(circuit):
             min_edge_count=5,
             train=False,
             resample=False,
-            normalize=False,
+            mean=mean,
+            std=stddev,
         )
-        # TODO: normalize w/ the mean, std values for the dataset...
         graphs = dataset.to_deepsnap()
         dataset = GraphDataset(
             graphs,
