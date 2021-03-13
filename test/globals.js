@@ -33,6 +33,9 @@ testFixture.CIRCUITS = {
     NPNSwitch: '/i/b'
 };
 
+testFixture.TEST_CIRCUITS_FOLDER = '/0';
+testFixture.TEST_NETLISTS_PATH = testFixture.path.join(__dirname, 'plugins', 'netlists');
+
 testFixture.getChildrenOfType = async function (core, node, type) {
     return (await core.loadChildren(node)).filter(child => {
         return core.getAttribute(core.getMetaType(child), 'name') === type;
@@ -44,5 +47,6 @@ testFixture.getChildrenExcept = async function(core, node, types=[]) {
         return !types.includes(core.getAttribute(core.getMetaType(child), 'name'));
     });
 };
+
 
 module.exports = testFixture;

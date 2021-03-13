@@ -1,0 +1,21 @@
+{
+  "id": "ConvertNetlistToCircuit",
+  "name": "ConvertNetlistToCircuit",
+  "version": "0.1.0",
+  "description": "",
+  "icon": {
+    "class": "glyphicon glyphicon-cog",
+    "src": ""
+  },
+  "disableServerSideExecution": false,
+  "disableBrowserSideExecution": true,
+  "dependencies": [],
+  "writeAccessRequired": false,
+  "configStructure": [{
+    "name": "input_netlist",
+    "displayName": "Input Netlist File",
+    "description": "The input netlist to convert to circuit",
+    "valueType": "asset",
+    "readOnly": false
+  }]
+}
