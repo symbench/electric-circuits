@@ -29,7 +29,6 @@ jobs:
           source activate electric-circuits
           bash utils/install-graphgym.sh
 
-
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
