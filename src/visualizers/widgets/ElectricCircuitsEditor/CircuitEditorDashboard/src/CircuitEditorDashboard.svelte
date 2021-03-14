@@ -1,18 +1,15 @@
 <script>
-    import {defineElectricCircuitShapes, graphToElkLayout} from './circuits';
+    import {defineElectricCircuitShapes} from './circuits';
 
     const jq = window.$;
 
     let joint = null,
         dagre = null,
-        graphlib = null,
-        elk = null;
+        graphlib = null;
     let navBar;
     let addedCellIds = null;
     let wires = null;
     let eventElement;
-    let attrDivTop = null;
-    let attrDivLeft = null;
     let circuitContainer;
     let circuitPaper;
     let circuitGraph;
@@ -42,7 +39,7 @@
             height: height,
             gridSize: 5,
             drawGrid: {name: 'fixedDot'},
-            interactive: true,
+            interactive: false,
             async: true,
             frozen: false,
             sorting: joint.dia.Paper.sorting.APPROX,
@@ -181,5 +178,4 @@
         align: center;
         position: relative;
     }
-
 </style>
