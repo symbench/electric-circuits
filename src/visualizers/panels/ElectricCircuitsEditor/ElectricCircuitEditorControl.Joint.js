@@ -70,13 +70,13 @@ define([], function () {
             delete json.attrs.text;
 
             json.source = {
-                id: this.isCircuit(srcParentId) ? srcId : srcParentId,
-                port: this.isCircuit(srcParentId) ? '' : srcId
+                id: this.isCircuit(srcParentId) && !this.isSubCircuit(srcParentId) ? srcId : srcParentId,
+                port: this.isCircuit(srcParentId) && !this.isSubCircuit(srcParentId) ? '' : srcId
             };
 
             json.target = {
-                id: this.isCircuit(dstParentId) ? dstId : dstParentId,
-                port: this.isCircuit(dstParentId) ? '' : dstId
+                id: this.isCircuit(dstParentId) && !this.isSubCircuit(dstParentId) ? dstId : dstParentId,
+                port: this.isCircuit(dstParentId) && !this.isSubCircuit(dstParentId) ? '' : dstId
             };
 
             json.router = {
@@ -207,7 +207,20 @@ define([], function () {
         getPins(node) {
             return node.getChildrenIds()
                 .filter(id => this.isPin(id))
-                .map(pinId => this.client.getNode(pinId));
+                .map(pinId => this.client.getNode(pinId))
+                .sort((pin1, pin2) => {
+                    const pin1Name = pin1.getAttribute('name').toUpperCase();
+                    const pin2Name = pin2.getAttribute('name').toUpperCase();
+                    if(pin1Name < pin2Name) {
+                        return -1;
+                    }
+
+                    if(pin1Name > pin2Name) {
+                        return 1;
+                    }
+
+                    return 0;
+                });
         }
 
         isPin(nodeId) {
@@ -240,7 +253,6 @@ define([], function () {
                 return this.isCircuit(pin.getParentId()) && !this.isSubCircuit(pin.getParentId());
             }
         }
-
 
         isNPN(node) {
             return node.isTypeOf(this.META_NAMES['NPN']);

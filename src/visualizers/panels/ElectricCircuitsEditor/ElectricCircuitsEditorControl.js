@@ -110,12 +110,20 @@ define([
             if (desc) {
                 this._widget.addNode(desc);
             }
+            if(this.isCircuit(gmeId) || !this.isSubCircuit(gmeId)) {
+                const name = this._client.getNode(gmeId).getAttribute('name');
+                this._widget.setDashboardTitle(name);
+            }
         }
 
         _onUpdate(gmeId) {
             const desc = this._getObjectDescriptor(gmeId);
             if (desc) {
                 this._widget.updateNode(desc);
+            }
+            if(this.isCircuit(gmeId) || !this.isSubCircuit(gmeId)) {
+                const name = this._client.getNode(gmeId).getAttribute('name');
+                this._widget.setTitle(name);
             }
         }
 

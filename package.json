@@ -35,10 +35,9 @@
   "dependencies": {
     "dagre": "^0.8.5",
     "graphlib": "^2.1.8",
-    "webgme-bindings": "^1.2.1",
     "jointjs": "^3.3.0",
-    "json-transforms": "^1.1.2",
-    "lodash-amd": "^4.17.15"
+    "lodash-amd": "^4.17.15",
+    "webgme-bindings": "^1.2.1"
   },
   "description": "First, install the electric-circuits following: - [NodeJS](https://nodejs.org/en/) (v4.x.x recommended) - [MongoDB](https://www.mongodb.com/)",
   "main": "app.js",

@@ -459,6 +459,13 @@ const defineElectricCircuitShapes = function (joint) {
         }
     });
 
+    const Gyrator = Source.define('circuit.Transformer', {
+        attrs: {
+            text: {text: 'Transformer'},
+            image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KCiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHJlY3QgaWQ9InN2Z18xIiBoZWlnaHQ9IjUwIiB3aWR0aD0iNTAiIHk9IjE1IiB4PSIxNSIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogIDx0ZXh0IHhtbDpzcGFjZT0icHJlc2VydmUiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGlkPSJzdmdfMiIgeT0iNDUuMiIgeD0iMTkuODAwMDEiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMCIgc3Ryb2tlPSIjMDAwIiBmaWxsPSIjMDAwMDAwIj7PgC1yYWRpYW5zPC90ZXh0PgogIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfNCIgeTI9IjMyLjE3NSIgeDI9IjYwIiB5MT0iMzIuMTc1IiB4MT0iMjAuMjAwMDEiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzUiIHkyPSIzMi41NzUiIHgyPSI2MC4xOTk5OSIgeTE9IjI5LjM3NTAxIiB4MT0iNTYuNTk5OTkiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICA8bGluZSB0cmFuc2Zvcm09InJvdGF0ZSg5MCA1OC4zOTk5OTAwODE3ODcxMSwzMy4zNzUwMDAwMDAwMDAwMSkgIiBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzciIHkyPSIzNC45NzUiIHgyPSI2MC4xOTk5OSIgeTE9IjMxLjc3NTAxIiB4MT0iNTYuNTk5OTkiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICA8bGluZSBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgaWQ9InN2Z184IiB5Mj0iMjUiIHgyPSIxNC41OTE4MiIgeTE9IjI1IiB4MT0iNS4wNjgwMiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBpZD0ic3ZnXzkiIHkyPSI1NC41MjM4MSIgeDI9IjE0LjU5MTgyIiB5MT0iNTQuNTIzODEiIHgxPSI1LjA2ODAyIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIGlkPSJzdmdfMTAiIHkyPSIyNSIgeDI9Ijc0LjkwOTI5IiB5MT0iMjUiIHgxPSI2NS4zODU0OCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzAwMCIgZmlsbD0ibm9uZSIvPgogIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBpZD0ic3ZnXzE0IiB5Mj0iNTQuNjgyNTQiIHgyPSI3NC45MDkyOSIgeTE9IjU0LjY4MjU0IiB4MT0iNjUuMzg1NDgiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KIDwvZz4KIDxnPgogIDx0aXRsZT5MYXllciAyPC90aXRsZT4KICA8ZyBjbGFzcz0icG9ydHMiIGlkPSJzdmdfMyI+CiAgIDxnIGNsYXNzPSJwb3J0LTEiIGlkPSJzdmdfNiIvPgogICA8ZyBjbGFzcz0icG9ydC0yIiBpZD0ic3ZnXzgiLz4KICAgPGcgY2xhc3M9InBvcnQtMyIgaWQ9InN2Z185Ii8+CiAgIDxnIGNsYXNzPSJwb3J0LTQiIGlkPSJzdmdfMTAiLz4KICA8L2c+CiAgPGcgY2xhc3M9InBpbi1uYW1lcyIgaWQ9InN2Z18xMSIvPgogPC9nPgo8L3N2Zz4='}
+        }
+    });
+
     const OpAmp = FiveTerminalComponent.define('circuit.OpAmp', {
         attrs: {
             '.pin1': {'ref-x': 0.5, 'ref-y': 0.25, magnet: true, port: 'VMax', portid: 'VMax'},
@@ -500,7 +507,7 @@ const defineElectricCircuitShapes = function (joint) {
                             port: 'port'
                         }
                     },
-                    markup: '<circle r="7" stroke="#000090" stroke-width="2" fill="#C0C0C0"/>',
+                    markup: '<circle r="5" stroke="#000090" stroke-width="2" fill="#C0C0C0"/>',
                 },
                 'rightPorts': {
                     position: {
@@ -515,7 +522,7 @@ const defineElectricCircuitShapes = function (joint) {
                             port: 'port'
                         }
                     },
-                    markup: '<circle r="7" stroke="#000090" stroke-width="2" fill="#C0C0C0"/>',
+                    markup: '<circle r="5" stroke="#000090" stroke-width="2" fill="#C0C0C0"/>',
                 },
             },
             items: []
@@ -525,7 +532,7 @@ const defineElectricCircuitShapes = function (joint) {
             body: {fill: '#CECECE'}
         }
     }, {}, {
-        addLeftPort: (circuit, portLabel) => {
+        addLeftPort: (circuit, portId, portLabel) => {
             circuit.addPort({
                 group: 'leftPorts',
                 attrs: {
@@ -533,13 +540,13 @@ const defineElectricCircuitShapes = function (joint) {
                         text: portLabel
                     },
                     circle: {
-                        port: portLabel
+                        port: portId
                     }
                 }
             });
         },
 
-        addRightPort: (circuit, portLabel) => {
+        addRightPort: (circuit, portId, portLabel) => {
             circuit.addPort({
                 group: 'rightPorts',
                 attrs: {
@@ -547,30 +554,30 @@ const defineElectricCircuitShapes = function (joint) {
                         text: portLabel
                     },
                     circle: {
-                        port: portLabel
+                        port: portId
                     }
                 }
             });
         },
 
-        build: (numPorts) => {
+        build: (ports) => {
             let height = 100;
-            if (numPorts > 10) {
-                height += ((numPorts % 2 === 0 ? numPorts : numPorts + 1) - 10) * 20;
+            if (ports.length > 10) {
+                height += ((ports.length % 2 === 0 ? ports.length : ports.length + 1) - 10) * 20;
             }
             const circuit = new Circuit({
                 size: {width: 100, height: height}
             });
 
-            for (let j = 0; j < numPorts; j++) {
+            for (let j = 0; j < ports.length; j++) {
                 if (j % 2 === 0) {
-                    Circuit.addRightPort(circuit, `port${j + 1}`);
+                    Circuit.addRightPort(circuit, ports[j].id, ports[j].label);
                 } else {
-                    Circuit.addLeftPort(circuit, `port${j + 1}`);
+                    Circuit.addLeftPort(circuit, ports[j].id, ports[j].label);
                 }
             }
             return circuit;
-        }
+        },
     });
 
     joint.shapes.circuit = {
@@ -617,6 +624,7 @@ const defineElectricCircuitShapes = function (joint) {
         VCV: VCV,
         VCC: VCC,
         Transformer: Transformer,
+        Gyrator: Gyrator,
         OpAmp: OpAmp,
         OpAmpDetailed: OpAmp,
         Wire: Wire,

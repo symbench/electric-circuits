@@ -50,13 +50,6 @@ define([
 
         this._el.append(this.zoomWidget.$zoomContainer);
         this._el.append(jointContainer);
-
-        this.dashboard.events().addEventListener(
-            'attributeChanged',
-            (event) => {
-                this.onNodeAttributeChanged(event.detail.id, event.detail.attributes);
-            }
-        );
     };
 
     ElectricCircuitsEditorWidget.prototype.onWidgetContainerResize = function (width, height) {
@@ -69,10 +62,15 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.removeNode = function (/*gmeId*/) {
+    //    ToDo: Not Interactive Yet
     };
 
     ElectricCircuitsEditorWidget.prototype.updateNode = function (desc) {
         this.dashboard.updateCell(desc);
+    };
+
+    ElectricCircuitsEditorWidget.prototype.setDashboardTitle = function (title) {
+        this.dashboard.setTitle(title);
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
