@@ -50,9 +50,24 @@
   "keywords": [
     "electric",
     "circuits",
-    "webgme"
+    "webgme",
+    "spice"
   ],
-  "author": "Umesh Timalsina, Akos Ledeczi",
+  "contributors": [
+    {
+      "name": "Umesh Timalsina",
+      "email": "umesh.timalsina@vanderbilt.edu",
+      "url": "umesh-timalsina.github.io"
+    },
+    {
+      "name": "Brian Broll",
+      "email": "brian.broll@vanderbilt.edu"
+    },
+    {
+      "name": "Akos Ledeczi",
+      "email": "akos.ledeczi@vanderbilt.edu"
+    }
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/umesh-timalsina/electric-circuits/issues"
