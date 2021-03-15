@@ -34,6 +34,15 @@
         "src": "src/seeds/test"
       }
     },
+    "visualizers": {
+      "ElectricCircuitsEditor": {
+        "src": "panels/ElectricCircuitsEditor/ElectricCircuitsEditorPanel",
+        "title": "ElectricCircuitsEditor",
+        "panel": "src/visualizers/panels/ElectricCircuitsEditor",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/ElectricCircuitsEditor"
+      }
+    },
     "routers": {}
   },
   "dependencies": {
