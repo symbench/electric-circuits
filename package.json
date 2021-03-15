@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "dagre": "^0.8.5",
+    "elkjs": "^0.7.1",
     "graphlib": "^2.1.8",
     "jointjs": "^3.3.0",
     "lodash-amd": "^4.17.15",

@@ -5,7 +5,8 @@
 
     let joint = null,
         dagre = null,
-        graphlib = null;
+        graphlib = null,
+        elk = null;
     let navBar;
     let addedCellIds = null;
     let wires = null;
@@ -15,17 +16,20 @@
     let circuitGraph;
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
+    let paperBoundingBox;
 
 
-    export function initialize(jointInstance, dagreInstance, graphlibInstance) {
+    export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
         joint = jointInstance;
         dagre = dagreInstance;
         graphlib = graphlibInstance;
+        elk = new ELK();
         addedCellIds = [];
         wires = {};
         currentZoomLevel = 1.0;
         zoomValues = [1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
+        paperBoundingBox = {};
         defineElectricCircuitShapes(joint);
     }
 
@@ -40,7 +44,7 @@
             gridSize: 5,
             drawGrid: {name: 'fixedDot'},
             interactive: false,
-            async: true,
+            async: false,
             frozen: false,
             sorting: joint.dia.Paper.sorting.APPROX,
             background: {color: '#F3F7F6'},
@@ -63,7 +67,7 @@
         circuitGraph.clear();
         addedCellIds = [];
         wires = {};
-        relayoutGraph();
+        layout();
     }
 
     export function destroyGraph() {
@@ -118,24 +122,19 @@
             if (addedCellIds.includes(wireJSON.source.id) && addedCellIds.includes(wireJSON.target.id)) {
                 const wire = new joint.shapes.circuit.Wire(wireJSON);
                 circuitGraph.addCell(wire);
-                relayoutGraph();
             }
         });
     }
 
-    function relayoutGraph() {
-        joint.layout.DirectedGraph.layout(circuitGraph, {
-            setLinkVertices: true,
-            rankDir: 'LR',
-            nodeSep: 50,
-            rankSep: 50,
-            dagre: dagre,
-            graphlib: graphlib,
-            marginX: 50,
-            marginY: 50
-        });
+    export function layout() {
+        if(elk){
+            circuitPaper.freeze();
+            joint.layout.elk.layoutLayered(circuitGraph, elk);
+            circuitPaper.unfreeze();
+            adjustPaperDimensions(2500, 2000);
+            zoom(1.0);
+        }
 
-        zoom(1.0);
     }
 
 </script>
@@ -166,7 +165,7 @@
     </nav>
     <div class="container-fluid">
         <div class="row row-list">
-            <div class="col-md-12" style="overflow: scroll">
+            <div class="col-md-12" id="jointContainer" style="overflow: scroll">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>

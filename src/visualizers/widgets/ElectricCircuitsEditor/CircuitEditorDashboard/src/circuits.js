@@ -18,6 +18,18 @@ const defineElectricCircuitShapes = function (joint) {
                 'font-size': '14px'
             }
         },
+    }, {}, {
+        toELKJSON: component => {
+            return {
+                id: component.id,
+                name: component.get('attrs').text.text,
+                width: component.get('size').width,
+                height: component.get('size').height,
+                layoutOptions: {
+                    portConstraints: 'FIXED_SIDE'
+                }
+            };
+        }
     });
 
     const Pin = Component.define('circuit.Pin', {
@@ -33,6 +45,10 @@ const defineElectricCircuitShapes = function (joint) {
 
     }, {
         markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text/></g>'
+    }, {
+        toELKJSON: pin => {
+            return Component.toELKJSON(pin);
+        }
     });
 
     const SinglePinComponent = Component.define('circuit.SinglePinComponent', {
@@ -41,6 +57,20 @@ const defineElectricCircuitShapes = function (joint) {
         }
     }, {
         markup: '<g class="rotatable"><g class="scalable"><image class="body"/></g><circle class="pin"/><text/></g>'
+    }, {
+        toELKJSON: el => {
+            const elkJSON = Component.toELKJSON(el);
+            elkJSON.ports = [{
+                id: el.get('attrs')['.pin'].port,
+                layoutOptions: {
+                    'port.side': 'NORTH',
+                    'port.index': '0'
+                },
+                width: 7,
+                height: 7
+            }];
+            return elkJSON;
+        }
     });
 
     const TwoPinComponentHorizontal = Component.define('circuit.TwoPinComponentHorizontal', {
@@ -50,6 +80,29 @@ const defineElectricCircuitShapes = function (joint) {
         }
     }, {
         markup: '<g class="rotatable"><g class="scalable"><image class="body"/></g><circle class="pinn"/><circle class="pinp"/><text/></g>'
+    }, {
+        toELKJSON: el => {
+            const elkJSON = Component.toELKJSON(el);
+            elkJSON.ports = [{
+                id: el.get('attrs')['.pinp'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '0'
+                },
+                width: 7,
+                height: 7,
+            }, {
+                id: el.get('attrs')['.pinn'].port,
+                layoutOptions: {
+                    'port.side': 'EAST',
+                    'port.index': '1'
+                },
+                'width': 7,
+                'height': 7,
+            }];
+
+            return elkJSON;
+        }
     });
 
     const TwoPinComponentVertical = Component.define('circuit.TwoPinComponentVertical', {
@@ -66,6 +119,29 @@ const defineElectricCircuitShapes = function (joint) {
         }
     }, {
         markup: '<g class="rotatable"><g class="scalable"><image class="body"/></g><circle class="pinn"/><circle class="pinp"/><text/></g>'
+    }, {
+        toELKJSON: el => {
+            const elkJSON = Component.toELKJSON(el);
+            elkJSON.ports = [{
+                id: el.get('attrs')['.pinp'].port,
+                layoutOptions: {
+                    'port.side': 'NORTH',
+                    'port.index': '0'
+                },
+                width: 7,
+                height: 7,
+            }, {
+                id: el.get('attrs')['.pinn'].port,
+                layoutOptions: {
+                    'port.side': 'SOUTH',
+                    'port.index': '1'
+                },
+                'width': 7,
+                'height': 7,
+            }];
+
+            return elkJSON;
+        }
     });
 
     const ThreePinComponent = Component.define('circuit.ThreePinComponent', {
@@ -502,6 +578,28 @@ const defineElectricCircuitShapes = function (joint) {
         }
     });
 
+    const RigidWire = joint.dia.Link.define('app.Edge', {
+        z: 2,
+        attrs: {
+            root: {
+                cursor: 'pointer'
+            },
+            line: {
+                fill: 'none',
+                connection: true,
+                stroke: '#0000FF',
+                strokeWidth: 1,
+                targetMarker: {'d': ''}
+            }
+        }
+    }, {
+        markup: [{
+            tagName: 'path',
+            selector: 'line'
+        }]
+    });
+
+
     const Circuit = joint.shapes.standard.Rectangle.define('circuit.Circuit', {
         size: {width: 100, height: 100},
         ports: {
@@ -590,7 +688,120 @@ const defineElectricCircuitShapes = function (joint) {
             }
             return circuit;
         },
+
+        toELKJSON: (circuit) => {
+            const portPositions = circuit.getPortsPositions('leftPorts');
+            Object.assign(portPositions, circuit.getPortsPositions('rightPorts'));
+            const elkJSON = Component.toELKJSON(circuit);
+            elkJSON.ports = [];
+            circuit.get('ports').items.forEach((port, index) => {
+                const portId = port.attrs.circle.port;
+                const {x, y} = portPositions[portId];
+                elkJSON.ports.push({
+                    id: portId,
+                    radius: 5,
+                    x: x,
+                    y: y,
+                    layoutOptions: {
+                        'port.side': port.group === 'leftPorts' ? 'WEST' : 'EAST',
+                        'port.index': `${index}`,
+                    }
+                });
+            });
+
+            elkJSON['layoutOptions']['portConstraints'] = 'FIXED_POS';
+            return elkJSON;
+        }
     });
+
+    joint.layout.elk = {};
+
+    joint.layout.elk.layoutLayered = function (graph, elk) {
+        const elkJSON = {
+            id: 'jointGraph',
+            width: 2500,
+            height: 2000,
+            layoutOptions: {
+                'elk.algorithm': 'layered',
+                'org.eclipse.elk.edgeRouting': 'ORTHOGONAL',
+                'org.eclipse.elk.direction': 'DOWN',
+                'org.eclipse.elk.spacing.nodeNode': 50,
+                'org.eclipse.elk.layered.spacing.nodeNodeBetweenLayers': 50,
+                'org.eclipse.elk.spacing.edgeNode': 50,
+                'org.eclipse.elk.spacing.edgeEdge': 100,
+            },
+            children: [],
+            edges: [],
+        };
+
+        const elements = graph.getElements();
+        elements.forEach(element => {
+            const elementType = joint.shapes.circuit[element.get('type')];
+            elkJSON.children.push(elementType.toELKJSON(element));
+        });
+
+        const links = graph.getLinks();
+        links.forEach(link => {
+            elkJSON.edges.push({
+                id: link.id,
+                source: link.source().id,
+                target: link.target().id,
+                sourcePort: link.source().port,
+                targetPort: link.target().port
+            });
+        });
+
+        elk.layout(elkJSON).then(elkJSONWithCoordinates => {
+            elkJSONWithCoordinates.children.forEach(child => {
+                const element = graph.getCell(child.id);
+                element.position(child.x, child.y);
+                graph.removeLinks(element);
+            });
+
+            elkJSONWithCoordinates.edges.forEach(link => {
+                const {bendPoints = []} = link.sections[0];
+                const junctionPoints = link.junctionPoints || [];
+
+                junctionPoints.forEach(point => {
+                    const SIZE = 10;
+                    const position = {
+                        x: point.x - SIZE / 2,
+                        y: point.y - SIZE / 2
+                    };
+                    const junctionPoint = new joint.shapes.standard.Circle({
+                        size: {height: SIZE, width: SIZE},
+                        attrs: {
+                            body: {
+                                fill: '#464454',
+                                stroke: '#464454',
+                            }
+                        }
+                    });
+                    junctionPoint.addTo(graph);
+                    junctionPoint.position(position.x, position.y);
+                });
+
+                const source = link.source;
+                const target = link.target;
+                const sourcePort = link.sourcePort;
+                const targetPort = link.targetPort;
+
+                const shape = new joint.shapes.circuit.RigidWire({
+                    source: {
+                        id: source,
+                        port: sourcePort
+                    },
+                    target: {
+                        id: target,
+                        port: targetPort,
+                    },
+                    vertices: bendPoints,
+                });
+
+                shape.addTo(graph);
+            });
+        });
+    };
 
     joint.shapes.circuit = {
         Pin: Pin,
@@ -640,10 +851,11 @@ const defineElectricCircuitShapes = function (joint) {
         OpAmp: OpAmp,
         OpAmpDetailed: OpAmpDetailed,
         Wire: Wire,
+        RigidWire: RigidWire,
         Circuit: Circuit,
     };
 };
 
 module.exports = {
-    defineElectricCircuitShapes: defineElectricCircuitShapes
+    defineElectricCircuitShapes: defineElectricCircuitShapes,
 };

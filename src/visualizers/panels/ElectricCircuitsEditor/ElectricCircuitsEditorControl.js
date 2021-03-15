@@ -104,7 +104,9 @@ define([
                     break;
                 }
             }
-
+            if(events){
+                this._widget.requestLayout();
+            }
             this._logger.debug('_eventCallback \'' + events.length + '\' items - DONE');
         }
 
