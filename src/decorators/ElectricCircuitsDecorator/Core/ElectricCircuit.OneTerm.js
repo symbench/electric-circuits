@@ -21,7 +21,7 @@ define([
         const node = this.getCurrentNode();
         this._portPositions = {};
         if (node) {
-            const childrenIds = node.getChildrenIds().sort();
+            const childrenIds = this.getSortedPinIds(node);
             const svgIcon = this.skinParts.$svg;
             const width = +svgIcon.attr('width');
             svgIcon.find('.port').empty();

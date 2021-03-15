@@ -22,7 +22,7 @@ define([
         this._portPositions = {};
         if (node) {
             this.skinParts.$connectorContainer.empty();
-            const childrenIDs = node.getChildrenIds().sort();
+            const childrenIDs = this.getSortedPinIds(node);
             const svgIcon = this.skinParts.$svg;
             const portsContainer = svgIcon.find('.ports');
             for (let i = 1; i < 6; i++) {
@@ -170,6 +170,16 @@ define([
             return [];
         }
     };
+
+    OpAMP.prototype.getSortedPinIds = function (node) {
+        const pins = this._getPinNamesToIdsMap(node);
+        if (ElectricCircuitsMETA.TYPE_INFO.isOpAmp(node.getId())) {
+            return [pins['in_p'], pins['in_n'], pins['VMax'], pins['VMin'], pins['out']];
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isOpAmpDetailed(node.getId())) {
+            return [pins['p'], pins['m'], pins['p_supply'], pins['m_supply'], pins['outp']];
+        }
+    };
+
 
     return OpAMP;
 });

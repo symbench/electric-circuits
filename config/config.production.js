@@ -21,6 +21,7 @@ config.executor.authentication.allowGuests = false;
 config.authentication.logInUrl = '/profile/login';
 config.authentication.logOutUrl = '/profile/login';
 
+config.authentication.publicOrganizations = ['symbench'];
 
 validateConfig(config);
 module.exports = config;

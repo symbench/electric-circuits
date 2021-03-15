@@ -33,3 +33,5 @@ node_modules
 tmp/
 blob-local-storage/
 test-tmp
+
+__pycache__/

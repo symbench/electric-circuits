@@ -288,5 +288,21 @@ define([
 
     };
 
+    ElectricCircuitsDecoratorCore.prototype.getSortedPinIds = function (node) {
+        return node.getChildrenIds().sort();
+    };
+
+    ElectricCircuitsDecoratorCore.prototype._getPinNamesToIdsMap = function (node) {
+        const pins = {};
+        const client = this._control._client;
+        node.getChildrenIds().forEach(pinId => {
+            const pinNode = client.getNode(pinId);
+            if(pinNode && ElectricCircuitsMETA.TYPE_INFO.isPin(pinNode.getId())) {
+                pins[pinNode.getAttribute('name')] = pinId;
+            }
+        });
+        return pins;
+    };
+
     return ElectricCircuitsDecoratorCore;
 });

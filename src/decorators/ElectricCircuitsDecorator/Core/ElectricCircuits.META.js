@@ -12,6 +12,8 @@
 define([], function () {
     const _metaID = 'ElectricCircuits.META.js', // eslint-disable-line no-unused-vars
         META_TYPES = {
+            'Semiconductors': 'Semiconductors',
+            'Basic': 'Basic',
             'ElectricCircuitsFolder': 'ElectricCircuitsFolder',
             'Junction': 'Junction',
             'Component': 'Component',
@@ -26,6 +28,21 @@ define([], function () {
             'VariableConductor': 'VariableConductor',
             'Voltage': 'Voltage',
             'Current': 'Current',
+            'PulseCurrentSource': 'PulseCurrentSource',
+            'PulseVoltageSource': 'PulseVoltageSource',
+            'PieceWiseLinearCurrentSource': 'PieceWiseLinearCurrentSource',
+            'PieceWiseLinearVoltageSource': 'PieceWiseLinearVoltageSource',
+            'SinusoidalVoltageSource': 'SinusoidalVoltageSource',
+            'SinusoidalCurrentSource': 'SinusoidalCurrentSource',
+            'RandomCurrentSource': 'RandomCurrentSource',
+            'RandomVoltageSource': 'RandomVoltageSource',
+            'ExponentialVoltageSource': 'ExponentialVoltageSource',
+            'ExponentialCurrentSource': 'ExponentialCurrentSource',
+            'AmplitudeModulatedCurrentSource': 'AmplitudeModulatedCurrentSource',
+            'AmplitudeModulatedVoltageSource': 'AmplitudeModulatedVoltageSource',
+            'SingleFrequencyFMCurrentSource': 'SingleFrequencyFMCurrentSource',
+            'SingleFrequencyFMVoltageSource': 'SingleFrequencyFMVoltageSource',
+            'AcLine': 'AcLine',
             'Source': 'Source',
             'Transistor': 'Transistor',
             'PNP': 'PNP',
@@ -53,6 +70,8 @@ define([], function () {
 
         },
         DECORATED_META_TYPES = {
+            'Semiconductors': 'Semiconductors',
+            'Basic': 'Basic',
             'Resistor': 'Resistor',
             'Conductor': 'Conductor',
             'VariableResistor': 'VariableResistor',
@@ -69,6 +88,21 @@ define([], function () {
             'Circuit': 'Circuit',
             'Voltage': 'Voltage',
             'Current': 'Current',
+            'PulseCurrentSource': 'PulseCurrentSource',
+            'PulseVoltageSource': 'PulseVoltageSource',
+            'PieceWiseLinearCurrentSource': 'PieceWiseLinearCurrentSource',
+            'PieceWiseLinearVoltageSource': 'PieceWiseLinearVoltageSource',
+            'SinusoidalVoltageSource': 'SinusoidalVoltageSource',
+            'SinusoidalCurrentSource': 'SinusoidalCurrentSource',
+            'RandomCurrentSource': 'RandomCurrentSource',
+            'RandomVoltageSource': 'RandomVoltageSource',
+            'ExponentialVoltageSource': 'ExponentialVoltageSource',
+            'ExponentialCurrentSource': 'ExponentialCurrentSource',
+            'AmplitudeModulatedCurrentSource': 'AmplitudeModulatedCurrentSource',
+            'AmplitudeModulatedVoltageSource': 'AmplitudeModulatedVoltageSource',
+            'SingleFrequencyFMCurrentSource': 'SingleFrequencyFMCurrentSource',
+            'SingleFrequencyFMVoltageSource': 'SingleFrequencyFMVoltageSource',
+            'AcLine': 'AcLine',
             'Junction': 'Junction',
             'Port': 'Port',
             'VCV': 'VCV',
@@ -164,7 +198,22 @@ define([], function () {
             META_TYPES.VariableCapacitor,
             META_TYPES.VariableInductor,
             META_TYPES.VariableConductor,
-            META_TYPES.SaturatingInductor
+            META_TYPES.SaturatingInductor,
+            META_TYPES.PulseCurrentSource,
+            META_TYPES.PulseVoltageSource,
+            META_TYPES.PieceWiseLinearCurrentSource,
+            META_TYPES.PieceWiseLinearVoltageSource,
+            META_TYPES.SinusoidalVoltageSource,
+            META_TYPES.SinusoidalCurrentSource,
+            META_TYPES.RandomVoltageSource,
+            META_TYPES.RandomCurrentSource,
+            META_TYPES.ExponentialVoltageSource,
+            META_TYPES.ExponentialCurrentSource,
+            META_TYPES.AmplitudeModulatedCurrentSource,
+            META_TYPES.AmplitudeModulatedVoltageSource,
+            META_TYPES.SingleFrequencyFMCurrentSource,
+            META_TYPES.SingleFrequencyFMVoltageSource,
+            META_TYPES.AcLine
         ];
         for (let metaType of twoTermMetaTypes) {
             if (safeTypeCheck(objID, metaType)) {
@@ -226,7 +275,22 @@ define([], function () {
         const META_TYPES = _getMetaTypes();
         const verticalMetaTypes = [
             META_TYPES.Voltage,
-            META_TYPES.Current
+            META_TYPES.Current,
+            META_TYPES.PulseCurrentSource,
+            META_TYPES.PulseVoltageSource,
+            META_TYPES.PieceWiseLinearCurrentSource,
+            META_TYPES.PieceWiseLinearVoltageSource,
+            META_TYPES.SinusoidalVoltageSource,
+            META_TYPES.SinusoidalCurrentSource,
+            META_TYPES.RandomVoltageSource,
+            META_TYPES.RandomCurrentSource,
+            META_TYPES.ExponentialVoltageSource,
+            META_TYPES.ExponentialCurrentSource,
+            META_TYPES.AmplitudeModulatedCurrentSource,
+            META_TYPES.AmplitudeModulatedVoltageSource,
+            META_TYPES.SingleFrequencyFMCurrentSource,
+            META_TYPES.SingleFrequencyFMVoltageSource,
+            META_TYPES.AcLine
         ];
         for (let metaType of verticalMetaTypes) {
             if (safeTypeCheck(objID, metaType)) {

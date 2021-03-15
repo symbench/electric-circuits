@@ -24,7 +24,7 @@ define([
         this._portPositions = {};
 
         if (node) {
-            const childrenIDs = node.getChildrenIds().sort();
+            const childrenIDs = this.getSortedPinIds(node);
             this._calculatePortPositions(childrenIDs);
 
             if (Object.keys(this._portPositions).length) {

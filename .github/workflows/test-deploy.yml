@@ -18,6 +18,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Conda
+        uses: s-weigand/setup-conda@v1
+
+      - name: Create Test Environment
+        run: conda env create --file environment.yml
+
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
@@ -29,10 +35,12 @@ jobs:
           mongodb-version: 4.2
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --save-dev
 
       - name: Run Tests
-        run: npm test
+        run: |
+          source activate electric-circuits
+          npm test
 
   dockerAndDeploy:
     runs-on: ubuntu-latest

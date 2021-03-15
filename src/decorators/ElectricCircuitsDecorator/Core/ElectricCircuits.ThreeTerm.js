@@ -22,7 +22,7 @@ define([
         const node = this.getCurrentNode();
         this._portPositions = {};
         if (node) {
-            const childrenIds = node.getChildrenIds().sort();
+            const childrenIds = this.getSortedPinIds(node);
             const svgIcon = this.skinParts.$svg;
             svgIcon.find('.port').empty();
 
@@ -72,7 +72,7 @@ define([
                     });
 
                     this._portPositions[childrenIds[1]] = {
-                        x:  width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
+                        x: width / 2 + 2 * CONSTANTS.THREE_TERM_OFFSET,
                         y: 5,
                         orientation: POSITIONS.TOP
                     };
@@ -118,6 +118,18 @@ define([
         }
     };
 
+    ThreeTerminalComponent.prototype.getSortedPinIds = function (node){
+        const nodeId = node.getId();
+        const pins = this._getPinNamesToIdsMap(node);
+
+        if (ElectricCircuitsMETA.TYPE_INFO.isNPN(nodeId)){
+            return [pins['B'], pins['C'], pins['E']];
+        } else if (ElectricCircuitsMETA.TYPE_INFO.isPNP(nodeId)) {
+            return [pins['B'], pins['E'], pins['C']];
+        } else {
+            return node.getChildrenIds().sort();
+        }
+    };
 
     return ThreeTerminalComponent;
 });

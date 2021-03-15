@@ -1,0 +1,11 @@
+name: electric-circuits
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pip
+  - ngspice-lib
+  - pyspice
+  - pip:
+      - requests
+      - webgme-bindings
