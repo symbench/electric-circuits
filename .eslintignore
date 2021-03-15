@@ -1,3 +1,4 @@
 src/visualizers/Visualizers.json
 config/config.webgme.js
 src/common/plugins/changeset.js
+src/visualizers/widgets/ElectricCircuitsEditor/CircuitEditorDashboard/build

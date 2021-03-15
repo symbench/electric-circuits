@@ -35,7 +35,7 @@ jobs:
           mongodb-version: 4.2
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --save-dev
 
       - name: Run Tests
         run: |
