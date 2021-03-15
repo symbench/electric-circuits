@@ -24,6 +24,11 @@ jobs:
       - name: Create Test Environment
         run: conda env create --file environment.yml
 
+      - name: Install GraphGym
+        run: |
+          source activate electric-circuits
+          bash utils/install-graphgym.sh
+
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
@@ -35,7 +40,7 @@ jobs:
           mongodb-version: 4.2
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --save-dev
 
       - name: Run Tests
         run: |

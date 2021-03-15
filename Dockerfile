@@ -17,6 +17,8 @@ ENV PATH /root/miniconda3/bin:$PATH
 
 RUN conda init && conda env create --file environment.yml
 
+RUN source activate electric-circuits && ./utils/install-graphgym.sh
+
 RUN npm install -g npm
 
 RUN npm config set unsafe-perm true && npm install &&  npm config set script-shell /bin/bash

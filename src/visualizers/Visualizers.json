@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": "ElectricCircuitsEditor",
+    "title": "ElectricCircuitsEditor",
+    "panel": "panels/ElectricCircuitsEditor/ElectricCircuitsEditorPanel",
+    "DEBUG_ONLY": false
+  }
+]
