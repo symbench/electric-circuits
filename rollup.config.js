@@ -8,7 +8,7 @@ const production = !process.env.ROLLUP_WATCH;
 const JOINT_DASHBOARD_ROOT = 'src/visualizers/widgets/ElectricCircuitsEditor/CircuitEditorDashboard';
 
 
-function serve() {
+function serve() { /* eslint-disable-line no-unused-vars*/
     let started = false;
 
     return {
