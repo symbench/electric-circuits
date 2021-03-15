@@ -27,7 +27,15 @@ const defineElectricCircuitShapes = function (joint) {
                 height: component.get('size').height,
                 layoutOptions: {
                     portConstraints: 'FIXED_SIDE'
-                }
+                },
+                labels: [{
+                    text: component.get('attrs').text.text,
+                    layoutOptions: {
+                        'nodeLabels.placement': '[H_CENTER, V_BOTTOM, OUTSIDE]'
+                    },
+                    width: 100,
+                    height: 12
+                }]
             };
         }
     });
