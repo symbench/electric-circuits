@@ -19,7 +19,7 @@
           "value": "example",
           "valueItems": [
               "example",
-              "graph_classifier"
+              "graphconv"
           ],
           "valueType": "string",
           "readOnly": false
