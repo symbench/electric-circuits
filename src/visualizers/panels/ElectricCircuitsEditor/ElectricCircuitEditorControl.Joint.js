@@ -140,7 +140,7 @@ define([], function () {
             }
 
             pinsOrder.forEach((pin, index) => {
-                json.attrs[`pin${index + 1}`] = {port: pinsMap[pin]};
+                json.attrs[`.pin${index + 1}`] = {port: pinsMap[pin]};
             });
         }
 
@@ -192,7 +192,7 @@ define([], function () {
                 }
 
                 pinsOrder.forEach((pin, index) => {
-                    json.attrs[`pin${index + 1}`] = {port: pinsMap[pin]};
+                    json.attrs[`.pin${index + 1}`] = {port: pinsMap[pin]};
                 });
             }
         }
@@ -211,11 +211,11 @@ define([], function () {
                 .sort((pin1, pin2) => {
                     const pin1Name = pin1.getAttribute('name').toUpperCase();
                     const pin2Name = pin2.getAttribute('name').toUpperCase();
-                    if(pin1Name < pin2Name) {
+                    if (pin1Name < pin2Name) {
                         return -1;
                     }
 
-                    if(pin1Name > pin2Name) {
+                    if (pin1Name > pin2Name) {
                         return 1;
                     }
 
@@ -275,6 +275,7 @@ define([], function () {
                 node.isTypeOf(this.META_NAMES['CCV']) ||
                 node.isTypeOf(this.META_NAMES['VCC']) ||
                 node.isTypeOf(this.META_NAMES['VCV']) ||
+                node.isTypeOf(this.META_NAMES['Gyrator']) ||
                 node.isTypeOf(this.META_NAMES['Transformer']);
         }
 
@@ -284,6 +285,14 @@ define([], function () {
 
         isOpAmpDetailed(node) {
             return node.isTypeOf(this.META_NAMES['OpAmpDetailed']);
+        }
+
+        isInsideCCSource(nodeId) {
+            const node = this.client.getNode(nodeId);
+            if (this.client.isTypeOf(node.getParentId(), this.META_NAMES['CCC'])
+                    || this.client.isTypeOf(node.getParentId(), this.META_NAMES['CCV'])) {
+                return true;
+            }
         }
 
         pinNamesToId(pins) {

@@ -478,6 +478,18 @@ const defineElectricCircuitShapes = function (joint) {
         }
     });
 
+    const OpAmpDetailed = OpAmp.define('circuit.OpAmpDetailed', {
+        attrs: {
+            '.pin1': {'ref-x': 0.5, 'ref-y': 0.25, magnet: true, port: 'p_supply', portid: 'p_supply'},
+            '.pin2': {'ref-x': 0.5, 'ref-y': 0.75, magnet: true, port: 'm_supply', portid: 'm_supply'},
+            '.pin3': {'ref-x': 0.125, 'ref-y': 0.375, magnet: true, port: 'm', portid: 'm'},
+            '.pin4': {'ref-x': 0.125, 'ref-y': 0.625, magnet: true, port: 'p', portid: 'p'},
+            '.pin5': {'ref-x': 0.875, 'ref-y': 0.5, magnet: true, port: 'outp', portid: 'outp'},
+            text: {text: 'OpAmpDetailed', 'ref-y': '100%'},
+            image: {'xlink:href': 'data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPCEtLSBDcmVhdGVkIHdpdGggTWV0aG9kIERyYXcgLSBodHRwOi8vZ2l0aHViLmNvbS9kdW9waXhlbC9NZXRob2QtRHJhdy8gLS0+CiAgICA8Zz4KICAgICAgICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgICAgICAgPHBhdGggc3Ryb2tlPSIjMDAwIiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA0MC4wNDkwOTEzMzkxMTEzMywzOS45NTU1ODkyOTQ0MzM2KSAiIGlkPSJzdmdfNCIgZD0ibTIzLjY5Mzk1LDYwLjUxNjM0bDE2LjM1NTE0LC00MS4xMjE1bDE2LjM1NTE0LDQxLjEyMTVsLTMyLjcxMDI4LDB6IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfNyIgeTI9IjMyIiB4Mj0iNDAiIHkxPSIyNSIgeDE9IjQwIiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z184IiB5Mj0iNTUiIHgyPSI0MCIgeTE9IjQ4IiB4MT0iNDAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEwIiB5Mj0iMzAiIHgyPSIyMCIgeTE9IjMwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzExIiB5Mj0iNTAiIHgyPSIyMCIgeTE9IjUwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEyIiB5Mj0iNDAiIHgyPSI2NSIgeTE9IjQwIiB4MT0iNjAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4bWw6c3BhY2U9InByZXNlcnZlIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBpZD0ic3ZnXzEzIiB5PSIzMy44MzE3OCIgeD0iMjAuMTg2OTIiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMCIgc3Ryb2tlPSIjMDAwIiBmaWxsPSIjMDAwMDAwIj4rPC90ZXh0PgogICAgICAgIDx0ZXh0IHhtbDpzcGFjZT0icHJlc2VydmUiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGlkPSJzdmdfMTQiIHk9IjUzLjI3MTAzIiB4PSIyMS42ODIyNCIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIwIiBzdHJva2U9IiMwMDAiIGZpbGw9IiMwMDAwMDAiPi08L3RleHQ+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTEiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC0yIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtMyIvPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTQiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC01Ii8+CiAgICA8L2c+Cjwvc3ZnPgo='}
+        }
+    });
+
     const Wire = joint.shapes.standard.Link.define('circuit.Wire', {
         attrs: {
             line: {
@@ -626,7 +638,7 @@ const defineElectricCircuitShapes = function (joint) {
         Transformer: Transformer,
         Gyrator: Gyrator,
         OpAmp: OpAmp,
-        OpAmpDetailed: OpAmp,
+        OpAmpDetailed: OpAmpDetailed,
         Wire: Wire,
         Circuit: Circuit,
     };
