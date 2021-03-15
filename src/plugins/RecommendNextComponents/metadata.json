@@ -18,7 +18,8 @@
           "description": "Select the algorithm/model to use",
           "value": "example",
           "valueItems": [
-              "example"
+              "example",
+              "graphconv"
           ],
           "valueType": "string",
           "readOnly": false
