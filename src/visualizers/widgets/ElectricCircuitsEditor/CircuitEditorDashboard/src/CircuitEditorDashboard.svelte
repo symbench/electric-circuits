@@ -1,5 +1,5 @@
 <script>
-    import {defineElectricCircuitShapes} from './circuits';
+    import {defineElectricCircuitsDomain} from './circuits';
 
     const jq = window.$;
 
@@ -30,7 +30,7 @@
         zoomValues = [1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
         paperBoundingBox = {};
-        defineElectricCircuitShapes(joint);
+        defineElectricCircuitsDomain(joint);
     }
 
     export function render(width, height) {
@@ -129,7 +129,7 @@
     export function layout() {
         if(elk){
             circuitPaper.freeze();
-            joint.layout.elk.layoutLayered(circuitGraph, elk);
+            joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk);
             circuitPaper.unfreeze();
             adjustPaperDimensions(2500, 2000);
             zoom(1.0);

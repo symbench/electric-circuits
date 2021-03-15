@@ -1,4 +1,4 @@
-const defineElectricCircuitShapes = function (joint) {
+const defineElectricCircuitsDomain = function (joint) {
     const Generic = joint.shapes.basic.Generic;
 
     const Component = Generic.define('circuit.Component', {
@@ -34,7 +34,7 @@ const defineElectricCircuitShapes = function (joint) {
                         'nodeLabels.placement': '[H_CENTER, V_BOTTOM, OUTSIDE]'
                     },
                     width: 100,
-                    height: 12
+                    height: 20
                 }]
             };
         }
@@ -446,6 +446,36 @@ const defineElectricCircuitShapes = function (joint) {
             '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.125, magnet: true, port: 'contact', portid: 'contact'},
             image: {'xlink:href': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3OS45OTk5OTk5OTk5OTk5OSIgaGVpZ2h0PSIzOS45OTk5OTk5OTk5OTk5OSI+CiAgICA8IS0tIENyZWF0ZWQgd2l0aCBNZXRob2QgRHJhdyAtIGh0dHA6Ly9naXRodWIuY29tL2R1b3BpeGVsL01ldGhvZC1EcmF3LyAtLT4KICAgIDxnPgogICAgICAgIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS41IiB4MT0iNSIgeTE9IjIwIiB4Mj0iMjAiIHkyPSIyMCIgaWQ9InN2Z18xIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHgxPSI2MCIgeTE9IjIwIiB4Mj0iNzUiIHkyPSIyMCIgaWQ9InN2Z18yIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iMjMuNDQzMzQiIHkxPSIxMy41NjI4IiB4Mj0iMTguMTM1NiIgeTI9IjE5LjgyNTM1IiBpZD0ic3ZnXzUiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiB0cmFuc2Zvcm09InJvdGF0ZSgtMTUuOTUxNjMyNDk5Njk0ODI0IDIwLjc4OTQ2NDk1MDU2MTUxNiwxNi42OTQwNzY1MzgwODU5MzgpICIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIyMS45NzM2OCIgeTE9IjEzIiB4Mj0iMjUuMjYzMTYiIHkyPSIyNCIgaWQ9InN2Z182IiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIyNS4yMTA1MyIgeTE9IjIzLjUzNjE4IiB4Mj0iMjguMjEwNTMiIHkyPSIxMy4wMDk4NyIgaWQ9InN2Z183IiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIyNy43NjMxNiIgeTE9IjEzIiB4Mj0iMzEuMDUyNjMiIHkyPSIyNCIgaWQ9InN2Z18xOSIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iMzEiIHkxPSIyMy41MzYxOCIgeDI9IjM0IiB5Mj0iMTMuMDA5ODciIGlkPSJzdmdfMjAiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjMzLjgxNTc5IiB5MT0iMTMiIHgyPSIzNy4xMDUyNiIgeTI9IjI0IiBpZD0ic3ZnXzIxIiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSIzNy4wNTI2MyIgeTE9IjIzLjUzNjE4IiB4Mj0iNDAuMDUyNjMiIHkyPSIxMy4wMDk4NyIgaWQ9InN2Z18yMiIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iMzkuNjA1MjYiIHkxPSIxMyIgeDI9IjQyLjg5NDc0IiB5Mj0iMjQiIGlkPSJzdmdfMjMiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjQyLjg0MjEiIHkxPSIyMy41MzYxOCIgeDI9IjQ1Ljg0MjEiIHkyPSIxMy4wMDk4NyIgaWQ9InN2Z18yNCIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iNDUuOTIxMDUiIHkxPSIxMyIgeDI9IjQ5LjIxMDUyIiB5Mj0iMjQiIGlkPSJzdmdfMjUiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjQ5LjE1Nzg5IiB5MT0iMjMuNTM2MTgiIHgyPSI1Mi4xNTc4OSIgeTI9IjEzLjAwOTg3IiBpZD0ic3ZnXzI2IiBzdHJva2UtbGluZWpvaW49InVuZGVmaW5lZCIgc3Ryb2tlLWxpbmVjYXA9InVuZGVmaW5lZCIgc3Ryb2tlPSIjMDAwIi8+CiAgICAgICAgPGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsLW9wYWNpdHk9Im51bGwiIHgxPSI1MS43MTA1MiIgeTE9IjEzIiB4Mj0iNTUiIHkyPSIyNCIgaWQ9InN2Z18yNyIgc3Ryb2tlLWxpbmVqb2luPSJ1bmRlZmluZWQiIHN0cm9rZS1saW5lY2FwPSJ1bmRlZmluZWQiIHN0cm9rZT0iIzAwMCIvPgogICAgICAgIDxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgZmlsbC1vcGFjaXR5PSJudWxsIiB4MT0iNTQuOTQ3MzciIHkxPSIyMy41MzYxOCIgeDI9IjU3Ljk0NzM3IiB5Mj0iMTMuMDA5ODciIGlkPSJzdmdfMjgiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGwtb3BhY2l0eT0ibnVsbCIgeDE9IjYxLjg2NDM5IiB5MT0iMTMuNTYyOCIgeDI9IjU2LjU1NjY0IiB5Mj0iMTkuODI1MzUiIGlkPSJzdmdfMjkiIHN0cm9rZS1saW5lam9pbj0idW5kZWZpbmVkIiBzdHJva2UtbGluZWNhcD0idW5kZWZpbmVkIiB0cmFuc2Zvcm09InJvdGF0ZSgtNjIuODA5MzQ5MDYwMDU4NTk0IDU5LjIxMDUxNzg4MzMwMDc4LDE2LjY5NDA3NjUzODA4NTkzNCkgIiBzdHJva2U9IiMwMDAiLz4KICAgICAgICA8bGluZSBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfMyIgeTI9IjE4LjQzNzUiIHgyPSIzOS41IiB5MT0iNSIgeDE9IjM5LjUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIi8+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LXAiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC1uIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtb3V0Ii8+CiAgICA8L2c+Cjwvc3ZnPgo='}
         }
+    }, {}, {
+        toELKJSON: potentiometer => {
+            const elkJSON = Component.toELKJSON(potentiometer);
+            elkJSON.ports = [{
+                id: potentiometer.get('attrs')['.pin1'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '0'
+                },
+                width: 7,
+                height: 7
+            }, {
+                id: potentiometer.get('attrs')['.pin2'].port,
+                layoutOptions: {
+                    'port.side': 'EAST',
+                    'port.index': '1'
+                },
+                width: 7,
+                height: 7,
+            }, {
+                id: potentiometer.get('attrs')['.pin3'].port,
+                layoutOptions: {
+                    'port.side': 'NORTH',
+                    'port.index': '2'
+                },
+                width: 7,
+                height: 7
+            }];
+            return elkJSON;
+        },
     });
 
     const NPN = Transistor.define('circuit.NPN', {
@@ -455,6 +485,37 @@ const defineElectricCircuitShapes = function (joint) {
             '.pin1': {port: 'C', portid: 'C'},
             '.pin3': {port: 'E', portid: 'E'}
         }
+    }, {}, {
+        toELKJSON: npn => {
+            const elkJSON = Component.toELKJSON(npn);
+            elkJSON.ports = [{
+                id: npn.get('attrs')['.pin1'].port,
+                layoutOptions: {
+                    'port.side': 'NORTH',
+                    'port.index': '0',
+                },
+                x: 0.625 * elkJSON.width,
+                y: 0.125 * elkJSON.height,
+            }, {
+                id: npn.get('attrs')['.pin2'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '1',
+                },
+                x: 0.0625 * elkJSON.width,
+                y: 0.5 * elkJSON.height,
+            }, {
+                id: npn.get('attrs')['.pin3'].port,
+                layoutOptions: {
+                    'port.side': 'SOUTH',
+                    'port.index': '2',
+                },
+                x: 0.625 * elkJSON.width,
+                y: 0.875 * elkJSON.height,
+            }];
+            elkJSON.layoutOptions.portConstraints = 'FIXED_POS';
+            return elkJSON;
+        },
     });
 
     const PNP = Transistor.define('circuit.PNP', {
@@ -464,6 +525,37 @@ const defineElectricCircuitShapes = function (joint) {
             '.pin1': {port: 'E', portid: 'E'},
             '.pin3': {port: 'C', portid: 'C'}
         }
+    }, {}, {
+        toELKJSON: pnp => {
+            const elkJSON = Component.toELKJSON(pnp);
+            elkJSON.ports = [{
+                id: pnp.get('attrs')['.pin1'].port,
+                layoutOptions: {
+                    'port.side': 'NORTH',
+                    'port.index': '2',
+                },
+                x: 0.625 * elkJSON.width,
+                y: 0.875 * elkJSON.height,
+            }, {
+                id: pnp.get('attrs')['.pin2'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '1',
+                },
+                x: 0.0625 * elkJSON.width,
+                y: 0.5 * elkJSON.height,
+            }, {
+                id: pnp.get('attrs')['.pin3'].port,
+                layoutOptions: {
+                    'port.side': 'SOUTH',
+                    'port.index': '0',
+                },
+                x: 0.625 * elkJSON.width,
+                y: 0.125 * elkJSON.height,
+            }];
+            elkJSON.layoutOptions.portConstraints = 'FIXED_POS';
+            return elkJSON;
+        },
     });
 
     const MOSFET = FourTerminalComponent.define('circuit.MOSFET', {
@@ -473,6 +565,45 @@ const defineElectricCircuitShapes = function (joint) {
             '.pin3': {ref: '.body', 'ref-x': 0.9375, 'ref-y': 0.5, magnet: true, port: 'B', portid: 'B'},
             '.pin4': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.9375, magnet: true, port: 'S', portid: 'S'}
         }
+    }, {}, {
+        toELKJSON: mos => {
+            const elkJSON = Component.toELKJSON(mos);
+            elkJSON.ports = [{
+                id: mos.get('attrs')['.pin1'].port,
+                layoutOptions: {
+                    'port.side': 'NORTH',
+                    'port.index': '2',
+                },
+                x: 0.625 * elkJSON.width,
+                y: 0.0625 * elkJSON.height,
+            }, {
+                id: mos.get('attrs')['.pin2'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '1',
+                },
+                x: 0.0625 * elkJSON.width,
+                y: 0.5 * elkJSON.height,
+            }, {
+                id: mos.get('attrs')['.pin3'].port,
+                layoutOptions: {
+                    'port.side': 'EAST',
+                    'port.index': '0',
+                },
+                x: 0.9375 * elkJSON.width,
+                y: 0.5 * elkJSON.height,
+            }, {
+                id: mos.get('attrs')['.pin4'].port,
+                layoutOptions: {
+                    'port.side': 'SOUTH',
+                    'port.index': '0',
+                },
+                x: 0.625 * elkJSON.width,
+                y: 0.9375 * elkJSON.height,
+            }];
+            elkJSON.layoutOptions.portConstraints = 'FIXED_POS';
+            return elkJSON;
+        },
     });
 
     const Junction = FourTerminalComponent.define('circuit.Junction', {
@@ -505,6 +636,46 @@ const defineElectricCircuitShapes = function (joint) {
             '.pin3': {'ref-x': '100%', 'ref-y': 0.3125, magnet: true, port: 'p2', portid: 'p2'},
             '.pin4': {'ref-x': '100%', 'ref-y': 0.68, magnet: true, port: 'n2', portid: 'n2'},
             text: {'ref-y': '110%'}
+        }
+    }, {}, {
+        toELKJSON: source => {
+            const elkJSON = Component.toELKJSON(source);
+            elkJSON.ports = [{
+                id: source.get('attrs')['.pin1'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '0',
+                },
+                x: 0,
+                y: 0.3125 * elkJSON.height,
+            }, {
+                id: source.get('attrs')['.pin2'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '1',
+                },
+                x: 0,
+                y: 0.68 * elkJSON.height,
+            }, {
+                id: source.get('attrs')['.pin3'].port,
+                layoutOptions: {
+                    'port.side': 'EAST',
+                    'port.index': '2',
+                },
+                x: elkJSON.width,
+                y: 0.3125 * elkJSON.height,
+            }, {
+                id: source.get('attrs')['.pin4'].port,
+                layoutOptions: {
+                    'port.side': 'EAST',
+                    'port.index': '3',
+                },
+                x: elkJSON.width,
+                y: 0.68 * elkJSON.height,
+            }];
+            elkJSON.layoutOptions.portConstraints = 'FIXED_POS';
+
+            return elkJSON;
         }
     });
 
@@ -560,6 +731,54 @@ const defineElectricCircuitShapes = function (joint) {
             text: {text: 'OpAmp', 'ref-y': '100%'},
             image: {'xlink:href': 'data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPCEtLSBDcmVhdGVkIHdpdGggTWV0aG9kIERyYXcgLSBodHRwOi8vZ2l0aHViLmNvbS9kdW9waXhlbC9NZXRob2QtRHJhdy8gLS0+CiAgICA8Zz4KICAgICAgICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgICAgICAgPHBhdGggc3Ryb2tlPSIjMDAwIiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA0MC4wNDkwOTEzMzkxMTEzMywzOS45NTU1ODkyOTQ0MzM2KSAiIGlkPSJzdmdfNCIgZD0ibTIzLjY5Mzk1LDYwLjUxNjM0bDE2LjM1NTE0LC00MS4xMjE1bDE2LjM1NTE0LDQxLjEyMTVsLTMyLjcxMDI4LDB6IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPgogICAgICAgIDxsaW5lIHN0cm9rZS1saW5lY2FwPSJudWxsIiBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfNyIgeTI9IjMyIiB4Mj0iNDAiIHkxPSIyNSIgeDE9IjQwIiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjMDAwIiBmaWxsPSJub25lIi8+CiAgICAgICAgPGxpbmUgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z184IiB5Mj0iNTUiIHgyPSI0MCIgeTE9IjQ4IiB4MT0iNDAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEwIiB5Mj0iMzAiIHgyPSIyMCIgeTE9IjMwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzExIiB5Mj0iNTAiIHgyPSIyMCIgeTE9IjUwIiB4MT0iMTUiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8bGluZSBzdHJva2UtbGluZWNhcD0ibnVsbCIgc3Ryb2tlLWxpbmVqb2luPSJudWxsIiBpZD0ic3ZnXzEyIiB5Mj0iNDAiIHgyPSI2NSIgeTE9IjQwIiB4MT0iNjAiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4bWw6c3BhY2U9InByZXNlcnZlIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBpZD0ic3ZnXzEzIiB5PSIzMy44MzE3OCIgeD0iMjAuMTg2OTIiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIHN0cm9rZS13aWR0aD0iMCIgc3Ryb2tlPSIjMDAwIiBmaWxsPSIjMDAwMDAwIj4rPC90ZXh0PgogICAgICAgIDx0ZXh0IHhtbDpzcGFjZT0icHJlc2VydmUiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGlkPSJzdmdfMTQiIHk9IjUzLjI3MTAzIiB4PSIyMS42ODIyNCIgZmlsbC1vcGFjaXR5PSJudWxsIiBzdHJva2Utb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLXdpZHRoPSIwIiBzdHJva2U9IiMwMDAiIGZpbGw9IiMwMDAwMDAiPi08L3RleHQ+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0icG9ydHMiPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTEiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC0yIi8+CiAgICAgICAgPGcgY2xhc3M9InBvcnQtMyIvPgogICAgICAgIDxnIGNsYXNzPSJwb3J0LTQiLz4KICAgICAgICA8ZyBjbGFzcz0icG9ydC01Ii8+CiAgICA8L2c+Cjwvc3ZnPgo='}
         }
+    }, {}, {
+        toELKJSON: opAmp => {
+            const elkJSON = Component.toELKJSON(opAmp);
+            elkJSON.ports = [{
+                id: opAmp.get('attrs')['.pin1'].port,
+                layoutOptions: {
+                    'port.side': 'NORTH',
+                    'port.index': '0',
+                },
+                x: 0.5 * elkJSON.width,
+                y: 0.25 * elkJSON.height,
+            }, {
+                id: opAmp.get('attrs')['.pin2'].port,
+                layoutOptions: {
+                    'port.side': 'SOUTH',
+                    'port.index': '1',
+                },
+                x: 0.5 * elkJSON.width,
+                y: 0.75 * elkJSON.height,
+            }, {
+                id: opAmp.get('attrs')['.pin3'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '2',
+                },
+                x: 0.125 * elkJSON.width,
+                y: 0.375 * elkJSON.height,
+            }, {
+                id: opAmp.get('attrs')['.pin4'].port,
+                layoutOptions: {
+                    'port.side': 'WEST',
+                    'port.index': '3',
+                },
+                x: 0.125 * elkJSON.width,
+                y: 0.625 * elkJSON.height,
+            }, {
+                id: opAmp.get('attrs')['.pin5'].port,
+                layoutOptions: {
+                    'port.side': 'EAST',
+                    'port.index': '4',
+                },
+                x: 0.875 * elkJSON.width,
+                y: 0.5 * elkJSON.height,
+            }];
+            elkJSON.layoutOptions.portConstraints = 'FIXED_POS';
+
+            return elkJSON;
+        }
     });
 
     const OpAmpDetailed = OpAmp.define('circuit.OpAmpDetailed', {
@@ -586,7 +805,7 @@ const defineElectricCircuitShapes = function (joint) {
         }
     });
 
-    const RigidWire = joint.dia.Link.define('app.Edge', {
+    const ELKWire = joint.dia.Link.define('circuit.ELKWire', {
         z: 2,
         attrs: {
             root: {
@@ -722,9 +941,41 @@ const defineElectricCircuitShapes = function (joint) {
         }
     });
 
+    const applyTransition = function (paper, element, x, y) {
+        element.transition('position/x', x, {
+            delay: 100,
+            duration: 100,
+            timingFunction: function (t) {
+                return t * t;
+            },
+            valueFunction: function (a, b) {
+                return function (t) {
+                    return a + (b - a) * t;
+                };
+            }
+        });
+
+        element.transition('position/y', y, {
+            delay: 100,
+            duration: 100,
+            timingFunction: function (t) {
+                return t * t;
+            },
+            valueFunction: function (a, b) {
+                return function (t) {
+                    return a + (b - a) * t;
+                };
+            }
+        });
+
+        const elementView = element.findView(paper);
+        elementView.highlight();
+        setTimeout(() => elementView.unhighlight(), 1000);
+    };
+
     joint.layout.elk = {};
 
-    joint.layout.elk.layoutLayered = function (graph, elk) {
+    joint.layout.elk.layoutLayered = function (graph, paper, elk, animate = true) {
         const elkJSON = {
             id: 'jointGraph',
             width: 2500,
@@ -735,8 +986,9 @@ const defineElectricCircuitShapes = function (joint) {
                 'org.eclipse.elk.direction': 'DOWN',
                 'org.eclipse.elk.spacing.nodeNode': 50,
                 'org.eclipse.elk.layered.spacing.nodeNodeBetweenLayers': 50,
+                'org.eclipse.elk.layered.spacing.edgeEdgeBetweenLayers': 30,
                 'org.eclipse.elk.spacing.edgeNode': 50,
-                'org.eclipse.elk.spacing.edgeEdge': 100,
+                'org.eclipse.elk.spacing.edgeEdge': 50,
             },
             children: [],
             edges: [],
@@ -762,7 +1014,12 @@ const defineElectricCircuitShapes = function (joint) {
         elk.layout(elkJSON).then(elkJSONWithCoordinates => {
             elkJSONWithCoordinates.children.forEach(child => {
                 const element = graph.getCell(child.id);
-                element.position(child.x, child.y);
+                if (!animate) {
+                    element.position(child.x, child.y);
+                } else {
+                    applyTransition(paper, element, child.x, child.y);
+                }
+
                 graph.removeLinks(element);
             });
 
@@ -786,7 +1043,11 @@ const defineElectricCircuitShapes = function (joint) {
                         }
                     });
                     junctionPoint.addTo(graph);
-                    junctionPoint.position(position.x, position.y);
+                    if (!animate) {
+                        junctionPoint.position(position.x, position.y);
+                    } else {
+                        applyTransition(paper, junctionPoint, position.x, position.y);
+                    }
                 });
 
                 const source = link.source;
@@ -794,7 +1055,7 @@ const defineElectricCircuitShapes = function (joint) {
                 const sourcePort = link.sourcePort;
                 const targetPort = link.targetPort;
 
-                const shape = new joint.shapes.circuit.RigidWire({
+                const shape = new joint.shapes.circuit.ELKWire({
                     source: {
                         id: source,
                         port: sourcePort
@@ -859,11 +1120,11 @@ const defineElectricCircuitShapes = function (joint) {
         OpAmp: OpAmp,
         OpAmpDetailed: OpAmpDetailed,
         Wire: Wire,
-        RigidWire: RigidWire,
+        ELKWire: ELKWire,
         Circuit: Circuit,
     };
 };
 
 module.exports = {
-    defineElectricCircuitShapes: defineElectricCircuitShapes,
+    defineElectricCircuitsDomain: defineElectricCircuitsDomain,
 };
