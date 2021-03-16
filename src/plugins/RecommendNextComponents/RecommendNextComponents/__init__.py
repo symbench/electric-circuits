@@ -77,19 +77,25 @@ class RecommendNextComponents(PluginBase):
     def run_analytics(self, circuit: Union[Circuit, SubCircuit]) -> None:
         model_name = self.get_current_config().get("model")
         model = load_model(model_name)
-        recommendations = self._pyspice_to_gme_type(model.analyze(circuit))
-        recommendations = sort_dict(recommendations)
+        recommendations = model.analyze(circuit)
+        recommendations = sort_dict(
+            {
+                gme_type: conf
+                for pyspice_type, conf in recommendations.items()
+                if (gme_type := self._pyspice_to_gme_type(pyspice_type)) is not None
+            }
+        )
         self.add_file("recommendations.json", json.dumps(recommendations, indent=2))
 
-    @staticmethod
-    def _pyspice_to_gme_type(recommendations: dict) -> dict:
-        gme_recommendations = {}
-        for pyspice_type, confidence in recommendations.items():
-            if pyspice_type in PYSPICE_TO_GME_TYPE:
-                if isinstance(recs := PYSPICE_TO_GME_TYPE[pyspice_type], list):
-                    for rec in recs:
-                        gme_recommendations[rec] = confidence
-                else:
-                    gme_recommendations[PYSPICE_TO_GME_TYPE[pyspice_type]] = confidence
-
-        return gme_recommendations
+    def _pyspice_to_gme_type(self, pyspice_type: dict) -> str:
+        """Map a PySpice type to a metanode in the metamodel"""
+        if pyspice_type in PYSPICE_TO_GME_TYPE:
+            if isinstance(recs := PYSPICE_TO_GME_TYPE[pyspice_type], list):
+                return recs[0]
+            else:
+                return recs
+        else:
+            self._log_error(
+                warn := f"{pyspice_type} cannot be mapped to a component in the metamodel."
+            )
+            self.create_message(self.active_node, warn, "warning")
