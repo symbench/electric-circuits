@@ -24,7 +24,7 @@
         addedCellIds = [];
         wires = {};
         currentZoomLevel = 1.0;
-        zoomValues = [1.0, 1.5, 2, 2.5, 3];
+        zoomValues = [0.25, 0.5, 0.75, 1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
         defineElectricCircuitShapes(joint);
     }
