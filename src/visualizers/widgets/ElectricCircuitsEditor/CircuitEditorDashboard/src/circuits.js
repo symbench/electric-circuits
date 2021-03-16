@@ -33,7 +33,7 @@ const defineElectricCircuitsDomain = function (joint) {
                     layoutOptions: {
                         'nodeLabels.placement': '[H_CENTER, V_BOTTOM, OUTSIDE]'
                     },
-                    width: 100,
+                    width: 150,
                     height: 20
                 }]
             };

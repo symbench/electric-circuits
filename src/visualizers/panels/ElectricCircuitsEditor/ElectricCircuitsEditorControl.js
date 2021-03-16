@@ -55,7 +55,7 @@ define([
             if (typeof self._currentNodeId === 'string') {
                 // Put new node's info into territory rules
                 self._selfPatterns = {};
-                self._selfPatterns[nodeId] = {children: 2};  // Territory "rule"
+                self._selfPatterns[nodeId] = {children: 3};  // Territory "rule"
 
                 self._widget.setTitle('');
 
@@ -66,7 +66,7 @@ define([
                 // Update the territory
                 self._client.updateTerritory(self._territoryId, self._selfPatterns);
 
-                self._selfPatterns[nodeId] = {children: 2};
+                self._selfPatterns[nodeId] = {children: 3};
                 self._client.updateTerritory(self._territoryId, self._selfPatterns);
             }
         }
