@@ -11,11 +11,15 @@
     let addedCellIds = null;
     let wires = null;
     let eventElement;
-    let circuitContainer;
-    let circuitPaper;
-    let circuitGraph;
+    let circuitContainer,
+        recommendationContainer;
+    let circuitPaper,
+        recommendationPaper;
+    let circuitGraph,
+        recommendationGraph;
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
+    let recommendNext;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -28,6 +32,7 @@
         currentZoomLevel = 1.0;
         zoomValues = [0.25, 0.5, 0.75, 1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
+        recommendNext = false;
         defineElectricCircuitsDomain(joint);
     }
 
@@ -49,6 +54,28 @@
             snapLinks: false,
             allowLink: () => false,
         });
+
+        addCircuitPaperEvents();
+
+        recommendationGraph = new joint.dia.Graph();
+
+        recommendationPaper = new joint.dia.Paper({
+            el: jq(recommendationContainer),
+            model: recommendationGraph,
+            width: 200,
+            height: 400,
+            gridSize: 5,
+            drawGrid: {name: 'fixedDot'},
+            interactive: true,
+            async: true,
+            frozen: false,
+            background: {color: '#C0C0C0'},
+            sorting: joint.dia.Paper.sorting.APPROX,
+            allowLink: () => false,
+        });
+        addRecommendationPaperEvents();
+        addCloseIconToRecommendationGraph();
+
     }
 
     export function adjustPaperDimensions(width, height) {
@@ -59,17 +86,18 @@
         }
         circuitPaper.setDimensions(width, height - navBarHeight);
         zoom(currentZoomLevel);
+        adjustRecommendationContainer();
     }
 
-    export function clearGraph() {
+    export function clearCircuitGraph() {
         circuitGraph.clear();
         addedCellIds = [];
         wires = {};
         layout();
     }
 
-    export function destroyGraph() {
-        clearGraph();
+    export function destroyCircuitGraph() {
+        clearCircuitGraph();
         circuitPaper.clear();
     }
 
@@ -125,7 +153,7 @@
     }
 
     export function layout() {
-        if(elk){
+        if (elk) {
             circuitPaper.freeze();
             joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk);
             circuitPaper.unfreeze();
@@ -134,9 +162,80 @@
 
     }
 
+    function clearRecommendationGraph() {
+        recommendationGraph.clear();
+        addCloseIconToRecommendationGraph();
+    }
+
+    function addCloseIconToRecommendationGraph() {
+        const closeIcon = new joint.shapes.standard.Circle({
+            size: {height: 20, width: 20},
+            attrs: {
+                text: {
+                    text: 'X'
+                },
+                body: {
+                    fill: "#FF0000",
+                    stroke: "#F0F0F0"
+                },
+            },
+            isCloseIcon: true
+        });
+        closeIcon.position(170, 5);
+        closeIcon.addTo(recommendationGraph);
+    }
+
+    function addRecommendationPaperEvents() {
+        recommendationPaper.on('element:pointerclick', (elementView) => {
+            const eventTarget = elementView.model;
+            if (eventTarget.get('isCloseIcon')) {
+                hideRecommendationContainer();
+            }
+        });
+
+    }
+
+    function addCircuitPaperEvents() {
+        circuitPaper.on('blank:pointerclick', (elementView) => {
+            hideRecommendationContainer();
+        });
+    }
+
+    function hideRecommendationContainer() {
+        jq(recommendationContainer).css({
+            display: 'none'
+        });
+    }
+
+    function showRecommendationContainer() {
+        adjustRecommendationContainer();
+        jq(recommendationContainer).css({
+            display: 'block'
+        });
+    }
+
+    function adjustRecommendationContainer() {
+        jq(recommendationContainer).css({
+            left: jq('#dashboardNavbar').width() - 210,
+            top: jq('#dashboardNavbar').height()
+        });
+    }
+
+    function requestRecommendations() {
+        const event = new CustomEvent('recommendationRequested');
+        eventElement.dispatchEvent(event);
+    }
+
+    export function showRecommendations(recommendations) {
+        clearRecommendationGraph();
+        circuitPaper.freeze();
+        console.log(recommendations);
+        showRecommendationContainer();
+    }
+
 </script>
 <main bind:this={eventElement}>
-    <nav bind:this={navBar} class="navbar navbar-default">
+    <nav bind:this={navBar} class="navbar navbar-default" id="dashboardNavbar">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-brand btn-clear" style="color: black" disabled>Circuit Editor
@@ -157,9 +256,16 @@
                         </li>
                     </ul>
                 </div>
+                <div class="navbar-right">
+                    <button
+                            class="navbar-btn btn btn-primary"
+                            on:click|stopPropagation|preventDefault={requestRecommendations}
+                    ><i class="fa fa-cog"></i> Component Cooker <i class="fa fa-arrow-circle-down"></i></button>
+                </div>
             </div>
         </div>
     </nav>
+    <div class="recommendation-div" bind:this={recommendationContainer}></div>
     <div class="container-fluid">
         <div class="row row-list">
             <div class="col-md-12" id="jointContainer" style="overflow: scroll">
@@ -173,5 +279,13 @@
     main {
         align: center;
         position: relative;
+    }
+
+    .recommendation-div {
+        position: absolute;
+        z-index: 1000;
+        opacity: 0.7;
+        border: 3px solid black;
+        display: none;
     }
 </style>

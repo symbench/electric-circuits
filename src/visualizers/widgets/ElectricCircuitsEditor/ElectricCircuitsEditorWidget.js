@@ -39,6 +39,14 @@ define([
         this.dashboard = new CircuitEditorDashboard({target: jointContainer[0]});
         this.dashboard.initialize(joint, dagre, graphlib, ELK);
 
+        this.dashboard.events().addEventListener(
+            'recommendationRequested',
+            async () => {
+                const recommendations = await this.runRecommendationPlugin();
+                this.dashboard.showRecommendations(recommendations);
+            }
+        );
+
         this.zoomWidget = new ZoomWidget({
             class: 'electric-circuits-editor-zoom-container',
             sliderClass: 'electric-circuits-editor-zoom-slider',
@@ -83,7 +91,7 @@ define([
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
     ElectricCircuitsEditorWidget.prototype.destroy = function () {
-        this.dashboard.clearGraph();
+        this.dashboard.clearCircuitGraph();
     };
 
     ElectricCircuitsEditorWidget.prototype.onActivate = function () {
@@ -91,7 +99,7 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.onDeactivate = function () {
-        this.dashboard.clearGraph();
+        this.dashboard.clearCircuitGraph();
     };
 
     return ElectricCircuitsEditorWidget;

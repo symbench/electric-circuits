@@ -3,12 +3,16 @@ define([
     'js/Constants',
     'js/Utils/GMEConcepts',
     'js/NodePropertyNames',
-    './ElectricCircuitEditorControl.Joint'
+    'q',
+    'blob/BlobClient',
+    './ElectricCircuitEditorControl.Joint',
 ], function (
     CONSTANTS,
     GMEConcepts,
     nodePropertyNames,
-    JointControl
+    Q,
+    BlobClient,
+    JointControl,
 ) {
 
     'use strict';
@@ -22,6 +26,10 @@ define([
 
             this._widget = options.widget;
 
+            this._blobClient = new BlobClient({
+                logger: this._logger.fork('BlobClient')
+            });
+
             this._currentNodeId = null;
 
             this._initWidgetEventHandlers();
@@ -31,6 +39,7 @@ define([
 
         _initWidgetEventHandlers() {
             this._widget.onNodeAttributeChanged = this.onNodeAttributeChanged.bind(this);
+            this._widget.runRecommendationPlugin = this.runRecommendationPlugin.bind(this);
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
@@ -39,6 +48,25 @@ define([
                 this._client.setAttribute(nodeId, name, attrs[name]);
                 this._client.completeTransaction(`Set attribute ${name} of node ${nodeId} to ${attrs[name]}`, null);
             });
+        }
+
+        async runRecommendationPlugin() {
+            const pluginName = 'RecommendNextComponents';
+            const pluginContext = this._client.getCurrentPluginContext();
+            pluginContext.pluginConfig = {
+                model: 'example'
+            };
+
+            const pluginResults = await Q.ninvoke(
+                this._client,
+                'runServerPlugin',
+                pluginName,
+                pluginContext
+            );
+
+            if(pluginResults.artifacts) {
+                return this._blobClient.getObjectAsJSON(pluginResults.artifacts[0]);
+            }
         }
 
         selectedObjectChanged(nodeId) {
