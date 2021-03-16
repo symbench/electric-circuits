@@ -18,6 +18,7 @@ config.requirejsPaths.lodash = './node_modules/lodash-amd/main';
 config.requirejsPaths.joint = './node_modules/jointjs/dist/';
 config.requirejsPaths.dagre = './node_modules/dagre/dist/dagre.min';
 config.requirejsPaths.graphlib = './node_modules/graphlib/dist/graphlib.min';
+config.requirejsPaths.elk = './node_modules/elkjs/lib/elk.bundled';
 
 validateConfig(config);
 module.exports = config;

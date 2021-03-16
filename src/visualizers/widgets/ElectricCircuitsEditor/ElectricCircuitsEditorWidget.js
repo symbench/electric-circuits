@@ -3,6 +3,7 @@ define([
     'joint/joint',
     'dagre',
     'graphlib',
+    'elk',
     './CircuitEditorDashboard/build/CircuitEditorDashboard',
     'js/Widgets/ZoomWidget/ZoomWidget',
     'css!joint/joint.css',
@@ -12,6 +13,7 @@ define([
     joint,
     dagre,
     graphlib,
+    ELK,
     CircuitEditorDashboard,
     ZoomWidget
 ) {
@@ -35,7 +37,7 @@ define([
         const jointContainer = $('<div/>');
 
         this.dashboard = new CircuitEditorDashboard({target: jointContainer[0]});
-        this.dashboard.initialize(joint, dagre, graphlib);
+        this.dashboard.initialize(joint, dagre, graphlib, ELK);
 
         this.zoomWidget = new ZoomWidget({
             class: 'electric-circuits-editor-zoom-container',
@@ -71,6 +73,12 @@ define([
 
     ElectricCircuitsEditorWidget.prototype.setDashboardTitle = function (title) {
         this.dashboard.setTitle(title);
+    };
+
+    ElectricCircuitsEditorWidget.prototype.requestLayout = function () {
+        if(this.dashboard){
+            this.dashboard.layout();
+        }
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */

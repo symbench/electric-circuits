@@ -1,11 +1,12 @@
 <script>
-    import {defineElectricCircuitShapes} from './circuits';
+    import {defineElectricCircuitsDomain} from './circuits';
 
     const jq = window.$;
 
     let joint = null,
         dagre = null,
-        graphlib = null;
+        graphlib = null,
+        elk = null;
     let navBar;
     let addedCellIds = null;
     let wires = null;
@@ -17,16 +18,17 @@
     let dashboardTitle;
 
 
-    export function initialize(jointInstance, dagreInstance, graphlibInstance) {
+    export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
         joint = jointInstance;
         dagre = dagreInstance;
         graphlib = graphlibInstance;
+        elk = new ELK();
         addedCellIds = [];
         wires = {};
         currentZoomLevel = 1.0;
         zoomValues = [0.25, 0.5, 0.75, 1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
-        defineElectricCircuitShapes(joint);
+        defineElectricCircuitsDomain(joint);
     }
 
     export function render(width, height) {
@@ -63,7 +65,7 @@
         circuitGraph.clear();
         addedCellIds = [];
         wires = {};
-        relayoutGraph();
+        layout();
     }
 
     export function destroyGraph() {
@@ -118,24 +120,18 @@
             if (addedCellIds.includes(wireJSON.source.id) && addedCellIds.includes(wireJSON.target.id)) {
                 const wire = new joint.shapes.circuit.Wire(wireJSON);
                 circuitGraph.addCell(wire);
-                relayoutGraph();
             }
         });
     }
 
-    function relayoutGraph() {
-        joint.layout.DirectedGraph.layout(circuitGraph, {
-            setLinkVertices: true,
-            rankDir: 'LR',
-            nodeSep: 50,
-            rankSep: 50,
-            dagre: dagre,
-            graphlib: graphlib,
-            marginX: 50,
-            marginY: 50
-        });
+    export function layout() {
+        if(elk){
+            circuitPaper.freeze();
+            joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk);
+            circuitPaper.unfreeze();
+            setTimeout(() => zoom(1.0), 1000);
+        }
 
-        zoom(1.0);
     }
 
 </script>
@@ -166,7 +162,7 @@
     </nav>
     <div class="container-fluid">
         <div class="row row-list">
-            <div class="col-md-12" style="overflow: scroll">
+            <div class="col-md-12" id="jointContainer" style="overflow: scroll">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>

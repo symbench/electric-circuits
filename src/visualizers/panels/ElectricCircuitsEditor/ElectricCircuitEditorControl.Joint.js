@@ -78,10 +78,6 @@ define([], function () {
                 id: this.isCircuit(dstParentId) && !this.isSubCircuit(dstParentId) ? dstId : dstParentId,
                 port: this.isCircuit(dstParentId) && !this.isSubCircuit(dstParentId) ? '' : dstId
             };
-
-            json.router = {
-                name: 'manhattan'
-            };
         }
 
         Ground(node, json) {
