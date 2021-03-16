@@ -254,6 +254,13 @@ define([], function () {
             }
         }
 
+        isInsideSubCircuit(nodeId) {
+            if(!this.isPin(nodeId)) {
+                const node = this.client.getNode(nodeId);
+                return this.isSubCircuit(node.getParentId());
+            }
+        }
+
         isNPN(node) {
             return node.isTypeOf(this.META_NAMES['NPN']);
         }
