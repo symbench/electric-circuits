@@ -79,10 +79,7 @@ class RecommendNextComponents(PluginBase):
         model = load_model(model_name)
         recommendations = self._pyspice_to_gme_type(model.analyze(circuit))
         recommendations = sort_dict(recommendations)
-        self.add_file(
-            "recommendations.json",
-            json.dumps(recommendations, indent=2),
-        )
+        self.add_file("recommendations.json", json.dumps(recommendations, indent=2))
 
     @staticmethod
     def _pyspice_to_gme_type(recommendations: dict) -> dict:
