@@ -78,7 +78,7 @@ define([
             if (this.isPin(nodeId) && !this.isCircuitPin(nodeId)) {
                 return;
             }
-            if(this.isInsideCCSource(nodeId)){
+            if(this.isInsideCCSource(nodeId) || this.isInsideSubCircuit(nodeId)){
                 return;
             }
             return this.toJointJSON(nodeId);
