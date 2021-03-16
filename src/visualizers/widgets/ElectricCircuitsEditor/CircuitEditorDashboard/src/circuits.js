@@ -613,6 +613,26 @@ const defineElectricCircuitsDomain = function (joint) {
             '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p3', portid: 'p3'},
             '.pin4': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p4', portid: 'p4'}
         }
+    }, {}, {
+        toELKJSON: junction => {
+            const elkJSON = Component.toELKJSON(junction);
+            elkJSON.ports = [];
+            const portDirections = ['NORTH', 'SOUTH', 'WEST', 'EAST'];
+            for (let j = 1; j < 5; j++) {
+                elkJSON.ports.push({
+                    id: junction.get('attrs')[`.pin${j}`].port,
+                    layoutOptions: {
+                        'port.side': portDirections[j],
+                        'port.index': `${j-1}`,
+                    },
+                    x: 0.5 * elkJSON.width,
+                    y: 0.5 * elkJSON.height,
+                });
+            }
+            elkJSON.layoutOptions.portConstraints = 'FIXED_POS';
+
+            return elkJSON;
+        },
     });
 
     const NMOS = MOSFET.define('circuit.NMOS', {
@@ -978,17 +998,17 @@ const defineElectricCircuitsDomain = function (joint) {
     joint.layout.elk.layoutLayered = function (graph, paper, elk, animate = true) {
         const elkJSON = {
             id: 'jointGraph',
-            width: 2500,
-            height: 2000,
+            width: paper.options.width,
+            height: paper.options.height,
             layoutOptions: {
                 'elk.algorithm': 'layered',
                 'org.eclipse.elk.edgeRouting': 'ORTHOGONAL',
                 'org.eclipse.elk.direction': 'DOWN',
-                'org.eclipse.elk.spacing.nodeNode': 50,
-                'org.eclipse.elk.layered.spacing.nodeNodeBetweenLayers': 50,
+                'org.eclipse.elk.spacing.nodeNode': 30,
+                'org.eclipse.elk.layered.spacing.nodeNodeBetweenLayers': 30,
                 'org.eclipse.elk.layered.spacing.edgeEdgeBetweenLayers': 30,
-                'org.eclipse.elk.spacing.edgeNode': 50,
-                'org.eclipse.elk.spacing.edgeEdge': 50,
+                'org.eclipse.elk.spacing.edgeNode': 30,
+                'org.eclipse.elk.spacing.edgeEdge': 30,
             },
             children: [],
             edges: [],

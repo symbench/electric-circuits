@@ -131,8 +131,7 @@
             circuitPaper.freeze();
             joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk);
             circuitPaper.unfreeze();
-            adjustPaperDimensions(2500, 2000);
-            zoom(1.0);
+            setTimeout(() => zoom(1.0), 1000);
         }
 
     }
