@@ -46,7 +46,7 @@ PYSPICE_TO_GME_TYPE = {
     "CurrentControlledVoltageSource": "CCV",
     "NonLinearVoltageSource": None,
     "NonLinearCurrentSource": None,
-    "Diode": "Diode",
+    "Diode": ["Diode", "ZDiode", "LED", "SchottkyDiode"],
     "BipolarJunctionTransistor": ["NPN", "PNP"],
     "JunctionFieldEffectTransistor": None,
     "Mesfet": None,
