@@ -1057,8 +1057,9 @@ const defineElectricCircuitsDomain = function (joint) {
                         size: {height: SIZE, width: SIZE},
                         attrs: {
                             body: {
-                                fill: '#464454',
-                                stroke: '#464454',
+                                stroke: '#000090',
+                                fill: '#C0C0C0',
+                                'stroke-width': 1
                             }
                         }
                     });
