@@ -16,7 +16,6 @@
     let circuitGraph;
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
-    let paperBoundingBox;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -29,7 +28,6 @@
         currentZoomLevel = 1.0;
         zoomValues = [1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
-        paperBoundingBox = {};
         defineElectricCircuitsDomain(joint);
     }
 
@@ -44,7 +42,7 @@
             gridSize: 5,
             drawGrid: {name: 'fixedDot'},
             interactive: false,
-            async: false,
+            async: true,
             frozen: false,
             sorting: joint.dia.Paper.sorting.APPROX,
             background: {color: '#F3F7F6'},
