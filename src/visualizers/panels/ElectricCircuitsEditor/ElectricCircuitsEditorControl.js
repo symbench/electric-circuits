@@ -17,6 +17,8 @@ define([
 
     'use strict';
 
+    const RECOMMENDATION_PLUGIN = 'RecommendNextComponents';
+
     class ElectricCircuitsEditorControl extends JointControl {
         constructor(options) {
             super(options.client);
@@ -40,6 +42,7 @@ define([
         _initWidgetEventHandlers() {
             this._widget.onNodeAttributeChanged = this.onNodeAttributeChanged.bind(this);
             this._widget.runRecommendationPlugin = this.runRecommendationPlugin.bind(this);
+            this._widget.getRecommendationPluginMetadata = this.getRecommendationPluginMetadata;
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
@@ -50,13 +53,10 @@ define([
             });
         }
 
-        async runRecommendationPlugin() {
-            const pluginName = 'RecommendNextComponents';
+        async runRecommendationPlugin(pluginConfig) {
+            const pluginName = RECOMMENDATION_PLUGIN;
             const pluginContext = this._client.getCurrentPluginContext();
-            pluginContext.pluginConfig = {
-                model: 'example'
-            };
-
+            pluginContext.pluginConfig = pluginConfig;
             const pluginResults = await Q.ninvoke(
                 this._client,
                 'runServerPlugin',
@@ -65,8 +65,12 @@ define([
             );
 
             if(pluginResults.artifacts) {
-                return this._blobClient.getObjectAsJSON(pluginResults.artifacts[0]);
+                return this._blobClient.getObjectAsJSON(pluginResults.artifacts.pop());
             }
+        }
+
+        getRecommendationPluginMetadata() {
+            return WebGMEGlobal.allPluginsMetadata[RECOMMENDATION_PLUGIN];
         }
 
         selectedObjectChanged(nodeId) {
