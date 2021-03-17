@@ -41,9 +41,15 @@ define([
 
         this.dashboard.events().addEventListener(
             'recommendationRequested',
-            async () => {
-                const recommendations = await this.runRecommendationPlugin();
-                this.dashboard.showRecommendations(recommendations);
+            async (event) => {
+                try{
+                    const recommendations = await this.runRecommendationPlugin(event.detail.pluginMetadata);
+                    this.dashboard.showRecommendationsSuccess(recommendations);
+                } catch (e) {
+                    console.log(e);
+                    this.dashboard.showRecommendationsFail(e);
+                }
+
             }
         );
 
@@ -95,7 +101,9 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.onActivate = function () {
-        this.dashboard.render();
+        this.dashboard.render({
+            pluginMetadata: this.getRecommendationPluginMetadata()
+        });
     };
 
     ElectricCircuitsEditorWidget.prototype.onDeactivate = function () {

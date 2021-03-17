@@ -19,7 +19,8 @@
         recommendationGraph;
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
-    let recommendNext;
+    let showRecommendation, rotateCog;
+    let recommenderConfig, recommendationAlg;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -32,18 +33,19 @@
         currentZoomLevel = 1.0;
         zoomValues = [0.25, 0.5, 0.75, 1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
-        recommendNext = false;
+        showRecommendation = false;
+        rotateCog = false;
         defineElectricCircuitsDomain(joint);
     }
 
-    export function render(width, height) {
+    export function render(opts) {
         circuitGraph = new joint.dia.Graph();
 
         circuitPaper = new joint.dia.Paper({
-            el: jq(circuitContainer),
+            el: circuitContainer,
             model: circuitGraph,
-            width: width,
-            height: height,
+            width: opts.width,
+            height: opts.height,
             gridSize: 5,
             drawGrid: {name: 'fixedDot'},
             interactive: false,
@@ -60,22 +62,23 @@
         recommendationGraph = new joint.dia.Graph();
 
         recommendationPaper = new joint.dia.Paper({
-            el: jq(recommendationContainer),
+            el: recommendationContainer,
             model: recommendationGraph,
             width: 200,
             height: 400,
-            gridSize: 5,
-            drawGrid: {name: 'fixedDot'},
+            drawGrid: false,
             interactive: false,
             async: true,
             frozen: false,
-            background: {color: '#C0C0C0'},
+            background: {color: '#6C757D'},
             sorting: joint.dia.Paper.sorting.APPROX,
             allowLink: () => false,
         });
         addRecommendationPaperEvents();
-        addCloseIconToRecommendationGraph();
-
+        if (opts.pluginMetadata) {
+            recommenderConfig = opts.pluginMetadata.configStructure;
+            console.log(recommenderConfig);
+        }
     }
 
     export function adjustPaperDimensions(width, height) {
@@ -161,27 +164,20 @@
         }
     }
 
-    function clearRecommendationGraph() {
-        recommendationGraph.clear();
-        addCloseIconToRecommendationGraph();
+    export function showRecommendationsSuccess(recommendations) {
+        clearRecommendationGraph();
+        recommendationPaper.freeze();
+        addTopNToRecommendationGraph(recommendations, 3);
+        recommendationPaper.unfreeze();
+        showRecommendationContainer();
     }
 
-    function addCloseIconToRecommendationGraph() {
-        const closeIcon = new joint.shapes.standard.Circle({
-            size: {height: 20, width: 20},
-            attrs: {
-                text: {
-                    text: 'X'
-                },
-                body: {
-                    fill: "#FF0000",
-                    stroke: "#F0F0F0"
-                },
-            },
-            isCloseIcon: true
-        });
-        closeIcon.position(170, 5);
-        closeIcon.addTo(recommendationGraph);
+    export function showRecommendationsFail(error) {
+
+    }
+
+    function clearRecommendationGraph() {
+        recommendationGraph.clear();
     }
 
     function addRecommendationPaperEvents() {
@@ -201,33 +197,46 @@
     }
 
     function hideRecommendationContainer() {
-        jq(recommendationContainer).css({
-            display: 'none'
-        });
+        showRecommendation = false;
+        rotateCog = false;
     }
 
     function showRecommendationContainer() {
         adjustRecommendationContainer();
-        jq(recommendationContainer).css({
-            display: 'block'
-        });
+        showRecommendation = true;
+        rotateCog = false;
     }
 
     function adjustRecommendationContainer() {
         jq(recommendationContainer).css({
-            left: jq('#dashboardNavbar').width() - 210,
+            left: jq('#dashboardNavbar').width() - 360,
             top: jq('#dashboardNavbar').height()
         });
     }
 
     function requestRecommendations() {
-        const event = new CustomEvent('recommendationRequested');
+        const metadataValues = {};
+        recommenderConfig.forEach(metadata => {
+            metadataValues[metadata.name] = metadata.value
+            recommendationAlg = metadata.value;
+        });
+        const event = new CustomEvent('recommendationRequested', {
+            detail: {
+                pluginMetadata: metadataValues
+            }
+        });
         eventElement.dispatchEvent(event);
+        rotateCog = true;
     }
 
     function addTopNToRecommendationGraph(recommendations, n) {
+        const text = new joint.shapes.standard.TextBlock();
+        text.resize(200, 30);
+        text.attr('label/text', `Results (${recommendationAlg})`);
+        text.attr('body/fill', 'lightgray');
+        text.addTo(recommendationGraph);
         const sorted = Object.entries(recommendations).sort((val1, val2) => {
-            if (val1[1] < val2[1]){
+            if (val1[1] < val2[1]) {
                 return 1;
             }
 
@@ -236,28 +245,22 @@
             }
             return 0;
         });
-        let offsetX = 50, offsetY=0;
+        let offsetY = 80;
         sorted.forEach(([component, confidence], index) => {
-            if(index < n){
+            if (index < n) {
                 const cell = new joint.shapes.circuit[component]();
-                console.log(confidence);
                 cell.attr('text', {
+                    fill: '#FFFFFF',
+                    'font-weight': 'normal',
                     text: cell.attr('text').text +
-                        `\n(${Math.round((parseFloat(confidence) * 100).toFixed(2), 3)} %)`
+                        `\n(${Math.round((parseFloat(confidence) * 100).toFixed(4), 3)}%)`
                 });
-                cell.translate(100 - cell.get('size').width/2, offsetY);
-                offsetY = offsetY + cell.get('size').height + 50;
+                cell.position(100 - cell.get('size').width / 2, offsetY);
+                offsetY += (cell.get('size').height + 50);
                 recommendationGraph.addCell(cell);
             }
+            recommendationPaper.setDimensions(recommendationPaper.options.width, offsetY + 50);
         });
-    }
-
-    export function showRecommendations(recommendations) {
-        clearRecommendationGraph();
-        recommendationPaper.freeze();
-        addTopNToRecommendationGraph(recommendations, 3);
-        recommendationPaper.unfreeze();
-        showRecommendationContainer();
     }
 
 </script>
@@ -287,12 +290,27 @@
                     <button
                             class="navbar-btn btn btn-primary"
                             on:click|stopPropagation|preventDefault={requestRecommendations}
-                    ><i class="fa fa-cog"></i> Component Cooker <i class="fa fa-arrow-circle-down"></i></button>
+                    ><i class="fa fa-cog" class:rotate={rotateCog}></i> Recommend Components Using <i
+                            class="fa fa-arrow-circle-right"></i></button>
+                    <form class="navbar-right navbar-form form-inline">
+                        {#if recommenderConfig}
+                            {#each recommenderConfig as config}
+                                {#if Array.isArray(config.valueItems) && config.valueType === 'string'}
+                                    <select id={config.name} bind:value={config.value} class="form-control form-inline">
+                                        {#each config.valueItems as val}
+                                            <option>{val}</option>
+                                        {/each}
+                                    </select>
+                                    <span class="fa fa-info-circle" data-toggle="tooltip" title={config.description}></span>
+                                {/if}
+                            {/each}
+                        {/if}
+                    </form>
                 </div>
             </div>
         </div>
     </nav>
-    <div class="recommendation-div" bind:this={recommendationContainer}></div>
+    <div class="recommendation-div" class:shown={showRecommendation} bind:this={recommendationContainer}></div>
     <div class="container-fluid">
         <div class="row row-list">
             <div class="col-md-12" id="jointContainer" style="overflow: scroll">
@@ -311,8 +329,25 @@
     .recommendation-div {
         position: absolute;
         z-index: 1000;
-        opacity: 0.7;
-        border: 3px solid black;
+        opacity: 0.9;
+        border: 5px solid #0E0E0E;
         display: none;
+    }
+
+    .shown {
+        display: block;
+    }
+
+    .rotate {
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg) scale(1.25);
+        }
+        100% {
+            -webkit-transform: rotate(360deg) scale(1.25);
+        }
     }
 </style>
