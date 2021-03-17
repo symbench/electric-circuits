@@ -66,7 +66,7 @@
             height: 400,
             gridSize: 5,
             drawGrid: {name: 'fixedDot'},
-            interactive: true,
+            interactive: false,
             async: true,
             frozen: false,
             background: {color: '#C0C0C0'},
@@ -159,7 +159,6 @@
             circuitPaper.unfreeze();
             setTimeout(() => zoom(1.0), 1000);
         }
-
     }
 
     function clearRecommendationGraph() {
@@ -226,10 +225,38 @@
         eventElement.dispatchEvent(event);
     }
 
+    function addTopNToRecommendationGraph(recommendations, n) {
+        const sorted = Object.entries(recommendations).sort((val1, val2) => {
+            if (val1[1] < val2[1]){
+                return 1;
+            }
+
+            if (val1[1] > val2[1]) {
+                return -1;
+            }
+            return 0;
+        });
+        let offsetX = 50, offsetY=0;
+        sorted.forEach(([component, confidence], index) => {
+            if(index < n){
+                const cell = new joint.shapes.circuit[component]();
+                console.log(confidence);
+                cell.attr('text', {
+                    text: cell.attr('text').text +
+                        `\n(${Math.round((parseFloat(confidence) * 100).toFixed(2), 3)} %)`
+                });
+                cell.translate(100 - cell.get('size').width/2, offsetY);
+                offsetY = offsetY + cell.get('size').height + 50;
+                recommendationGraph.addCell(cell);
+            }
+        });
+    }
+
     export function showRecommendations(recommendations) {
         clearRecommendationGraph();
-        circuitPaper.freeze();
-        console.log(recommendations);
+        recommendationPaper.freeze();
+        addTopNToRecommendationGraph(recommendations, 3);
+        recommendationPaper.unfreeze();
         showRecommendationContainer();
     }
 
