@@ -611,7 +611,10 @@ const defineElectricCircuitsDomain = function (joint) {
             '.pin1': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p1', portid: 'p1'},
             '.pin2': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p2', portid: 'p2'},
             '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p3', portid: 'p3'},
-            '.pin4': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p4', portid: 'p4'}
+            '.pin4': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p4', portid: 'p4'},
+            'text': {
+                text: 'Junction'
+            }
         }
     }, {}, {
         toELKJSON: junction => {
@@ -1017,7 +1020,11 @@ const defineElectricCircuitsDomain = function (joint) {
         const elements = graph.getElements();
         elements.forEach(element => {
             const elementType = joint.shapes.circuit[element.get('type')];
-            elkJSON.children.push(elementType.toELKJSON(element));
+            if(elementType) {
+                elkJSON.children.push(elementType.toELKJSON(element));
+            } else {
+                element.remove();
+            }
         });
 
         const links = graph.getLinks();
