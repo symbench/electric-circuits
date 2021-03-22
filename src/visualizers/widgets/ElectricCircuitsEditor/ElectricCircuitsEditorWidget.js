@@ -20,6 +20,7 @@ define([
     'use strict';
 
     var WIDGET_CLASS = 'electric-circuits-editor';
+    const JOINT_DOMAIN_PREFIX = 'circuit';
 
     function ElectricCircuitsEditorWidget(logger, container) {
         this._logger = logger.fork('Widget');
@@ -39,6 +40,13 @@ define([
         this.dashboard = new CircuitEditorDashboard({target: jointContainer[0]});
         this.dashboard.initialize(joint, dagre, graphlib, ELK);
 
+        this.dashboard.events().addEventListener('nodeCreated', (event) => {
+            this.onNodeCreated(
+                event.detail.type.replace(`${JOINT_DOMAIN_PREFIX}.`, ''),
+                event.detail.position
+            );
+        });
+
         this.zoomWidget = new ZoomWidget({
             class: 'electric-circuits-editor-zoom-container',
             sliderClass: 'electric-circuits-editor-zoom-slider',
@@ -49,7 +57,6 @@ define([
                 this.dashboard.zoom(zoomLevel);
             }
         });
-
         this._el.append(this.zoomWidget.$zoomContainer);
         this._el.append(jointContainer);
     };
@@ -87,7 +94,9 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.onActivate = function () {
-        this.dashboard.render();
+        this.dashboard.render({
+            validComponents: this.getValidComponents()
+        });
     };
 
     ElectricCircuitsEditorWidget.prototype.onDeactivate = function () {
