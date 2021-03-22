@@ -111,10 +111,13 @@
     export function zoom(zoomLevel) {
         if (circuitPaper) {
             currentZoomLevel = zoomLevel;
-            circuitPaper.scale(zoomLevel);
+            circuitPaper.scale(zoomLevel * 0.75);
             circuitPaper.fitToContent({
                 useModelGeometry: true,
-                padding: 100 * zoomLevel,
+                padding: {
+                    horizontal: 100 * zoomLevel,
+                    vertical: 30 * zoomLevel
+                },
                 allowNewOrigin: 'any',
                 minWidth: circuitPaper.options.width,
                 minHeight: circuitPaper.options.height
