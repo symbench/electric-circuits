@@ -169,7 +169,7 @@
         });
 
 
-        let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 100;
+        let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
         componentBrowserPaper.freeze();
         components.forEach((component) => {
             if (!['Wire', 'ELKWire'].includes(component)) {
@@ -185,16 +185,18 @@
     }
 
     function layoutComponentBrowser(width, height) {
-        setTimeout(() => {
-            componentBrowserPaper.scale(1.0);
-            componentBrowserPaper.fitToContent({
-                useModelGeometry: true,
-                padding: (width / 2 - 60) || 100,
-                allowNewOrigin: 'any',
-                minWidth: componentBrowserPaper.options.width,
-                minHeight: 4000
-            });
-        }, 1000);
+
+        componentBrowserPaper.scale(1.0);
+        componentBrowserPaper.fitToContent({
+            useModelGeometry: true,
+            padding: {
+                horizontal: (width / 2 - 60) || 100,
+                vertical: 50
+            },
+            allowNewOrigin: 'any',
+            minWidth: componentBrowserPaper.options.width,
+            minHeight: 4000
+        });
     }
 
     function addComponentsBrowserEvents() {
@@ -204,11 +206,10 @@
             const flyPaper = new joint.dia.Paper({
                 el: jq('#flyPaper'),
                 model: flyGraph,
-                width: 100,
-                height: 100,
-                interactive: false
+                interactive: false,
+                async: true,
             });
-
+            flyPaper.freeze();
             const flyShape = cellView.model.clone();
             const pos = cellView.model.position();
             const offset = {
@@ -216,16 +217,30 @@
                 y: y - pos.y
             };
 
-            flyShape.position(50, 0);
-            flyGraph.addCell(flyShape);
+            flyShape.position(10, 10);
+            flyShape.attr('text', {
+                text: ''
+            });
 
-            jq("#flyPaper").offset({
+            jq('#flyPaper').css({
+                width: flyShape.get('size').width + 20,
+                height: flyShape.get('size').height + 20
+            });
+
+            // Without timeout. The shape doesn't get cloned
+            setTimeout(() => {
+                flyGraph.addCell(flyShape);
+            }, 10);
+
+            flyPaper.unfreeze();
+
+            jq('#flyPaper').offset({
                 left: e.pageX - offset.x,
                 top: e.pageY - offset.y
             });
 
             jq(eventElement).on('mousemove.fly', function (e) {
-                jq("#flyPaper").offset({
+                jq('#flyPaper').offset({
                     left: e.pageX - offset.x,
                     top: e.pageY - offset.y
                 });
@@ -238,10 +253,9 @@
 
                 if (x > target.left && x < target.left + circuitPaper.$el.width() &&
                     y > target.top && y < target.top + circuitPaper.$el.height()) {
-                    const s = flyShape.clone();
                     const event = new CustomEvent('nodeCreated', {
                         detail: {
-                            type: s.get('type'),
+                            type: flyShape.get('type'),
                             position: {
                                 x: x - target.left - offset.x,
                                 y: y - target.top - offset.y
@@ -286,10 +300,10 @@
     <div class="container-fluid">
         <div class="row row-list">
             <div class="col-md-2" id="componentBrowserContainer">
-                <div class="text-center">
+                <div class="text-center" style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
                     <h4>Component Browser</h4>
                 </div>
-                <div class="components-div" style="height: 4000px" bind:this={componentBrowserContainer}></div>
+                <div class="components-div" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
             </div>
             <div class="col-md-10" id="jointContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
@@ -297,7 +311,8 @@
         </div>
     </div>
 
-    <div id="flyPaper" style="display:{flyDragged ? 'block': 'none'}; position:fixed;z-index:100;opacity:.7;pointer-event:none;"></div>
+    <div id="flyPaper"
+         style="display: {flyDragged ? 'block': 'none'}; background-color:transparent;position:fixed;z-index:100;opacity:1.0;pointer-event:none;"></div>
 
 </main>
 
@@ -314,6 +329,6 @@
 
     #jointContainer {
         overflow: scroll;
-        /*margin-left: -5px;*/
+        padding-left: 0px;
     }
 </style>
