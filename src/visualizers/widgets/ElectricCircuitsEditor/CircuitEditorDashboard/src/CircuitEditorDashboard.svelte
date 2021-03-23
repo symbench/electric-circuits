@@ -12,15 +12,18 @@
     let wires = null;
     let eventElement;
     let circuitContainer,
-        recommendationContainer;
+        componentBrowserContainer;
     let circuitPaper,
-        recommendationPaper;
+        componentBrowserPaper;
     let circuitGraph,
-        recommendationGraph;
+        componentBrowserGraph;
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
-    let showRecommendation, rotateCog;
-    let recommenderConfig, recommendationAlg;
+    let flyDragged;
+    let recommendations,
+        showRecommendationConfig,
+        recommendationPluginMetadata,
+        recommendationPluginRunning;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -33,52 +36,17 @@
         currentZoomLevel = 1.0;
         zoomValues = [0.25, 0.5, 0.75, 1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
-        showRecommendation = false;
-        rotateCog = false;
+        flyDragged = false;
+        recommendationPluginMetadata = null;
+        recommendationPluginRunning = false;
+        showRecommendationConfig = false;
         defineElectricCircuitsDomain(joint);
     }
 
     export function render(opts) {
-        circuitGraph = new joint.dia.Graph();
-
-        circuitPaper = new joint.dia.Paper({
-            el: circuitContainer,
-            model: circuitGraph,
-            width: opts.width,
-            height: opts.height,
-            gridSize: 5,
-            drawGrid: {name: 'fixedDot'},
-            interactive: false,
-            async: true,
-            frozen: false,
-            sorting: joint.dia.Paper.sorting.APPROX,
-            background: {color: '#F3F7F6'},
-            snapLinks: false,
-            allowLink: () => false,
-        });
-
-        addCircuitPaperEvents();
-
-        recommendationGraph = new joint.dia.Graph();
-
-        recommendationPaper = new joint.dia.Paper({
-            el: recommendationContainer,
-            model: recommendationGraph,
-            width: 200,
-            height: 400,
-            drawGrid: false,
-            interactive: false,
-            async: true,
-            frozen: false,
-            background: {color: '#6C757D'},
-            sorting: joint.dia.Paper.sorting.APPROX,
-            allowLink: () => false,
-        });
-        addRecommendationPaperEvents();
-        if (opts.pluginMetadata) {
-            recommenderConfig = opts.pluginMetadata.configStructure;
-            console.log(recommenderConfig);
-        }
+        renderCircuit(opts.width, opts.height);
+        renderComponents(opts.validComponents);
+        recommendationPluginMetadata = opts.recommendationPluginMetadata;
     }
 
     export function adjustPaperDimensions(width, height) {
@@ -87,20 +55,20 @@
         if (navBarWidth < width) {
             width = navBarWidth;
         }
-        circuitPaper.setDimensions(width, height - navBarHeight);
+        circuitPaper.setDimensions(width * 10 / 12, height - navBarHeight);
+        layoutComponentBrowser(width * 2 / 12, height);
         zoom(currentZoomLevel);
-        adjustRecommendationContainer();
     }
 
-    export function clearCircuitGraph() {
+    export function clearGraph() {
         circuitGraph.clear();
         addedCellIds = [];
         wires = {};
         layout();
     }
 
-    export function destroyCircuitGraph() {
-        clearCircuitGraph();
+    export function destroyGraph() {
+        clearGraph();
         circuitPaper.clear();
     }
 
@@ -121,6 +89,11 @@
                 allowNewOrigin: 'any',
                 minWidth: circuitPaper.options.width,
                 minHeight: circuitPaper.options.height
+            });
+        }
+        if (circuitPaper && componentBrowserPaper) {
+            jq("#componentBrowserContainer").css({
+                height: circuitPaper.options.height
             });
         }
     }
@@ -167,108 +140,199 @@
         }
     }
 
-    export function showRecommendationsSuccess(recommendations) {
-        clearRecommendationGraph();
-        recommendationPaper.freeze();
-        addTopNToRecommendationGraph(recommendations, 3);
-        recommendationPaper.unfreeze();
-        showRecommendationContainer();
-    }
-
-    export function showRecommendationsFail(error) {
-
-    }
-
-    function clearRecommendationGraph() {
-        recommendationGraph.clear();
-    }
-
-    function addRecommendationPaperEvents() {
-        recommendationPaper.on('element:pointerclick', (elementView) => {
-            const eventTarget = elementView.model;
-            if (eventTarget.get('isCloseIcon')) {
-                hideRecommendationContainer();
-            }
-        });
-
-    }
-
-    function addCircuitPaperEvents() {
-        circuitPaper.on('blank:pointerclick', (elementView) => {
-            hideRecommendationContainer();
-        });
-    }
-
-    function hideRecommendationContainer() {
-        showRecommendation = false;
-        rotateCog = false;
-    }
-
-    function showRecommendationContainer() {
-        adjustRecommendationContainer();
-        showRecommendation = true;
-        rotateCog = false;
-    }
-
-    function adjustRecommendationContainer() {
-        jq(recommendationContainer).css({
-            left: jq('#dashboardNavbar').width() - 360,
-            top: jq('#dashboardNavbar').height()
-        });
-    }
-
-    function requestRecommendations() {
-        const metadataValues = {};
-        recommenderConfig.forEach(metadata => {
-            metadataValues[metadata.name] = metadata.value
-            recommendationAlg = metadata.value;
-        });
-        const event = new CustomEvent('recommendationRequested', {
-            detail: {
-                pluginMetadata: metadataValues
-            }
-        });
-        eventElement.dispatchEvent(event);
-        rotateCog = true;
-    }
-
-    function addTopNToRecommendationGraph(recommendations, n) {
-        const text = new joint.shapes.standard.TextBlock();
-        text.resize(200, 30);
-        text.attr('label/text', `Results (${recommendationAlg})`);
-        text.attr('body/fill', 'lightgray');
-        text.addTo(recommendationGraph);
+    export function showRecommendationSuccess(recommendations) {
+        hideRecommendationPluginConfig();
+        recommendationPluginRunning = false;
         const sorted = Object.entries(recommendations).sort((val1, val2) => {
-            if (val1[1] < val2[1]) {
+            if (val1[1] < val2[1]){
                 return 1;
             }
-
             if (val1[1] > val2[1]) {
                 return -1;
             }
             return 0;
         });
-        let offsetY = 80;
-        sorted.forEach(([component, confidence], index) => {
-            if (index < n) {
-                const cell = new joint.shapes.circuit[component]();
-                cell.attr('text', {
-                    fill: '#FFFFFF',
-                    'font-weight': 'normal',
-                    text: cell.attr('text').text +
-                        `\n(${Math.round((parseFloat(confidence) * 100).toFixed(4), 3)}%)`
-                });
-                cell.position(100 - cell.get('size').width / 2, offsetY);
-                offsetY += (cell.get('size').height + 50);
-                recommendationGraph.addCell(cell);
-            }
-            recommendationPaper.setDimensions(recommendationPaper.options.width, offsetY + 50);
+
+        componentBrowserGraph.getElements().forEach((el, index) => {
+            console.log(el.get('type'));
         });
+    }
+
+    export function showRecommendationFail() {
+
+    }
+
+    function renderCircuit(width, height) {
+        circuitGraph = new joint.dia.Graph();
+
+        circuitPaper = new joint.dia.Paper({
+            el: jq(circuitContainer),
+            model: circuitGraph,
+            width: width,
+            height: height,
+            gridSize: 5,
+            drawGrid: {name: 'fixedDot'},
+            interactive: false,
+            async: true,
+            frozen: false,
+            sorting: joint.dia.Paper.sorting.APPROX,
+            background: {color: '#F3F7F6'},
+            snapLinks: false,
+            allowLink: () => false,
+        });
+
+        circuitPaper.on('blank:pointerdown', hideRecommendationPluginConfig);
+    }
+
+    function renderComponents(components) {
+        componentBrowserGraph = new joint.dia.Graph();
+        componentBrowserPaper = new joint.dia.Paper({
+            el: jq(componentBrowserContainer),
+            model: componentBrowserGraph,
+            gridSize: 5,
+            drawGrid: false,
+            interactive: false,
+            async: true,
+            frozen: false,
+            sorting: joint.dia.Paper.sorting.APPROX,
+            background: {color: '#F3F7F6'},
+            snapLinks: false,
+            allowLink: () => false,
+        });
+
+
+        let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
+        componentBrowserPaper.freeze();
+        components.forEach((component) => {
+            if (!['Wire', 'ELKWire'].includes(component)) {
+                const element = new joint.shapes.circuit[component]();
+                element.position(offsetX - element.get('size').width / 2, offsetY)
+                offsetY += element.get('size').height + 50;
+                componentBrowserGraph.addCell(element);
+            }
+        });
+        layoutComponentBrowser();
+        componentBrowserPaper.unfreeze();
+        addComponentsBrowserEvents();
+    }
+
+    function layoutComponentBrowser(width, height) {
+
+        componentBrowserPaper.scale(0.75);
+        componentBrowserPaper.fitToContent({
+            useModelGeometry: true,
+            padding: {
+                horizontal: (width / 2 - 50) || 100,
+                vertical: 50
+            },
+            allowNewOrigin: 'any',
+            minWidth: componentBrowserPaper.options.width,
+            minHeight: 4000
+        });
+    }
+
+    function addComponentsBrowserEvents() {
+        componentBrowserPaper.on('cell:pointerdown', function (cellView, e, x, y) {
+            flyDragged = true;
+            const flyGraph = new joint.dia.Graph();
+            const flyPaper = new joint.dia.Paper({
+                el: jq('#flyPaper'),
+                model: flyGraph,
+                interactive: false,
+                async: true,
+            });
+            flyPaper.freeze();
+            const flyShape = cellView.model.clone();
+            const pos = cellView.model.position();
+            const offset = {
+                x: x - pos.x,
+                y: y - pos.y
+            };
+
+            flyShape.position(10, 10);
+            flyShape.attr('text', {
+                text: ''
+            });
+
+            jq('#flyPaper').css({
+                width: flyShape.get('size').width + 20,
+                height: flyShape.get('size').height + 20
+            });
+
+            // Without timeout. The shape doesn't get cloned
+            setTimeout(() => {
+                flyGraph.addCell(flyShape);
+            }, 10);
+
+            flyPaper.unfreeze();
+
+            jq('#flyPaper').offset({
+                left: e.pageX - offset.x,
+                top: e.pageY - offset.y
+            });
+
+            jq(eventElement).on('mousemove.fly', function (e) {
+                jq('#flyPaper').offset({
+                    left: e.pageX - offset.x,
+                    top: e.pageY - offset.y
+                });
+            });
+
+            jq(eventElement).on('mouseup.fly', function (e) {
+                const x = e.pageX;
+                const y = e.pageY;
+                const target = circuitPaper.$el.offset();
+
+                if (x > target.left && x < target.left + circuitPaper.$el.width() &&
+                    y > target.top && y < target.top + circuitPaper.$el.height()) {
+                    const event = new CustomEvent('nodeCreated', {
+                        detail: {
+                            type: flyShape.get('type'),
+                            position: {
+                                x: x - target.left - offset.x,
+                                y: y - target.top - offset.y
+                            }
+                        }
+                    });
+                    eventElement.dispatchEvent(event);
+                }
+                jq(eventElement).off('mousemove.fly').off('mouseup.fly');
+                flyShape.remove();
+                flyDragged = false;
+            });
+        });
+
+        componentBrowserPaper.on('blank:pointerdown', hideRecommendationPluginConfig)
+    }
+
+    function showRecommendationPluginConfig() {
+        showRecommendationConfig = true;
+    }
+
+    function hideRecommendationPluginConfig() {
+        showRecommendationConfig = false;
+    }
+
+    function requestRecommendationPluginRun() {
+        hideRecommendationPluginConfig();
+        // animateLightBulb();
+        const pluginMetadata = {};
+        recommendationPluginMetadata.configStructure.forEach(config => {
+            pluginMetadata[config.name] = config.value;
+        });
+        const event = new CustomEvent('recommendationRequested', {
+            detail: {
+                pluginMetadata: pluginMetadata
+            }
+        });
+
+        eventElement.dispatchEvent(event);
+        recommendationPluginRunning = true;
     }
 
 </script>
 <main bind:this={eventElement}>
-    <nav bind:this={navBar} class="navbar navbar-default" id="dashboardNavbar">
+    <nav bind:this={navBar} class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-brand btn-clear" style="color: black" disabled>Circuit Editor
@@ -289,38 +353,55 @@
                         </li>
                     </ul>
                 </div>
-                <div class="navbar-right">
-                    <button
-                            class="navbar-btn btn btn-primary"
-                            on:click|stopPropagation|preventDefault={requestRecommendations}
-                    ><i class="fa fa-cog" class:rotate={rotateCog}></i> Recommend Components Using <i
-                            class="fa fa-arrow-circle-right"></i></button>
-                    <form class="navbar-right navbar-form form-inline">
-                        {#if recommenderConfig}
-                            {#each recommenderConfig as config}
-                                {#if Array.isArray(config.valueItems) && config.valueType === 'string'}
-                                    <select id={config.name} bind:value={config.value} class="form-control form-inline">
-                                        {#each config.valueItems as val}
-                                            <option>{val}</option>
-                                        {/each}
-                                    </select>
-                                    <span class="fa fa-info-circle" data-toggle="tooltip" title={config.description}></span>
-                                {/if}
-                            {/each}
-                        {/if}
-                    </form>
-                </div>
             </div>
         </div>
     </nav>
-    <div class="recommendation-div" class:shown={showRecommendation} bind:this={recommendationContainer}></div>
     <div class="container-fluid">
         <div class="row row-list">
-            <div class="col-md-12" id="jointContainer" style="overflow: scroll">
+            <div class="col-md-2" id="componentBrowserContainer">
+                <div class="text-center"
+                     style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
+                    <h4>Component Browser
+                        <i style="cursor:pointer; color: {(recommendationPluginRunning || showRecommendationConfig) ? 'red' : 'black'}"
+                           on:click|stopPropagation|preventDefault={showRecommendationPluginConfig}
+                           class="fa fa-lightbulb-o"></i>
+                        {#if recommendationPluginRunning}
+                            <span class="text-primary glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                        {/if}
+                    </h4>
+                </div>
+                <div class="components-di)v" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
+            </div>
+            <div class="col-md-10" id="jointContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>
     </div>
+
+    <div id="flyPaper"
+         style="display: {flyDragged ? 'block': 'none'}; background-color:transparent;position:fixed;z-index:100;opacity:1.0;pointer-event:none;"></div>
+
+    {#if showRecommendationConfig}
+        <form class="form-inline"
+              style="position:fixed; z-index: 2000; background-color: #FEFEF8; width:15%; padding: 1%; top: 11%; left: 1%;">
+            <h4>{recommendationPluginMetadata.name}</h4>
+            <hr/>
+            {#each recommendationPluginMetadata.configStructure as config}
+                {#if Array.isArray(config.valueItems) && config.valueType === 'string'}
+                    <label class="form-text" for="{config.name}">{config.displayName}: </label>
+                    <select class="form-control" id="{config.name}" bind:value={config.value}>
+                        {#each config.valueItems as opt}
+                            <option value="{opt}">{opt}</option>
+                        {/each}
+                    </select>
+                    <button class="btn btn-primary"
+                            on:click|stopPropagation|preventDefault={requestRecommendationPluginRun}>Run
+                    </button>
+                {/if}
+            {/each}
+        </form>
+    {/if}
+
 </main>
 
 <style>
@@ -329,28 +410,20 @@
         position: relative;
     }
 
-    .recommendation-div {
-        position: absolute;
-        z-index: 1000;
-        opacity: 0.9;
-        border: 5px solid #0E0E0E;
-        display: none;
+    #componentBrowserContainer {
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
 
-    .shown {
-        display: block;
+    #jointContainer {
+        overflow: scroll;
+        padding-left: 0px;
     }
 
-    .rotate {
-        animation: spin 1s infinite linear;
+    .glyphicon-refresh-animate {
+        -animation: spin .7s infinite linear;
+        -webkit-animation: spin .7s infinite linear;
     }
 
-    @keyframes spin {
-        0% {
-            -webkit-transform: rotate(0deg) scale(1.25);
-        }
-        100% {
-            -webkit-transform: rotate(360deg) scale(1.25);
-        }
-    }
+
 </style>

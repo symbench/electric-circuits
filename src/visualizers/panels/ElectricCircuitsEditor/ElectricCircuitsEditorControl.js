@@ -43,6 +43,8 @@ define([
             this._widget.onNodeAttributeChanged = this.onNodeAttributeChanged.bind(this);
             this._widget.runRecommendationPlugin = this.runRecommendationPlugin.bind(this);
             this._widget.getRecommendationPluginMetadata = this.getRecommendationPluginMetadata;
+            this._widget.onNodeCreated = this.onNodeCreated.bind(this);
+            this._widget.getValidComponents = this.getValidPartBrowserNodes.bind(this);
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
@@ -64,13 +66,26 @@ define([
                 pluginContext
             );
 
-            if(pluginResults.artifacts) {
+            if (pluginResults.artifacts) {
                 return this._blobClient.getObjectAsJSON(pluginResults.artifacts.pop());
             }
         }
 
         getRecommendationPluginMetadata() {
             return WebGMEGlobal.allPluginsMetadata[RECOMMENDATION_PLUGIN];
+        }
+
+        onNodeCreated(nodeType, position) {
+            this._client.startTransaction(`About to create node of type ${nodeType}`);
+            const nodeId = this._client.createNode({
+                baseId: this.META_NAMES[nodeType],
+                parentId: this._currentNodeId
+            });
+
+            if (position) {
+                this._client.setRegistry(nodeId, 'position', position, `Set position to ${position}`);
+            }
+            this._client.completeTransaction(`Created node of type ${nodeType}`);
         }
 
         selectedObjectChanged(nodeId) {
@@ -110,7 +125,7 @@ define([
             if (this.isPin(nodeId) && !this.isCircuitPin(nodeId)) {
                 return;
             }
-            if(this.isInsideCCSource(nodeId) || this.isInsideSubCircuit(nodeId)){
+            if (this.isInsideCCSource(nodeId) || this.isInsideSubCircuit(nodeId)) {
                 return;
             }
             return this.toJointJSON(nodeId);
@@ -136,7 +151,7 @@ define([
                     break;
                 }
             }
-            if(events){
+            if (events) {
                 this._widget.requestLayout();
             }
             this._logger.debug('_eventCallback \'' + events.length + '\' items - DONE');
@@ -147,7 +162,7 @@ define([
             if (desc) {
                 this._widget.addNode(desc);
             }
-            if(this.isCircuit(gmeId) || !this.isSubCircuit(gmeId)) {
+            if (this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
                 const name = this._client.getNode(gmeId).getAttribute('name');
                 this._widget.setDashboardTitle(name);
             }
@@ -158,9 +173,9 @@ define([
             if (desc) {
                 this._widget.updateNode(desc);
             }
-            if(this.isCircuit(gmeId) || !this.isSubCircuit(gmeId)) {
+            if (this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
                 const name = this._client.getNode(gmeId).getAttribute('name');
-                this._widget.setTitle(name);
+                this._widget.setDashboardTitle(name);
             }
         }
 

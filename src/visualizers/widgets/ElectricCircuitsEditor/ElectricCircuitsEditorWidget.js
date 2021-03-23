@@ -20,6 +20,7 @@ define([
     'use strict';
 
     var WIDGET_CLASS = 'electric-circuits-editor';
+    const JOINT_DOMAIN_PREFIX = 'circuit';
 
     function ElectricCircuitsEditorWidget(logger, container) {
         this._logger = logger.fork('Widget');
@@ -42,28 +43,34 @@ define([
         this.dashboard.events().addEventListener(
             'recommendationRequested',
             async (event) => {
-                try{
+                try {
                     const recommendations = await this.runRecommendationPlugin(event.detail.pluginMetadata);
-                    this.dashboard.showRecommendationsSuccess(recommendations);
+                    this.dashboard.showRecommendationSuccess(recommendations);
                 } catch (e) {
                     console.log(e);
-                    this.dashboard.showRecommendationsFail(e);
+                    this.dashboard.showRecommendationFail(e);
                 }
 
             }
         );
+
+        this.dashboard.events().addEventListener('nodeCreated', (event) => {
+            this.onNodeCreated(
+                event.detail.type.replace(`${JOINT_DOMAIN_PREFIX}.`, ''),
+                event.detail.position
+            );
+        });
 
         this.zoomWidget = new ZoomWidget({
             class: 'electric-circuits-editor-zoom-container',
             sliderClass: 'electric-circuits-editor-zoom-slider',
             zoomTarget: jointContainer,
             zoomValues: this.dashboard.getZoomLevels(),
-            onZoom:  zoomLevel => {
+            onZoom: zoomLevel => {
                 jointContainer.css({transform: 'scale(1.0)'});
                 this.dashboard.zoom(zoomLevel);
             }
         });
-
         this._el.append(this.zoomWidget.$zoomContainer);
         this._el.append(jointContainer);
     };
@@ -78,7 +85,7 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.removeNode = function (/*gmeId*/) {
-    //    ToDo: Not Interactive Yet
+        //    ToDo: Not Interactive Yet
     };
 
     ElectricCircuitsEditorWidget.prototype.updateNode = function (desc) {
@@ -90,24 +97,25 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.requestLayout = function () {
-        if(this.dashboard){
+        if (this.dashboard) {
             this.dashboard.layout();
         }
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
     ElectricCircuitsEditorWidget.prototype.destroy = function () {
-        this.dashboard.clearCircuitGraph();
+        this.dashboard.clearGraph();
     };
 
     ElectricCircuitsEditorWidget.prototype.onActivate = function () {
         this.dashboard.render({
-            pluginMetadata: this.getRecommendationPluginMetadata()
+            recommendationPluginMetadata: this.getRecommendationPluginMetadata(),
+            validComponents: this.getValidComponents()
         });
     };
 
     ElectricCircuitsEditorWidget.prototype.onDeactivate = function () {
-        this.dashboard.clearCircuitGraph();
+        this.dashboard.clearGraph();
     };
 
     return ElectricCircuitsEditorWidget;
