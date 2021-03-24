@@ -31,6 +31,8 @@ define([
 
         _initWidgetEventHandlers() {
             this._widget.onNodeAttributeChanged = this.onNodeAttributeChanged.bind(this);
+            this._widget.onNodeCreated = this.onNodeCreated.bind(this);
+            this._widget.getValidComponents = this.getValidPartBrowserNodes.bind(this);
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
@@ -39,6 +41,19 @@ define([
                 this._client.setAttribute(nodeId, name, attrs[name]);
                 this._client.completeTransaction(`Set attribute ${name} of node ${nodeId} to ${attrs[name]}`, null);
             });
+        }
+
+        onNodeCreated(nodeType, position) {
+            this._client.startTransaction(`About to create node of type ${nodeType}`);
+            const nodeId = this._client.createNode({
+                baseId: this.META_NAMES[nodeType],
+                parentId: this._currentNodeId
+            });
+
+            if(position){
+                this._client.setRegistry(nodeId, 'position', position, `Set position to ${position}`);
+            }
+            this._client.completeTransaction(`Created node of type ${nodeType}`);
         }
 
         selectedObjectChanged(nodeId) {
@@ -115,7 +130,7 @@ define([
             if (desc) {
                 this._widget.addNode(desc);
             }
-            if(this.isCircuit(gmeId) || !this.isSubCircuit(gmeId)) {
+            if(this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
                 const name = this._client.getNode(gmeId).getAttribute('name');
                 this._widget.setDashboardTitle(name);
             }
@@ -126,9 +141,9 @@ define([
             if (desc) {
                 this._widget.updateNode(desc);
             }
-            if(this.isCircuit(gmeId) || !this.isSubCircuit(gmeId)) {
+            if(this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
                 const name = this._client.getNode(gmeId).getAttribute('name');
-                this._widget.setTitle(name);
+                this._widget.setDashboardTitle(name);
             }
         }
 

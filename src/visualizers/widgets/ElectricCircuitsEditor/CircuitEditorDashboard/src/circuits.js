@@ -20,6 +20,7 @@ const defineElectricCircuitsDomain = function (joint) {
         },
     }, {}, {
         toELKJSON: component => {
+            const labelText = component.get('attrs').text.text;
             return {
                 id: component.id,
                 name: component.get('attrs').text.text,
@@ -29,11 +30,11 @@ const defineElectricCircuitsDomain = function (joint) {
                     portConstraints: 'FIXED_SIDE'
                 },
                 labels: [{
-                    text: component.get('attrs').text.text,
+                    text: labelText,
                     layoutOptions: {
                         'nodeLabels.placement': '[H_CENTER, V_BOTTOM, OUTSIDE]'
                     },
-                    width: 150,
+                    width: labelText ? labelText.length * 10 : 50,
                     height: 20
                 }]
             };
@@ -611,7 +612,10 @@ const defineElectricCircuitsDomain = function (joint) {
             '.pin1': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p1', portid: 'p1'},
             '.pin2': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p2', portid: 'p2'},
             '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p3', portid: 'p3'},
-            '.pin4': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p4', portid: 'p4'}
+            '.pin4': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p4', portid: 'p4'},
+            'text': {
+                text: 'Junction'
+            }
         }
     }, {}, {
         toELKJSON: junction => {
@@ -1004,8 +1008,8 @@ const defineElectricCircuitsDomain = function (joint) {
                 'elk.algorithm': 'layered',
                 'org.eclipse.elk.edgeRouting': 'ORTHOGONAL',
                 'org.eclipse.elk.direction': 'DOWN',
-                'org.eclipse.elk.spacing.nodeNode': 30,
-                'org.eclipse.elk.layered.spacing.nodeNodeBetweenLayers': 30,
+                'org.eclipse.elk.spacing.nodeNode': 15,
+                'org.eclipse.elk.layered.spacing.nodeNodeBetweenLayers': 15,
                 'org.eclipse.elk.layered.spacing.edgeEdgeBetweenLayers': 30,
                 'org.eclipse.elk.spacing.edgeNode': 30,
                 'org.eclipse.elk.spacing.edgeEdge': 30,
@@ -1017,7 +1021,11 @@ const defineElectricCircuitsDomain = function (joint) {
         const elements = graph.getElements();
         elements.forEach(element => {
             const elementType = joint.shapes.circuit[element.get('type')];
-            elkJSON.children.push(elementType.toELKJSON(element));
+            if(elementType) {
+                elkJSON.children.push(elementType.toELKJSON(element));
+            } else {
+                element.remove();
+            }
         });
 
         const links = graph.getLinks();

@@ -35,6 +35,15 @@ define([], function () {
             });
         }
 
+        getValidPartBrowserNodes() {
+            const circuitMETAId = this.META_NAMES['Circuit'];
+
+            return Object.entries(this.META_NAMES).filter(([/* metaName */, id]) => {
+                return (this.META[id].isValidChildOf(circuitMETAId, id) &&
+                        !this.META[id].getRegistry('isAbstract'));
+            }).map(([name, /* id */]) => name).sort();
+        }
+
         toJointJSON(nodeId) {
             const node = this.client.getNode(nodeId);
             const type = this.getMetaName(node);
@@ -251,7 +260,7 @@ define([], function () {
         }
 
         isInsideSubCircuit(nodeId) {
-            if(!this.isPin(nodeId)) {
+            if (!this.isPin(nodeId)) {
                 const node = this.client.getNode(nodeId);
                 return this.isSubCircuit(node.getParentId());
             }
@@ -293,7 +302,7 @@ define([], function () {
         isInsideCCSource(nodeId) {
             const node = this.client.getNode(nodeId);
             if (this.client.isTypeOf(node.getParentId(), this.META_NAMES['CCC'])
-                    || this.client.isTypeOf(node.getParentId(), this.META_NAMES['CCV'])) {
+                || this.client.isTypeOf(node.getParentId(), this.META_NAMES['CCV'])) {
                 return true;
             }
         }

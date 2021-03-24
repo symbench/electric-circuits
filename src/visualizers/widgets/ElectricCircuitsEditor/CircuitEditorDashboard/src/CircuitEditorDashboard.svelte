@@ -11,11 +11,15 @@
     let addedCellIds = null;
     let wires = null;
     let eventElement;
-    let circuitContainer;
-    let circuitPaper;
-    let circuitGraph;
+    let circuitContainer,
+        componentBrowserContainer;
+    let circuitPaper,
+        componentBrowserPaper;
+    let circuitGraph,
+        componentBrowserGraph;
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
+    let flyDragged;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -28,27 +32,13 @@
         currentZoomLevel = 1.0;
         zoomValues = [0.25, 0.5, 0.75, 1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
+        flyDragged = false;
         defineElectricCircuitsDomain(joint);
     }
 
-    export function render(width, height) {
-        circuitGraph = new joint.dia.Graph();
-
-        circuitPaper = new joint.dia.Paper({
-            el: jq(circuitContainer),
-            model: circuitGraph,
-            width: width,
-            height: height,
-            gridSize: 5,
-            drawGrid: {name: 'fixedDot'},
-            interactive: false,
-            async: true,
-            frozen: false,
-            sorting: joint.dia.Paper.sorting.APPROX,
-            background: {color: '#F3F7F6'},
-            snapLinks: false,
-            allowLink: () => false,
-        });
+    export function render(opts) {
+        renderCircuit(opts.width, opts.height);
+        renderComponents(opts.validComponents);
     }
 
     export function adjustPaperDimensions(width, height) {
@@ -57,7 +47,8 @@
         if (navBarWidth < width) {
             width = navBarWidth;
         }
-        circuitPaper.setDimensions(width, height - navBarHeight);
+        circuitPaper.setDimensions(width * 10 / 12, height - navBarHeight);
+        layoutComponentBrowser(width * 2 / 12, height);
         zoom(currentZoomLevel);
     }
 
@@ -80,13 +71,21 @@
     export function zoom(zoomLevel) {
         if (circuitPaper) {
             currentZoomLevel = zoomLevel;
-            circuitPaper.scale(zoomLevel);
+            circuitPaper.scale(zoomLevel * 0.75);
             circuitPaper.fitToContent({
                 useModelGeometry: true,
-                padding: 100 * zoomLevel,
+                padding: {
+                    horizontal: 100 * zoomLevel,
+                    vertical: 30 * zoomLevel
+                },
                 allowNewOrigin: 'any',
                 minWidth: circuitPaper.options.width,
                 minHeight: circuitPaper.options.height
+            });
+        }
+        if (circuitPaper && componentBrowserPaper) {
+            jq("#componentBrowserContainer").css({
+                height: circuitPaper.options.height
             });
         }
     }
@@ -125,13 +124,151 @@
     }
 
     export function layout() {
-        if(elk){
+        if (elk) {
             circuitPaper.freeze();
             joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk);
             circuitPaper.unfreeze();
             setTimeout(() => zoom(1.0), 1000);
         }
+    }
 
+    function renderCircuit(width, height) {
+        circuitGraph = new joint.dia.Graph();
+
+        circuitPaper = new joint.dia.Paper({
+            el: jq(circuitContainer),
+            model: circuitGraph,
+            width: width,
+            height: height,
+            gridSize: 5,
+            drawGrid: {name: 'fixedDot'},
+            interactive: false,
+            async: true,
+            frozen: false,
+            sorting: joint.dia.Paper.sorting.APPROX,
+            background: {color: '#F3F7F6'},
+            snapLinks: false,
+            allowLink: () => false,
+        });
+    }
+
+    function renderComponents(components) {
+        componentBrowserGraph = new joint.dia.Graph();
+        componentBrowserPaper = new joint.dia.Paper({
+            el: jq(componentBrowserContainer),
+            model: componentBrowserGraph,
+            gridSize: 5,
+            drawGrid: false,
+            interactive: false,
+            async: true,
+            frozen: false,
+            sorting: joint.dia.Paper.sorting.APPROX,
+            background: {color: '#F3F7F6'},
+            snapLinks: false,
+            allowLink: () => false,
+        });
+
+
+        let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
+        componentBrowserPaper.freeze();
+        components.forEach((component) => {
+            if (!['Wire', 'ELKWire'].includes(component)) {
+                const element = new joint.shapes.circuit[component]();
+                element.position(offsetX - element.get('size').width / 2, offsetY)
+                offsetY += element.get('size').height + 50;
+                componentBrowserGraph.addCell(element);
+            }
+        });
+        layoutComponentBrowser();
+        componentBrowserPaper.unfreeze();
+        addComponentsBrowserEvents();
+    }
+
+    function layoutComponentBrowser(width, height) {
+
+        componentBrowserPaper.scale(1.0);
+        componentBrowserPaper.fitToContent({
+            useModelGeometry: true,
+            padding: {
+                horizontal: (width / 2 - 60) || 100,
+                vertical: 50
+            },
+            allowNewOrigin: 'any',
+            minWidth: componentBrowserPaper.options.width,
+            minHeight: 4000
+        });
+    }
+
+    function addComponentsBrowserEvents() {
+        componentBrowserPaper.on('cell:pointerdown', function (cellView, e, x, y) {
+            flyDragged = true;
+            const flyGraph = new joint.dia.Graph();
+            const flyPaper = new joint.dia.Paper({
+                el: jq('#flyPaper'),
+                model: flyGraph,
+                interactive: false,
+                async: true,
+            });
+            flyPaper.freeze();
+            const flyShape = cellView.model.clone();
+            const pos = cellView.model.position();
+            const offset = {
+                x: x - pos.x,
+                y: y - pos.y
+            };
+
+            flyShape.position(10, 10);
+            flyShape.attr('text', {
+                text: ''
+            });
+
+            jq('#flyPaper').css({
+                width: flyShape.get('size').width + 20,
+                height: flyShape.get('size').height + 20
+            });
+
+            // Without timeout. The shape doesn't get cloned
+            setTimeout(() => {
+                flyGraph.addCell(flyShape);
+            }, 10);
+
+            flyPaper.unfreeze();
+
+            jq('#flyPaper').offset({
+                left: e.pageX - offset.x,
+                top: e.pageY - offset.y
+            });
+
+            jq(eventElement).on('mousemove.fly', function (e) {
+                jq('#flyPaper').offset({
+                    left: e.pageX - offset.x,
+                    top: e.pageY - offset.y
+                });
+            });
+
+            jq(eventElement).on('mouseup.fly', function (e) {
+                const x = e.pageX;
+                const y = e.pageY;
+                const target = circuitPaper.$el.offset();
+
+                if (x > target.left && x < target.left + circuitPaper.$el.width() &&
+                    y > target.top && y < target.top + circuitPaper.$el.height()) {
+                    const event = new CustomEvent('nodeCreated', {
+                        detail: {
+                            type: flyShape.get('type'),
+                            position: {
+                                x: x - target.left - offset.x,
+                                y: y - target.top - offset.y
+                            }
+                        }
+                    });
+                    eventElement.dispatchEvent(event);
+                }
+                jq(eventElement).off('mousemove.fly').off('mouseup.fly');
+                flyShape.remove();
+                flyDragged = false;
+            });
+        });
     }
 
 </script>
@@ -162,16 +299,36 @@
     </nav>
     <div class="container-fluid">
         <div class="row row-list">
-            <div class="col-md-12" id="jointContainer" style="overflow: scroll">
+            <div class="col-md-2" id="componentBrowserContainer">
+                <div class="text-center" style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
+                    <h4>Component Browser</h4>
+                </div>
+                <div class="components-div" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
+            </div>
+            <div class="col-md-10" id="jointContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>
     </div>
+
+    <div id="flyPaper"
+         style="display: {flyDragged ? 'block': 'none'}; background-color:transparent;position:fixed;z-index:100;opacity:1.0;pointer-event:none;"></div>
+
 </main>
 
 <style>
     main {
         align: center;
         position: relative;
+    }
+
+    #componentBrowserContainer {
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+
+    #jointContainer {
+        overflow: scroll;
+        padding-left: 0px;
     }
 </style>
