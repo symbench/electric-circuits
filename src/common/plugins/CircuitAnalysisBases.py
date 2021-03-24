@@ -537,7 +537,9 @@ class AnalyzeCircuit(CircuitToPySpiceBase):
 
     def main(self) -> None:
         circuit = super().convert_to_pyspice(self.active_node)
-        self.run_analytics(circuit)
+        self.run_analytics(circuit, self.pin_labels)
 
-    def run_analytics(self, circuit: Union[Circuit, SubCircuit]) -> None:
+    def run_analytics(
+        self, circuit: Union[Circuit, SubCircuit], pin_labels: dict
+    ) -> None:
         raise NotImplementedError
