@@ -24,8 +24,7 @@
         recommendationPluginMetadata,
         recommendationPluginRunning,
         recommendationPluginSuccess,
-        recommendedComponentsDivider,
-        recommendationText;
+        recommendedComponentsDivider;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -230,11 +229,6 @@
         if (recommendedComponentsDivider) {
             componentBrowserPaper.viewport.removeChild(recommendedComponentsDivider.node);
             recommendedComponentsDivider = null;
-        }
-
-        if (recommendationText) {
-            recommendationText.remove();
-            recommendationText = null;
         }
 
         let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
