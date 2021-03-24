@@ -19,16 +19,18 @@ def local_file(name):
     return path.join(script_dir, name)
 
 
-def remove_lines(filename, fn):
+def without_lines(filename, fn):
     with open(filename, "r") as f:
         contents = "".join([line for line in f.readlines() if not fn(line)])
-    with open(filename, "w") as f:
-        f.write(contents)
+    return contents
 
 
 # Load config file
-remove_lines(local_file("config.yaml"), lambda line: line.startswith("param"))
-cfg.merge_from_file(local_file("config.yaml"))
+config_str = without_lines(
+    local_file("config.yaml"), lambda line: line.startswith("param")
+)
+config = cfg.load_cfg(config_str)
+cfg.merge_from_other_cfg(config)
 assert_cfg(cfg)
 
 # Set Pytorch environment
