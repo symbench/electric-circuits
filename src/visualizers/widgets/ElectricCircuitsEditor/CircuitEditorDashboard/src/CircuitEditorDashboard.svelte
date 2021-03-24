@@ -20,10 +20,10 @@
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
     let flyDragged;
-    let recommendations,
-        showRecommendationConfig,
+    let showRecommendationConfig,
         recommendationPluginMetadata,
-        recommendationPluginRunning;
+        recommendationPluginRunning,
+        recommendationPluginSuccess;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -40,6 +40,7 @@
         recommendationPluginMetadata = null;
         recommendationPluginRunning = false;
         showRecommendationConfig = false;
+        recommendationPluginSuccess = false;
         defineElectricCircuitsDomain(joint);
     }
 
@@ -144,7 +145,7 @@
         hideRecommendationPluginConfig();
         recommendationPluginRunning = false;
         const sorted = Object.entries(recommendations).sort((val1, val2) => {
-            if (val1[1] < val2[1]){
+            if (val1[1] < val2[1]) {
                 return 1;
             }
             if (val1[1] > val2[1]) {
@@ -153,13 +154,31 @@
             return 0;
         });
 
-        componentBrowserGraph.getElements().forEach((el, index) => {
-            console.log(el.get('type'));
+        let existingComponents = getExistingComponentsByName();
+
+        const top3Elements = sorted.slice(0, 3);
+
+        top3Elements.forEach(([component, /* confidence */]) => {
+            const componentIndex = existingComponents.indexOf(component);
+            existingComponents.splice(componentIndex, 1);
         });
+
+        existingComponents.unshift(...top3Elements.map(el => el[0]));
+
+        addComponentsToComponentBrowser(existingComponents, top3Elements.map(el => `${(el[1] * 100).toFixed(4)} %`));
+        layoutComponentBrowser();
+        recommendationPluginSuccess = true;
     }
 
     export function showRecommendationFail() {
 
+    }
+
+    function getExistingComponentsByName() {
+        return componentBrowserGraph
+            .getElements().map(el => {
+                return el.get('type').replace('circuit.', '');
+            }).sort();
     }
 
     function renderCircuit(width, height) {
@@ -199,21 +218,37 @@
             snapLinks: false,
             allowLink: () => false,
         });
+        addComponentsToComponentBrowser(components);
+        addComponentsBrowserEvents();
+    }
 
-
-        let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
+    function addComponentsToComponentBrowser(components, confidence = []) {
         componentBrowserPaper.freeze();
-        components.forEach((component) => {
+        componentBrowserGraph.clear();
+        let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
+        const toHighlight = [];
+        components.forEach((component, index) => {
             if (!['Wire', 'ELKWire'].includes(component)) {
                 const element = new joint.shapes.circuit[component]();
                 element.position(offsetX - element.get('size').width / 2, offsetY)
                 offsetY += element.get('size').height + 50;
+                if (confidence[index]) {
+                    element.attr('text', {
+                        text: '\n\n' + element.get('attrs').text.text + '\n' + confidence[index],
+                        fill: '#FF0000'
+                    });
+                    toHighlight.push(element);
+                }
                 componentBrowserGraph.addCell(element);
             }
         });
         layoutComponentBrowser();
         componentBrowserPaper.unfreeze();
-        addComponentsBrowserEvents();
+        toHighlight.forEach(el => {
+            const elementView = el.findView(componentBrowserPaper)
+            elementView.highlight();
+            setTimeout(() => elementView.unhighlight(), 1000);
+        });
     }
 
     function layoutComponentBrowser(width, height) {
@@ -271,6 +306,13 @@
                 top: e.pageY - offset.y
             });
 
+            jq(eventElement).on('mousedown', function (e) {
+                jq('#flyPaper').offset({
+                    left: e.pageX - offset.x,
+                    top: e.pageY - offset.y
+                });
+            });
+
             jq(eventElement).on('mousemove.fly', function (e) {
                 jq('#flyPaper').offset({
                     left: e.pageX - offset.x,
@@ -315,7 +357,6 @@
 
     function requestRecommendationPluginRun() {
         hideRecommendationPluginConfig();
-        // animateLightBulb();
         const pluginMetadata = {};
         recommendationPluginMetadata.configStructure.forEach(config => {
             pluginMetadata[config.name] = config.value;
@@ -328,6 +369,12 @@
 
         eventElement.dispatchEvent(event);
         recommendationPluginRunning = true;
+    }
+
+    function removeRecommendations() {
+        const components = getExistingComponentsByName();
+        addComponentsToComponentBrowser(components);
+        recommendationPluginSuccess = false;
     }
 
 </script>
@@ -367,6 +414,11 @@
                            class="fa fa-lightbulb-o"></i>
                         {#if recommendationPluginRunning}
                             <span class="text-primary glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                        {/if}
+                        {#if recommendationPluginSuccess}
+                            <span style="cursor: pointer"
+                                  on:click|stopPropagation|preventDefault={removeRecommendations}
+                                  class="fa fa-undo"></span>
                         {/if}
                     </h4>
                 </div>
