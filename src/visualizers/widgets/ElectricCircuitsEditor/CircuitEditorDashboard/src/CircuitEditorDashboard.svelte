@@ -58,7 +58,7 @@
             width = navBarWidth;
         }
         circuitPaper.setDimensions(width * 10 / 12, height - navBarHeight);
-        layoutComponentBrowser(width * 2 / 12, height);
+        layoutComponentBrowser();
         zoom(currentZoomLevel);
     }
 
@@ -269,18 +269,20 @@
         });
     }
 
-    function layoutComponentBrowser(width, height) {
+    function layoutComponentBrowser() {
         componentBrowserPaper.scale(0.75);
         componentBrowserPaper.fitToContent({
             useModelGeometry: true,
             padding: {
-                horizontal: (width / 2 - 50) || 100,
+                horizontal: jq('#componentBrowserContainer').width() / 2 - 30,
                 vertical: recommendationPluginSuccess ? 100 : 50,
             },
             allowNewOrigin: 'any',
             minWidth: componentBrowserPaper.options.width,
             minHeight: 4000
         });
+
+        jq('#componentBrowserContainer').scrollTop(0);
     }
 
     function addComponentsBrowserEvents() {
@@ -451,7 +453,7 @@
                 </div>
                 <div class="components-div" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
             </div>
-            <div class="col-md-10" id="jointContainer">
+            <div class="col-md-10" id="circuitEditorContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>
@@ -494,7 +496,7 @@
         overflow-y: scroll;
     }
 
-    #jointContainer {
+    #circuitEditorContainer {
         overflow: scroll;
         padding-left: 0px;
     }
