@@ -23,7 +23,9 @@
     let showRecommendationConfig,
         recommendationPluginMetadata,
         recommendationPluginRunning,
-        recommendationPluginSuccess;
+        recommendationPluginSuccess,
+        recommendedComponentsDivider,
+        recommendationText;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -132,10 +134,10 @@
         });
     }
 
-    export function layout() {
+    export function layout(animate = true) {
         if (elk) {
             circuitPaper.freeze();
-            joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk);
+            joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk, animate);
             circuitPaper.unfreeze();
             setTimeout(() => zoom(1.0), 1000);
         }
@@ -158,27 +160,18 @@
 
         const top3Elements = sorted.slice(0, 3);
 
-        top3Elements.forEach(([component, /* confidence */]) => {
-            const componentIndex = existingComponents.indexOf(component);
-            existingComponents.splice(componentIndex, 1);
-        });
-
         existingComponents.unshift(...top3Elements.map(el => el[0]));
 
         addComponentsToComponentBrowser(existingComponents, top3Elements.map(el => `${(el[1] * 100).toFixed(4)} %`));
-        layoutComponentBrowser();
         recommendationPluginSuccess = true;
-    }
-
-    export function showRecommendationFail() {
-
+        layoutComponentBrowser();
     }
 
     function getExistingComponentsByName() {
-        return componentBrowserGraph
+        return Array.from(new Set(componentBrowserGraph
             .getElements().map(el => {
                 return el.get('type').replace('circuit.', '');
-            }).sort();
+            }))).sort();
     }
 
     function renderCircuit(width, height) {
@@ -225,6 +218,17 @@
     function addComponentsToComponentBrowser(components, confidence = []) {
         componentBrowserPaper.freeze();
         componentBrowserGraph.clear();
+
+        if (recommendedComponentsDivider) {
+            componentBrowserPaper.viewport.removeChild(recommendedComponentsDivider.node);
+            recommendedComponentsDivider = null;
+        }
+
+        if (recommendationText) {
+            recommendationText.remove();
+            recommendationText = null;
+        }
+
         let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
         const toHighlight = [];
         components.forEach((component, index) => {
@@ -235,11 +239,23 @@
                 if (confidence[index]) {
                     element.attr('text', {
                         text: '\n\n' + element.get('attrs').text.text + '\n' + confidence[index],
-                        fill: '#FF0000'
+                        fill: '#006400'
                     });
                     toHighlight.push(element);
                 }
                 componentBrowserGraph.addCell(element);
+                if (confidence.length && index === confidence.length - 1) {
+                    recommendedComponentsDivider = joint.V('line', {
+                        x1: 0,
+                        x2: 5000,
+                        y1: offsetY + 20,
+                        y2: offsetY + 20,
+                        stroke: 'gray',
+                        'stroke-width': 3
+                    });
+                    joint.V(componentBrowserPaper.viewport).append(recommendedComponentsDivider);
+                    offsetY += 50;
+                }
             }
         });
         layoutComponentBrowser();
@@ -252,13 +268,12 @@
     }
 
     function layoutComponentBrowser(width, height) {
-
         componentBrowserPaper.scale(0.75);
         componentBrowserPaper.fitToContent({
             useModelGeometry: true,
             padding: {
                 horizontal: (width / 2 - 50) || 100,
-                vertical: 50
+                vertical: recommendationPluginSuccess ? 100 : 50,
             },
             allowNewOrigin: 'any',
             minWidth: componentBrowserPaper.options.width,
@@ -268,6 +283,11 @@
 
     function addComponentsBrowserEvents() {
         componentBrowserPaper.on('cell:pointerdown', function (cellView, e, x, y) {
+
+            if (!cellView.model.get('type').startsWith('circuit.')) {
+                return;
+            }
+
             flyDragged = true;
             const flyGraph = new joint.dia.Graph();
             const flyPaper = new joint.dia.Paper({
@@ -373,8 +393,8 @@
 
     function removeRecommendations() {
         const components = getExistingComponentsByName();
-        addComponentsToComponentBrowser(components);
         recommendationPluginSuccess = false;
+        addComponentsToComponentBrowser(components);
     }
 
 </script>
@@ -409,7 +429,7 @@
                 <div class="text-center"
                      style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
                     <h4>Component Browser
-                        <i style="cursor:pointer; color: {(recommendationPluginRunning || showRecommendationConfig) ? 'red' : 'black'}"
+                        <i style="cursor:pointer; color: {(recommendationPluginRunning || showRecommendationConfig) ? '#006400' : 'black'}"
                            on:click|stopPropagation|preventDefault={showRecommendationPluginConfig}
                            class="fa fa-lightbulb-o"></i>
                         {#if recommendationPluginRunning}
@@ -421,8 +441,13 @@
                                   class="fa fa-undo"></span>
                         {/if}
                     </h4>
+                    {#if recommendationPluginSuccess}
+                        <div style="background: #FEFEF8; border-top: 2px dashed gray; border-bottom: 2px dashed gray">
+                            <h5>Recommendations</h5>
+                        </div>
+                    {/if}
                 </div>
-                <div class="components-di)v" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
+                <div class="components-div" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
             </div>
             <div class="col-md-10" id="jointContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
