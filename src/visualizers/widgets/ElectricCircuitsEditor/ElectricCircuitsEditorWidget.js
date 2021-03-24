@@ -47,10 +47,8 @@ define([
                     const recommendations = await this.runRecommendationPlugin(event.detail.pluginMetadata);
                     this.dashboard.showRecommendationSuccess(recommendations);
                 } catch (e) {
-                    console.log(e);
                     this.dashboard.showRecommendationFail(e);
                 }
-
             }
         );
 

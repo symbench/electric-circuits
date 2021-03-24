@@ -167,11 +167,19 @@
         layoutComponentBrowser();
     }
 
+    export function showRecommendationFail(error) {
+        alert(error.message);
+        recommendationPluginSuccess = false;
+        recommendationPluginRunning = false;
+    }
+
     function getExistingComponentsByName() {
-        return Array.from(new Set(componentBrowserGraph
-            .getElements().map(el => {
-                return el.get('type').replace('circuit.', '');
-            }))).sort();
+        return Array.from(
+            new Set(
+                componentBrowserGraph.getElements()
+                    .map(el => el.get('type').replace('circuit.', ''))
+            )
+        ).sort();
     }
 
     function renderCircuit(width, height) {
