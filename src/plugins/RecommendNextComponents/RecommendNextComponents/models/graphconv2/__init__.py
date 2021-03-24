@@ -41,7 +41,7 @@ auto_select_device()
 
 # Set learning environment
 model = create_model(dim_in=28, dim_out=28)
-ckpt = torch.load(local_file("model.ckpt"))
+ckpt = torch.load(local_file("model.ckpt"), map_location=torch.device(cfg.device))
 model.load_state_dict(ckpt["model_state"])
 mean = np.load(local_file("mean.npy"))
 stddev = np.load(local_file("stddev.npy"))
