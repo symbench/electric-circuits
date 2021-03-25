@@ -253,7 +253,7 @@
                         y1: offsetY + 20,
                         y2: offsetY + 20,
                         stroke: 'gray',
-                        'stroke-width': 3
+                        'stroke-width': 10
                     });
                     joint.V(componentBrowserPaper.viewport).append(recommendedComponentsDivider);
                     offsetY += 50;
