@@ -145,20 +145,9 @@
     export function showRecommendationSuccess(recommendations) {
         hideRecommendationPluginConfig();
         recommendationPluginRunning = false;
-        const sorted = Object.entries(recommendations).sort((val1, val2) => {
-            if (val1[1] < val2[1]) {
-                return 1;
-            }
-            if (val1[1] > val2[1]) {
-                return -1;
-            }
-            return 0;
-        });
 
         let existingComponents = getExistingComponentsByName();
-
-        const top3Elements = sorted.slice(0, 3);
-
+        const top3Elements = recommendations.slice(0, 3);
         existingComponents.unshift(...top3Elements.map(el => el[0]));
 
         addComponentsToComponentBrowser(existingComponents, top3Elements.map(el => `${(el[1] * 100).toFixed(4)} %`));

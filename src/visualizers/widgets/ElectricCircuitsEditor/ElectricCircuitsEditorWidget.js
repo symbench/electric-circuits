@@ -45,7 +45,8 @@ define([
             async (event) => {
                 try {
                     const recommendations = await this.runRecommendationPlugin(event.detail.pluginMetadata);
-                    this.dashboard.showRecommendationSuccess(recommendations);
+                    const recommendedCells = this.getRecommendedCells(recommendations);
+                    this.dashboard.showRecommendationSuccess(recommendedCells);
                 } catch (e) {
                     this.dashboard.showRecommendationFail(e);
                 }
@@ -98,6 +99,16 @@ define([
         if (this.dashboard) {
             this.dashboard.layout();
         }
+    };
+
+    ElectricCircuitsEditorWidget.prototype.getRecommendedCells = function (recommendations) {
+        const recommendedCells = [];
+        recommendations.forEach(([cellList, confidence]) => {
+            cellList.forEach(node => {
+                recommendedCells.push([node.type, confidence]);
+            });
+        });
+        return recommendedCells;
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
