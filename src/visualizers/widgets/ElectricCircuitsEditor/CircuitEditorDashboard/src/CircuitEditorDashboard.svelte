@@ -239,6 +239,13 @@
                 top: e.pageY - offset.y
             });
 
+            jq(eventElement).on('mousedown', function (e) {
+                jq('#flyPaper').offset({
+                    left: e.pageX - offset.x,
+                    top: e.pageY - offset.y
+                });
+            });
+
             jq(eventElement).on('mousemove.fly', function (e) {
                 jq('#flyPaper').offset({
                     left: e.pageX - offset.x,
