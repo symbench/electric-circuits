@@ -20,6 +20,11 @@
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
     let flyDragged;
+    let showRecommendationConfig,
+        recommendationPluginMetadata,
+        recommendationPluginRunning,
+        recommendationPluginSuccess,
+        recommendedComponentsDivider;
 
 
     export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
@@ -33,12 +38,17 @@
         zoomValues = [0.25, 0.5, 0.75, 1.0, 1.5, 2, 2.5, 3];
         dashboardTitle = '';
         flyDragged = false;
+        recommendationPluginMetadata = null;
+        recommendationPluginRunning = false;
+        showRecommendationConfig = false;
+        recommendationPluginSuccess = false;
         defineElectricCircuitsDomain(joint);
     }
 
     export function render(opts) {
         renderCircuit(opts.width, opts.height);
         renderComponents(opts.validComponents);
+        recommendationPluginMetadata = opts.recommendationPluginMetadata;
     }
 
     export function adjustPaperDimensions(width, height) {
@@ -48,7 +58,7 @@
             width = navBarWidth;
         }
         circuitPaper.setDimensions(width * 10 / 12, height - navBarHeight);
-        layoutComponentBrowser(width * 2 / 12, height);
+        layoutComponentBrowser();
         zoom(currentZoomLevel);
     }
 
@@ -123,13 +133,52 @@
         });
     }
 
-    export function layout() {
+    export function layout(animate = true) {
         if (elk) {
             circuitPaper.freeze();
-            joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk);
+            joint.layout.elk.layoutLayered(circuitGraph, circuitPaper, elk, animate);
             circuitPaper.unfreeze();
             setTimeout(() => zoom(1.0), 1000);
         }
+    }
+
+    export function showRecommendationSuccess(recommendations) {
+        hideRecommendationPluginConfig();
+        recommendationPluginRunning = false;
+        const sorted = Object.entries(recommendations).sort((val1, val2) => {
+            if (val1[1] < val2[1]) {
+                return 1;
+            }
+            if (val1[1] > val2[1]) {
+                return -1;
+            }
+            return 0;
+        });
+
+        let existingComponents = getExistingComponentsByName();
+
+        const top3Elements = sorted.slice(0, 3);
+
+        existingComponents.unshift(...top3Elements.map(el => el[0]));
+
+        addComponentsToComponentBrowser(existingComponents, top3Elements.map(el => `${(el[1] * 100).toFixed(4)} %`));
+        recommendationPluginSuccess = true;
+        layoutComponentBrowser();
+    }
+
+    export function showRecommendationFail(error) {
+        alert(error.message);
+        recommendationPluginSuccess = false;
+        recommendationPluginRunning = false;
+    }
+
+    function getExistingComponentsByName() {
+        return Array.from(
+            new Set(
+                componentBrowserGraph.getElements()
+                    .map(el => el.get('type').replace('circuit.', ''))
+            )
+        ).sort();
     }
 
     function renderCircuit(width, height) {
@@ -150,6 +199,8 @@
             snapLinks: false,
             allowLink: () => false,
         });
+
+        circuitPaper.on('blank:pointerdown', hideRecommendationPluginConfig);
     }
 
     function renderComponents(components) {
@@ -167,40 +218,80 @@
             snapLinks: false,
             allowLink: () => false,
         });
+        addComponentsToComponentBrowser(components);
+        addComponentsBrowserEvents();
+    }
 
+    function addComponentsToComponentBrowser(components, confidence = []) {
+        componentBrowserPaper.freeze();
+        componentBrowserGraph.clear();
+
+        if (recommendedComponentsDivider) {
+            componentBrowserPaper.viewport.removeChild(recommendedComponentsDivider.node);
+            recommendedComponentsDivider = null;
+        }
 
         let offsetX = jq(componentBrowserContainer).width() / 2, offsetY = 50;
-        componentBrowserPaper.freeze();
-        components.forEach((component) => {
+        const toHighlight = [];
+        components.forEach((component, index) => {
             if (!['Wire', 'ELKWire'].includes(component)) {
                 const element = new joint.shapes.circuit[component]();
                 element.position(offsetX - element.get('size').width / 2, offsetY)
                 offsetY += element.get('size').height + 50;
+                if (confidence[index]) {
+                    element.attr('text', {
+                        text: '\n\n' + element.get('attrs').text.text + '\n' + confidence[index],
+                        fill: '#006400'
+                    });
+                    toHighlight.push(element);
+                }
                 componentBrowserGraph.addCell(element);
+                if (confidence.length && index === confidence.length - 1) {
+                    recommendedComponentsDivider = joint.V('line', {
+                        x1: 0,
+                        x2: 5000,
+                        y1: offsetY + 20,
+                        y2: offsetY + 20,
+                        stroke: 'gray',
+                        'stroke-width': 10
+                    });
+                    joint.V(componentBrowserPaper.viewport).append(recommendedComponentsDivider);
+                    offsetY += 50;
+                }
             }
         });
         layoutComponentBrowser();
         componentBrowserPaper.unfreeze();
-        addComponentsBrowserEvents();
+        toHighlight.forEach(el => {
+            const elementView = el.findView(componentBrowserPaper)
+            elementView.highlight();
+            setTimeout(() => elementView.unhighlight(), 1000);
+        });
     }
 
-    function layoutComponentBrowser(width, height) {
-
-        componentBrowserPaper.scale(1.0);
+    function layoutComponentBrowser() {
+        componentBrowserPaper.scale(0.75);
         componentBrowserPaper.fitToContent({
             useModelGeometry: true,
             padding: {
-                horizontal: (width / 2 - 60) || 100,
-                vertical: 50
+                horizontal: jq('#componentBrowserContainer').width() / 2 - 30,
+                vertical: recommendationPluginSuccess ? 100 : 50,
             },
             allowNewOrigin: 'any',
             minWidth: componentBrowserPaper.options.width,
             minHeight: 4000
         });
+
+        jq('#componentBrowserContainer').scrollTop(0);
     }
 
     function addComponentsBrowserEvents() {
         componentBrowserPaper.on('cell:pointerdown', function (cellView, e, x, y) {
+
+            if (!cellView.model.get('type').startsWith('circuit.')) {
+                return;
+            }
+
             flyDragged = true;
             const flyGraph = new joint.dia.Graph();
             const flyPaper = new joint.dia.Paper({
@@ -239,6 +330,13 @@
                 top: e.pageY - offset.y
             });
 
+            jq(eventElement).on('mousedown', function (e) {
+                jq('#flyPaper').offset({
+                    left: e.pageX - offset.x,
+                    top: e.pageY - offset.y
+                });
+            });
+
             jq(eventElement).on('mousemove.fly', function (e) {
                 jq('#flyPaper').offset({
                     left: e.pageX - offset.x,
@@ -269,6 +367,38 @@
                 flyDragged = false;
             });
         });
+
+        componentBrowserPaper.on('blank:pointerdown', hideRecommendationPluginConfig)
+    }
+
+    function showRecommendationPluginConfig() {
+        showRecommendationConfig = true;
+    }
+
+    function hideRecommendationPluginConfig() {
+        showRecommendationConfig = false;
+    }
+
+    function requestRecommendationPluginRun() {
+        hideRecommendationPluginConfig();
+        const pluginMetadata = {};
+        recommendationPluginMetadata.configStructure.forEach(config => {
+            pluginMetadata[config.name] = config.value;
+        });
+        const event = new CustomEvent('recommendationRequested', {
+            detail: {
+                pluginMetadata: pluginMetadata
+            }
+        });
+
+        eventElement.dispatchEvent(event);
+        recommendationPluginRunning = true;
+    }
+
+    function removeRecommendations() {
+        const components = getExistingComponentsByName();
+        recommendationPluginSuccess = false;
+        addComponentsToComponentBrowser(components);
     }
 
 </script>
@@ -300,12 +430,30 @@
     <div class="container-fluid">
         <div class="row row-list">
             <div class="col-md-2" id="componentBrowserContainer">
-                <div class="text-center" style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
-                    <h4>Component Browser</h4>
+                <div class="text-center"
+                     style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
+                    <h4>Component Browser
+                        <i style="cursor:pointer; color: {(recommendationPluginRunning || showRecommendationConfig) ? '#006400' : 'black'}"
+                           on:click|stopPropagation|preventDefault={showRecommendationPluginConfig}
+                           class="fa fa-lightbulb-o"></i>
+                        {#if recommendationPluginRunning}
+                            <span class="text-primary glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                        {/if}
+                        {#if recommendationPluginSuccess}
+                            <span style="cursor: pointer"
+                                  on:click|stopPropagation|preventDefault={removeRecommendations}
+                                  class="fa fa-undo"></span>
+                        {/if}
+                    </h4>
+                    {#if recommendationPluginSuccess}
+                        <div style="background: #FEFEF8; border-top: 2px dashed gray; border-bottom: 2px dashed gray">
+                            <h5>Recommendations</h5>
+                        </div>
+                    {/if}
                 </div>
                 <div class="components-div" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
             </div>
-            <div class="col-md-10" id="jointContainer">
+            <div class="col-md-10" id="circuitEditorContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>
@@ -313,6 +461,27 @@
 
     <div id="flyPaper"
          style="display: {flyDragged ? 'block': 'none'}; background-color:transparent;position:fixed;z-index:100;opacity:1.0;pointer-event:none;"></div>
+
+    {#if showRecommendationConfig}
+        <form class="form-inline"
+              style="position:fixed; z-index: 2000; background-color: #FEFEF8; width:15%; padding: 1%; top: 11%; left: 1%;">
+            <h4>{recommendationPluginMetadata.name}</h4>
+            <hr/>
+            {#each recommendationPluginMetadata.configStructure as config}
+                {#if Array.isArray(config.valueItems) && config.valueType === 'string'}
+                    <label class="form-text" for="{config.name}">{config.displayName}: </label>
+                    <select class="form-control" id="{config.name}" bind:value={config.value}>
+                        {#each config.valueItems as opt}
+                            <option value="{opt}">{opt}</option>
+                        {/each}
+                    </select>
+                    <button class="btn btn-primary"
+                            on:click|stopPropagation|preventDefault={requestRecommendationPluginRun}>Run
+                    </button>
+                {/if}
+            {/each}
+        </form>
+    {/if}
 
 </main>
 
@@ -327,8 +496,15 @@
         overflow-y: scroll;
     }
 
-    #jointContainer {
+    #circuitEditorContainer {
         overflow: scroll;
         padding-left: 0px;
     }
+
+    .glyphicon-refresh-animate {
+        -animation: spin .7s infinite linear;
+        -webkit-animation: spin .7s infinite linear;
+    }
+
+
 </style>
