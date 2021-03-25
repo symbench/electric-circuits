@@ -108,7 +108,10 @@ class RecommendNextComponents(AnalyzeCircuitPlugin):
         return inverse_pin_labels.get(pin, pin)
 
     def _has_gme_type(self, pyspice_type: str) -> str:
-        return pyspice_type in PYSPICE_TO_GME_TYPE
+        return (
+            pyspice_type in PYSPICE_TO_GME_TYPE
+            and PYSPICE_TO_GME_TYPE[pyspice_type] is not None
+        )
 
     def _pyspice_to_gme_type(self, pyspice_type: dict) -> str:
         """Map a PySpice type to a metanode in the metamodel"""
