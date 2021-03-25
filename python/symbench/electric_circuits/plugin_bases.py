@@ -4,6 +4,7 @@ from typing import Iterable, List, Optional, Union
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
 from PySpice.Unit import *
+from symbench.electric_circuits.exceptions import PySpiceConversionError
 from webgme_bindings import PluginBase
 
 # The labels for the components are grabbed from the following source
@@ -31,17 +32,13 @@ def get_next_label_for(component: str, component_name: str) -> str:
     return f"{component_name}_{component_counts[component]}"
 
 
-class PySpiceConversionError(Exception):
-    """Error to be raised when there's an error in PySpice conversion"""
-
-
 class CircuitToPySpiceBase(PluginBase):
     """Converts WebGME node of type Circuit to its equivalent PySpice Circuit"""
 
     def main(self) -> None:
         raise NotImplementedError
 
-    def convert_to_pyspice(self, circuit: dict) -> None:
+    def convert_to_pyspice(self, circuit: dict) -> Circuit:
         """Convert the webgme circuit to PySpice Circuit"""
         self._assign_meta_functions()
         pyspice_circuit = None
