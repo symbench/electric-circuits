@@ -80,27 +80,18 @@ class RecommendNextComponents(AnalyzeCircuitPlugin):
         model = load_model(model_name)
         recommendations = model.analyze(circuit)
         valid_recommendations = (
-            (node, prob)
-            for (node, prob) in recommendations
-            if self._has_gme_type(node["type"])
+            (nodes, prob)
+            for (nodes, prob) in recommendations
+            if all((self._has_gme_type(node["type"]) for node in nodes))
         )
         recommendations = [
             ([self._resolve_node(n, pin_labels) for n in nodes], p)
-            for (nodes, p) in valid_recommendations.items()
+            for (nodes, p) in valid_recommendations
         ]
         recommendations = sorted(recommendations, key=lambda k: -k[1])
-        recommendations = sort_dict(
-            {
-                gme_type: conf
-                for pyspice_type, conf in recommendations.items()
-                if (gme_type := self._pyspice_to_gme_type(pyspice_type)) is not None
-            }
-        )
         self.add_file("recommendations.json", json.dumps(recommendations, indent=2))
 
     def _resolve_node(self, node: dict, pin_labels: dict) -> str:
-        # For now, we only resolve a single node
-        # TODO: generalize to arbitrary subgraphs
         inverse_pin_labels = {v: k for (k, v) in pin_labels.items()}
         return {
             "type": self._pyspice_to_gme_type(node["type"]),

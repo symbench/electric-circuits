@@ -26,7 +26,7 @@ def analyze(circuit: Union[Circuit, SubCircuit]):
     total = sum(component_counts.values())
 
     recommendations = [
-        (new_element(element, circuit), count / total)
+        ([new_element(element, circuit)], count / total)
         for (element, count) in component_counts.items()
     ]
     return recommendations
