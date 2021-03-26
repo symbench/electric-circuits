@@ -1149,6 +1149,38 @@ const defineElectricCircuitsDomain = function (joint) {
         });
     };
 
+    joint.elementTools.Add = joint.elementTools.Button.extend({
+        name: 'info-button',
+        options: {
+            markup: [{
+                tagName: 'circle',
+                selector: 'button',
+                attributes: {
+                    'r': 7,
+                    'fill': '#006400',
+                    'cursor': 'pointer'
+                }
+            }, {
+                tagName: 'path',
+                selector: 'icon',
+                attributes: {
+                    'd': 'M -4 0 4 0 M 0 -4 0 4',
+                    'fill': 'none',
+                    'stroke': '#FFFFFF',
+                    'stroke-width': 2,
+                    'pointer-events': 'none'
+                }
+            }],
+            x: '100%',
+            y: '0%',
+            offset: {
+                x: 0,
+                y: 0
+            },
+            rotate: true,
+        }
+    });
+
     joint.shapes.circuit = {
         Component: Component,
         Pin: Pin,

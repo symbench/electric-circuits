@@ -198,6 +198,13 @@
         });
 
         circuitPaper.on('blank:pointerdown', hideRecommendationPluginConfig);
+        circuitPaper.on('element:mouseenter', function(elementView) {
+            elementView.showTools();
+        });
+
+        circuitPaper.on('element:mouseleave', function(elementView) {
+            elementView.hideTools();
+        });
     }
 
     function renderComponents(components) {
@@ -396,6 +403,11 @@
         const components = getExistingComponentsByName();
         recommendationPluginSuccess = false;
         addComponentsToComponentBrowser(components);
+        circuitGraph.getElements().forEach(el => {
+            if (joint.shapes.circuit.Component.isTemporary(el)){
+                el.remove();
+            }
+        });
         layout();
     }
 
@@ -429,8 +441,8 @@
             Component.setOpacity(
                 recommendedComponent, 0.7 * (records.length - index) / records.length
             );
-
             circuitGraph.addCell(recommendedComponent);
+            addControls(recommendedComponent, circuitPaper);
         });
 
         links.forEach(link => {
@@ -443,13 +455,32 @@
 
     function getElementByPort(graph, portId) {
         const element = graph.getElements().find(el => {
-            if(el.get('type') === 'Circuit'){
+            if(el.get('type').replace('circuit.', '') === 'Circuit'){
                 return el.getPorts().map(port => port.id).includes(portId);
             } else {
                 return !!el.ports[portId];
             }
         });
         return element ? element.id : null;
+    }
+
+    function addControls(element, paper) {
+        const elementView = element.findView(paper);
+        const boundaryTool = new joint.elementTools.Boundary();
+        const removeButton = new joint.elementTools.Remove();
+        const addButton = new joint.elementTools.Add({
+            action: () => {
+                joint.shapes.circuit.Component.setOpacity(element, 1.0);
+            }
+        });
+        const toolsView = new joint.dia.ToolsView({
+            tools: [
+                boundaryTool,
+                removeButton,
+                addButton
+            ]
+        });
+        elementView.addTools(toolsView);
     }
 
 </script>
