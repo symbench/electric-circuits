@@ -42,7 +42,7 @@ const defineElectricCircuitsDomain = function (joint) {
             };
         },
 
-        findPortBySpiceIndex: (component, index) => {
+        getUniqueSpicePortIdAt: (component, index) => {
             const componentAttrs = component.get('attrs');
             const pins = Object.keys(componentAttrs).filter(key => key.startsWith('.pin'));
 
@@ -52,11 +52,16 @@ const defineElectricCircuitsDomain = function (joint) {
             });
 
             if (pinAtIndex) {
+                component.get('attrs')[pinAtIndex].port = joint.util.uuid();
                 return component.get('attrs')[pinAtIndex].port;
             }
         },
 
         setTemporary: component => {
+            component.set(IS_TEMPORARY, true);
+        },
+
+        unsetTemporary: component => {
             component.set(IS_TEMPORARY, true);
         },
 

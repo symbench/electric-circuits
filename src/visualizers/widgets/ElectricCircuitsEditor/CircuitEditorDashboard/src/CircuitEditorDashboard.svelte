@@ -1,6 +1,8 @@
 <script>
     import {defineElectricCircuitsDomain} from './circuits';
 
+    const DOMAIN_PREFIX = 'circuit';
+
     const jq = window.$;
 
     let joint = null,
@@ -173,7 +175,7 @@
         return Array.from(
             new Set(
                 componentBrowserGraph.getElements()
-                    .map(el => el.get('type').replace('circuit.', ''))
+                    .map(el => getElementType(el))
             )
         ).sort();
     }
@@ -403,30 +405,31 @@
         const components = getExistingComponentsByName();
         recommendationPluginSuccess = false;
         addComponentsToComponentBrowser(components);
-        circuitGraph.getElements().forEach(el => {
-            if (joint.shapes.circuit.Component.isTemporary(el)){
-                el.remove();
-            }
-        });
+        removeTemporaryElements(circuitGraph)
         layout();
     }
 
     function addRecommendationsToCircuitEditor(components) {
         circuitPaper.freeze();
-        const links = [];
         const Component = joint.shapes.circuit.Component;
         components.forEach(([component, pins], index, records) => {
-            if (index !== 0) {
-                return
-            }
+            // if(index !== 0){
+            //
+            // }
+            const links = [];
             const recommendedComponent = new joint.shapes.circuit[component]();
             Component.setTemporary(recommendedComponent);
+            Component.setOpacity(
+                recommendedComponent, 0.7 * (records.length - index) / records.length
+            );
+            circuitGraph.addCell(recommendedComponent);
+            addControls(recommendedComponent, circuitPaper);
 
             pins.forEach((pin, index) => {
-                const srcPortId = Component.findPortBySpiceIndex(recommendedComponent, index);
+                const srcPortId = Component.getUniqueSpicePortIdAt(recommendedComponent, index);
                 const srcId = recommendedComponent.id;
                 const dstId = getElementByPort(circuitGraph, pin);
-                links.push({
+                const link = new joint.shapes.circuit.Wire({
                     source: {
                         id: srcId,
                         port: srcPortId
@@ -436,18 +439,8 @@
                         port: pin
                     }
                 });
+                circuitGraph.addCell(link);
             });
-
-            Component.setOpacity(
-                recommendedComponent, 0.7 * (records.length - index) / records.length
-            );
-            circuitGraph.addCell(recommendedComponent);
-            addControls(recommendedComponent, circuitPaper);
-        });
-
-        links.forEach(link => {
-            const wire = new joint.shapes.circuit.Wire(link);
-            circuitGraph.addCell(wire);
         });
         circuitPaper.unfreeze();
         layout();
@@ -455,7 +448,7 @@
 
     function getElementByPort(graph, portId) {
         const element = graph.getElements().find(el => {
-            if(el.get('type').replace('circuit.', '') === 'Circuit'){
+            if(getElementType(el) === 'Circuit'){
                 return el.getPorts().map(port => port.id).includes(portId);
             } else {
                 return !!el.ports[portId];
@@ -465,12 +458,16 @@
     }
 
     function addControls(element, paper) {
+        const Component = joint.shapes.circuit.Component;
+
         const elementView = element.findView(paper);
         const boundaryTool = new joint.elementTools.Boundary();
         const removeButton = new joint.elementTools.Remove();
         const addButton = new joint.elementTools.Add({
             action: () => {
-                joint.shapes.circuit.Component.setOpacity(element, 1.0);
+                Component.setOpacity(element, 1.0);
+                Component.unsetTemporary(element);
+                removeTemporaryElements(circuitGraph);
             }
         });
         const toolsView = new joint.dia.ToolsView({
@@ -481,6 +478,19 @@
             ]
         });
         elementView.addTools(toolsView);
+    }
+
+    function getElementType(element) {
+        return element.get('type').replace(`${DOMAIN_PREFIX}.`, '');
+    }
+
+    function removeTemporaryElements(graph) {
+        graph.getElements().forEach(el => {
+            if(joint.shapes.circuit.Component.isTemporary(el)) {
+                el.remove();
+            }
+        });
+        layout();
     }
 
 </script>
