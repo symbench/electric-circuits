@@ -147,10 +147,18 @@
         recommendationPluginRunning = false;
 
         let existingComponents = getExistingComponentsByName();
-        const top3Elements = recommendations.slice(0, 3);
-        existingComponents.unshift(...top3Elements.map(el => el[0]));
+        const topThree = recommendations.slice(0, 3);
+        const componentBrowserRecommendations = topThree.map(el => el[0]);
+        const componentBrowserConfidences = topThree.map(el => `${(el[2] * 100).toFixed(4)} %`)
+        existingComponents.unshift(...componentBrowserRecommendations);
 
-        addComponentsToComponentBrowser(existingComponents, top3Elements.map(el => `${(el[1] * 100).toFixed(4)} %`));
+        const circuitEditorRecommendations = topThree.map(el => {
+            el.pop();
+            return el;
+        });
+
+        addRecommendationsToCircuitEditor(circuitEditorRecommendations);
+        addComponentsToComponentBrowser(existingComponents, componentBrowserConfidences);
         recommendationPluginSuccess = true;
         layoutComponentBrowser();
     }
@@ -388,6 +396,60 @@
         const components = getExistingComponentsByName();
         recommendationPluginSuccess = false;
         addComponentsToComponentBrowser(components);
+        layout();
+    }
+
+    function addRecommendationsToCircuitEditor(components) {
+        circuitPaper.freeze();
+        const links = [];
+        const Component = joint.shapes.circuit.Component;
+        components.forEach(([component, pins], index, records) => {
+            if (index !== 0) {
+                return
+            }
+            const recommendedComponent = new joint.shapes.circuit[component]();
+            Component.setTemporary(recommendedComponent);
+
+            pins.forEach((pin, index) => {
+                const srcPortId = Component.findPortBySpiceIndex(recommendedComponent, index);
+                const srcId = recommendedComponent.id;
+                const dstId = getElementByPort(circuitGraph, pin);
+                links.push({
+                    source: {
+                        id: srcId,
+                        port: srcPortId
+                    },
+                    target: {
+                        id: dstId,
+                        port: pin
+                    }
+                });
+            });
+
+            Component.setOpacity(
+                recommendedComponent, 0.7 * (records.length - index) / records.length
+            );
+
+            circuitGraph.addCell(recommendedComponent);
+        });
+
+        links.forEach(link => {
+            const wire = new joint.shapes.circuit.Wire(link);
+            circuitGraph.addCell(wire);
+        });
+        circuitPaper.unfreeze();
+        layout();
+    }
+
+    function getElementByPort(graph, portId) {
+        const element = graph.getElements().find(el => {
+            if(el.get('type') === 'Circuit'){
+                return el.getPorts().map(port => port.id).includes(portId);
+            } else {
+                return !!el.ports[portId];
+            }
+        });
+        return element ? element.id : null;
     }
 
 </script>

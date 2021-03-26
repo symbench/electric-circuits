@@ -1,6 +1,8 @@
 const defineElectricCircuitsDomain = function (joint) {
     const Generic = joint.shapes.basic.Generic;
 
+    const IS_TEMPORARY = 'temporary';
+
     const Component = Generic.define('circuit.Component', {
         size: {width: 80, height: 40},
         attrs: {
@@ -38,6 +40,37 @@ const defineElectricCircuitsDomain = function (joint) {
                     height: 20
                 }]
             };
+        },
+
+        findPortBySpiceIndex: (component, index) => {
+            const componentAttrs = component.get('attrs');
+            const pins = Object.keys(componentAttrs).filter(key => key.startsWith('.pin'));
+
+            const pinAtIndex = pins.find(pin => {
+                const spiceIndex = component.get('attrs')[pin].spiceIdx;
+                return spiceIndex === index;
+            });
+
+            if (pinAtIndex) {
+                return component.get('attrs')[pinAtIndex].port;
+            }
+        },
+
+        setTemporary: component => {
+            component.set(IS_TEMPORARY, true);
+        },
+
+        isTemporary: component => {
+            return component.get(IS_TEMPORARY);
+        },
+
+        setOpacity: (component, value) => {
+            const opacity = {opacity: value};
+            component.attr({
+                '.body': opacity,
+                'circle': opacity,
+                'text': opacity
+            });
         }
     });
 
@@ -84,8 +117,8 @@ const defineElectricCircuitsDomain = function (joint) {
 
     const TwoPinComponentHorizontal = Component.define('circuit.TwoPinComponentHorizontal', {
         attrs: {
-            '.pinp': {ref: '.body', 'ref-x': '5%', 'ref-y': '50%', magnet: true, port: 'p', portid: 'p'},
-            '.pinn': {ref: '.body', 'ref-x': '95%', 'ref-y': '50%', magnet: true, port: 'n', portid: 'n'}
+            '.pinp': {ref: '.body', 'ref-x': '5%', 'ref-y': '50%', magnet: true, port: 'p', portid: 'p', spiceIdx: 0},
+            '.pinn': {ref: '.body', 'ref-x': '95%', 'ref-y': '50%', magnet: true, port: 'n', portid: 'n', spiceIdx: 1}
         }
     }, {
         markup: '<g class="rotatable"><g class="scalable"><image class="body"/></g><circle class="pinn"/><circle class="pinp"/><text/></g>'
@@ -117,8 +150,8 @@ const defineElectricCircuitsDomain = function (joint) {
     const TwoPinComponentVertical = Component.define('circuit.TwoPinComponentVertical', {
         size: {width: 50, height: 100},
         attrs: {
-            '.pinp': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.1, magnet: true, port: 'p', portid: 'p'},
-            '.pinn': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.9, magnet: true, port: 'n', portid: 'n'},
+            '.pinp': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.1, magnet: true, port: 'p', portid: 'p', spiceIdx: 0},
+            '.pinn': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.9, magnet: true, port: 'n', portid: 'n', spiceIdx: 1},
             '.body': {width: 40, height: 80},
             text: {
                 'ref-x': 0.5,
@@ -850,6 +883,13 @@ const defineElectricCircuitsDomain = function (joint) {
         }]
     });
 
+    const TempELKWire = ELKWire.define('circuit.TempELKWire', {
+        attrs : {
+            line: {
+                'stroke-dasharray': [4, 4],
+            }
+        }
+    });
 
     const Circuit = joint.shapes.standard.Rectangle.define('circuit.Circuit', {
         size: {width: 100, height: 100},
@@ -1020,7 +1060,7 @@ const defineElectricCircuitsDomain = function (joint) {
 
         const elements = graph.getElements();
         elements.forEach(element => {
-            const elementType = joint.shapes.circuit[element.get('type')];
+            const elementType = joint.shapes.circuit[element.get('type').replace('circuit.', '')];
             if(elementType) {
                 elkJSON.children.push(elementType.toELKJSON(element));
             } else {
@@ -1084,7 +1124,15 @@ const defineElectricCircuitsDomain = function (joint) {
                 const sourcePort = link.sourcePort;
                 const targetPort = link.targetPort;
 
-                const shape = new joint.shapes.circuit.ELKWire({
+                const sourceCell = graph.getCell(source);
+                const targetCell = graph.getCell(target);
+
+                let linkType = 'ELKWire';
+                if (Component.isTemporary(sourceCell) || Component.isTemporary(targetCell)) {
+                    linkType = 'TempELKWire';
+                }
+
+                const shape = new joint.shapes.circuit[linkType]({
                     source: {
                         id: source,
                         port: sourcePort
@@ -1102,6 +1150,7 @@ const defineElectricCircuitsDomain = function (joint) {
     };
 
     joint.shapes.circuit = {
+        Component: Component,
         Pin: Pin,
         Ground: Ground,
         Resistor: Resistor,
@@ -1149,6 +1198,7 @@ const defineElectricCircuitsDomain = function (joint) {
         OpAmp: OpAmp,
         OpAmpDetailed: OpAmpDetailed,
         Wire: Wire,
+        TempELKWire: TempELKWire,
         ELKWire: ELKWire,
         Circuit: Circuit,
     };

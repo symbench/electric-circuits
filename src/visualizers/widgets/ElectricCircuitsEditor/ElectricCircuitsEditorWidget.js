@@ -105,7 +105,7 @@ define([
         const recommendedCells = [];
         recommendations.forEach(([cellList, confidence]) => {
             cellList.forEach(node => {
-                recommendedCells.push([node.type, confidence]);
+                recommendedCells.push([node.type, node.pins, confidence]);
             });
         });
         return recommendedCells;
