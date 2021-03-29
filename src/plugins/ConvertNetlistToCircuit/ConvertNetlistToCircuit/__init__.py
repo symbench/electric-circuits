@@ -7,6 +7,7 @@ import os
 import sys
 from builtins import isinstance
 from importlib.util import module_from_spec, spec_from_file_location
+from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
 from PySpice.Spice.BasicElement import SubCircuitElement
@@ -108,7 +109,12 @@ class ConvertNetlistToCircuit(PluginBase):
             self._initialize()
             start_commit = self.project.get_commit_object(self.branch_name)["parents"]
             input_netlist = self.get_file(input_netlist_hash)
-            pyspice_circuit = self._netlist_to_pyspice_circuit(input_netlist)
+            input_netlist_filename = self._get_metadata(input_netlist_hash).get(
+                "name", None
+            )
+            pyspice_circuit = self._netlist_to_pyspice_circuit(
+                input_netlist, input_netlist_filename
+            )
             circuit_dict = self._circuit_to_dict(pyspice_circuit)
             gme_circuit = self._dict_to_gme(circuit_dict, self.active_node)
             self._commit_results(start_commit)
@@ -116,6 +122,10 @@ class ConvertNetlistToCircuit(PluginBase):
 
         if os.environ.get("NODE_ENV") == "test":
             self.assert_valid(gme_circuit, pyspice_circuit)
+
+    def _get_metadata(self, artifact_hash: str) -> dict:
+        """Returns metadata for given artifact hash from webGME BlobStorage"""
+        return self._send({"name": "getMetadata", "args": [artifact_hash]})
 
     def _initialize(self) -> None:
         self._generate_positions = self.get_position_generator()
@@ -126,11 +136,17 @@ class ConvertNetlistToCircuit(PluginBase):
         """Return a PySpice Circuit from an input Netlist"""
         return self._pyspice_circuit_to_dict(circuit)
 
-    def _netlist_to_pyspice_circuit(self, netlist: str) -> Circuit:
+    def _netlist_to_pyspice_circuit(
+        self, netlist: str, filename: str = None
+    ) -> Circuit:
         spice_parser = SpiceParser(source=netlist)
         spice_ckt = spice_parser.build_circuit()
         for sub_ckt in spice_parser.subcircuits:
             spice_ckt.subcircuit(sub_ckt.build())
+
+        if not spice_ckt.title and filename is not None:
+            spice_ckt.title = Path(filename).stem
+
         return spice_ckt
 
     def _pyspice_circuit_to_dict(self, spice_ckt: Union[Circuit, SubCircuit]) -> dict:
@@ -486,6 +502,9 @@ class ConvertNetlistToCircuit(PluginBase):
     # Tests in Python Go here
     def assert_valid(self, gme_circuit: dict, pyspice_circuit: Circuit) -> None:
         """Assert validity of created gme circuit"""
+        if hasattr(pyspice_circuit, "title"):
+            assert self.core.get_attribute(gme_circuit, "name") == pyspice_circuit.title
+
         gme_subcircuits = self._get_children_of_type(gme_circuit, "Circuit")
         sub_circuit_elements = [
             element

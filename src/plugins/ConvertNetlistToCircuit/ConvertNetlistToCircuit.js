@@ -28,6 +28,10 @@ define([
         async main(callback) {
             await super.main(callback);
         }
+
+        async getMetadata(metadataHash) {
+            return (await this.blobClient.getMetadata(metadataHash));
+        }
     }
 
     return ConvertNetlistToCircuit;
