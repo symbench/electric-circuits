@@ -39,7 +39,7 @@ define([
             const zipMetadata = await this.getMetadata(metadataHash);
 
             if(zipMetadata.mime !== 'application/zip') {
-                throw new Error(`The object stored at ${metadataHash} is not a zip file`);
+                throw new Error('The provided file is not a zip file');
             }
 
             const zipFile = await this.blobClient.getObject(metadataHash);
