@@ -1,7 +1,7 @@
 /*eslint-env node, mocha*/
 
 describe('ConvertNetlistToCircuit', function () {
-    this.timeout(5000);
+    this.timeout(20000);
     const testFixture = require('../../globals');
     const {promisify} = require('util');
     const {readFileSync} = require('fs');
@@ -60,15 +60,10 @@ describe('ConvertNetlistToCircuit', function () {
         await gmeAuth.unload();
     });
 
-    async function runPlugin(fileName) {
-        const netlistStr = readFileSync(
-            path.join(testFixture.TEST_NETLISTS_PATH, fileName),
-            'utf8'
-        );
-
+    async function runPlugin(filename, netlist) {
         pluginConfig.input_netlist = await plugin.blobClient.putFile(
-            fileName,
-            netlistStr
+            filename,
+            netlist
         );
 
         await manager.configurePlugin(plugin, pluginConfig, context);
@@ -83,8 +78,19 @@ describe('ConvertNetlistToCircuit', function () {
     describe('circuit conversion', () => {
         TEST_NETLIST_FILES.forEach(filename => {
             it(`should convert ${filename} to Circuit`, async () => {
-                assert((await runPlugin(filename)).success);
+                const netlistStr = readFileSync(
+                    path.join(testFixture.TEST_NETLISTS_PATH, filename),
+                    'utf-8'
+                );
+                assert((await runPlugin(filename, netlistStr)).success);
             });
+        });
+    });
+
+    describe('zip file circuit conversion',  () => {
+        it(`should convert ${testFixture.TEST_NETLISTS_ZIP} to circuits`, async () => {
+            const netlistBin = readFileSync(testFixture.TEST_NETLISTS_ZIP);
+            assert((await runPlugin(testFixture.TEST_NETLISTS_ZIP, netlistBin)).success);
         });
     });
 });

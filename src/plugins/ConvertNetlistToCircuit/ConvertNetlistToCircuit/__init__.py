@@ -8,7 +8,7 @@ import sys
 from builtins import isinstance
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
-from typing import List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 from PySpice.Spice.BasicElement import SubCircuitElement
 from PySpice.Spice.Netlist import Circuit, SubCircuit
@@ -108,24 +108,33 @@ class ConvertNetlistToCircuit(PluginBase):
                 self._fail("Input netlist not provided")
             self._initialize()
             start_commit = self.project.get_commit_object(self.branch_name)["parents"]
-            input_netlist = self.get_file(input_netlist_hash)
             input_netlist_filename = self._get_metadata(input_netlist_hash).get(
                 "name", None
             )
-            pyspice_circuit = self._netlist_to_pyspice_circuit(
-                input_netlist, input_netlist_filename
-            )
-            circuit_dict = self._circuit_to_dict(pyspice_circuit)
-            gme_circuit = self._dict_to_gme(circuit_dict, self.active_node)
+
+            created_circuits = []
+
+            if Path(input_netlist_filename).suffix == ".zip":
+                netlists = self._get_zip_file_contents(input_netlist_hash)
+            else:
+                netlists = dict()
+                netlists[input_netlist_filename] = self.get_file(input_netlist_hash)
+
+            pos_gen = self.get_position_generator(alternate_positions=False)
+            for filename, netlist_string in netlists.items():
+                pyspice_circuit = self._netlist_to_pyspice_circuit(
+                    netlist_string, filename
+                )
+                gme_circuit = self._create_gme_circuit_from_pyspice(pyspice_circuit)
+                self._set_position(gme_circuit, pos_gen)
+                created_circuits.append((pyspice_circuit, gme_circuit))
+
             self._commit_results(start_commit)
             self.result_set_success(True)
 
         if os.environ.get("NODE_ENV") == "test":
-            self.assert_valid(gme_circuit, pyspice_circuit)
-
-    def _get_metadata(self, artifact_hash: str) -> dict:
-        """Returns metadata for given artifact hash from webGME BlobStorage"""
-        return self._send({"name": "getMetadata", "args": [artifact_hash]})
+            for (pyspice_circuit, gme_circuit) in created_circuits:
+                self.assert_valid(gme_circuit, pyspice_circuit)
 
     def _initialize(self) -> None:
         self._generate_positions = self.get_position_generator()
@@ -148,6 +157,14 @@ class ConvertNetlistToCircuit(PluginBase):
             spice_ckt.title = Path(filename).stem
 
         return spice_ckt
+
+    def _create_gme_circuit_from_pyspice(
+        self, pyspice_circuit: Union[Circuit, SubCircuit]
+    ) -> dict:
+        """From a given PySpice Circuit, create a GME Circuit"""
+        circuit_dict = self._circuit_to_dict(pyspice_circuit)
+        gme_circuit = self._dict_to_gme(circuit_dict, self.active_node)
+        return gme_circuit
 
     def _pyspice_circuit_to_dict(self, spice_ckt: Union[Circuit, SubCircuit]) -> dict:
         """Recursively build a dictionary of elements and pins for the circuit to a dictionary"""
@@ -204,8 +221,6 @@ class ConvertNetlistToCircuit(PluginBase):
         )
         self.logger.debug(f"Added node of type {circuit_dict['type']}, named {name}")
         self._pyspice_id_to_gme_node[circuit_dict["id"]] = gme_ckt_node
-
-        self._set_position(gme_ckt_node)
 
         self._generate_positions = self.get_position_generator()
 
@@ -308,9 +323,14 @@ class ConvertNetlistToCircuit(PluginBase):
 
         return exists
 
-    def _set_position(self, node: dict) -> None:
+    def _set_position(
+        self, node: dict, position_generator: Optional[Callable] = None
+    ) -> None:
         """Set registry positions for GMENode `node`"""
-        self.core.set_registry(node, "position", self._generate_positions())
+        if position_generator is None:
+            position_generator = self._generate_positions
+
+        self.core.set_registry(node, "position", position_generator())
         self.logger.debug(
             f"Set position of node ({self.core.get_path(node)}) "
             f"to {self.core.get_registry(node, 'position')}"
@@ -371,6 +391,14 @@ class ConvertNetlistToCircuit(PluginBase):
         self.result_set_error(err)
         self.create_message(self.active_node, err, "error")
         self.result_set_success(False)
+
+    def _get_metadata(self, artifact_hash: str) -> dict:
+        """Returns metadata for given artifact hash from webGME BlobStorage"""
+        return self._send({"name": "getMetadata", "args": [artifact_hash]})
+
+    def _get_zip_file_contents(self, artifact_hash: str) -> dict:
+        """Returns contents of a zip file from the WebGME BlobStorage as text"""
+        return self._send({"name": "getZipFileContents", "args": [artifact_hash]})
 
     @staticmethod
     def _get_elements_for(spice_ckt: Union[Circuit, SubCircuit]) -> List:
@@ -482,7 +510,7 @@ class ConvertNetlistToCircuit(PluginBase):
             elements.pop(index)
 
     @staticmethod
-    def get_position_generator(margin=200, max_width=800):
+    def get_position_generator(margin=200, max_width=800, alternate_positions=True):
         """Return a position generator for CompositionView"""
         x = 50
         y = 50
@@ -495,7 +523,10 @@ class ConvertNetlistToCircuit(PluginBase):
                 y += margin
                 row += 1
             x += margin
-            return {"x": x + margin / 2 if row % 2 == 0 else x, "y": y}
+            return {
+                "x": x + margin / 2 if (row % 2 == 0 and alternate_positions) else x,
+                "y": y,
+            }
 
         return generate_positions
 
