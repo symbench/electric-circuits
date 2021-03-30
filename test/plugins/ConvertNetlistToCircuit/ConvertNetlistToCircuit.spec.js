@@ -90,7 +90,11 @@ describe('ConvertNetlistToCircuit', function () {
     describe('zip file circuit conversion',  () => {
         it(`should convert ${testFixture.TEST_NETLISTS_ZIP} to circuits`, async () => {
             const netlistBin = readFileSync(testFixture.TEST_NETLISTS_ZIP);
-            assert((await runPlugin(testFixture.TEST_NETLISTS_ZIP, netlistBin)).success);
+            const pluginResult = await runPlugin(testFixture.TEST_NETLISTS_ZIP, netlistBin);
+            assert(pluginResult.success);
+
+            const pluginMessages = pluginResult.messages.map(m => m.message);
+            assert(pluginMessages.some(m => m.startsWith('Conversion failed for netlists/not_a_netlist.net')));
         });
     });
 });

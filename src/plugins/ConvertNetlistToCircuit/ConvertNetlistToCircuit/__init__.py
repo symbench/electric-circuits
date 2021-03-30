@@ -113,6 +113,7 @@ class ConvertNetlistToCircuit(PluginBase):
             )
 
             created_circuits = []
+            failures = []
 
             if Path(input_netlist_filename).suffix == ".zip":
                 netlists = self._get_zip_file_contents(input_netlist_hash)
@@ -122,19 +123,34 @@ class ConvertNetlistToCircuit(PluginBase):
 
             pos_gen = self.get_position_generator(alternate_positions=False)
             for filename, netlist_string in netlists.items():
-                pyspice_circuit = self._netlist_to_pyspice_circuit(
-                    netlist_string, filename
-                )
+                try:
+                    pyspice_circuit = self._netlist_to_pyspice_circuit(
+                        netlist_string, filename
+                    )
+                except Exception as e:
+                    failures.append((filename, e))
+                    continue
                 gme_circuit = self._create_gme_circuit_from_pyspice(pyspice_circuit)
                 self._set_position(gme_circuit, pos_gen)
                 created_circuits.append((pyspice_circuit, gme_circuit))
 
-            self._commit_results(start_commit)
-            self.result_set_success(True)
+            for filename, error in failures:
+                self.create_message(
+                    self.active_node,
+                    f"Conversion failed for {filename}, "
+                    f"as it is not a valid Netlist. The "
+                    f"error message is {error}.",
+                    "error",
+                )
 
-        if os.environ.get("NODE_ENV") == "test":
-            for (pyspice_circuit, gme_circuit) in created_circuits:
-                self.assert_valid(gme_circuit, pyspice_circuit)
+            if created_circuits:
+                self._commit_results(start_commit)
+                self.result_set_success(True)
+                if os.environ.get("NODE_ENV") == "test":
+                    for (pyspice_circuit, gme_circuit) in created_circuits:
+                        self.assert_valid(gme_circuit, pyspice_circuit)
+            else:
+                self.result_set_success(False)
 
     def _initialize(self) -> None:
         self._generate_positions = self.get_position_generator()
