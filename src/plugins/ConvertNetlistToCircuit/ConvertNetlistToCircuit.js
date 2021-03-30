@@ -10,11 +10,13 @@
 define([
     'plugin/PluginConfig',
     'text!./metadata.json',
+    'jszip',
     'electric-circuits/plugins/PythonPluginBase',
 ], function (
     PluginConfig,
     pluginMetadata,
-    PluginBase
+    JSZip,
+    PluginBase,
 ) {
     'use strict';
 
@@ -31,6 +33,27 @@ define([
 
         async getMetadata(metadataHash) {
             return (await this.blobClient.getMetadata(metadataHash));
+        }
+
+        async getZipFileContents(metadataHash) {
+            const zipMetadata = await this.getMetadata(metadataHash);
+
+            if(zipMetadata.mime !== 'application/zip') {
+                throw new Error(`The object stored at ${metadataHash} is not a zip file`);
+            }
+
+            const zipFile = await this.blobClient.getObject(metadataHash);
+            const zipLoader = new JSZip();
+            const zip = await zipLoader.loadAsync(zipFile);
+            let zipContents = {};
+
+            for(let [name, entry] of Object.entries(zip.files)) {
+                if(!entry.dir){
+                    zipContents[name] = await entry.async('text');
+                }
+            }
+
+            return zipContents;
         }
     }
 
