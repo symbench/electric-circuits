@@ -3,15 +3,21 @@ define([
     'js/Constants',
     'js/Utils/GMEConcepts',
     'js/NodePropertyNames',
-    './ElectricCircuitEditorControl.Joint'
+    'q',
+    'blob/BlobClient',
+    './ElectricCircuitEditorControl.Joint',
 ], function (
     CONSTANTS,
     GMEConcepts,
     nodePropertyNames,
-    JointControl
+    Q,
+    BlobClient,
+    JointControl,
 ) {
 
     'use strict';
+
+    const RECOMMENDATION_PLUGIN = 'RecommendNextComponents';
 
     class ElectricCircuitsEditorControl extends JointControl {
         constructor(options) {
@@ -22,6 +28,10 @@ define([
 
             this._widget = options.widget;
 
+            this._blobClient = new BlobClient({
+                logger: this._logger.fork('BlobClient')
+            });
+
             this._currentNodeId = null;
 
             this._initWidgetEventHandlers();
@@ -31,6 +41,8 @@ define([
 
         _initWidgetEventHandlers() {
             this._widget.onNodeAttributeChanged = this.onNodeAttributeChanged.bind(this);
+            this._widget.runRecommendationPlugin = this.runRecommendationPlugin.bind(this);
+            this._widget.getRecommendationPluginMetadata = this.getRecommendationPluginMetadata;
             this._widget.onNodeCreated = this.onNodeCreated.bind(this);
             this._widget.getValidComponents = this.getValidPartBrowserNodes.bind(this);
         }
@@ -43,6 +55,26 @@ define([
             });
         }
 
+        async runRecommendationPlugin(pluginConfig) {
+            const pluginName = RECOMMENDATION_PLUGIN;
+            const pluginContext = this._client.getCurrentPluginContext();
+            pluginContext.pluginConfig = pluginConfig;
+            const pluginResults = await Q.ninvoke(
+                this._client,
+                'runServerPlugin',
+                pluginName,
+                pluginContext
+            );
+
+            if (pluginResults.artifacts) {
+                return this._blobClient.getObjectAsJSON(pluginResults.artifacts.pop());
+            }
+        }
+
+        getRecommendationPluginMetadata() {
+            return WebGMEGlobal.allPluginsMetadata[RECOMMENDATION_PLUGIN];
+        }
+
         onNodeCreated(nodeType, position) {
             this._client.startTransaction(`About to create node of type ${nodeType}`);
             const nodeId = this._client.createNode({
@@ -50,7 +82,7 @@ define([
                 parentId: this._currentNodeId
             });
 
-            if(position){
+            if (position) {
                 this._client.setRegistry(nodeId, 'position', position, `Set position to ${position}`);
             }
             this._client.completeTransaction(`Created node of type ${nodeType}`);
@@ -93,7 +125,7 @@ define([
             if (this.isPin(nodeId) && !this.isCircuitPin(nodeId)) {
                 return;
             }
-            if(this.isInsideCCSource(nodeId) || this.isInsideSubCircuit(nodeId)){
+            if (this.isInsideCCSource(nodeId) || this.isInsideSubCircuit(nodeId)) {
                 return;
             }
             return this.toJointJSON(nodeId);
@@ -119,7 +151,7 @@ define([
                     break;
                 }
             }
-            if(events){
+            if (events) {
                 this._widget.requestLayout();
             }
             this._logger.debug('_eventCallback \'' + events.length + '\' items - DONE');
@@ -130,7 +162,7 @@ define([
             if (desc) {
                 this._widget.addNode(desc);
             }
-            if(this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
+            if (this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
                 const name = this._client.getNode(gmeId).getAttribute('name');
                 this._widget.setDashboardTitle(name);
             }
@@ -141,7 +173,7 @@ define([
             if (desc) {
                 this._widget.updateNode(desc);
             }
-            if(this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
+            if (this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
                 const name = this._client.getNode(gmeId).getAttribute('name');
                 this._widget.setDashboardTitle(name);
             }

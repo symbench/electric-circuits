@@ -36,8 +36,9 @@
     "elkjs": "^0.7.1",
     "graphlib": "^2.1.8",
     "jointjs": "^3.3.0",
+    "jszip": "^3.6.0",
     "lodash-amd": "^4.17.15",
-    "webgme-bindings": "^1.2.1"
+    "webgme-bindings": "github:webgme/bindings"
   },
   "description": "First, install the electric-circuits following: - [NodeJS](https://nodejs.org/en/) (v4.x.x recommended) - [MongoDB](https://www.mongodb.com/)",
   "main": "app.js",

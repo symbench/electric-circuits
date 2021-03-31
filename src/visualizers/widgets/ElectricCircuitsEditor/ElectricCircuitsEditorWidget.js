@@ -40,6 +40,19 @@ define([
         this.dashboard = new CircuitEditorDashboard({target: jointContainer[0]});
         this.dashboard.initialize(joint, dagre, graphlib, ELK);
 
+        this.dashboard.events().addEventListener(
+            'recommendationRequested',
+            async (event) => {
+                try {
+                    const recommendations = await this.runRecommendationPlugin(event.detail.pluginMetadata);
+                    const recommendedCells = this.getRecommendedCells(recommendations);
+                    this.dashboard.showRecommendationSuccess(recommendedCells);
+                } catch (e) {
+                    this.dashboard.showRecommendationFail(e);
+                }
+            }
+        );
+
         this.dashboard.events().addEventListener('nodeCreated', (event) => {
             this.onNodeCreated(
                 event.detail.type.replace(`${JOINT_DOMAIN_PREFIX}.`, ''),
@@ -52,7 +65,7 @@ define([
             sliderClass: 'electric-circuits-editor-zoom-slider',
             zoomTarget: jointContainer,
             zoomValues: this.dashboard.getZoomLevels(),
-            onZoom:  zoomLevel => {
+            onZoom: zoomLevel => {
                 jointContainer.css({transform: 'scale(1.0)'});
                 this.dashboard.zoom(zoomLevel);
             }
@@ -71,7 +84,7 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.removeNode = function (/*gmeId*/) {
-    //    ToDo: Not Interactive Yet
+        //    ToDo: Not Interactive Yet
     };
 
     ElectricCircuitsEditorWidget.prototype.updateNode = function (desc) {
@@ -83,9 +96,19 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.requestLayout = function () {
-        if(this.dashboard){
+        if (this.dashboard) {
             this.dashboard.layout();
         }
+    };
+
+    ElectricCircuitsEditorWidget.prototype.getRecommendedCells = function (recommendations) {
+        const recommendedCells = [];
+        recommendations.forEach(([cellList, confidence]) => {
+            cellList.forEach(node => {
+                recommendedCells.push([node.type, confidence]);
+            });
+        });
+        return recommendedCells;
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
@@ -95,6 +118,7 @@ define([
 
     ElectricCircuitsEditorWidget.prototype.onActivate = function () {
         this.dashboard.render({
+            recommendationPluginMetadata: this.getRecommendationPluginMetadata(),
             validComponents: this.getValidComponents()
         });
     };
