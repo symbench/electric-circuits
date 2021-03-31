@@ -11,7 +11,7 @@ The electric circuit domain for [webGME](https://webgme.org).
 
 ![circuit-editor](./images/circuit-editor.png)![ce-amplifier](./images/ce-amplifier.png)
 
-### Capabilities
+## Capabilities
 While it can be used as a general purpose circuit editor, this repository offers the following capabilities:
 
 1. Import SPICE Netlists and create schematic/diagram for the circuit.
