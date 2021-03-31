@@ -5,13 +5,9 @@ from pathlib import Path
 from typing import Union
 
 from PySpice.Spice.Netlist import Circuit, SubCircuit
+from symbench.electric_circuits import AnalyzeCircuit
 
 script_dir = path.dirname(path.realpath(__file__))
-
-BASE_PLUGIN_PATH = Path(
-    f"{script_dir}/../../../common/plugins/CircuitAnalysisBases.py"
-).resolve()
-IMPORT_MODULE_NAME = "electric_circuits.plugin_bases"
 
 
 def import_from_path(path, module_name):
@@ -20,9 +16,6 @@ def import_from_path(path, module_name):
     spec.loader.exec_module(module)
     return module
 
-
-base_module = import_from_path(BASE_PLUGIN_PATH, IMPORT_MODULE_NAME)
-AnalyzeCircuitPlugin = getattr(base_module, "AnalyzeCircuit")
 
 PYSPICE_TO_GME_TYPE = {
     "SubCircuitElement": "Circuit",
@@ -70,7 +63,7 @@ def sort_dict(d):
     return dict(sorted_keys)
 
 
-class RecommendNextComponents(AnalyzeCircuitPlugin):
+class RecommendNextComponents(AnalyzeCircuit):
     """Runs a mock implementation for recommending components to be added to the Circuit"""
 
     def run_analytics(
@@ -91,7 +84,7 @@ class RecommendNextComponents(AnalyzeCircuitPlugin):
         recommendations = sorted(recommendations, key=lambda k: -k[1])
         self.add_file("recommendations.json", json.dumps(recommendations, indent=2))
 
-    def _resolve_node(self, node: dict, pin_labels: dict) -> str:
+    def _resolve_node(self, node: dict, pin_labels: dict) -> dict:
         inverse_pin_labels = {v: k for (k, v) in pin_labels.items()}
         return {
             "type": self._pyspice_to_gme_type(node["type"]),

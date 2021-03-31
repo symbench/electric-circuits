@@ -9,3 +9,5 @@ exclude =
     build,
     dist,
     node_modules
+
+per-file-ignores = __init__.py:F401
