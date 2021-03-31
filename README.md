@@ -12,11 +12,11 @@ The electric circuit domain for [webGME](https://webgme.org).
 ![circuit-editor](./images/circuit-editor.png)
 
 ### Capabilities
-While the application can be used as a general purpose circuit editor, this repository offers the following capabilities:
+While it can be used as a general purpose circuit editor, this repository offers the following capabilities:
 
 1. Import SPICE Netlists and create schematic/diagram for the circuit.
 2. Export SPICE Netlists from a circuit for further processing/simulation.
-3. Using deep learning models, get recommendations on the next components/wires in the Circuit.
+3. Using deep learning models, get recommendations on the next components/wires in the circuit.
 
 
 ## Quick Start
@@ -39,7 +39,7 @@ $ npm start
 Finally, navigate to [http://localhost:8888](http://localhost:8888) to start using `electric-circuits`.
 
 ## Docker Quick Start
-We also offer a docker image for this repository with all the dependencies installed. To start a docker container(without user accounts enabled) for this repository, use docker-compose:
+We also offer a docker image for this repository with all the dependencies installed. To start a docker container(without user accounts enabled) for this repository, use `docker-compose`:
 
 ```shell
 $ docker-compose --file docker-compose-local.yml up
