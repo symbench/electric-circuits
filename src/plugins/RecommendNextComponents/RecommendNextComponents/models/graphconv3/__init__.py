@@ -58,10 +58,12 @@ def node(index, components):
 
 
 def component(index, edges):
-    return {
-        "type": h.component_index_name(index),
-        "pins": [edge.name for edge in edges],
-    }
+    return [
+        {
+            "type": h.component_index_name(index),
+            "pins": [edge.name for edge in edges],
+        }
+    ]
 
 
 def get_proto_node_edges(node_features):
@@ -100,7 +102,6 @@ def interpret_results(edges, node_features, probs, components):
         )
         for (k, (edges, probs)) in proto_top_edges
     ]
-    print("protos_w_probs", protos_w_probs)
     return protos_w_probs
 
 
@@ -111,7 +112,7 @@ def analyze(circuit):
             netlist = str(circuit)
             f.write(netlist)
 
-        return analyze_file(netlist_path, h.components(circuit))
+        return analyze_file(netlist_path, circuit)
 
 
 def analyze_file(filename, circuit):
