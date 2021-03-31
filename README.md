@@ -9,7 +9,7 @@ The electric circuit domain for [webGME](https://webgme.org).
 
 `electric-circuits` is an application for defining, creating and simulating analog electronic circuits, built on top of [webGME](https://webgme.org).
 
-![circuit-editor](./images/circuit-editor.png)
+![circuit-editor](./images/circuit-editor.png)![ce-amplifier](./images/ce-amplifier.png)
 
 ### Capabilities
 While it can be used as a general purpose circuit editor, this repository offers the following capabilities:
