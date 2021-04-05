@@ -80,9 +80,12 @@ def get_proto_node_edges(node_features):
 
 def interpret_results(edges, node_features, probs, components):
     proto_ids = edges[0]
-    proto_types = (node_features[proto_ids, 0:-1] > 0.99).nonzero()[:, 1]
+    node_types = (node_features[:, 0:-1] > 0.99).nonzero()[:, 1]
     proto_edges = {}
     for (i, p_id) in enumerate(proto_ids):
+        is_unknown_type = node_types[p_id] == 0
+        if is_unknown_type:
+            continue
         node_id = edges[1][i].item()
         prob = probs[i].item()
         p_id = p_id.item()
@@ -91,13 +94,13 @@ def interpret_results(edges, node_features, probs, components):
 
         proto_edges[p_id].append((node_id, prob))
 
-    proto_top_edges = (
+    proto_top_edges = [
         (k, zip(*sorted(edges, key=lambda e: -e[1])[0:2]))
         for (k, edges) in proto_edges.items()
-    )
+    ]
     protos_w_probs = [
         (
-            component(proto_types[k], (node(e, components) for e in edges)),
+            component(node_types[k], (node(e, components) for e in edges)),
             sum(probs) / len(probs),
         )
         for (k, (edges, probs)) in proto_top_edges
