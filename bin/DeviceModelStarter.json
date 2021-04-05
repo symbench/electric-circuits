@@ -1,0 +1,29 @@
+{
+  "bases": [
+    {
+      "name": "DeviceModel",
+      "attributes": [],
+      "parent": null,
+      "source": null
+    },
+    {
+      "name": "DiodeModel",
+      "attributes": [],
+      "parent": "DeviceModel",
+      "source": null
+    },
+    {
+      "name": "TransistorModel",
+      "attributes": [],
+      "parent": "DeviceModel",
+      "source": null
+    },
+    {
+      "name": "MOSModel",
+      "attributes": [],
+      "parent": "DeviceModel",
+      "source": null
+    }
+  ],
+  "children": []
+}

@@ -4,10 +4,70 @@ import importlib
 import inspect
 import json
 import os
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Union
 
+import pandas
+
 SPLIT_PLACE_HOLDER = "~"
+UNICODE_MAP = {
+    "Ω": "Ohm",
+    "∞": "Infinity",
+    "◦C": "Celsius",
+    "1/◦C": "1/Celsius",
+    "1/◦C2": "1/Celsius^2",
+}
+
+NGSPICE_URL = "http://ngspice.sourceforge.net/docs/ngspice-31-manual.pdf"
+DIODE_MODEL_PAGES = ["118", "119"]
+BJT_MODEL_PAGES = ["127", "128", "129", "130"]
+DIODE_MODEL_MISSING_LINES = [
+    {
+        "Name": "AF",
+        "Parameter": "Flicker noise exponent",
+        "Units": "-",
+        "Default": 1,
+        "Scale factor": "",
+    },
+    {
+        "Name": "TT",
+        "Parameter": "Transit-time",
+        "Units": "sec",
+        "Default": 0.0,
+        "Scale factor": "",
+    },
+]
+
+BJT_MODEL_MISSING_LINES = [
+    {
+        "Name": "ITF",
+        "Parameter": "High-current parameter for effect on TF.",
+        "Units": "A",
+        "Default": 0,
+        "Scale factor": "area",
+    },
+    {
+        "Name": "TRB2",
+        "Parameter": "2nd order temperature coefficient for RB",
+        "Units": "1/◦C2",
+        "Default": 0.0,
+        "Scale factor": "",
+    },
+    {
+        "Name": "TVAR1",
+        "Parameter": "1st order temperature coefficient for VAR",
+        "Units": "1/◦C",
+        "Default": 0.0,
+        "Scale factor": "",
+    },
+]
+DEVICE_MODEL_TEMPLATE = Path(__file__).resolve().parent / "DeviceModelStarter.json"
+
+
+def _load_json(json_path: Union[str, Path]):
+    with open(json_path) as json_file:
+        return json.load(json_file)
 
 
 def _get_missing_attribute_meta(param: str, class_name: str) -> dict:
@@ -63,6 +123,11 @@ def _get_attribute_constraints(name: str) -> Union[dict, None]:
 
 
 class PySpiceMissingException(Exception):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class MissingTabulaException(Exception):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
@@ -211,11 +276,127 @@ class PySpiceParser:
         )
 
 
-class PySpiceSaver:
-    """A components saver for PySpice.
+class NGSpiceManualParser:
+    """A class to parse NGSpice user manual
 
-    This class uses PySpiceParser to generate
-    schema for PySpice Elements.
+    This class parses the NGSpice user manual
+    for attributes of the various device model parameters
+    """
+
+    def __init__(self) -> None:
+        self._confirm_tabula()
+        self.ngspice_url = NGSPICE_URL
+        self.device_models = _load_json(DEVICE_MODEL_TEMPLATE)
+
+    def run(self) -> dict:
+        self._parse_diode_model()
+        self._parse_bjt_model()
+        self._add_source_info()
+        return self.device_models
+
+    def _parse_diode_model(self) -> None:
+        import pandas as pd
+        import tabula
+
+        dfs = tabula.read_pdf(self.ngspice_url, pages=DIODE_MODEL_PAGES, lattice=True)
+        for idx, data_frame in enumerate(dfs):
+            data_frame.drop(columns=["Example"], errors="ignore", inplace=True)
+
+        merged = pd.concat(dfs, ignore_index=True)
+        merged = merged.append(DIODE_MODEL_MISSING_LINES)
+
+        diode_model = {
+            "name": "NGSpiceDiodeModel",
+            "attributes": [],
+            "parent": "DiodeModel",
+            "source": f"{self.ngspice_url}, pages[{','.join(DIODE_MODEL_PAGES)}]",
+        }
+        for idx, row in merged.iterrows():
+            self._df_row_to_meta_dict(diode_model, row)
+
+        self.device_models["children"].append(diode_model)
+
+    def _parse_bjt_model(self):
+        import pandas as pd
+        import tabula
+
+        dfs = tabula.read_pdf(
+            self.ngspice_url,
+            pages=BJT_MODEL_PAGES,
+            pandas_options={"header": None},
+            lattice=True,
+        )
+
+        for idx, data_frame in enumerate(dfs):
+            data_frame.drop(columns=["Example"], errors="ignore", inplace=True)
+
+        merged = pd.concat(dfs, ignore_index=True)
+        merged = merged.append(BJT_MODEL_MISSING_LINES)
+        merged.to_csv("BJTModel.csv")
+
+        bjt_model = {
+            "name": "NGSpiceBJTModel",
+            "attributes": [],
+            "parent": "BJTModel",
+            "source": f"{self.ngspice_url}, pages[{','.join(BJT_MODEL_PAGES)}]",
+        }
+        for idx, row in merged.iterrows():
+            self._df_row_to_meta_dict(bjt_model, row)
+
+    def _add_source_info(self) -> None:
+        """Add source information for DeviceModel dictionary"""
+        self.device_models["info"] = {
+            "source": "NGSpice 31 user manual",
+            "url": self.ngspice_url,
+            "lastModified": f"{datetime.now()}",
+        }
+
+    @staticmethod
+    def _df_row_to_meta_dict(meta_dict: dict, df_row: pandas.Series) -> None:
+        if not meta_dict.get("attributes"):
+            meta_dict["attributes"] = []
+
+        print(df_row)
+
+        names = df_row["Name"].split("(")
+        name = names[0].strip()
+        alt_name = None
+        if len(names) == 2:
+            alt_name = names[1].replace(")", "").strip()
+        try:
+            df_row["Default"] = float(df_row["Default"])
+        except ValueError:
+            pass
+
+        meta_dict["attributes"].append(
+            {
+                "name": name,
+                "default": UNICODE_MAP.get(df_row["Default"], df_row["Default"]),
+                "meta": {
+                    "description": df_row["Parameter"],
+                    "units": UNICODE_MAP.get(df_row["Units"], df_row["Units"]),
+                    "alternateName": alt_name,
+                    "scaleFactor": None
+                    if (sf := str(df_row["Scale factor"])) == "nan"
+                    else sf,
+                },
+            }
+        )
+
+    @staticmethod
+    def _confirm_tabula() -> None:
+        try:
+            tabula = importlib.import_module("tabula")
+        except ImportError as e:
+            raise MissingTabulaException(str(e))
+        del tabula
+
+
+class SpiceSaver:
+    """A components saver for PySpice and NGSpice.
+
+    This class uses PySpiceParser and NGSpiceManualParser to generate
+    schema for PySpice Elements/ NGSpice Device Models
 
     Parameters
     ----------
@@ -223,10 +404,17 @@ class PySpiceSaver:
         The output directory to save the generated schemas in
     """
 
-    def __init__(self, out_dir: Union[str, Path] = None) -> None:
+    def __init__(
+        self,
+        out_dir: Union[str, Path] = None,
+        pyspice_prefix: str = "PySpice",
+        ngspice_prefix: str = "NGSpice",
+    ) -> None:
         if out_dir is None:
             out_dir = "."
         self.out_dir = Path(out_dir).resolve()
+        self.pyspice_prefix = pyspice_prefix
+        self.ngspice_prefix = ngspice_prefix
 
         print(f"Schemas will be saved in {self.out_dir}")
 
@@ -234,10 +422,25 @@ class PySpiceSaver:
             os.makedirs(self.out_dir)
 
         self.pyspice_parser = PySpiceParser()
+        self.ngspice_parser = NGSpiceManualParser()
 
-    def parse_and_save(self) -> None:
+    def parse_and_save_pyspice(self) -> None:
+        print("Parsing PySpice")
         pyspice_elements = self.pyspice_parser.run()
-        self.save_json(self.out_dir / "elements.json", pyspice_elements)
+        self.save_json(
+            out_file := (self.out_dir / self.pyspice_prefix / "elements.json"),
+            pyspice_elements,
+        )
+        print(f"PySpice schema saved in {out_file}")
+
+    def parse_and_save_ngspice(self):
+        print("Parsing NGSpice")
+        ngspice_models = self.ngspice_parser.run()
+        self.save_json(
+            out_file := (self.out_dir / self.ngspice_prefix / "deviceModels.json"),
+            ngspice_models,
+        )
+        print(f"PySpice schema saved in {out_file}")
 
     @staticmethod
     def save_json(path: Path, content: dict) -> None:
@@ -246,17 +449,51 @@ class PySpiceSaver:
 
 
 def main() -> None:
-    out_dir = "./src/plugins/CreateElectricCircuitsMeta/PySpice"
-    parser = argparse.ArgumentParser(description="")
+    out_dir = "./src/plugins/CreateElectricCircuitsMeta"
+    pyspice_prefix = "PySpice"
+    ngspice_prefix = "NGSpice"
+    parser = argparse.ArgumentParser(
+        description="Spice DeviceModel and Elements Schema Saver",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    choices = {"pyspice", "ngspice", "all"}
+    parser.add_argument(
+        "option", choices=choices, type=str, metavar="OPTION", help=f"One of {choices}"
+    )
     parser.add_argument(
         "--out-dir",
         help="The output directory to save the generated json",
         type=str,
         default=out_dir,
     )
+
+    parser.add_argument(
+        "--pyspice-prefix",
+        help="The subpath/prefix directory to save the generated json for PySpice",
+        type=str,
+        default=pyspice_prefix,
+    )
+
+    parser.add_argument(
+        "--ngspice-prefix",
+        help="The subpath/prefix directory to save the generated json for NGSpice",
+        type=str,
+        default=ngspice_prefix,
+    )
     args = parser.parse_args()
-    schema_saver = PySpiceSaver(args.out_dir)
-    schema_saver.parse_and_save()
+    schema_saver = SpiceSaver(
+        args.out_dir,
+        pyspice_prefix=args.pyspice_prefix,
+        ngspice_prefix=args.ngspice_prefix,
+    )
+
+    if args.option == "pyspice":
+        schema_saver.parse_and_save_pyspice()
+    if args.option == "ngspice":
+        schema_saver.parse_and_save_ngspice()
+    if args.option == "all":
+        schema_saver.parse_and_save_pyspice()
+        schema_saver.parse_and_save_ngspice()
 
 
 if __name__ == "__main__":

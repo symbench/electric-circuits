@@ -13,3 +13,4 @@ dependencies:
       - flake8
       - isort
       - pre-commit
+      - tabula-py

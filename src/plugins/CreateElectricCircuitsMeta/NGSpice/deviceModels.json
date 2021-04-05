@@ -1,0 +1,471 @@
+{
+  "bases": [
+    {
+      "name": "DeviceModel",
+      "attributes": [],
+      "parent": null,
+      "source": null
+    },
+    {
+      "name": "DiodeModel",
+      "attributes": [],
+      "parent": "DeviceModel",
+      "source": null
+    },
+    {
+      "name": "TransistorModel",
+      "attributes": [],
+      "parent": "DeviceModel",
+      "source": null
+    },
+    {
+      "name": "MOSModel",
+      "attributes": [],
+      "parent": "DeviceModel",
+      "source": null
+    }
+  ],
+  "children": [
+    {
+      "name": "NGSpiceDiodeModel",
+      "attributes": [
+        {
+          "name": "IS",
+          "default": 1e-14,
+          "meta": {
+            "description": "Saturation current",
+            "units": "A",
+            "alternateName": "JS",
+            "scaleFactor": "area"
+          }
+        },
+        {
+          "name": "JSW",
+          "default": 0.0,
+          "meta": {
+            "description": "Sidewall saturation current",
+            "units": "A",
+            "alternateName": null,
+            "scaleFactor": "perimeter"
+          }
+        },
+        {
+          "name": "N",
+          "default": 1.0,
+          "meta": {
+            "description": "Emission coefficient",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "RS",
+          "default": 0.0,
+          "meta": {
+            "description": "Ohmic resistance",
+            "units": "Ohm",
+            "alternateName": null,
+            "scaleFactor": "1/area"
+          }
+        },
+        {
+          "name": "BV",
+          "default": "Infinity",
+          "meta": {
+            "description": "Reverse breakdown voltage",
+            "units": "V",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "IBV",
+          "default": 0.001,
+          "meta": {
+            "description": "Current at breakdown voltage",
+            "units": "A",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "NBV",
+          "default": "N",
+          "meta": {
+            "description": "Breakdown Emission Coefficient",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "IKF",
+          "default": 0.0,
+          "meta": {
+            "description": "Forward knee current",
+            "units": "A",
+            "alternateName": "IK",
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "IKR",
+          "default": 0.0,
+          "meta": {
+            "description": "Reverse knee current",
+            "units": "A",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "JTUN",
+          "default": 0.0,
+          "meta": {
+            "description": "Tunneling saturation current",
+            "units": "A",
+            "alternateName": null,
+            "scaleFactor": "area"
+          }
+        },
+        {
+          "name": "JTUNSW",
+          "default": 0.0,
+          "meta": {
+            "description": "Tunneling sidewall saturation current",
+            "units": "A",
+            "alternateName": null,
+            "scaleFactor": "perimeter"
+          }
+        },
+        {
+          "name": "NTUN",
+          "default": 30.0,
+          "meta": {
+            "description": "Tunneling emission coefficient",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "XTITUN",
+          "default": 3.0,
+          "meta": {
+            "description": "Tunneling saturation current exponential",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "KEG",
+          "default": 1.0,
+          "meta": {
+            "description": "EG correction factor for tunneling",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "ISR",
+          "default": 1e-14,
+          "meta": {
+            "description": "Recombination saturation current",
+            "units": "A",
+            "alternateName": null,
+            "scaleFactor": "area"
+          }
+        },
+        {
+          "name": "NR",
+          "default": 1.0,
+          "meta": {
+            "description": "Recombination current emission coefficient",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "CJO",
+          "default": 0.0,
+          "meta": {
+            "description": "Zero-bias junction bottom-wall\rcapacitance",
+            "units": "F",
+            "alternateName": "CJ0",
+            "scaleFactor": "area"
+          }
+        },
+        {
+          "name": "CJP",
+          "default": 0.0,
+          "meta": {
+            "description": "Zero-bias junction sidewall\rcapacitance",
+            "units": "F",
+            "alternateName": "CJSW",
+            "scaleFactor": "perimeter"
+          }
+        },
+        {
+          "name": "FC",
+          "default": 0.5,
+          "meta": {
+            "description": "Coefficient for forward-bias\rdepletion bottom-wall capacitance\rformula",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "FCS",
+          "default": 0.5,
+          "meta": {
+            "description": "Coefficient for forward-bias\rdepletion sidewall capacitance\rformula",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "M",
+          "default": 0.5,
+          "meta": {
+            "description": "Area junction grading coefficient",
+            "units": "-",
+            "alternateName": "MJ",
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "MJSW",
+          "default": 0.33,
+          "meta": {
+            "description": "Periphery junction grading\rcoefficient",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "VJ",
+          "default": 1.0,
+          "meta": {
+            "description": "Junction potential",
+            "units": "V",
+            "alternateName": "PB",
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "PHP",
+          "default": 1.0,
+          "meta": {
+            "description": "Periphery junction potential",
+            "units": "V",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "EG",
+          "default": 1.11,
+          "meta": {
+            "description": "Activation energy",
+            "units": "eV",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TM1",
+          "default": 0.0,
+          "meta": {
+            "description": "1st order tempco for MJ",
+            "units": "1/Celsius",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TM2",
+          "default": 0.0,
+          "meta": {
+            "description": "2nd order tempco for MJ",
+            "units": "1/Celsius^2",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TNOM",
+          "default": 27.0,
+          "meta": {
+            "description": "Parameter measurement temperature",
+            "units": "Celsius",
+            "alternateName": "TREF",
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TRS1",
+          "default": 0.0,
+          "meta": {
+            "description": "1st order tempco for RS",
+            "units": "1/Celsius",
+            "alternateName": "TRS",
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TRS2",
+          "default": 0.0,
+          "meta": {
+            "description": "2nd order tempco for RS",
+            "units": "1/Celsius^2",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TM1",
+          "default": 0.0,
+          "meta": {
+            "description": "1st order tempco for MJ",
+            "units": "1/Celsius",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TM2",
+          "default": 0.0,
+          "meta": {
+            "description": "2nd order tempco for MJ",
+            "units": "1/Celsius^2",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TTT1",
+          "default": 0.0,
+          "meta": {
+            "description": "1st order tempco for TT",
+            "units": "1/Celsius",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TTT2",
+          "default": 0.0,
+          "meta": {
+            "description": "2nd order tempco for TT",
+            "units": "1/Celsius^2",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "XTI",
+          "default": 3.0,
+          "meta": {
+            "description": "Saturation current temperature exponent",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TLEV",
+          "default": 0.0,
+          "meta": {
+            "description": "Diode temperature equation selector",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TLEVC",
+          "default": 0.0,
+          "meta": {
+            "description": "Diode capac. temperature equation selector",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "CTA",
+          "default": 0.0,
+          "meta": {
+            "description": "Area junct. cap. temperature coefficient",
+            "units": "1/Celsius",
+            "alternateName": "CTC",
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "CTP",
+          "default": 0.0,
+          "meta": {
+            "description": "Perimeter junct. cap. temperature coefficient",
+            "units": "1/Celsius",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "TCV",
+          "default": 0.0,
+          "meta": {
+            "description": "Breakdown voltage temperature coefficient",
+            "units": "1/Celsius",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "KF",
+          "default": 0.0,
+          "meta": {
+            "description": "Flicker noise coefficient",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": null
+          }
+        },
+        {
+          "name": "AF",
+          "default": 1.0,
+          "meta": {
+            "description": "Flicker noise exponent",
+            "units": "-",
+            "alternateName": null,
+            "scaleFactor": ""
+          }
+        },
+        {
+          "name": "TT",
+          "default": 0.0,
+          "meta": {
+            "description": "Transit-time",
+            "units": "sec",
+            "alternateName": null,
+            "scaleFactor": ""
+          }
+        }
+      ],
+      "source": "http://ngspice.sourceforge.net/docs/ngspice-31-manual.pdf, pages[118,119]"
+    }
+  ],
+  "info": {
+    "source": "NGSpice 31 user manual",
+    "url": "http://ngspice.sourceforge.net/docs/ngspice-31-manual.pdf",
+    "lastModified": "2021-04-05 09:29:30.736034"
+  }
+}

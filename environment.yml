@@ -9,3 +9,4 @@ dependencies:
   - pip:
       - requests
       - webgme-bindings
+      - tabula-py
