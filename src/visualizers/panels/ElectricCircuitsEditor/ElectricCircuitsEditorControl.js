@@ -75,7 +75,10 @@ define([
             return WebGMEGlobal.allPluginsMetadata[RECOMMENDATION_PLUGIN];
         }
 
-        onNodeCreated(nodeType, position) {
+        onNodeCreated(nodeType, position, supress) {
+            if(!this.supressedNodes) {
+                this.supressedNodes = [];
+            }
             this._client.startTransaction(`About to create node of type ${nodeType}`);
             const nodeId = this._client.createNode({
                 baseId: this.META_NAMES[nodeType],
@@ -84,6 +87,10 @@ define([
 
             if (position) {
                 this._client.setRegistry(nodeId, 'position', position, `Set position to ${position}`);
+            }
+
+            if(supress){
+                this.supressedNodes.push(nodeId);
             }
             this._client.completeTransaction(`Created node of type ${nodeType}`);
         }
@@ -119,6 +126,9 @@ define([
         }
 
         _getObjectDescriptor(nodeId) {
+            if(this.supressedNodes && this.supressedNodes.includes(nodeId)){
+                return ;
+            }
             if (this.isCircuit(nodeId) && !this.isSubCircuit(nodeId)) {
                 return;
             }

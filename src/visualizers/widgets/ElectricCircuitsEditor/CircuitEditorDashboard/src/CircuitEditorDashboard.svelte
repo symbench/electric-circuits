@@ -467,6 +467,18 @@
             action: () => {
                 Component.setOpacity(element, 1.0);
                 Component.unsetTemporary(element);
+                const event = new CustomEvent(
+                    'nodeCreated',
+                    {
+                        detail:{
+                            type: element.get('type'),
+                            supress: true
+                        }
+                    }
+                );
+                eventElement.dispatchEvent(event);
+
+                circuitGraph.getConnectedLinks(element);
                 removeTemporaryElements(circuitGraph);
             }
         });

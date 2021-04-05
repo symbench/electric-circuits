@@ -56,7 +56,8 @@ define([
         this.dashboard.events().addEventListener('nodeCreated', (event) => {
             this.onNodeCreated(
                 event.detail.type.replace(`${JOINT_DOMAIN_PREFIX}.`, ''),
-                event.detail.position
+                event.detail.position,
+                event.detail.supress
             );
         });
 

@@ -62,7 +62,7 @@ const defineElectricCircuitsDomain = function (joint) {
         },
 
         unsetTemporary: component => {
-            component.set(IS_TEMPORARY, true);
+            component.set(IS_TEMPORARY, false);
         },
 
         isTemporary: component => {
@@ -194,9 +194,9 @@ const defineElectricCircuitsDomain = function (joint) {
     const ThreePinComponent = Component.define('circuit.ThreePinComponent', {
         size: {width: 80, height: 80},
         attrs: {
-            '.pin1': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p1', portid: 'p1'},
-            '.pin2': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p2', portid: 'p2'},
-            '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p3', portid: 'p3'},
+            '.pin1': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p1', portid: 'p1', spiceIdx: 0,},
+            '.pin2': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p2', portid: 'p2', spiceIdx: 1,},
+            '.pin3': {ref: '.body', 'ref-x': 0.5, 'ref-y': 0.5, magnet: true, port: 'p3', portid: 'p3', spiceIdx: 2,},
             '.body': {width: 80, height: 80, align: 'center'},
             text: {
                 'ref-x': '50%',
@@ -464,7 +464,7 @@ const defineElectricCircuitsDomain = function (joint) {
 
     const Transistor = ThreePinComponent.define('circuit.Transistor', {
         attrs: {
-            '.pin1': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.125, magnet: true, port: 'C', portid: 'C'},
+            '.pin1': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.125, magnet: true, port: 'C', portid: 'C', },
             '.pin2': {ref: '.body', 'ref-x': 0.0625, 'ref-y': 0.5, magnet: true, port: 'B', portid: 'B'},
             '.pin3': {ref: '.body', 'ref-x': 0.625, 'ref-y': 0.875, magnet: true, port: 'E', portid: 'E'}
         }
