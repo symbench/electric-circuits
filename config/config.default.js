@@ -19,6 +19,7 @@ config.requirejsPaths.joint = './node_modules/jointjs/dist/';
 config.requirejsPaths.dagre = './node_modules/dagre/dist/dagre.min';
 config.requirejsPaths.graphlib = './node_modules/graphlib/dist/graphlib.min';
 config.requirejsPaths.elk = './node_modules/elkjs/lib/elk.bundled';
+config.requirejsPaths.jszip = './node_modules/jszip/dist/jszip.min';
 
 validateConfig(config);
 module.exports = config;

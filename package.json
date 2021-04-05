@@ -36,6 +36,7 @@
     "elkjs": "^0.7.1",
     "graphlib": "^2.1.8",
     "jointjs": "^3.3.0",
+    "jszip": "^3.6.0",
     "lodash-amd": "^4.17.15",
     "webgme-bindings": "github:webgme/bindings"
   },
