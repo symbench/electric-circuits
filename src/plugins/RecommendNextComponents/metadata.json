@@ -19,7 +19,9 @@
           "value": "example",
           "valueItems": [
               "example",
-              "graphconv"
+              "graphconv",
+              "link_pred",
+              "graphconv3"
           ],
           "valueType": "string",
           "readOnly": false
