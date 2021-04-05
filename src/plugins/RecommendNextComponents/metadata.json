@@ -19,7 +19,8 @@
           "value": "example",
           "valueItems": [
               "example",
-              "graphconv"
+              "graphconv",
+              "node_link_pred"
           ],
           "valueType": "string",
           "readOnly": false
