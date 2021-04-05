@@ -12,7 +12,6 @@ BASE_PLUGIN_PATH = Path(
     f"{script_dir}/../../../common/plugins/CircuitAnalysisBases.py"
 ).resolve()
 IMPORT_MODULE_NAME = "electric_circuits.plugin_bases"
-BASE_PLUGIN_NAME = "AnalyzeCircuit"
 
 
 def import_from_path(path, module_name):
@@ -23,7 +22,7 @@ def import_from_path(path, module_name):
 
 
 base_module = import_from_path(BASE_PLUGIN_PATH, IMPORT_MODULE_NAME)
-PluginBase = getattr(base_module, BASE_PLUGIN_NAME)
+AnalyzeCircuitPlugin = getattr(base_module, "AnalyzeCircuit")
 
 PYSPICE_TO_GME_TYPE = {
     "SubCircuitElement": "Circuit",
@@ -71,25 +70,52 @@ def sort_dict(d):
     return dict(sorted_keys)
 
 
-class RecommendNextComponents(PluginBase):
+class RecommendNextComponents(AnalyzeCircuitPlugin):
     """Runs a mock implementation for recommending components to be added to the Circuit"""
 
-    def run_analytics(self, circuit: Union[Circuit, SubCircuit]) -> None:
+    def run_analytics(
+        self, circuit: Union[Circuit, SubCircuit], pin_labels: dict
+    ) -> None:
         model_name = self.get_current_config().get("model")
         model = load_model(model_name)
         recommendations = model.analyze(circuit)
-        recommendations = sort_dict(
-            {
-                gme_type: conf
-                for pyspice_type, conf in recommendations.items()
-                if (gme_type := self._pyspice_to_gme_type(pyspice_type)) is not None
-            }
+        valid_recommendations = (
+            (nodes, prob)
+            for (nodes, prob) in recommendations
+            if all((self._has_gme_type(node["type"]) for node in nodes))
         )
+        recommendations = [
+            ([self._resolve_node(n, pin_labels) for n in nodes], p)
+            for (nodes, p) in valid_recommendations
+        ]
+        recommendations = sorted(recommendations, key=lambda k: -k[1])
         self.add_file("recommendations.json", json.dumps(recommendations, indent=2))
+
+    def _resolve_node(self, node: dict, pin_labels: dict) -> str:
+        inverse_pin_labels = {v: k for (k, v) in pin_labels.items()}
+        return {
+            "type": self._pyspice_to_gme_type(node["type"]),
+            "pins": [
+                self._resolve_pin(pin, inverse_pin_labels)
+                for pin in node.get("pins", [])
+            ],
+        }
+
+    def _resolve_pin(self, pin: str, inverse_pin_labels: dict) -> str:
+        """
+        Resolve pins to the existing GME node port. If the pin corresponds to a new node, return the pin ID to be resolved later
+        """
+        return inverse_pin_labels.get(pin, pin)
+
+    def _has_gme_type(self, pyspice_type: str) -> str:
+        return (
+            pyspice_type in PYSPICE_TO_GME_TYPE
+            and PYSPICE_TO_GME_TYPE[pyspice_type] is not None
+        )
 
     def _pyspice_to_gme_type(self, pyspice_type: dict) -> str:
         """Map a PySpice type to a metanode in the metamodel"""
-        if pyspice_type in PYSPICE_TO_GME_TYPE:
+        if self._has_gme_type(pyspice_type):
             if isinstance(recs := PYSPICE_TO_GME_TYPE[pyspice_type], list):
                 return recs[0]
             else:

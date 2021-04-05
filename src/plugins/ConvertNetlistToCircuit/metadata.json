@@ -13,8 +13,8 @@
   "writeAccessRequired": false,
   "configStructure": [{
     "name": "input_netlist",
-    "displayName": "Input Netlist File",
-    "description": "The input netlist to convert to circuit",
+    "displayName": "Input Netlist",
+    "description": "The input netlist or zipfile of netlists to convert to circuit(s).",
     "valueType": "asset",
     "readOnly": false
   }]

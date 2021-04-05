@@ -49,6 +49,10 @@ mean = np.load(local_file("mean.npy"))
 stddev = np.load(local_file("stddev.npy"))
 
 
+def component(index):
+    return {"type": datasets.helpers.component_index_name(index), "pins": []}
+
+
 def analyze(circuit):
     with TemporaryDirectory() as td:
         netlist_path = path.join(td, "circuit.net")
@@ -82,8 +86,7 @@ def analyze(circuit):
         batch.to(torch.device(cfg.device))
         pred, true = model(batch)
         distribution = torch.nn.functional.softmax(pred.squeeze()).tolist()
-        predictions = [
-            (datasets.helpers.component_index_name(i), prob)
-            for (i, prob) in enumerate(distribution)
-        ]
-        return dict(predictions[1:])  # remove the unknown category
+        predictions = [([component(i)], prob) for (i, prob) in enumerate(distribution)][
+            1:
+        ]  # remove the unknown category
+        return predictions

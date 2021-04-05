@@ -35,6 +35,7 @@ testFixture.CIRCUITS = {
 
 testFixture.TEST_CIRCUITS_FOLDER = '/0';
 testFixture.TEST_NETLISTS_PATH = testFixture.path.join(__dirname, 'plugins', 'netlists');
+testFixture.TEST_NETLISTS_ZIP = testFixture.path.join(__dirname, 'plugins', 'netlists.zip');
 
 testFixture.getChildrenOfType = async function (core, node, type) {
     return (await core.loadChildren(node)).filter(child => {
