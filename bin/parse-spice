@@ -470,7 +470,10 @@ class NGSpiceManualParser:
         meta_dict["attributes"].append(
             {
                 "name": name,
-                "default": UNICODE_MAP.get(df_row["Default"], df_row["Default"]),
+                "default": 0.0
+                if str(value := (UNICODE_MAP.get(df_row["Default"], df_row["Default"])))
+                in ("nan", "-")
+                else value,
                 "meta": {
                     "description": df_row["Parameter"].replace("\r", " "),
                     "units": None

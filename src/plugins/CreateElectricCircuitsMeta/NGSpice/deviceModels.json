@@ -2068,7 +2068,7 @@
         },
         {
           "name": "XTI",
-          "default": NaN,
+          "default": 0.0,
           "meta": {
             "description": "Body diode saturation current temperature exponent",
             "units": null,
@@ -2190,6 +2190,6 @@
   "info": {
     "source": "NGSpice 31 user manual",
     "url": "http://ngspice.sourceforge.net/docs/ngspice-31-manual.pdf",
-    "lastModified": "2021-04-05 17:36:37.692540"
+    "lastModified": "2021-04-05 17:47:29.872239"
   }
 }
