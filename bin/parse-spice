@@ -415,7 +415,7 @@ class NGSpiceManualParser:
         }
 
         for idx, row in merged.iterrows():
-            self._df_row_to_meta_dict(mos_model, row)
+            self._df_row_to_meta_dict(mos_model, row, int_rows=["LEVEL"])
 
         self.device_models["children"].append(mos_model)
 
@@ -453,9 +453,12 @@ class NGSpiceManualParser:
         }
 
     @staticmethod
-    def _df_row_to_meta_dict(meta_dict: dict, df_row: pd.Series) -> None:
+    def _df_row_to_meta_dict(meta_dict: dict, df_row: pd.Series, int_rows=None) -> None:
         if not meta_dict.get("attributes"):
             meta_dict["attributes"] = []
+
+        if int_rows is None:
+            int_rows = []
 
         names = df_row["Name"].split("(")
         name = names[0].strip()
@@ -463,7 +466,8 @@ class NGSpiceManualParser:
         if len(names) == 2:
             alt_name = names[1].replace(")", "").strip()
         try:
-            df_row["Default"] = float(df_row["Default"])
+            number_callable = int if df_row["Name"] in int_rows else float
+            df_row["Default"] = number_callable(df_row["Default"])
         except ValueError:
             pass
 

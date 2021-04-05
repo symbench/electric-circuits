@@ -1385,7 +1385,7 @@
       "attributes": [
         {
           "name": "LEVEL",
-          "default": 1.0,
+          "default": 1,
           "meta": {
             "description": "Model index",
             "units": null,
@@ -2190,6 +2190,6 @@
   "info": {
     "source": "NGSpice 31 user manual",
     "url": "http://ngspice.sourceforge.net/docs/ngspice-31-manual.pdf",
-    "lastModified": "2021-04-05 17:47:29.872239"
+    "lastModified": "2021-04-05 18:06:07.856558"
   }
 }
