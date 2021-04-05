@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Union
 
-import pandas
+import pandas as pd
 
 SPLIT_PLACE_HOLDER = "~"
 UNICODE_MAP = {
@@ -17,11 +17,19 @@ UNICODE_MAP = {
     "◦C": "Celsius",
     "1/◦C": "1/Celsius",
     "1/◦C2": "1/Celsius^2",
+    "A/V2": "A/V^2",
+    "F/m2": "F/m^2",
+    "cm−3": "cm^-3",
+    "cm−2": "cm^-2",
+    "cm2/V·sec": "cm^2/V*sec",
 }
 
 NGSPICE_URL = "http://ngspice.sourceforge.net/docs/ngspice-31-manual.pdf"
 DIODE_MODEL_PAGES = ["118", "119"]
 BJT_MODEL_PAGES = ["127", "128", "129", "130"]
+MOS_MODEL_1_2_3_6_PAGES_LEVEL = ["143", "144", "145"]
+POWER_MOS_PAGES = ["150", "151", "152"]
+
 DIODE_MODEL_MISSING_LINES = [
     {
         "Name": "AF",
@@ -62,6 +70,31 @@ BJT_MODEL_MISSING_LINES = [
         "Scale factor": "",
     },
 ]
+
+MOS_MODEL_MISSING_LINES_1_2_3_6 = [
+    {
+        "Name": "ETA",
+        "Parameter": "Static feedback (MOS3 only)",
+        "Units": "-",
+        "Default": 0.0,
+    },
+    {
+        "Name": "RSH",
+        "Parameter": "Drain and source diffusion sheet resistance",
+        "Units": "Ω/",
+        "Default": 0.0,
+    },
+]
+
+POWER_MOS_MISSING_LINES = [
+    {
+        "Name": "THETA",
+        "Parameter": "Vgs influence on mobility",
+        "Units": "1/V",
+        "Default": 0.0,
+    },
+]
+
 DEVICE_MODEL_TEMPLATE = Path(__file__).resolve().parent / "DeviceModelStarter.json"
 
 
@@ -291,11 +324,11 @@ class NGSpiceManualParser:
     def run(self) -> dict:
         self._parse_diode_model()
         self._parse_bjt_model()
+        self._parse_mos_model()
         self._add_source_info()
         return self.device_models
 
     def _parse_diode_model(self) -> None:
-        import pandas as pd
         import tabula
 
         dfs = tabula.read_pdf(self.ngspice_url, pages=DIODE_MODEL_PAGES, lattice=True)
@@ -317,7 +350,6 @@ class NGSpiceManualParser:
         self.device_models["children"].append(diode_model)
 
     def _parse_bjt_model(self):
-        import pandas as pd
         import tabula
 
         dfs = tabula.read_pdf(
@@ -327,12 +359,13 @@ class NGSpiceManualParser:
             lattice=True,
         )
 
-        for idx, data_frame in enumerate(dfs):
-            data_frame.drop(columns=["Example"], errors="ignore", inplace=True)
-
         merged = pd.concat(dfs, ignore_index=True)
-        merged = merged.append(BJT_MODEL_MISSING_LINES)
-        merged.to_csv("BJTModel.csv")
+        merged.columns = merged.iloc[0]
+        merged = merged[1:]
+        merged.drop(columns=["Example"], errors="ignore", inplace=True)
+
+        merged.rename(columns={"Parameters": "Parameter"}, inplace=True)
+        merged = merged.append(BJT_MODEL_MISSING_LINES, ignore_index=True)
 
         bjt_model = {
             "name": "NGSpiceBJTModel",
@@ -343,6 +376,74 @@ class NGSpiceManualParser:
         for idx, row in merged.iterrows():
             self._df_row_to_meta_dict(bjt_model, row)
 
+        self.device_models["children"].append(bjt_model)
+
+    def _parse_mos_model(self) -> None:
+        # Level 1, 2, 3, 6
+        self._parse_mos_level_1_2_3_6()
+        # power MOSModel
+        self._parse_power_mos_model()
+
+    def _parse_mos_level_1_2_3_6(self) -> None:
+        import tabula
+
+        dfs = tabula.read_pdf(
+            self.ngspice_url, pages=MOS_MODEL_1_2_3_6_PAGES_LEVEL, lattice=True
+        )
+
+        for idx, data_frame in enumerate(dfs):
+            data_frame.drop(columns=["Example"], errors="ignore", inplace=True)
+
+        merged = pd.concat(dfs, ignore_index=True)
+        merged = merged.append(MOS_MODEL_MISSING_LINES_1_2_3_6)
+
+        for idx, row in merged.iterrows():
+            if row["Name"] == "GAMMA":
+                row["Units"] = "V^0.5"
+            if row["Name"] == "MJSW":
+                row["Default"] = 0.50
+            if row["Name"] == "JS":
+                row["Default"] = 0.0
+                row["Units"] = "A"
+
+        mos_model = {
+            "name": "NGSPICEMOSModelLVL1236",
+            "attributes": [],
+            "parent": "MOSModel",
+            "levels": [1, 2, 3, 6],
+            "source": f"{self.ngspice_url}, pages[{','.join(MOS_MODEL_1_2_3_6_PAGES_LEVEL)}]",
+        }
+
+        for idx, row in merged.iterrows():
+            self._df_row_to_meta_dict(mos_model, row)
+
+        self.device_models["children"].append(mos_model)
+
+    def _parse_power_mos_model(self):
+        import tabula
+
+        dfs = tabula.read_pdf(self.ngspice_url, pages=POWER_MOS_PAGES, lattice=True)
+
+        for idx, data_frame in enumerate(dfs):
+            data_frame.drop(columns=["Example"], errors="ignore", inplace=True)
+
+        merged = pd.concat(dfs, ignore_index=True)
+        merged.dropna(axis=0, how="all", inplace=True)
+        merged = merged.append(POWER_MOS_MISSING_LINES)
+
+        mos_model = {
+            "name": "VDMOS",
+            "attributes": [],
+            "parent": "MOSModel",
+            "levels": [1, 2, 3, 6],
+            "source": f"{self.ngspice_url}, pages[{','.join(POWER_MOS_PAGES)}]",
+        }
+
+        for idx, row in merged.iterrows():
+            self._df_row_to_meta_dict(mos_model, row)
+
+        self.device_models["children"].append(mos_model)
+
     def _add_source_info(self) -> None:
         """Add source information for DeviceModel dictionary"""
         self.device_models["info"] = {
@@ -352,11 +453,9 @@ class NGSpiceManualParser:
         }
 
     @staticmethod
-    def _df_row_to_meta_dict(meta_dict: dict, df_row: pandas.Series) -> None:
+    def _df_row_to_meta_dict(meta_dict: dict, df_row: pd.Series) -> None:
         if not meta_dict.get("attributes"):
             meta_dict["attributes"] = []
-
-        print(df_row)
 
         names = df_row["Name"].split("(")
         name = names[0].strip()
@@ -373,11 +472,14 @@ class NGSpiceManualParser:
                 "name": name,
                 "default": UNICODE_MAP.get(df_row["Default"], df_row["Default"]),
                 "meta": {
-                    "description": df_row["Parameter"],
-                    "units": UNICODE_MAP.get(df_row["Units"], df_row["Units"]),
+                    "description": df_row["Parameter"].replace("\r", " "),
+                    "units": None
+                    if str(unit := UNICODE_MAP.get(df_row["Units"], df_row["Units"]))
+                    in ("nan", "-")
+                    else unit,
                     "alternateName": alt_name,
                     "scaleFactor": None
-                    if (sf := str(df_row["Scale factor"])) == "nan"
+                    if (sf := str(df_row.get("Scale factor", "nan"))) == "nan"
                     else sf,
                 },
             }
