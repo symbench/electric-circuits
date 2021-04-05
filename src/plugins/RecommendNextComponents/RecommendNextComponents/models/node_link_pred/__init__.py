@@ -143,9 +143,10 @@ def analyze_file(filename, circuit):
 
 
 if __name__ == "__main__":
+    import json
     import sys
 
     filename = sys.argv[1]
     contents = next(h.valid_netlist_sources([filename]))
     parser = SpiceParser(source=contents)
-    analyze_file(filename, parser.build_circuit())
+    print(json.dumps(analyze_file(filename, parser.build_circuit())))
