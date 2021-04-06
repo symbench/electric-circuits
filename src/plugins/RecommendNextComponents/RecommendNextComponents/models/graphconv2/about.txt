@@ -1,1 +1,0 @@
-This model was trained on the kicad_github dataset (omitting a single componnent) and achieved 100% accuracy on the hold out set and training set. It appears that the previous models were missing the "node_feature" attribute on nodes.

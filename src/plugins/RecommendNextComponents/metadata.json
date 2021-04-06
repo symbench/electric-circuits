@@ -20,7 +20,6 @@
           "valueItems": [
               "example",
               "graphconv",
-              "graphconv2",
               "node_link_pred"
           ],
           "valueType": "string",
