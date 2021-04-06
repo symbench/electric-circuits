@@ -45,6 +45,11 @@ define([
             this._widget.getRecommendationPluginMetadata = this.getRecommendationPluginMetadata;
             this._widget.onNodeCreated = this.onNodeCreated.bind(this);
             this._widget.getValidComponents = this.getValidPartBrowserNodes.bind(this);
+            this._widget.changeActiveObject = this.changeActiveObject.bind(this);
+            this._widget.canBeActiveObject = this.canBeActiveObject.bind(this);
+            this._widget.showParent = this.showParent.bind(this);
+            this._widget.isNestedDisplay = this.isNestedDisplay.bind(this);
+            this._widget.getParentName = this.getParentName.bind(this);
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
