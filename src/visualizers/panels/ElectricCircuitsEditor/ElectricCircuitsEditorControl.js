@@ -93,39 +93,6 @@ define([
             this._client.completeTransaction(`Created node of type ${nodeType}`);
         }
 
-        changeActiveObject(nodeId) {
-            if(this.isCircuit(nodeId)){
-                this.selectedObjectChanged(nodeId);
-            }
-        }
-
-        canBeActiveObject(nodeId) {
-            return this.isCircuit(nodeId);
-        }
-
-        showParent() {
-            const node = this._client.getNode(this._currentNodeId);
-            if(this.isCircuit(node.getParentId())) {
-                this.selectedObjectChanged(node.getParentId());
-            }
-        }
-
-        isNestedDisplay () {
-            const node = this._client.getNode(this._currentNodeId);
-            if(this.isCircuit(node.getParentId())) {
-                return true;
-            }
-            return false;
-        }
-
-        getParentName() {
-            const node = this._client.getNode(this._currentNodeId);
-            const nodeParent = this._client.getNode(node.getParentId());
-            if(nodeParent){
-                return nodeParent.getAttribute('name');
-            }
-        }
-
         selectedObjectChanged(nodeId) {
             let self = this;
 
