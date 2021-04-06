@@ -349,7 +349,7 @@ class NGSpiceManualParser:
 
         self.device_models["children"].append(diode_model)
 
-    def _parse_bjt_model(self):
+    def _parse_bjt_model(self) -> None:
         import tabula
 
         dfs = tabula.read_pdf(
@@ -380,11 +380,14 @@ class NGSpiceManualParser:
 
     def _parse_mos_model(self) -> None:
         # Level 1, 2, 3, 6
-        self._parse_mos_level_1_2_3_6()
-        # power MOSModel
-        self._parse_power_mos_model()
+        lvl_1_2_3_6_mos_model = self._parse_mos_level_1_2_3_6()
+        self.device_models["children"].append(lvl_1_2_3_6_mos_model)
 
-    def _parse_mos_level_1_2_3_6(self) -> None:
+        # power MOSModel
+        vdmos_model = self._parse_power_mos_model()
+        self.device_models["children"].append(vdmos_model)
+
+    def _parse_mos_level_1_2_3_6(self) -> dict:
         import tabula
 
         dfs = tabula.read_pdf(
@@ -417,9 +420,9 @@ class NGSpiceManualParser:
         for idx, row in merged.iterrows():
             self._df_row_to_meta_dict(mos_model, row, int_rows=["LEVEL"])
 
-        self.device_models["children"].append(mos_model)
+        return mos_model
 
-    def _parse_power_mos_model(self):
+    def _parse_power_mos_model(self) -> dict:
         import tabula
 
         dfs = tabula.read_pdf(self.ngspice_url, pages=POWER_MOS_PAGES, lattice=True)
@@ -442,7 +445,7 @@ class NGSpiceManualParser:
         for idx, row in merged.iterrows():
             self._df_row_to_meta_dict(mos_model, row)
 
-        self.device_models["children"].append(mos_model)
+        return mos_model
 
     def _add_source_info(self) -> None:
         """Add source information for DeviceModel dictionary"""
