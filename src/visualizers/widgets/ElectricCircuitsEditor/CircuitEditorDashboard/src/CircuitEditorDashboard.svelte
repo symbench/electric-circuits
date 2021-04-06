@@ -20,14 +20,17 @@
     let zoomValues, currentZoomLevel;
     let dashboardTitle;
     let flyDragged;
+    let activeObjectChangeFn,
+        goToParentFn,
+        isNested,
+        parentName;
     let showRecommendationConfig,
         recommendationPluginMetadata,
         recommendationPluginRunning,
         recommendationPluginSuccess,
         recommendedComponentsDivider;
 
-
-    export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK) {
+    export function initialize(jointInstance, dagreInstance, graphlibInstance, ELK, opts={}) {
         joint = jointInstance;
         dagre = dagreInstance;
         graphlib = graphlibInstance;
@@ -42,7 +45,13 @@
         recommendationPluginRunning = false;
         showRecommendationConfig = false;
         recommendationPluginSuccess = false;
+        isNested = false;
+        parentName = '';
         defineElectricCircuitsDomain(joint);
+        if (opts.activeObjectChangeFn && opts.goToParentFn) {
+            activeObjectChangeFn = opts.activeObjectChangeFn;
+            goToParentFn = opts.goToParentFn;
+        }
     }
 
     export function render(opts) {
@@ -76,6 +85,14 @@
 
     export function getZoomLevels() {
         return zoomValues;
+    }
+
+    export function setNested(val) {
+        isNested = val;
+    }
+
+    export function setParentName(val) {
+        parentName = val;
     }
 
     export function zoom(zoomLevel) {
@@ -190,6 +207,9 @@
         });
 
         circuitPaper.on('blank:pointerdown', hideRecommendationPluginConfig);
+        circuitPaper.on('element:pointerdown', (elementView) => {
+            activeObjectChangeFn(elementView.model.id);
+        });
     }
 
     function renderComponents(components) {
@@ -412,6 +432,11 @@
                             </a>
                         </li>
                     </ul>
+                </div>
+                <div class="navbar-right">
+                    {#if isNested}
+                        <button on:click|stopPropagation|preventDefault={goToParentFn ? goToParentFn : () => {}} class="btn btn-primary navbar-btn"> {parentName} <i class="fa fa-arrow-circle-up"></i></button>
+                    {/if}
                 </div>
             </div>
         </div>

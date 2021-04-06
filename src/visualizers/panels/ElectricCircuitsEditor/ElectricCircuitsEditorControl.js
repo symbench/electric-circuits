@@ -45,6 +45,11 @@ define([
             this._widget.getRecommendationPluginMetadata = this.getRecommendationPluginMetadata;
             this._widget.onNodeCreated = this.onNodeCreated.bind(this);
             this._widget.getValidComponents = this.getValidPartBrowserNodes.bind(this);
+            this._widget.changeActiveObject = this.changeActiveObject.bind(this);
+            this._widget.canBeActiveObject = this.canBeActiveObject.bind(this);
+            this._widget.showParent = this.showParent.bind(this);
+            this._widget.isNestedDisplay = this.isNestedDisplay.bind(this);
+            this._widget.getParentName = this.getParentName.bind(this);
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
@@ -86,6 +91,39 @@ define([
                 this._client.setRegistry(nodeId, 'position', position, `Set position to ${position}`);
             }
             this._client.completeTransaction(`Created node of type ${nodeType}`);
+        }
+
+        changeActiveObject(nodeId) {
+            if(this.isCircuit(nodeId)){
+                this.selectedObjectChanged(nodeId);
+            }
+        }
+
+        canBeActiveObject(nodeId) {
+            return this.isCircuit(nodeId);
+        }
+
+        showParent() {
+            const node = this._client.getNode(this._currentNodeId);
+            if(this.isCircuit(node.getParentId())) {
+                this.selectedObjectChanged(node.getParentId());
+            }
+        }
+
+        isNestedDisplay () {
+            const node = this._client.getNode(this._currentNodeId);
+            if(this.isCircuit(node.getParentId())) {
+                return true;
+            }
+            return false;
+        }
+
+        getParentName() {
+            const node = this._client.getNode(this._currentNodeId);
+            const nodeParent = this._client.getNode(node.getParentId());
+            if(nodeParent){
+                return nodeParent.getAttribute('name');
+            }
         }
 
         selectedObjectChanged(nodeId) {

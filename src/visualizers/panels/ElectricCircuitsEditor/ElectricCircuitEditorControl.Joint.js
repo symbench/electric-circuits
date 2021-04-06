@@ -248,7 +248,7 @@ define([], function () {
             const node = this.client.getNode(nodeId);
 
             if (node) {
-                return this.isCircuit(node.getId()) && this.isCircuit(node.getParentId());
+                return this.isCircuit(node.getId()) && nodeId !== this._currentNodeId;
             }
         }
 

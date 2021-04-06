@@ -38,7 +38,21 @@ define([
         const jointContainer = $('<div/>');
 
         this.dashboard = new CircuitEditorDashboard({target: jointContainer[0]});
-        this.dashboard.initialize(joint, dagre, graphlib, ELK);
+        this.dashboard.initialize(joint, dagre, graphlib, ELK, {
+            activeObjectChangeFn: (id) => {
+                if(this.canBeActiveObject(id)) {
+                    this.dashboard.clearGraph();
+                    this.changeActiveObject(id);
+                    this.dashboard.setNested(this.isNestedDisplay());
+                    this.dashboard.setParentName(this.getParentName());
+                }
+            },
+            goToParentFn: () => {
+                this.dashboard.clearGraph();
+                this.showParent();
+                this.dashboard.setNested(this.isNestedDisplay());
+            }
+        });
 
         this.dashboard.events().addEventListener(
             'recommendationRequested',
