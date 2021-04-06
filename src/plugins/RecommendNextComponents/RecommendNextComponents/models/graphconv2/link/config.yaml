@@ -19,7 +19,7 @@ dataset:
   edge_negative_sampling_ratio: 1.0
   edge_train_mode: all
   encoder_dim: 128
-  format: NetlistOmitted
+  format: NetlistLinks
   name: kicad_github/
   node_encoder: false
   node_encoder_bn: true
@@ -29,9 +29,9 @@ dataset:
   split:
   - 0.8
   - 0.2
-  task: graph
+  task: link_pred
   task_type: classification
-  transductive: false
+  transductive: true
   transform: none
   tu_simple: true
 device: cuda
@@ -53,7 +53,7 @@ gnn:
   layer_type: generalconv
   layers_mp: 2
   layers_post_mp: 1
-  layers_pre_mp: 2
+  layers_pre_mp: 1
   msg_direction: single
   normalize_adj: false
   skip_every: 1
@@ -72,9 +72,9 @@ model:
 num_threads: 6
 num_workers: 0
 optim:
-  base_lr: 0.01
+  base_lr: 0.05
   lr_decay: 0.1
-  max_epoch: 100
+  max_epoch: 1500
   momentum: 0.9
   optimizer: adam
   scheduler: cos
@@ -83,7 +83,7 @@ optim:
   - 60
   - 90
   weight_decay: 0.0005
-out_dir: omitted_results/omitted_classification/1
+out_dir: results_basic_links/omitted_link/1
 print: both
 round: 4
 seed: 1
@@ -91,8 +91,8 @@ tensorboard_agg: true
 tensorboard_each_run: false
 train:
   auto_resume: false
-  batch_size: 4
-  ckpt_clean: true
+  batch_size: 1
+  ckpt_clean: false
   ckpt_period: 100
   epoch_resume: -1
   eval_period: 20
