@@ -57,11 +57,20 @@ define([
             },
             toolViewAddFn: (id) => {
                 const type = this.dashboard.getElementTypeById(id);
-                this.onNodeCreated({
+                const nodeId = this.onNodeCreated({
                     type: type.replace(JOINT_DOMAIN_PREFIX, '')
                 });
-                this.dashboard.getConnectedTargets(id);
-                this.dashboard.layout();
+                const wiresByPortNames = this.dashboard.getConnectedTargets(id);
+                const wiresByPortIds = {};
+
+                setTimeout(() => {
+                    Object.keys(wiresByPortNames).forEach(pinName => {
+                        const portId = this.dashboard.getPortIdByName(nodeId, pinName);
+                        wiresByPortIds[portId] = wiresByPortNames[pinName];
+                    });
+                    this.addWires(nodeId, wiresByPortIds);
+                }, 100);
+                this.dashboard.removeTemporaryElements();
             },
             undoPluginResultsFn: () => {
                 this.dashboard.removeTemporaryElements();

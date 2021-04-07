@@ -76,6 +76,32 @@ const defineElectricCircuitsDomain = function (joint) {
                 return component.get('attrs')[pinAtIndex].port;
             }
         },
+        getPortNameById: (component, portId) => {
+            const componentAttrs = component.get('attrs');
+            const pins = Object.keys(componentAttrs).filter(key => key.startsWith('.pin'));
+
+            const portInfo = pins.find(pin => {
+                const port = component.get('attrs')[pin].port;
+                return port === portId;
+            });
+
+            if (portInfo) {
+                return component.get('attrs')[portInfo].portid;
+            }
+        },
+        getPortIdByName: (component, portName) => {
+            const componentAttrs = component.get('attrs');
+            const pins = Object.keys(componentAttrs).filter(key => key.startsWith('.pin'));
+
+            const portInfo = pins.find(pin => {
+                const port = component.get('attrs')[pin].portid;
+                return port === portName;
+            });
+
+            if (portInfo) {
+                return component.get('attrs')[portInfo].port;
+            }
+        }
     });
 
     const Pin = Component.define('circuit.Pin', {

@@ -198,16 +198,33 @@
     }
 
     export function getConnectedTargets(id) {
+        const Component = joint.shapes.circuit.Component;
         const cell = circuitGraph.getCell(id);
         if(cell){
             const links = circuitGraph.getConnectedLinks(cell);
-            const targets = [];
+            const wires = {};
             links.forEach(link => {
-                targets.push(link.target());
+                let pinName;
+                if(link.source().id === cell.id) {
+                    const sourceCell = circuitGraph.getCell(link.source().id);
+                    pinName = Component.getPortNameById(sourceCell, link.source().port);
+                    wires[pinName] = link.target();
+                } else {
+                    const targetCell = circuitGraph.getCell(link.target().id);
+                    pinName = Component.getPortNameById(targetCell, link.target().port);
+                    wires[pinName] = link.source();
+                }
             });
+            return wires;
         }
+    }
 
-        return
+    export function getPortIdByName(id, portName) {
+        const Component = joint.shapes.circuit.Component;
+        const cell = circuitGraph.getCell(id);
+        if (cell) {
+            return Component.getPortIdByName(cell, portName);
+        }
     }
 
     export function getElementByPort(portId) {
@@ -511,7 +528,7 @@
         if (undoPluginResultsFn) {
             undoPluginResultsFn();
         }
-        layout();
+        layout(false);
     }
 
     function addControls(element, paper) {

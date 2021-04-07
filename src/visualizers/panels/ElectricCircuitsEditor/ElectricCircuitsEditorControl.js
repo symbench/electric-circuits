@@ -50,6 +50,7 @@ define([
             this._widget.showParent = this.showParent.bind(this);
             this._widget.isNestedDisplay = this.isNestedDisplay.bind(this);
             this._widget.getParentName = this.getParentName.bind(this);
+            this._widget.addWires = this.addWires.bind(this);
             this._widget.onRecommendedNodeAdded = this.createNodes.bind(this);
         }
 
@@ -82,12 +83,13 @@ define([
         }
 
         createNodes(nodeOrNodes) {
-            const nodeIds = [];
+            let nodesArr = nodeOrNodes;
+            let createNodeIds = [];
             if (!Array.isArray(nodeOrNodes)){
-                nodeOrNodes = [nodeOrNodes];
+                nodesArr = [nodeOrNodes];
             }
             this._client.startTransaction('About to create multiple nodes; ');
-            nodeOrNodes.forEach(node => {
+            nodesArr.forEach(node => {
                 const nodeId = this._client.createNode({
                     baseId: this.META_NAMES[node.type],
                     parentId: this._currentNodeId
@@ -97,11 +99,26 @@ define([
                     }
                 }, ` created node of type ${node.type}`);
 
-                nodeIds.push(nodeId);
+                createNodeIds.push(nodeId);
             });
             this._client.completeTransaction('Completed nodes creation');
 
-            return Array.isArray(nodeOrNodes) ? nodeIds : nodeIds.pop();
+            return Array.isArray(nodeOrNodes) ? createNodeIds : createNodeIds.pop();
+        }
+
+        addWires(nodeId, wires) {
+            const wireIds = [];
+            this._client.startTransaction('About to create wires; ');
+            Object.keys(wires).forEach(pin => {
+                const wireId = this._client.createNode({
+                    baseId: this.META_NAMES['Wire'],
+                    parentId: this._currentNodeId,
+                }, {}, `Created wire in the current circuit with id ${this._currentNodeId}`);
+                wireIds.push(wireId);
+                this._client.setPointer(wireId, 'src', pin);
+                this._client.setPointer(wireId, 'dst',  wires[pin].port || wires[pin].id);
+            });
+            this._client.completeTransaction(`Finished creating wires with ids ${wireIds}`);
         }
 
         selectedObjectChanged(nodeId) {
