@@ -475,11 +475,11 @@ class CircuitToPySpiceBase(PluginBase):
 
     def _resolve_spice_node_label_for(self, pin_id):
         """Return the SPICE node label for a particular pin"""
-        if pin_id in self.pin_labels:
-            return self.pin_labels[pin_id]
-        else:
+        if pin_id not in self.pin_labels:
             self.nodes_count += 1
-            return f"N000{self.nodes_count}"
+            self.pin_labels[pin_id] = f"N000{self.nodes_count}"
+
+        return self.pin_labels[pin_id]
 
     def _get_meta_name(self, node: dict) -> str:
         """From a GME Node, get its META name"""
