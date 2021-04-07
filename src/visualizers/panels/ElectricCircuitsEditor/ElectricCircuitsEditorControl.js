@@ -35,7 +35,6 @@ define([
             this._currentNodeId = null;
 
             this._initWidgetEventHandlers();
-            this._temporaryNodes = [];
 
             this._logger.debug('ctor finished');
         }
@@ -45,15 +44,13 @@ define([
             this._widget.runRecommendationPlugin = this.runRecommendationPlugin.bind(this);
             this._widget.getRecommendationPluginMetadata = this.getRecommendationPluginMetadata;
             this._widget.onNodeCreated = this.createNodes.bind(this);
-            this._widget.onNodeDeleted = this.deleteNodes.bind(this);
             this._widget.getValidComponents = this.getValidPartBrowserNodes.bind(this);
             this._widget.changeActiveObject = this.changeActiveObject.bind(this);
             this._widget.canBeActiveObject = this.canBeActiveObject.bind(this);
             this._widget.showParent = this.showParent.bind(this);
             this._widget.isNestedDisplay = this.isNestedDisplay.bind(this);
             this._widget.getParentName = this.getParentName.bind(this);
-            this._widget.onRecommendedNodeAdded = this.unsetTemporary.bind(this);
-            this._widget.undoPluginResults = this.removeTemporaryNodes.bind(this);
+            this._widget.onRecommendedNodeAdded = this.createNodes.bind(this);
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
@@ -100,31 +97,11 @@ define([
                     }
                 }, ` created node of type ${node.type}`);
 
-                if (node.isTemporary) {
-                    this._temporaryNodes[nodeId] = {
-                        opacity: node.opacity || 1.0
-                    };
-                }
                 nodeIds.push(nodeId);
             });
             this._client.completeTransaction('Completed nodes creation');
 
             return Array.isArray(nodeOrNodes) ? nodeIds : nodeIds.pop();
-        }
-
-        deleteNodes (idOrIds) {
-            if(!Array.isArray(idOrIds)) {
-                idOrIds = [idOrIds];
-            }
-            this._client.deleteNodes(idOrIds, `Deleted Nodes with ids ${idOrIds}`);
-        }
-
-        unsetTemporary(id) {
-            if(Object.keys(this._temporaryNodes).includes(id)) {
-                delete this._temporaryNodes[id];
-                const desc = this._getObjectDescriptor(id);
-                this._widget.updateNode(desc);
-            }
         }
 
         selectedObjectChanged(nodeId) {
@@ -233,7 +210,6 @@ define([
 
         /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
         destroy() {
-            this.removeTemporaryNodes();
             this._detachClientEventListeners();
             if (this._territoryId) {
                 this._client.removeUI(this._territoryId);
@@ -259,11 +235,6 @@ define([
 
         onDeactivate() {
             this._detachClientEventListeners();
-        }
-
-        removeTemporaryNodes () {
-            this.deleteNodes(Object.keys(this._temporaryNodes));
-            this._temporaryNodes = {};
         }
     }
 

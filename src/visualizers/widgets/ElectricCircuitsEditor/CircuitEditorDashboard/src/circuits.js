@@ -61,7 +61,21 @@ const defineElectricCircuitsDomain = function (joint) {
                 'circle': opacity,
                 'text': opacity
             });
-        }
+        },
+        getUniqueSpicePortIdAt: (component, index) => {
+            const componentAttrs = component.get('attrs');
+            const pins = Object.keys(componentAttrs).filter(key => key.startsWith('.pin'));
+
+            const pinAtIndex = pins.find(pin => {
+                const spiceIndex = component.get('attrs')[pin].spiceIdx;
+                return spiceIndex === index;
+            });
+
+            if (pinAtIndex) {
+                component.get('attrs')[pinAtIndex].port = joint.util.uuid();
+                return component.get('attrs')[pinAtIndex].port;
+            }
+        },
     });
 
     const Pin = Component.define('circuit.Pin', {
@@ -1064,6 +1078,17 @@ const defineElectricCircuitsDomain = function (joint) {
             edges: [],
         };
 
+        const links = graph.getLinks();
+        links.forEach(link => {
+            elkJSON.edges.push({
+                id: link.id,
+                source: link.source().id,
+                target: link.target().id,
+                sourcePort: link.source().port || '',
+                targetPort: link.target().port || ''
+            });
+        });
+
         const elements = graph.getElements();
         elements.forEach(element => {
             const elementType = joint.shapes.circuit[element.get('type').replace('circuit.', '')];
@@ -1072,17 +1097,6 @@ const defineElectricCircuitsDomain = function (joint) {
             } else {
                 element.remove();
             }
-        });
-
-        const links = graph.getLinks();
-        links.forEach(link => {
-            elkJSON.edges.push({
-                id: link.id,
-                source: link.source().id,
-                target: link.target().id,
-                sourcePort: link.source().port,
-                targetPort: link.target().port
-            });
         });
 
         elk.layout(elkJSON).then(elkJSONWithCoordinates => {

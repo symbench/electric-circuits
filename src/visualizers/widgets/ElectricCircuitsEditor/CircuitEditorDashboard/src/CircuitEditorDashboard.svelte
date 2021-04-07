@@ -161,7 +161,9 @@
     }
 
     export function addCell(cellJSON) {
+        circuitPaper.freeze();
         const Component = joint.shapes.circuit.Component;
+        let cellId;
         if (cellJSON.type === 'Wire') {
             wires[cellJSON.id] = cellJSON;
         } else {
@@ -173,7 +175,8 @@
                 Component.setOpacity(cell, cellJSON.opacity || 1.0);
                 addControls(cell, circuitPaper);
             }
-            addedCellIds.push(cellJSON.id);
+            addedCellIds.push(cellJSON.id || cell.id);
+            cellId = cell.id;
         }
 
         Object.keys(wires).forEach(wireId => {
@@ -183,6 +186,50 @@
                 circuitGraph.addCell(wire);
             }
         });
+        circuitPaper.unfreeze();
+        return cellId;
+    }
+
+    export function getPortIdBySpiceIndex(id, index) {
+        const cell = circuitGraph.getCell(id);
+        if (cell) {
+            return joint.shapes.circuit.Component.getUniqueSpicePortIdAt(cell, index);
+        }
+    }
+
+    export function getConnectedTargets(id) {
+        const cell = circuitGraph.getCell(id);
+        if(cell){
+            const links = circuitGraph.getConnectedLinks(cell);
+            const targets = [];
+            links.forEach(link => {
+                targets.push(link.target());
+            });
+        }
+
+        return
+    }
+
+    export function getElementByPort(portId) {
+        const element = circuitGraph.getElements().find(el => {
+            if(getElementType(el) === 'Circuit'){
+                return el.getPorts().map(port => port.id).includes(portId);
+            } else if (getElementType(el) === 'Pin'){
+                return portId === el.id;
+            } else{
+                if(el.ports[portId]){
+                    return true;
+                }
+            }
+         });
+        return element ? element.id : null;
+    }
+
+    export function getElementTypeById(id) {
+        const cell = circuitGraph.getCell(id);
+        if(cell) {
+            return cell.get('type');
+        }
     }
 
     export function layout(animate = true) {
@@ -210,6 +257,16 @@
         alert(error.message);
         recommendationPluginSuccess = false;
         recommendationPluginRunning = false;
+    }
+
+    export function removeTemporaryElements () {
+        if(circuitGraph && circuitPaper) {
+            circuitGraph.getElements().forEach(el => {
+                if(joint.shapes.circuit.Component.isTemporary(el)) {
+                    el.remove();
+                }
+            });
+        }
     }
 
     function getExistingComponentsByName() {
@@ -455,17 +512,6 @@
             undoPluginResultsFn();
         }
         layout();
-    }
-
-    function getElementByPort(graph, portId) {
-        const element = graph.getElements().find(el => {
-            if(getElementType(el) === 'Circuit'){
-                return el.getPorts().map(port => port.id).includes(portId);
-            } else {
-                return !!el.ports[portId];
-            }
-        });
-        return element ? element.id : null;
     }
 
     function addControls(element, paper) {

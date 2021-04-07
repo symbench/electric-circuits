@@ -56,10 +56,15 @@ define([
                 this.onNodeDeleted(id);
             },
             toolViewAddFn: (id) => {
-                this.onRecommendedNodeAdded(id);
+                const type = this.dashboard.getElementTypeById(id);
+                this.onNodeCreated({
+                    type: type.replace(JOINT_DOMAIN_PREFIX, '')
+                });
+                this.dashboard.getConnectedTargets(id);
+                this.dashboard.layout();
             },
             undoPluginResultsFn: () => {
-                this.undoPluginResults();
+                this.dashboard.removeTemporaryElements();
             }
         });
 
@@ -138,11 +143,9 @@ define([
     };
 
     ElectricCircuitsEditorWidget.prototype.requestTemporaryNodesCreation = function (recommendations, topN=3) {
-        // Request creation of temporary nodes to WebGME
         const componentNodes = [];
         // const wires = [];
         const components = recommendations.flatMap(arr => arr[0]).slice(0, topN);
-
         // First Create Nodes
         components.forEach((component, index, records) => {
             // We are restricting the node creation only
@@ -152,14 +155,42 @@ define([
             }
             componentNodes.push({
                 type: component.type,
+                domainPrefix: JOINT_DOMAIN_PREFIX,
                 isTemporary: true,
-                opacity: 0.7 * (records.length - index) / records.length
+                opacity: 0.7 * (records.length - index) / records.length,
+                pins: component.pins,
             });
         });
 
         if(componentNodes.length) {
-            this.onNodeCreated(componentNodes);
+            componentNodes.forEach(comp => {
+                const cellId = this.dashboard.addCell(comp);
+                comp.pins.forEach((pin, index) => {
+                    const target = {
+                        id: this.dashboard.getElementByPort(pin),
+                        port: pin
+                    };
+                    const source = {
+                        id: cellId,
+                        port: this.dashboard.getPortIdBySpiceIndex(cellId, index),
+                    };
+
+                    const wire = {
+                        domainPrefix: JOINT_DOMAIN_PREFIX,
+                        type: 'ELKWire',
+                        source: source,
+                        target: target
+                    };
+                    this.dashboard.addCell(wire);
+                });
+            });
         }
+
+        this.dashboard.layout();
+    };
+
+    ElectricCircuitsEditorWidget.prototype.onNodeDeleted = function (id) {
+        this.dashboard.removeCell(id);
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
