@@ -62,6 +62,10 @@ define([], function () {
             if (this[type]) {
                 this[type](node, jointJSON);
                 this.addGMEAttrs(node, jointJSON);
+                if(Object.keys(this._temporaryNodes).includes(nodeId)) {
+                    jointJSON.opacity = this._temporaryNodes[nodeId].opacity;
+                    jointJSON.isTemporary = true;
+                }
                 return jointJSON;
             } else {
                 return null;

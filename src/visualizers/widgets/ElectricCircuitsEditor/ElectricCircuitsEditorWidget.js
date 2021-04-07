@@ -51,6 +51,15 @@ define([
                 this.dashboard.clearGraph();
                 this.showParent();
                 this.dashboard.setNested(this.isNestedDisplay());
+            },
+            toolViewRemoveFn: (id) => {
+                this.onNodeDeleted(id);
+            },
+            toolViewAddFn: (id) => {
+                this.onRecommendedNodeAdded(id);
+            },
+            undoPluginResultsFn: () => {
+                this.undoPluginResults();
             }
         });
 
@@ -59,8 +68,10 @@ define([
             async (event) => {
                 try {
                     const recommendations = await this.runRecommendationPlugin(event.detail.pluginMetadata);
-                    const recommendedCells = this.getRecommendedCells(recommendations);
-                    this.dashboard.showRecommendationSuccess(recommendedCells);
+                    const recommendedCells = this.getPartBrowserRecommendations(recommendations);
+                    // These nodes never are created by the WebGME
+                    this.dashboard.showPartBrowserRecommendation(recommendedCells, 3);
+                    this.requestTemporaryNodesCreation(recommendations);
                 } catch (e) {
                     this.dashboard.showRecommendationFail(e);
                 }
@@ -68,11 +79,11 @@ define([
         );
 
         this.dashboard.events().addEventListener('nodeCreated', (event) => {
-            this.onNodeCreated(
-                event.detail.type.replace(`${JOINT_DOMAIN_PREFIX}.`, ''),
-                event.detail.position,
-                event.detail.supress
-            );
+            this.onNodeCreated({
+                type: event.detail.type.replace(`${JOINT_DOMAIN_PREFIX}.`, ''),
+                position: event.detail.position,
+                isTemporary: event.detail.isTemporary,
+            });
         });
 
         this.zoomWidget = new ZoomWidget({
@@ -98,8 +109,8 @@ define([
         this.dashboard.addCell(desc);
     };
 
-    ElectricCircuitsEditorWidget.prototype.removeNode = function (/*gmeId*/) {
-        //    ToDo: Not Interactive Yet
+    ElectricCircuitsEditorWidget.prototype.removeNode = function (gmeId) {
+        this.dashboard.removeCell(gmeId);
     };
 
     ElectricCircuitsEditorWidget.prototype.updateNode = function (desc) {
@@ -116,14 +127,39 @@ define([
         }
     };
 
-    ElectricCircuitsEditorWidget.prototype.getRecommendedCells = function (recommendations) {
-        const recommendedCells = [];
+    ElectricCircuitsEditorWidget.prototype.getPartBrowserRecommendations = function (recommendations) {
+        const recommendedCells = {};
         recommendations.forEach(([cellList, confidence]) => {
             cellList.forEach(node => {
-                recommendedCells.push([node.type, node.pins, confidence]);
+                recommendedCells[node.type] = `${(confidence * 100).toFixed(4)} %`;
             });
         });
         return recommendedCells;
+    };
+
+    ElectricCircuitsEditorWidget.prototype.requestTemporaryNodesCreation = function (recommendations, topN=3) {
+        // Request creation of temporary nodes to WebGME
+        const componentNodes = [];
+        // const wires = [];
+        const components = recommendations.flatMap(arr => arr[0]).slice(0, topN);
+
+        // First Create Nodes
+        components.forEach((component, index, records) => {
+            // We are restricting the node creation only
+            // if wires can be predicted by the model
+            if (component.pins.length === 0) {
+                return;
+            }
+            componentNodes.push({
+                type: component.type,
+                isTemporary: true,
+                opacity: 0.7 * (records.length - index) / records.length
+            });
+        });
+
+        if(componentNodes.length) {
+            this.onNodeCreated(componentNodes);
+        }
     };
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
