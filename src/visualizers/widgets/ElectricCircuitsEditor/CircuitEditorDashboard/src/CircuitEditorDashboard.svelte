@@ -276,7 +276,7 @@
         recommendationPluginRunning = false;
     }
 
-    export function removeTemporaryElements (shouldLayout=true) {
+    export function removeTemporaryElements () {
         if(circuitGraph && circuitPaper) {
             circuitPaper.freeze();
             circuitGraph.getElements().forEach(el => {
@@ -286,9 +286,7 @@
             });
             circuitPaper.unfreeze();
         }
-        if(shouldLayout){
-            layout(false);
-        }
+        layout(false);
     }
 
     function getExistingComponentsByName() {
@@ -530,9 +528,7 @@
         const components = getExistingComponentsByName();
         recommendationPluginSuccess = false;
         addComponentsToComponentBrowser(components);
-        if (undoPluginResultsFn && callUndoFn) {
-            undoPluginResultsFn();
-        }
+        removeTemporaryElements();
     }
 
     function addControls(element, paper) {
@@ -554,10 +550,7 @@
                 if(toolViewAddFn) {
                     toolViewAddFn(view.model.id);
                     view.removeTools();
-                    if(undoPluginResultsFn) {
-                        undoPluginResultsFn();
-                        setTimeout(() => undoRecommendations(false), 100);
-                    }
+                    undoRecommendations();
                 }
             }
         });

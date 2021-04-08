@@ -62,16 +62,13 @@ define([
                 });
                 const wiresByPortNames = this.dashboard.getConnectedTargets(id);
                 const wiresByPortIds = {};
-
                 setTimeout(() => {
-                    this.dashboard.removeTemporaryElements(false);
                     Object.keys(wiresByPortNames).forEach(pinName => {
                         const portId = this.dashboard.getPortIdByName(nodeId, pinName);
                         wiresByPortIds[portId] = wiresByPortNames[pinName];
                     });
                     this.addWires(nodeId, wiresByPortIds);
-                }, 100);
-
+                }, 1000);
             },
             undoPluginResultsFn: () => {
                 this.dashboard.removeTemporaryElements();
