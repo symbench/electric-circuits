@@ -443,7 +443,7 @@
     </nav>
     <div class="container-fluid">
         <div class="row row-list">
-            <div class="col-md-2" id="componentBrowserContainer">
+            <div class="col-md-2 col-sm-2 col-lg-2" id="componentBrowserContainer">
                 <div class="text-center"
                      style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
                     <h4>Component Browser
@@ -467,7 +467,7 @@
                 </div>
                 <div class="components-div" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
             </div>
-            <div class="col-md-10" id="circuitEditorContainer">
+            <div class="col-md-10 col-sm-10 col-lg-10" id="circuitEditorContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>
