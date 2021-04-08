@@ -2,7 +2,7 @@
 /*eslint-env node, browser*/
 
 define([
-    'electric-circuits/plugins/JSONImporter',
+    'webgme-json-importer/JSONImporter',
     'text!./metadata.json',
     'plugin/PluginBase',
     'electric-circuits/Constants',
@@ -24,6 +24,10 @@ define([
     const MODELICA_PIN_ATTR_NAME = 'Pin';
     const DEFAULT_META_TAB = 'META';
     const DECORATOR_ID = 'ElectricCircuitsDecorator';
+    const VISUALIZER_ID = 'ElectricCircuitsEditor';
+    const TO_NETLIST_PLUGIN = 'ConvertCircuitToNetlist';
+    const FROM_NETLIST_PLUGIN = 'ConvertNetlistToCircuit';
+
     const EXTRA_NODES = {
         SchottkyDiode: 'Diode',
         LED: 'Diode'
@@ -73,9 +77,6 @@ define([
             const config = this.getCurrentConfig();
             this.core.removeLibrary(this.rootNode, 'Modelica');
             const state = await this.getBaseModel(importer);
-            state.registry.validPlugins = state.registry.validPlugins.replace(this.getName(), '');
-            state.registry.validDecorators = `${DECORATOR_ID} ${state.registry.validDecorators}`;
-
             const categories = this.getElectricalComponentCategories();
             this.createCategories(state, categories);
 
@@ -112,6 +113,10 @@ define([
             this.language = language;
 
             this.metaSheets.META = this.createMetaSheetTab(root, 'META');
+
+            root.registry.validPlugins = root.registry.validPlugins.replace(this.getName(), '');
+            root.registry.validDecorators = `${DECORATOR_ID} ${root.registry.validDecorators}`;
+            root.registry.validVisualizers = `${root.registry.validVisualizers} ${VISUALIZER_ID}`;
 
             root.children = [
                 placeholder('FCO'),
@@ -161,6 +166,12 @@ define([
 
                 if (name === 'Circuit') {
                     node.registry.position.y -= 50;
+                    node.registry.validPlugins = `${TO_NETLIST_PLUGIN}`;
+                    node.registry.validVisualizers = `${VISUALIZER_ID} ModelEditor`;
+                }
+
+                if (name === 'ElectricCircuitsFolder') {
+                    node.registry.validPlugins = `${FROM_NETLIST_PLUGIN}`;
                 }
 
                 return node;
