@@ -276,13 +276,18 @@
         recommendationPluginRunning = false;
     }
 
-    export function removeTemporaryElements () {
+    export function removeTemporaryElements (shouldLayout=true) {
         if(circuitGraph && circuitPaper) {
+            circuitPaper.freeze();
             circuitGraph.getElements().forEach(el => {
                 if(joint.shapes.circuit.Component.isTemporary(el)) {
                     el.remove();
                 }
             });
+            circuitPaper.unfreeze();
+        }
+        if(shouldLayout){
+            layout(false);
         }
     }
 
@@ -521,14 +526,13 @@
         recommendationPluginRunning = true;
     }
 
-    function undoRecommendations() {
+    function undoRecommendations(callUndoFn=true) {
         const components = getExistingComponentsByName();
         recommendationPluginSuccess = false;
         addComponentsToComponentBrowser(components);
-        if (undoPluginResultsFn) {
+        if (undoPluginResultsFn && callUndoFn) {
             undoPluginResultsFn();
         }
-        layout(false);
     }
 
     function addControls(element, paper) {
@@ -552,6 +556,7 @@
                     view.removeTools();
                     if(undoPluginResultsFn) {
                         undoPluginResultsFn();
+                        setTimeout(() => undoRecommendations(false), 100);
                     }
                 }
             }
@@ -638,7 +643,7 @@
 
     {#if showRecommendationConfig}
         <form class="form-inline"
-              style="position:fixed; z-index: 2000; background-color: #FEFEF8; width:15%; padding: 1%; top: 11%; left: 1%;">
+              style="position:fixed; z-index: 2000; background-color: #FEFEF8; width:15%; padding: 1%; top: 7%; left: 1%;">
             <h4>{recommendationPluginMetadata.name}</h4>
             <hr/>
             {#each recommendationPluginMetadata.configStructure as config}
