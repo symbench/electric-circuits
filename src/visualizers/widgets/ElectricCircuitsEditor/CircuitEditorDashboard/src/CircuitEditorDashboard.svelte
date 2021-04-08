@@ -23,7 +23,8 @@
     let activeObjectChangeFn,
         goToParentFn,
         isNested,
-        parentName;
+        parentName,
+        displayPartBrowser = false;
     let showRecommendationConfig,
         recommendationPluginMetadata,
         recommendationPluginRunning,
@@ -47,6 +48,7 @@
         recommendationPluginSuccess = false;
         isNested = false;
         parentName = '';
+        displayPartBrowser = false;
         defineElectricCircuitsDomain(joint);
         if (opts.activeObjectChangeFn && opts.goToParentFn) {
             activeObjectChangeFn = opts.activeObjectChangeFn;
@@ -54,10 +56,14 @@
         }
     }
 
-    export function render(opts) {
+    export function render(opts={}) {
         renderCircuit(opts.width, opts.height);
-        renderComponents(opts.validComponents);
-        recommendationPluginMetadata = opts.recommendationPluginMetadata;
+        if(displayPartBrowser){
+            renderComponents(opts.validComponents);
+        }
+        if(opts.recommendationPluginMetadata){
+            recommendationPluginMetadata = opts.recommendationPluginMetadata;
+        }
     }
 
     export function adjustPaperDimensions(width, height) {
@@ -66,8 +72,13 @@
         if (navBarWidth < width) {
             width = navBarWidth;
         }
-        circuitPaper.setDimensions(width * 10 / 12, height - navBarHeight);
-        layoutComponentBrowser();
+        if(displayPartBrowser){
+            circuitPaper.setDimensions(width * 10 / 12, height - navBarHeight);
+            layoutComponentBrowser();
+        } else {
+            circuitPaper.setDimensions(width, height - navBarHeight);
+        }
+
         zoom(currentZoomLevel);
     }
 
@@ -185,6 +196,16 @@
                     .map(el => el.get('type').replace('circuit.', ''))
             )
         ).sort();
+    }
+
+    export function showPartBrowser(opts){
+        displayPartBrowser = true;
+        setTimeout(() => render(opts), 100);
+    }
+
+    export function hidePartBrowser() {
+        displayPartBrowser = false;
+        setTimeout(() => render(), 100);
     }
 
     function renderCircuit(width, height) {
@@ -441,9 +462,11 @@
             </div>
         </div>
     </nav>
+
     <div class="container-fluid">
         <div class="row row-list">
-            <div class="col-md-2" id="componentBrowserContainer">
+            {#if displayPartBrowser}
+                <div class="col-md-2" id="componentBrowserContainer">
                 <div class="text-center"
                      style="position:fixed; z-index:100; width: 15.3%; height: 40px; background: #FEFEF8">
                     <h4>Component Browser
@@ -467,12 +490,14 @@
                 </div>
                 <div class="components-div" style="height: 4000px;" bind:this={componentBrowserContainer}></div>
             </div>
-            <div class="col-md-10" id="circuitEditorContainer">
+            {/if}
+            <div class="{displayPartBrowser ? 'col-md-10' : 'col-md-12'}" id="circuitEditorContainer">
                 <div class="paper-div" bind:this={circuitContainer}></div>
             </div>
         </div>
     </div>
 
+    {#if displayPartBrowser}
     <div id="flyPaper"
          style="display: {flyDragged ? 'block': 'none'}; background-color:transparent;position:fixed;z-index:100;opacity:1.0;pointer-event:none;"></div>
 
@@ -495,6 +520,7 @@
                 {/if}
             {/each}
         </form>
+    {/if}
     {/if}
 
 </main>

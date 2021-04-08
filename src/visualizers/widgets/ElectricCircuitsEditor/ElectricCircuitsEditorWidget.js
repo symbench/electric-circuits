@@ -141,5 +141,19 @@ define([
         this.dashboard.clearGraph();
     };
 
+    ElectricCircuitsEditorWidget.prototype.showPartBrowser = function () {
+        this.dashboard.showPartBrowser({
+            validComponents: this.getValidComponents(),
+            width: this._el.width(),
+            height: this._el.height()
+        });
+    };
+
+    ElectricCircuitsEditorWidget.prototype.hidePartBrowser = function () {
+        this.dashboard.hidePartBrowser();
+    };
+
+
+
     return ElectricCircuitsEditorWidget;
 });

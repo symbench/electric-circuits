@@ -244,11 +244,15 @@ define([], function () {
             return this.client.isTypeOf(nodeId, this.META_NAMES['Circuit']);
         }
 
+        isCircuitFolder(nodeId) {
+            return this.client.isTypeOf(nodeId, this.META_NAMES['ElectricCircuitsFolder']);
+        }
+
         isSubCircuit(nodeId) {
             const node = this.client.getNode(nodeId);
 
             if (node) {
-                return this.isCircuit(node.getId()) && nodeId !== this._currentNodeId;
+                return this.isCircuit(node.getId()) && nodeId !== this._currentNodeId && !this.isCircuitFolder(nodeId);
             }
         }
 
@@ -321,11 +325,15 @@ define([], function () {
         changeActiveObject(nodeId) {
             if(this.isCircuit(nodeId)){
                 this.selectedObjectChanged(nodeId);
+                this._widget.showPartBrowser();
+            } else if(this.isCircuitFolder(nodeId)) {
+                this.selectedObjectChanged(nodeId);
+                this._widget.hidePartBrowser();
             }
         }
 
         canBeActiveObject(nodeId) {
-            return this.isCircuit(nodeId);
+            return this.isCircuit(nodeId) || this.isCircuitFolder(nodeId);
         }
 
         showParent() {
@@ -337,7 +345,7 @@ define([], function () {
 
         isNestedDisplay () {
             const node = this._client.getNode(this._currentNodeId);
-            if(this.isCircuit(node.getParentId())) {
+            if(this.isCircuit(node.getParentId()) || this.isCircuitFolder(node.getParentId())) {
                 return true;
             }
             return false;

@@ -125,6 +125,11 @@ define([
 
         _getObjectDescriptor(nodeId) {
             if (this.isCircuit(nodeId) && !this.isSubCircuit(nodeId)) {
+                console.log('here', this.isCircuitFolder(nodeId));
+                return;
+            }
+            if (this.isCircuitFolder(nodeId)){
+                console.log('here');
                 return;
             }
             if (this.isPin(nodeId) && !this.isCircuitPin(nodeId)) {
@@ -167,7 +172,7 @@ define([
             if (desc) {
                 this._widget.addNode(desc);
             }
-            if (this.isCircuit(gmeId) && !this.isSubCircuit(gmeId)) {
+            if (this.isCircuit(gmeId) && !this.isSubCircuit(gmeId) || this.isCircuitFolder(gmeId)) {
                 const name = this._client.getNode(gmeId).getAttribute('name');
                 this._widget.setDashboardTitle(name);
             }
