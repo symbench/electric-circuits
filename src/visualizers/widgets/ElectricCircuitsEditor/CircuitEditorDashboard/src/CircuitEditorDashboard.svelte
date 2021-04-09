@@ -157,7 +157,6 @@
             cell.remove();
         }
         circuitPaper.unfreeze();
-        layout();
     }
 
     export function addCell(cellJSON) {
@@ -286,7 +285,6 @@
             });
             circuitPaper.unfreeze();
         }
-        layout(false);
     }
 
     function getExistingComponentsByName() {
@@ -524,11 +522,14 @@
         recommendationPluginRunning = true;
     }
 
-    function undoRecommendations(callUndoFn=true) {
+    function undoRecommendations(shouldLayout=true) {
         const components = getExistingComponentsByName();
         recommendationPluginSuccess = false;
         addComponentsToComponentBrowser(components);
         removeTemporaryElements();
+        if(shouldLayout) {
+            layout();
+        }
     }
 
     function addControls(element, paper) {
@@ -550,7 +551,7 @@
                 if(toolViewAddFn) {
                     toolViewAddFn(view.model.id);
                     view.removeTools();
-                    undoRecommendations();
+                    undoRecommendations(false);
                 }
             }
         });

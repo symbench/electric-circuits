@@ -35,6 +35,7 @@ define([
             this._currentNodeId = null;
 
             this._initWidgetEventHandlers();
+            this._shouldRequestLayout = true;
 
             this._logger.debug('ctor finished');
         }
@@ -82,7 +83,7 @@ define([
             return WebGMEGlobal.allPluginsMetadata[RECOMMENDATION_PLUGIN];
         }
 
-        createNodes(nodeOrNodes) {
+        createNodes(nodeOrNodes, shouldRequestLayout=true) {
             let nodesArr = nodeOrNodes;
             let createNodeIds = [];
             if (!Array.isArray(nodeOrNodes)){
@@ -102,12 +103,14 @@ define([
                 createNodeIds.push(nodeId);
             });
             this._client.completeTransaction('Completed nodes creation');
+            this._shouldRequestLayout = shouldRequestLayout;
 
             return Array.isArray(nodeOrNodes) ? createNodeIds : createNodeIds.pop();
         }
 
-        addWires(nodeId, wires) {
+        addWires(nodeId, wires, shouldRequestLayout=true) {
             const wireIds = [];
+            this._shouldRequestLayout = shouldRequestLayout;
             this._client.startTransaction('About to create wires; ');
             Object.keys(wires).forEach(pin => {
                 const wireId = this._client.createNode({
@@ -184,7 +187,7 @@ define([
                     break;
                 }
             }
-            if (events) {
+            if (events && this._shouldRequestLayout) {
                 this._widget.requestLayout();
             }
             this._logger.debug('_eventCallback \'' + events.length + '\' items - DONE');
