@@ -11,7 +11,7 @@ const privateKeyPath = process.env.WEBGME_PRIVATE_KEY || path.join(__dirname, '.
 
 config.authentication.enable = true;
 config.authentication.allowGuests = false;
-config.authentication.allowUserRegistration = true;
+config.authentication.allowUserRegistration = false;
 config.authentication.jwt.publicKey = publicKeyPath;
 config.authentication.jwt.privateKey = privateKeyPath;
 
