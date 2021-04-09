@@ -59,7 +59,7 @@ define([
                 const type = this.dashboard.getElementTypeById(id);
                 const nodeId = this.onNodeCreated({
                     type: type.replace(JOINT_DOMAIN_PREFIX, '')
-                });
+                }, false);
                 const wiresByPortNames = this.dashboard.getConnectedTargets(id);
                 const wiresByPortIds = {};
                 setTimeout(() => {
