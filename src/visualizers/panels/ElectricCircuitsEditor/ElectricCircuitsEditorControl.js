@@ -43,13 +43,15 @@ define([
             this._widget.onNodeAttributeChanged = this.onNodeAttributeChanged.bind(this);
             this._widget.runRecommendationPlugin = this.runRecommendationPlugin.bind(this);
             this._widget.getRecommendationPluginMetadata = this.getRecommendationPluginMetadata;
-            this._widget.onNodeCreated = this.onNodeCreated.bind(this);
+            this._widget.onNodeCreated = this.createNodes.bind(this);
             this._widget.getValidComponents = this.getValidPartBrowserNodes.bind(this);
             this._widget.changeActiveObject = this.changeActiveObject.bind(this);
             this._widget.canBeActiveObject = this.canBeActiveObject.bind(this);
             this._widget.showParent = this.showParent.bind(this);
             this._widget.isNestedDisplay = this.isNestedDisplay.bind(this);
             this._widget.getParentName = this.getParentName.bind(this);
+            this._widget.addWires = this.addWires.bind(this);
+            this._widget.onRecommendedNodeAdded = this.createNodes.bind(this);
         }
 
         onNodeAttributeChanged(nodeId, attrs) {
@@ -80,17 +82,43 @@ define([
             return WebGMEGlobal.allPluginsMetadata[RECOMMENDATION_PLUGIN];
         }
 
-        onNodeCreated(nodeType, position) {
-            this._client.startTransaction(`About to create node of type ${nodeType}`);
-            const nodeId = this._client.createNode({
-                baseId: this.META_NAMES[nodeType],
-                parentId: this._currentNodeId
-            });
-
-            if (position) {
-                this._client.setRegistry(nodeId, 'position', position, `Set position to ${position}`);
+        createNodes(nodeOrNodes) {
+            let nodesArr = nodeOrNodes;
+            let createNodeIds = [];
+            if (!Array.isArray(nodeOrNodes)){
+                nodesArr = [nodeOrNodes];
             }
-            this._client.completeTransaction(`Created node of type ${nodeType}`);
+            this._client.startTransaction('About to create multiple nodes; ');
+            nodesArr.forEach(node => {
+                const nodeId = this._client.createNode({
+                    baseId: this.META_NAMES[node.type],
+                    parentId: this._currentNodeId
+                }, {
+                    registry: {
+                        position: node.position ? node.position : {x: 0, y: 0},
+                    }
+                }, ` created node of type ${node.type}`);
+
+                createNodeIds.push(nodeId);
+            });
+            this._client.completeTransaction('Completed nodes creation');
+
+            return Array.isArray(nodeOrNodes) ? createNodeIds : createNodeIds.pop();
+        }
+
+        addWires(nodeId, wires) {
+            const wireIds = [];
+            this._client.startTransaction('About to create wires; ');
+            Object.keys(wires).forEach(pin => {
+                const wireId = this._client.createNode({
+                    baseId: this.META_NAMES['Wire'],
+                    parentId: this._currentNodeId,
+                }, {}, `Created wire in the current circuit with id ${this._currentNodeId}`);
+                wireIds.push(wireId);
+                this._client.setPointer(wireId, 'src', pin);
+                this._client.setPointer(wireId, 'dst',  wires[pin].port || wires[pin].id);
+            });
+            this._client.completeTransaction(`Finished creating wires with ids ${wireIds}`);
         }
 
         selectedObjectChanged(nodeId) {

@@ -1,6 +1,8 @@
 <script>
     import {defineElectricCircuitsDomain} from './circuits';
 
+    const DOMAIN_PREFIX = 'circuit';
+
     const jq = window.$;
 
     let joint = null,
@@ -22,6 +24,9 @@
     let flyDragged;
     let activeObjectChangeFn,
         goToParentFn,
+        toolViewRemoveFn,
+        toolViewAddFn,
+        undoPluginResultsFn,
         isNested,
         parentName;
     let showRecommendationConfig,
@@ -51,6 +56,9 @@
         if (opts.activeObjectChangeFn && opts.goToParentFn) {
             activeObjectChangeFn = opts.activeObjectChangeFn;
             goToParentFn = opts.goToParentFn;
+            toolViewRemoveFn = opts.toolViewRemoveFn;
+            toolViewAddFn = opts.toolViewAddFn;
+            undoPluginResultsFn = opts.undoPluginResultsFn;
         }
     }
 
@@ -126,19 +134,49 @@
     }
 
     export function updateCell(cellJSON) {
+        const Component = joint.shapes.circuit.Component;
+        circuitPaper.freeze();
         const cell = circuitGraph.getCell(cellJSON.id);
-        if (cell) {
-            cell.set(cellJSON);
+        if(cell){
+            cell.set({
+                attrs: cellJSON.attrs
+            });
+            cellJSON.isTemporary ? Component.setTemporary(cell) : Component.unsetTemporary(cell);
+            Component.setOpacity(cell, cellJSON.opacity || 1.0);
+            if(!cellJSON.isTemporary) {
+                cell.findView(circuitPaper).removeTools();
+            }
         }
+        circuitPaper.unfreeze();
+    }
+
+    export function removeCell(id) {
+        circuitPaper.freeze();
+        const cell = circuitGraph.getCell(id);
+        if(cell){
+            cell.remove();
+        }
+        circuitPaper.unfreeze();
+        layout();
     }
 
     export function addCell(cellJSON) {
+        circuitPaper.freeze();
+        const Component = joint.shapes.circuit.Component;
+        let cellId;
         if (cellJSON.type === 'Wire') {
             wires[cellJSON.id] = cellJSON;
         } else {
             const cell = new joint.shapes[cellJSON.domainPrefix][cellJSON.type](cellJSON);
             circuitGraph.addCell(cell);
-            addedCellIds.push(cellJSON.id);
+
+            if (cellJSON.isTemporary) {
+                Component.setTemporary(cell, true);
+                Component.setOpacity(cell, cellJSON.opacity || 1.0);
+                addControls(cell, circuitPaper);
+            }
+            addedCellIds.push(cellJSON.id || cell.id);
+            cellId = cell.id;
         }
 
         Object.keys(wires).forEach(wireId => {
@@ -148,6 +186,67 @@
                 circuitGraph.addCell(wire);
             }
         });
+        circuitPaper.unfreeze();
+        return cellId;
+    }
+
+    export function getPortIdBySpiceIndex(id, index) {
+        const cell = circuitGraph.getCell(id);
+        if (cell) {
+            return joint.shapes.circuit.Component.getUniqueSpicePortIdAt(cell, index);
+        }
+    }
+
+    export function getConnectedTargets(id) {
+        const Component = joint.shapes.circuit.Component;
+        const cell = circuitGraph.getCell(id);
+        if(cell){
+            const links = circuitGraph.getConnectedLinks(cell);
+            const wires = {};
+            links.forEach(link => {
+                let pinName;
+                if(link.source().id === cell.id) {
+                    const sourceCell = circuitGraph.getCell(link.source().id);
+                    pinName = Component.getPortNameById(sourceCell, link.source().port);
+                    wires[pinName] = link.target();
+                } else {
+                    const targetCell = circuitGraph.getCell(link.target().id);
+                    pinName = Component.getPortNameById(targetCell, link.target().port);
+                    wires[pinName] = link.source();
+                }
+            });
+            return wires;
+        }
+    }
+
+    export function getPortIdByName(id, portName) {
+        const Component = joint.shapes.circuit.Component;
+        const cell = circuitGraph.getCell(id);
+        if (cell) {
+            return Component.getPortIdByName(cell, portName);
+        }
+    }
+
+    export function getElementByPort(portId) {
+        const element = circuitGraph.getElements().find(el => {
+            if(getElementType(el) === 'Circuit'){
+                return el.getPorts().map(port => port.id).includes(portId);
+            } else if (getElementType(el) === 'Pin'){
+                return portId === el.id;
+            } else{
+                if(el.ports[portId]){
+                    return true;
+                }
+            }
+         });
+        return element ? element.id : null;
+    }
+
+    export function getElementTypeById(id) {
+        const cell = circuitGraph.getCell(id);
+        if(cell) {
+            return cell.get('type');
+        }
     }
 
     export function layout(animate = true) {
@@ -159,15 +258,14 @@
         }
     }
 
-    export function showRecommendationSuccess(recommendations) {
+    export function showPartBrowserRecommendation(recommendations, top=3){
         hideRecommendationPluginConfig();
         recommendationPluginRunning = false;
-
-        let existingComponents = getExistingComponentsByName();
-        const top3Elements = recommendations.slice(0, 3);
-        existingComponents.unshift(...top3Elements.map(el => el[0]));
-
-        addComponentsToComponentBrowser(existingComponents, top3Elements.map(el => `${(el[1] * 100).toFixed(4)} %`));
+        const existing = getExistingComponentsByName();
+        const topN = Object.keys(recommendations).slice(0, top);
+        const topNConfidence = Object.values(recommendations).slice(0, top);
+        existing.unshift(...topN);
+        addComponentsToComponentBrowser(existing, topNConfidence);
         recommendationPluginSuccess = true;
         layoutComponentBrowser();
     }
@@ -178,11 +276,24 @@
         recommendationPluginRunning = false;
     }
 
+    export function removeTemporaryElements () {
+        if(circuitGraph && circuitPaper) {
+            circuitPaper.freeze();
+            circuitGraph.getElements().forEach(el => {
+                if(joint.shapes.circuit.Component.isTemporary(el)) {
+                    el.remove();
+                }
+            });
+            circuitPaper.unfreeze();
+        }
+        layout(false);
+    }
+
     function getExistingComponentsByName() {
         return Array.from(
             new Set(
                 componentBrowserGraph.getElements()
-                    .map(el => el.get('type').replace('circuit.', ''))
+                    .map(el => getElementType(el))
             )
         ).sort();
     }
@@ -207,6 +318,15 @@
         });
 
         circuitPaper.on('blank:pointerdown', hideRecommendationPluginConfig);
+
+        circuitPaper.on('element:mouseenter', function(elementView) {
+            elementView.showTools();
+        });
+
+        circuitPaper.on('element:mouseleave', function(elementView) {
+            elementView.hideTools();
+        });
+
         circuitPaper.on('element:pointerdown', (elementView) => {
             activeObjectChangeFn(elementView.model.id);
         });
@@ -404,10 +524,48 @@
         recommendationPluginRunning = true;
     }
 
-    function removeRecommendations() {
+    function undoRecommendations(callUndoFn=true) {
         const components = getExistingComponentsByName();
         recommendationPluginSuccess = false;
         addComponentsToComponentBrowser(components);
+        removeTemporaryElements();
+    }
+
+    function addControls(element, paper) {
+        const Component = joint.shapes.circuit.Component;
+
+        const elementView = element.findView(paper);
+        const boundaryTool = new joint.elementTools.Boundary();
+        const removeButton = new joint.elementTools.RemoveButton({
+            action: (event, view, tool) => {
+                if (toolViewRemoveFn) {
+                    toolViewRemoveFn(view.model.id);
+                } else {
+                    view.model.remove({ui: true, tool: tool.cid});
+                }
+            }
+        });
+        const addButton = new joint.elementTools.AddButton({
+            action: (event, view, tool) => {
+                if(toolViewAddFn) {
+                    toolViewAddFn(view.model.id);
+                    view.removeTools();
+                    undoRecommendations();
+                }
+            }
+        });
+        const toolsView = new joint.dia.ToolsView({
+            tools: [
+                boundaryTool,
+                removeButton,
+                addButton
+            ]
+        });
+        elementView.addTools(toolsView);
+    }
+
+    function getElementType(element) {
+        return element.get('type').replace(`${DOMAIN_PREFIX}.`, '');
     }
 
 </script>
@@ -455,7 +613,7 @@
                         {/if}
                         {#if recommendationPluginSuccess}
                             <span style="cursor: pointer"
-                                  on:click|stopPropagation|preventDefault={removeRecommendations}
+                                  on:click|stopPropagation|preventDefault={undoRecommendations}
                                   class="fa fa-undo"></span>
                         {/if}
                     </h4>
@@ -478,13 +636,13 @@
 
     {#if showRecommendationConfig}
         <form class="form-inline"
-              style="position:fixed; z-index: 2000; background-color: #FEFEF8; width:15%; padding: 1%; top: 11%; left: 1%;">
+              style="position:fixed; z-index: 2000; background-color: #FEFEF8; width:15%; padding: 1%; top: 7%; left: 1%;">
             <h4>{recommendationPluginMetadata.name}</h4>
             <hr/>
             {#each recommendationPluginMetadata.configStructure as config}
                 {#if Array.isArray(config.valueItems) && config.valueType === 'string'}
                     <label class="form-text" for="{config.name}">{config.displayName}: </label>
-                    <select class="form-control" id="{config.name}" bind:value={config.value}>
+                    <select style="width: 100px;" class="form-control" id="{config.name}" bind:value={config.value}>
                         {#each config.valueItems as opt}
                             <option value="{opt}">{opt}</option>
                         {/each}
