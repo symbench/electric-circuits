@@ -21,6 +21,10 @@
       "ConvertNetlistToCircuit": {
         "src": "src/plugins/ConvertNetlistToCircuit",
         "test": "test/plugins/ConvertNetlistToCircuit"
+      },
+      "ExportCircuitComponents": {
+        "src": "src/plugins/ExportCircuitComponents",
+        "test": "test/plugins/ExportCircuitComponents"
       }
     },
     "seeds": {
@@ -46,8 +50,19 @@
     "routers": {}
   },
   "dependencies": {
-    "plugins": {},
+    "plugins": {
+      "SetStateFromJSON": {
+        "project": "webgme-json-importer",
+        "path": "node_modules/webgme-json-importer/src/plugins/SetStateFromJSON"
+      },
+      "ExportToJSON": {
+        "project": "webgme-json-importer",
+        "path": "node_modules/webgme-json-importer/src/plugins/ExportToJSON"
+      }
+    },
     "seeds": {},
+    "decorators": {},
+    "visualizers": {},
     "routers": {
       "BindingsDocs": {
         "project": "webgme-bindings",
