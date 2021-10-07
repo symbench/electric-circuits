@@ -21,10 +21,6 @@
       "ConvertNetlistToCircuit": {
         "src": "src/plugins/ConvertNetlistToCircuit",
         "test": "test/plugins/ConvertNetlistToCircuit"
-      },
-      "ExportCircuitComponents": {
-        "src": "src/plugins/ExportCircuitComponents",
-        "test": "test/plugins/ExportCircuitComponents"
       }
     },
     "seeds": {
