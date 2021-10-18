@@ -6,11 +6,7 @@ function factory() {
     const ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE = 'Textual';
     const ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE = 'Numeric';
 
-    const WEBGME_NUMERIC_TYPES =  {
-        FLOAT: 'float',
-        INTEGER: 'int',
-    }
-    // const ANNOTATION_META_SHEET_NAME = 'Circuit Components';
+    const WEBGME_NUMERIC_TYPES =  ['float', 'integer'];
     function translateToAnnotationMeta(nodeSchema) {
         assert(isLanguageContainer(nodeSchema), 'Expected language container but found: ' + JSON.stringify(nodeSchema));
         const metaNodes = nodeSchema.children;
@@ -60,37 +56,33 @@ function factory() {
         });
     }
 
-   function transformAttributes(node) {
-       let base;
-       return Object.entries(node.attributes).map(([name, value]) => {
-           if (node.attribute_meta[name]) {
-               switch (node.attribute_meta[name].type) {
-                   case WEBGME_NUMERIC_TYPES.FLOAT:
-                   case WEBGME_NUMERIC_TYPES.INTEGER:
-                       base = ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE;
-                       break;
-                   default:
-                       base = ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE;
-               }
-           }
+    function transformAttributes(node) {
+        let base;
+        return Object.entries(node.attributes).map(([name, value]) => {
+            if (node.attribute_meta[name]) {
+                if (WEBGME_NUMERIC_TYPES.includes(node.attribute_meta[name].type)) {
+                    base = ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE;
+                } else {
+                    base = ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE;
+                }
+            }
 
-           const attributeNode = {
-               id: `@name:${node.attributes.name}`,
-               attributes: {
-                   value: value
-               },
-               pointers: {
-                   base: `@meta:${base}`
-               }
-           };
+            const attributeNode = {
+                id: `@name:${node.attributes.name}`,
+                attributes: {
+                    value: value
+                },
+                pointers: {
+                    base: `@meta:${base}`
+                }
+            };
 
-           if (base === ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE) {
-               attributeNode.attributes.unit = node.attribute_meta[name] ? node.attribute_meta[name].unit : '';
-           }
-
-           return attributeNode;
-       });
-   }
+            if (base === ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE) {
+                attributeNode.attributes.unit = node.attribute_meta[name] ? node.attribute_meta[name].unit : '';
+            }
+            return attributeNode;
+        });
+    }
 
     function transformPorts(node) {
         return node.children.map(child => {
