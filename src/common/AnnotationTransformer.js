@@ -3,7 +3,7 @@ function factory() {
     const ELECTRIC_CIRCUITS_COMPONENT_BASE = 'ComponentBase';
     const ELECTRIC_CIRCUITS_PORT_BASE = 'Pin';
     const ANNOTATION_META_COMPONENT_BASE = 'Component';
-    const ANNOTATION_META_PORT_BASE = 'Port';
+    const ANNOTATION_META_PORT_BASE = 'NamedPort';
     const ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE = 'Textual';
     const ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE = 'Numeric';
     const WEBGME_NUMERIC_TYPES =  ['float', 'integer'];
@@ -29,7 +29,6 @@ function factory() {
                 uniques.push(annotation);
             } else {
                 assert(
-                    [annotation, exists].find(n => n.pointers.base.includes('Port')) ||  // FIXME: Skip ports for now
                     deepEquals(annotation, exists),
                     `Found a conflict between:\n\t${JSON.stringify(annotation)}\n\t${JSON.stringify(exists)}`
                 );
