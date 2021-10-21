@@ -64,410 +64,38 @@
       "children": []
     },
     {
-      "id": "2e69e6a1-0321-819a-bee6-8aefd0472bd5",
-      "path": "/9/3",
+      "id": "f10350c2-31cf-dd86-c320-f1356163556d",
+      "path": "/9/2",
       "attributes": {
-        "Rdm": 2000000,
-        "Rcm": 2000000000,
-        "Cin": 1.4e-12,
-        "Vos": 0.001,
-        "Ib": 8e-8,
-        "Ios": 2e-8,
-        "vcp": 0,
-        "vcm": 0,
-        "Avd0": 106,
-        "CMRR": 90,
-        "fp1": 5,
-        "fp2": 2000000,
-        "fp3": 20000000,
-        "fp4": 100000000,
-        "fz": 5000000,
-        "sr_p": 500000,
-        "sr_m": 500000,
-        "Rout": 75,
-        "Imaxso": 0.025,
-        "Imaxsi": 0.025,
-        "Ts": 0.0000012,
-        "name": "OpAmpDetailed"
+        "parameter2": 0,
+        "parameter1": 1,
+        "time_delay": 0,
+        "duration": 0,
+        "random_type": "uniform",
+        "name": "RandomVoltageSource"
       },
       "attribute_meta": {
-        "Rdm": {
-          "type": "float",
-          "description": "Input resistance (differential input mode)",
-          "unit": "Ohm"
+        "parameter2": {
+          "type": "float"
         },
-        "Rcm": {
-          "type": "float",
-          "description": "Input resistance (common mode)",
-          "unit": "Ohm"
+        "parameter1": {
+          "type": "float"
         },
-        "Cin": {
-          "type": "float",
-          "description": "Input capacitance",
-          "unit": "F"
-        },
-        "Vos": {
-          "type": "float",
-          "description": "Input offset voltage",
-          "unit": "V"
-        },
-        "Ib": {
-          "type": "float",
-          "description": "Input bias current",
-          "unit": "A"
-        },
-        "Ios": {
-          "type": "float",
-          "description": "Input offset current",
-          "unit": "A"
-        },
-        "vcp": {
-          "type": "float",
-          "description": "Correction value for limiting by p_supply",
-          "unit": "V"
-        },
-        "vcm": {
-          "type": "float",
-          "description": "Correction value for limiting by msupply",
-          "unit": "V"
-        },
-        "Avd0": {
-          "type": "float",
-          "description": "Differential amplifier [dB]"
-        },
-        "CMRR": {
-          "type": "float",
-          "description": "Common-mode rejection [dB]"
-        },
-        "fp1": {
-          "type": "float",
-          "description": "Dominant pole",
-          "unit": "Hz"
-        },
-        "fp2": {
-          "type": "float",
-          "description": "Pole frequency",
-          "unit": "Hz"
-        },
-        "fp3": {
-          "type": "float",
-          "description": "Pole frequency",
-          "unit": "Hz"
-        },
-        "fp4": {
-          "type": "float",
-          "description": "Pole frequency",
-          "unit": "Hz"
-        },
-        "fz": {
-          "type": "float",
-          "description": "Zero frequency",
-          "unit": "Hz"
-        },
-        "sr_p": {
-          "type": "float",
-          "description": "Slew rate for increase",
-          "unit": "V/s"
-        },
-        "sr_m": {
-          "type": "float",
-          "description": "Slew rate for decrease",
-          "unit": "V/s"
-        },
-        "Rout": {
-          "type": "float",
-          "description": "Output resistance",
-          "unit": "Ohm"
-        },
-        "Imaxso": {
-          "type": "float",
-          "description": "Maximal output current (source current)",
-          "unit": "A"
-        },
-        "Imaxsi": {
-          "type": "float",
-          "description": "Maximal output current (sink current)",
-          "unit": "A"
-        },
-        "Ts": {
-          "type": "float",
-          "description": "sampling time",
-          "unit": "s"
-        }
-      },
-      "pointers": {
-        "base": "/9/M"
-      },
-      "pointer_meta": {},
-      "registry": {
-        "isAbstract": false,
-        "position": {
-          "x": 730,
-          "y": 1070
-        }
-      },
-      "sets": {},
-      "member_attributes": {},
-      "member_registry": {},
-      "children_meta": {
-        "/9/O": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/0": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/R": {
-          "min": -1,
-          "max": -1
-        }
-      },
-      "children": [
-        {
-          "id": "cebad1c3-0dcf-1f89-ab4b-39c11a13f831",
-          "path": "/9/3/3",
-          "attributes": {
-            "name": "p"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "44d1bab0-96ea-76a5-518a-fffe36c439be",
-          "path": "/9/3/d",
-          "attributes": {
-            "name": "m_supply"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "6fc954e7-54ff-d92c-df34-fa693e10baea",
-          "path": "/9/3/w",
-          "attributes": {
-            "name": "p_supply"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "8a5e0806-d5f7-12ca-1e4d-be63bc8e6d1e",
-          "path": "/9/3/N",
-          "attributes": {
-            "name": "outp"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "8c74cc68-fe84-812c-c619-16e558e87214",
-          "path": "/9/3/Y",
-          "attributes": {
-            "name": "m"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "2afee27f-8fbf-7eb5-76cb-3c5cd17623ab",
-      "path": "/9/4",
-      "attributes": {
-        "G1": 1,
-        "G2": 1,
-        "name": "Gyrator"
-      },
-      "attribute_meta": {
-        "G1": {
-          "type": "float",
-          "description": "Gyration conductance",
-          "unit": "S"
-        },
-        "G2": {
-          "type": "float",
-          "description": "Gyration conductance",
-          "unit": "S"
-        }
-      },
-      "pointers": {
-        "base": "/9/M"
-      },
-      "pointer_meta": {},
-      "registry": {
-        "isAbstract": false,
-        "position": {
-          "x": 560,
-          "y": 900
-        }
-      },
-      "sets": {},
-      "member_attributes": {},
-      "member_registry": {},
-      "children_meta": {
-        "/9/O": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/0": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/R": {
-          "min": -1,
-          "max": -1
-        }
-      },
-      "children": [
-        {
-          "id": "1d3b1283-b40e-58a5-d862-a66e075fc88e",
-          "path": "/9/4/K",
-          "attributes": {
-            "name": "n2"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "33ee77a0-4131-7c4d-6b48-505f28da23e5",
-          "path": "/9/4/Z",
-          "attributes": {
-            "name": "n1"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "d0174823-7eb1-52a4-0ab5-27aa2940e004",
-          "path": "/9/4/A",
-          "attributes": {
-            "name": "p2"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "202c4fd3-f1cb-55f4-ad60-7fbebd9fbcd5",
-          "path": "/9/4/T",
-          "attributes": {
-            "name": "p1"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "c3ded2f2-09a9-6424-df61-9478ca0a9817",
-      "path": "/9/5",
-      "attributes": {
-        "delay_time": 0,
-        "repeate_time": 0,
-        "values": "[(0, 0)]",
-        "name": "PieceWiseLinearVoltageSource"
-      },
-      "attribute_meta": {
-        "delay_time": {
-          "name": "delay_time",
+        "time_delay": {
+          "name": "time_delay",
           "parameter": "Delay Time",
           "default_value": 0,
           "units": "sec",
           "type": "float"
         },
-        "repeate_time": {
-          "name": "repeate_time",
-          "parameter": "Repeat Time",
+        "duration": {
+          "name": "duration",
+          "parameter": "Duration for random values to show up",
           "default_value": 0,
           "units": "sec",
           "type": "float"
         },
-        "values": {
-          "name": "values",
-          "parameter": "Piecewise Linear Values",
-          "default_value": "[(0, 0)]",
-          "units": "V",
+        "random_type": {
           "type": "string"
         }
       },
@@ -478,123 +106,8 @@
       "registry": {
         "isAbstract": false,
         "position": {
-          "x": 730,
-          "y": 1580
-        }
-      },
-      "sets": {},
-      "member_attributes": {},
-      "member_registry": {},
-      "children_meta": {
-        "/9/O": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/0": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/R": {
-          "min": -1,
-          "max": -1
-        }
-      },
-      "children": [
-        {
-          "id": "7c2d14bd-3d1e-3172-6f8f-de5d2b9a3487",
-          "path": "/9/5/7",
-          "attributes": {
-            "name": "p"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "ccbd6f53-cb83-1660-db37-27af8faa8c84",
-          "path": "/9/5/H",
-          "attributes": {
-            "name": "n"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "f9aa6208-686d-e4c9-885c-4a14a4b4e40b",
-      "path": "/9/6",
-      "attributes": {
-        "signal_frequency": 0,
-        "modulation_index": 0,
-        "carrier_frequency": 0,
-        "amplitude": 0,
-        "offset": 0,
-        "name": "SingleFrequencyFMVoltageSource"
-      },
-      "attribute_meta": {
-        "signal_frequency": {
-          "name": "Fs",
-          "parameter": "signal frequency",
-          "default_value": "1 / Tstop",
-          "units": "Hz",
-          "type": "float"
-        },
-        "modulation_index": {
-          "name": "Mdi",
-          "parameter": "modulation index",
-          "default_value": "",
-          "units": "",
-          "type": "float"
-        },
-        "carrier_frequency": {
-          "name": "Fc",
-          "parameter": "carrier frequency",
-          "default_value": "1 / Tstop",
-          "units": "Hz",
-          "type": "float"
-        },
-        "amplitude": {
-          "name": "Va",
-          "parameter": "amplitude",
-          "default_value": "",
-          "units": "V",
-          "type": "float"
-        },
-        "offset": {
-          "name": "Vo",
-          "parameter": "offset",
-          "default_value": "",
-          "units": "V",
-          "type": "float"
-        }
-      },
-      "pointers": {
-        "base": "/9/M"
-      },
-      "pointer_meta": {},
-      "registry": {
-        "isAbstract": false,
-        "position": {
           "x": 390,
-          "y": 1750
+          "y": 1920
         }
       },
       "sets": {},
@@ -616,8 +129,8 @@
       },
       "children": [
         {
-          "id": "beb16578-3b44-8cf5-b7b5-ed63bd079e4a",
-          "path": "/9/6/M",
+          "id": "3440f80a-df3c-eb65-475f-fd7ff2a0d99f",
+          "path": "/9/2/s",
           "attributes": {
             "name": "n"
           },
@@ -634,8 +147,8 @@
           "children": []
         },
         {
-          "id": "627fd75a-2494-50c4-5910-ed6fecd7a113",
-          "path": "/9/6/v",
+          "id": "b09be3cc-1911-8c2d-6d00-b2bf16576b8b",
+          "path": "/9/2/F",
           "attributes": {
             "name": "p"
           },
@@ -654,155 +167,8 @@
       ]
     },
     {
-      "id": "c2b9621b-baee-4c39-e4d3-1a2ba2ae693b",
-      "path": "/9/7",
-      "attributes": {
-        "dc_offset": 0,
-        "phase": 0,
-        "fall_time": 0,
-        "rise_time": 0,
-        "delay_time": 0,
-        "period": 0,
-        "pulse_width": 0,
-        "pulsed_value": 0,
-        "initial_value": 0,
-        "name": "PulseCurrentSource"
-      },
-      "attribute_meta": {
-        "dc_offset": {
-          "name": "dc_offset",
-          "parameter": "dc offset",
-          "default_value": 0,
-          "units": "A",
-          "type": "float"
-        },
-        "phase": {
-          "name": "Phase",
-          "parameter": "phase",
-          "default_value": "0.0",
-          "units": "sec",
-          "type": "float"
-        },
-        "fall_time": {
-          "name": "Tf",
-          "parameter": "fall time",
-          "default_value": "Tstep",
-          "units": "sec",
-          "type": "float"
-        },
-        "rise_time": {
-          "name": "Tr",
-          "parameter": "rise time",
-          "default_value": "Tstep",
-          "units": "sec",
-          "type": "float"
-        },
-        "delay_time": {
-          "name": "Td",
-          "parameter": "delay time",
-          "default_value": "0.0",
-          "units": "sec",
-          "type": "float"
-        },
-        "period": {
-          "name": "Period",
-          "parameter": "period",
-          "default_value": "Tstop",
-          "units": "sec",
-          "type": "float"
-        },
-        "pulse_width": {
-          "name": "Pw",
-          "parameter": "pulse width",
-          "default_value": "Tstop",
-          "units": "sec",
-          "type": "float"
-        },
-        "pulsed_value": {
-          "name": "V2",
-          "parameter": "pulsed value",
-          "default_value": "",
-          "units": "A",
-          "type": "float"
-        },
-        "initial_value": {
-          "name": "V1",
-          "parameter": "initial value",
-          "default_value": "",
-          "units": "A",
-          "type": "float"
-        }
-      },
-      "pointers": {
-        "base": "/9/M"
-      },
-      "pointer_meta": {},
-      "registry": {
-        "isAbstract": false,
-        "position": {
-          "x": 220,
-          "y": 1580
-        }
-      },
-      "sets": {},
-      "member_attributes": {},
-      "member_registry": {},
-      "children_meta": {
-        "/9/O": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/0": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/R": {
-          "min": -1,
-          "max": -1
-        }
-      },
-      "children": [
-        {
-          "id": "91ebafa9-04a0-0907-c5ab-90cf6cc77a3d",
-          "path": "/9/7/w",
-          "attributes": {
-            "name": "n"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "a9d273c9-39c1-06e3-d0aa-94e85cc324be",
-          "path": "/9/7/p",
-          "attributes": {
-            "name": "p"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "73d4106a-44d3-40d2-2e3f-e631cba9b5c7",
-      "path": "/9/9",
+      "id": "dd881c9e-5530-2ac0-571f-ab9e08ff7daf",
+      "path": "/9/4",
       "attributes": {
         "T": 293.15,
         "Bf": 50,
@@ -917,7 +283,7 @@
         }
       },
       "pointers": {
-        "base": "/9/f"
+        "base": "/9/MN"
       },
       "pointer_meta": {},
       "registry": {
@@ -946,10 +312,10 @@
       },
       "children": [
         {
-          "id": "cbaeeb1f-483e-280c-9a09-4653797f1b18",
-          "path": "/9/9/G",
+          "id": "49f0c25f-6379-3922-6c85-572882d1e741",
+          "path": "/9/4/H",
           "attributes": {
-            "name": "Bulk"
+            "name": "Base"
           },
           "attribute_meta": {},
           "pointers": {
@@ -964,8 +330,8 @@
           "children": []
         },
         {
-          "id": "e8c9fc99-8ea7-b54d-39ce-996581c0d575",
-          "path": "/9/9/k",
+          "id": "e70399b6-5007-18d4-8016-9ae4511fbbfa",
+          "path": "/9/4/M",
           "attributes": {
             "name": "Collector"
           },
@@ -982,8 +348,8 @@
           "children": []
         },
         {
-          "id": "19aea3f4-b4da-d85a-f6f8-ee5a2b80994d",
-          "path": "/9/9/K",
+          "id": "607ded29-fff3-10cc-41fd-b6e5f23769d1",
+          "path": "/9/4/t",
           "attributes": {
             "name": "Emitter"
           },
@@ -1002,8 +368,246 @@
       ]
     },
     {
-      "id": "6b76ee2c-6d4f-d115-dfb3-a0c0fbfe335c",
-      "path": "/9/51",
+      "id": "38c2240c-ba1e-d665-d198-bb49076259b1",
+      "path": "/9/6",
+      "attributes": {
+        "signal_frequency": 0,
+        "modulation_index": 0,
+        "carrier_frequency": 0,
+        "amplitude": 0,
+        "offset": 0,
+        "name": "SingleFrequencyFMVoltageSource"
+      },
+      "attribute_meta": {
+        "signal_frequency": {
+          "name": "Fs",
+          "parameter": "signal frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "modulation_index": {
+          "name": "Mdi",
+          "parameter": "modulation index",
+          "default_value": "",
+          "units": "",
+          "type": "float"
+        },
+        "carrier_frequency": {
+          "name": "Fc",
+          "parameter": "carrier frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1750
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "28aee397-7a6f-7244-2cb2-e51ebffdbdf6",
+          "path": "/9/6/h",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "36da6bb6-f4ea-b378-6e89-41700fe7789d",
+          "path": "/9/6/y",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "61cc7699-1ba3-d720-b031-25a178d378c6",
+      "path": "/9/7",
+      "attributes": {
+        "fall_time_constant": 0,
+        "fall_delay_time": 0,
+        "rise_time_constant": 0,
+        "rise_delay_time": 0,
+        "pulsed_value": 0,
+        "initial_value": 0,
+        "name": "ExponentialVoltageSource"
+      },
+      "attribute_meta": {
+        "fall_time_constant": {
+          "name": "tau2",
+          "parameter": "fall time constant",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "fall_delay_time": {
+          "name": "Td2",
+          "parameter": "fall delay time",
+          "default_value": "sum(Td1, Tstep)",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_time_constant": {
+          "name": "tau1",
+          "parameter": "rise time constant",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_delay_time": {
+          "name": "Td1",
+          "parameter": "rise delay time",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulsed_value": {
+          "name": "V2",
+          "parameter": "pulsed value",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "initial_value": {
+          "name": "V1",
+          "parameter": "Initial value",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1580
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "20c61ad4-ba15-93d3-6f80-b80d9082f5ba",
+          "path": "/9/7/O",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "25cd4f8a-0317-0f1a-69b4-9691abe07b5f",
+          "path": "/9/7/T",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "667dce87-f190-915d-7af2-83c8cf72f1d7",
+      "path": "/9/8",
       "attributes": {
         "transConductance": 1,
         "name": "VCC"
@@ -1045,44 +649,8 @@
       },
       "children": [
         {
-          "id": "aced8d6c-d7ff-a627-82d3-ff63f3d8952e",
-          "path": "/9/51/2",
-          "attributes": {
-            "name": "p1"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "cbfee899-2110-c72a-935a-36052062208a",
-          "path": "/9/51/s",
-          "attributes": {
-            "name": "p2"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "c43aff60-6862-8c2d-346f-91067dbb5435",
-          "path": "/9/51/V",
+          "id": "837e6b92-dd16-eb3c-3765-b8153844b911",
+          "path": "/9/8/z",
           "attributes": {
             "name": "n1"
           },
@@ -1099,10 +667,46 @@
           "children": []
         },
         {
-          "id": "2f4c0317-b4ad-1f4b-9b8a-5dddb3125fa9",
-          "path": "/9/51/S",
+          "id": "b4ede490-eae7-4ba6-2381-441b7ae0b01d",
+          "path": "/9/8/n",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "6e5e065b-cb35-807c-70e9-1b2c34df9279",
+          "path": "/9/8/j",
           "attributes": {
             "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "2765782d-26cc-b3f1-70a8-afe2500e4699",
+          "path": "/9/8/S",
+          "attributes": {
+            "name": "p2"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1119,8 +723,137 @@
       ]
     },
     {
-      "id": "37829828-169a-1c64-d0c6-186cb881a912",
-      "path": "/9/6w",
+      "id": "d0e6e25a-707b-759a-ea8e-a35ed31ed0d5",
+      "path": "/9/9",
+      "attributes": {
+        "damping_factor": 0.01,
+        "delay": 0,
+        "frequency": 50,
+        "amplitude": 1,
+        "offset": 0,
+        "ac_magnitude": 1,
+        "dc_offset": 0,
+        "name": "AcLine"
+      },
+      "attribute_meta": {
+        "damping_factor": {
+          "name": "Df",
+          "parameter": "damping factor",
+          "default_value": "0.01",
+          "units": "Hz",
+          "type": "float"
+        },
+        "delay": {
+          "name": "Td",
+          "parameter": "delay",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "frequency": {
+          "name": "f",
+          "parameter": "frequency",
+          "default_value": "1 / TStop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "type": "float"
+        },
+        "ac_magnitude": {
+          "name": "ac_magnitude",
+          "parameter": "ac magnitude",
+          "default_value": 0,
+          "units": "V",
+          "type": "float"
+        },
+        "dc_offset": {
+          "name": "dc_offset",
+          "parameter": "dc offset",
+          "default_value": 0,
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 1410
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "9d8065c5-420a-1f3b-3bc3-48d1f4028930",
+          "path": "/9/9/7",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "9ea6427f-c967-d09e-4f9f-ea102d65985a",
+          "path": "/9/9/D",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "b7552bb9-7f67-a019-7109-35a81dbbcb78",
+      "path": "/9/kE",
       "attributes": {
         "T": 293.15,
         "Bf": 50,
@@ -1246,7 +979,7 @@
         }
       },
       "pointers": {
-        "base": "/9/f"
+        "base": "/9/MN"
       },
       "pointer_meta": {},
       "registry": {
@@ -1275,46 +1008,46 @@
       },
       "children": [
         {
-          "id": "fb7adce8-c65a-1d2d-780b-83dd20679e51",
-          "path": "/9/6w/3",
-          "attributes": {
-            "name": "Bulk"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "aa748cef-cccb-e139-7363-d682765d3450",
-          "path": "/9/6w/n",
-          "attributes": {
-            "name": "Collector"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "d53e05a0-9b51-5b34-92b4-09d5eb2d9c8f",
-          "path": "/9/6w/h",
+          "id": "f5951230-35ac-967c-1536-ba1440d68a87",
+          "path": "/9/kE/O",
           "attributes": {
             "name": "Emitter"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "86996e5f-1c31-6c7c-702a-5dbfe5517803",
+          "path": "/9/kE/U",
+          "attributes": {
+            "name": "Base"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "271bc438-0979-752d-f835-1639234f0542",
+          "path": "/9/kE/R",
+          "attributes": {
+            "name": "Collector"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1331,8 +1064,8 @@
       ]
     },
     {
-      "id": "27acb0f9-df5f-9040-3015-b481a9ca9120",
-      "path": "/9/M8",
+      "id": "8e65af05-c4f8-fcae-4f43-092dd452f111",
+      "path": "/9/5z",
       "attributes": {
         "W": 0.00002,
         "L": 0.000006,
@@ -1397,7 +1130,7 @@
         }
       },
       "pointers": {
-        "base": "/9/f"
+        "base": "/9/MN"
       },
       "pointer_meta": {},
       "registry": {
@@ -1426,8 +1159,26 @@
       },
       "children": [
         {
-          "id": "5f6cf7f8-a45d-177e-9bfb-5a7592510ce2",
-          "path": "/9/M8/z",
+          "id": "d192ed70-7fa6-bcab-14a4-9ed78d87731a",
+          "path": "/9/5z/5",
+          "attributes": {
+            "name": "Source"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "48e28641-2fd6-2660-d97b-aa6aeb726283",
+          "path": "/9/5z/F",
           "attributes": {
             "name": "Gate"
           },
@@ -1444,8 +1195,8 @@
           "children": []
         },
         {
-          "id": "3062d09e-f15d-2606-c223-c9f6b52b1ed9",
-          "path": "/9/M8/w",
+          "id": "961e268f-ebb2-ac4f-3018-d487b1f8218e",
+          "path": "/9/5z/I",
           "attributes": {
             "name": "Drain"
           },
@@ -1462,28 +1213,10 @@
           "children": []
         },
         {
-          "id": "4aba2ca2-eb54-03f6-ab2f-5076a50e1419",
-          "path": "/9/M8/Z",
+          "id": "a1e8d9d1-2688-269c-3306-3101ffa3750f",
+          "path": "/9/5z/j",
           "attributes": {
             "name": "Bulk"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "cb347f51-e0ee-dc27-ae13-29ff44c0d6bb",
-          "path": "/9/M8/j",
-          "attributes": {
-            "name": "Source"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1500,8 +1233,8 @@
       ]
     },
     {
-      "id": "2f0e3b35-3db6-0218-e0a8-b7d19ed610b7",
-      "path": "/9/F0",
+      "id": "142636d7-27ec-5c04-0c37-c3c8a41e9b87",
+      "path": "/9/dj",
       "attributes": {
         "Ids": 0.000001,
         "Vt": 0.04,
@@ -1554,7 +1287,7 @@
         }
       },
       "pointers": {
-        "base": "/9/f"
+        "base": "/9/MN"
       },
       "pointer_meta": {},
       "registry": {
@@ -1583,8 +1316,8 @@
       },
       "children": [
         {
-          "id": "15bbfd0d-3ed1-9570-60e2-1813a58b70a9",
-          "path": "/9/F0/K",
+          "id": "b0300e0b-5127-d72a-217c-66dcecf549cf",
+          "path": "/9/dj/5",
           "attributes": {
             "name": "p"
           },
@@ -1601,8 +1334,8 @@
           "children": []
         },
         {
-          "id": "9b3d6388-04fc-1d2d-c9e4-9ca05adac2c0",
-          "path": "/9/F0/L",
+          "id": "2c4febbb-3d81-545c-a4eb-ebfd54153a0c",
+          "path": "/9/dj/G",
           "attributes": {
             "name": "n"
           },
@@ -1621,8 +1354,8 @@
       ]
     },
     {
-      "id": "2be6ff01-73ca-6041-efb1-d968920ef943",
-      "path": "/9/h",
+      "id": "17f8ddd9-9d76-c704-1130-49e0c44a522a",
+      "path": "/9/vH",
       "attributes": {
         "Ids": 0.000001,
         "Vt": 0.04,
@@ -1658,7 +1391,7 @@
         }
       },
       "pointers": {
-        "base": "/9/f"
+        "base": "/9/MN"
       },
       "pointer_meta": {},
       "registry": {
@@ -1687,8 +1420,8 @@
       },
       "children": [
         {
-          "id": "bb6ae8bd-aac3-6ad7-78b1-13a51b751cb9",
-          "path": "/9/h/f",
+          "id": "8f6490f1-3e37-2c48-a244-8fd96afbd77c",
+          "path": "/9/vH/M",
           "attributes": {
             "name": "p"
           },
@@ -1705,8 +1438,8 @@
           "children": []
         },
         {
-          "id": "4c1a8dda-5eae-7d41-c794-a2a0d83e5af7",
-          "path": "/9/h/W",
+          "id": "51346f7f-d98b-40f0-9deb-62c915f2f4c9",
+          "path": "/9/vH/S",
           "attributes": {
             "name": "n"
           },
@@ -1725,8 +1458,8 @@
       ]
     },
     {
-      "id": "f7df4704-32dd-bd2a-b08d-de55696484f3",
-      "path": "/9/rG",
+      "id": "314d3761-7f5a-5374-23e2-88644cf7b565",
+      "path": "/9/NU",
       "attributes": {
         "color": "#FF0000",
         "name": "LED"
@@ -1738,7 +1471,7 @@
         }
       },
       "pointers": {
-        "base": "/9/h"
+        "base": "/9/vH"
       },
       "pointer_meta": {},
       "registry": {
@@ -1766,12 +1499,12 @@
       },
       "children": [
         {
-          "id": "675350b8-ebd4-b7bc-278d-1498e01f6109",
-          "path": "/9/rG/f",
+          "id": "a9d17a49-dc1b-b838-9096-4e5de2463033",
+          "path": "/9/NU/M",
           "attributes": {},
           "attribute_meta": {},
           "pointers": {
-            "base": "/9/h/f"
+            "base": "/9/vH/M"
           },
           "pointer_meta": {},
           "registry": {},
@@ -1782,12 +1515,12 @@
           "children": []
         },
         {
-          "id": "902335df-1fb9-a02a-98a8-a59d23542747",
-          "path": "/9/rG/W",
+          "id": "778185c7-3ba7-d480-af39-a34d9d4f1386",
+          "path": "/9/NU/S",
           "attributes": {},
           "attribute_meta": {},
           "pointers": {
-            "base": "/9/h/W"
+            "base": "/9/vH/S"
           },
           "pointer_meta": {},
           "registry": {},
@@ -1881,14 +1614,14 @@
       "children": []
     },
     {
-      "id": "ec52ae57-03a0-4929-075c-0115b689b715",
-      "path": "/9/06",
+      "id": "8c893e7b-f9cf-c0de-1d97-167f7cc7f367",
+      "path": "/9/Wx",
       "attributes": {
         "name": "SchottkyDiode"
       },
       "attribute_meta": {},
       "pointers": {
-        "base": "/9/h"
+        "base": "/9/vH"
       },
       "pointer_meta": {},
       "registry": {
@@ -1916,12 +1649,12 @@
       },
       "children": [
         {
-          "id": "7cdeb9eb-daa9-43bf-905c-cbd83ff252ef",
-          "path": "/9/06/f",
+          "id": "14157353-5a8e-2b92-aee3-d046d2767631",
+          "path": "/9/Wx/M",
           "attributes": {},
           "attribute_meta": {},
           "pointers": {
-            "base": "/9/h/f"
+            "base": "/9/vH/M"
           },
           "pointer_meta": {},
           "registry": {},
@@ -1932,12 +1665,12 @@
           "children": []
         },
         {
-          "id": "8baedc8c-2ec4-5429-2f79-7addfcb914a1",
-          "path": "/9/06/W",
+          "id": "ca458cdd-bd32-472a-914c-3d56ad7f5584",
+          "path": "/9/Wx/S",
           "attributes": {},
           "attribute_meta": {},
           "pointers": {
-            "base": "/9/h/W"
+            "base": "/9/vH/S"
           },
           "pointer_meta": {},
           "registry": {},
@@ -2520,8 +2253,8 @@
       ]
     },
     {
-      "id": "03967992-f416-d775-c9f9-1a52fa1dccae",
-      "path": "/9/P",
+      "id": "1a6cd1f9-627c-9120-3f7e-691f2cd2782a",
+      "path": "/9/c",
       "attributes": {
         "parameter2": 0,
         "parameter1": 1,
@@ -2585,8 +2318,8 @@
       },
       "children": [
         {
-          "id": "1c9c5955-691b-5b10-4e26-d21502e6b01e",
-          "path": "/9/P/2",
+          "id": "df3a7659-17d1-23d6-c989-4066610ace6e",
+          "path": "/9/c/q",
           "attributes": {
             "name": "n"
           },
@@ -2603,8 +2336,8 @@
           "children": []
         },
         {
-          "id": "11567099-7b40-728f-4b3e-8e55354ac97f",
-          "path": "/9/P/N",
+          "id": "ca64dd7c-b66e-008c-66ca-f985e9ed6c73",
+          "path": "/9/c/P",
           "attributes": {
             "name": "p"
           },
@@ -2623,110 +2356,7 @@
       ]
     },
     {
-      "id": "70a96415-752c-cb51-f66c-627be3f76955",
-      "path": "/9/D",
-      "attributes": {
-        "parameter2": 0,
-        "parameter1": 1,
-        "time_delay": 0,
-        "duration": 0,
-        "random_type": "uniform",
-        "name": "RandomVoltageSource"
-      },
-      "attribute_meta": {
-        "parameter2": {
-          "type": "float"
-        },
-        "parameter1": {
-          "type": "float"
-        },
-        "time_delay": {
-          "name": "time_delay",
-          "parameter": "Delay Time",
-          "default_value": 0,
-          "units": "sec",
-          "type": "float"
-        },
-        "duration": {
-          "name": "duration",
-          "parameter": "Duration for random values to show up",
-          "default_value": 0,
-          "units": "sec",
-          "type": "float"
-        },
-        "random_type": {
-          "type": "string"
-        }
-      },
-      "pointers": {
-        "base": "/9/M"
-      },
-      "pointer_meta": {},
-      "registry": {
-        "isAbstract": false,
-        "position": {
-          "x": 390,
-          "y": 1920
-        }
-      },
-      "sets": {},
-      "member_attributes": {},
-      "member_registry": {},
-      "children_meta": {
-        "/9/O": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/0": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/R": {
-          "min": -1,
-          "max": -1
-        }
-      },
-      "children": [
-        {
-          "id": "4344d280-f72e-9c70-49da-ad7003cfbe9a",
-          "path": "/9/D/z",
-          "attributes": {
-            "name": "n"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "3b053a9d-642e-1a18-eb10-5487f1c4909c",
-          "path": "/9/D/W",
-          "attributes": {
-            "name": "p"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "0c76bb9f-df24-5b2a-d47d-ed0b616e47fc",
+      "id": "8f625668-d6d8-94ee-65c6-0ac60ba92825",
       "path": "/9/q",
       "attributes": {
         "signal_delay": 0,
@@ -2803,8 +2433,8 @@
       },
       "children": [
         {
-          "id": "c2622619-236d-2422-62e9-c7bc6b0b337b",
-          "path": "/9/q/k",
+          "id": "4a960884-cbdc-5062-dd4a-2c08eeb7e434",
+          "path": "/9/q/c",
           "attributes": {
             "name": "n"
           },
@@ -2821,8 +2451,8 @@
           "children": []
         },
         {
-          "id": "cff4a0e7-f613-f23e-941f-e0b0db4d9ea7",
-          "path": "/9/q/D",
+          "id": "6f8001ed-311a-5ab6-a0aa-1d6133e9248c",
+          "path": "/9/q/X",
           "attributes": {
             "name": "p"
           },
@@ -2841,8 +2471,8 @@
       ]
     },
     {
-      "id": "a978d116-41a9-09c2-1024-89c7692f8657",
-      "path": "/9/2E",
+      "id": "f9e6150c-fe0e-7262-ed7d-fa859dd38b02",
+      "path": "/9/J",
       "attributes": {
         "signal_delay": 0,
         "carrier_frequency": 0,
@@ -2918,10 +2548,10 @@
       },
       "children": [
         {
-          "id": "61167634-aebd-09fd-0981-92bd3ac8dfdf",
-          "path": "/9/2E/5",
+          "id": "e4628f1f-e941-4616-3b81-6dbc8c52d6b6",
+          "path": "/9/J/1",
           "attributes": {
-            "name": "p"
+            "name": "n"
           },
           "attribute_meta": {},
           "pointers": {
@@ -2936,10 +2566,10 @@
           "children": []
         },
         {
-          "id": "d15a5395-084b-e2b6-46d9-cca5336e68b2",
-          "path": "/9/2E/9",
+          "id": "df396732-b84f-878f-25cb-04c1ae23f2d8",
+          "path": "/9/J/x",
           "attributes": {
-            "name": "n"
+            "name": "p"
           },
           "attribute_meta": {},
           "pointers": {
@@ -2956,8 +2586,8 @@
       ]
     },
     {
-      "id": "8df4697c-e63c-ad9e-951f-c2806654b0e0",
-      "path": "/9/o",
+      "id": "f3a4c109-6156-295b-872d-9ed60349e2bd",
+      "path": "/9/C",
       "attributes": {
         "signal_frequency": 0,
         "modulation_index": 0,
@@ -3033,8 +2663,8 @@
       },
       "children": [
         {
-          "id": "6bd9f82d-90c6-66bf-25e1-d220757926ea",
-          "path": "/9/o/x",
+          "id": "8f7ab1d8-84ba-2501-2af0-23ed90a0443a",
+          "path": "/9/C/0",
           "attributes": {
             "name": "n"
           },
@@ -3051,8 +2681,8 @@
           "children": []
         },
         {
-          "id": "744df49b-b2f9-f68d-5d34-2a8c5a0735ca",
-          "path": "/9/o/n",
+          "id": "62318f0e-b631-a76e-e28c-482071da46f1",
+          "path": "/9/C/9",
           "attributes": {
             "name": "p"
           },
@@ -3071,8 +2701,8 @@
       ]
     },
     {
-      "id": "c2b3a59c-74c3-ee03-c6b9-11337c32150a",
-      "path": "/9/L",
+      "id": "7ef363fa-659d-4b09-4cb3-397651f19967",
+      "path": "/9/r",
       "attributes": {
         "delay_time": 0,
         "repeate_time": 0,
@@ -3132,8 +2762,8 @@
       },
       "children": [
         {
-          "id": "e6778263-620e-ad1c-8de2-bb29f1649268",
-          "path": "/9/L/0",
+          "id": "e36eb358-a33d-52e3-18b7-12b440aac37e",
+          "path": "/9/r/2",
           "attributes": {
             "name": "p"
           },
@@ -3150,8 +2780,8 @@
           "children": []
         },
         {
-          "id": "12c33905-35ea-17be-39ca-39d138e02341",
-          "path": "/9/L/h",
+          "id": "5f6a9db8-5654-6e2e-5536-dbf988baf421",
+          "path": "/9/r/6",
           "attributes": {
             "name": "n"
           },
@@ -3170,8 +2800,107 @@
       ]
     },
     {
-      "id": "5e00168d-194a-8cd9-d501-24555049dab7",
-      "path": "/9/c",
+      "id": "863547ca-a077-472f-ca59-b2750ce78979",
+      "path": "/9/kG",
+      "attributes": {
+        "delay_time": 0,
+        "repeate_time": 0,
+        "values": "[(0, 0)]",
+        "name": "PieceWiseLinearVoltageSource"
+      },
+      "attribute_meta": {
+        "delay_time": {
+          "name": "delay_time",
+          "parameter": "Delay Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "repeate_time": {
+          "name": "repeate_time",
+          "parameter": "Repeat Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "values": {
+          "name": "values",
+          "parameter": "Piecewise Linear Values",
+          "default_value": "[(0, 0)]",
+          "units": "V",
+          "type": "string"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1580
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "36fd248d-5376-1af3-daee-bc0411b3266e",
+          "path": "/9/kG/4",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "97d5f56c-92d2-c30f-f008-7010ff273162",
+          "path": "/9/kG/a",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "c9a5572a-b9f2-1867-488e-13edb88f3501",
+      "path": "/9/y",
       "attributes": {
         "fall_time_constant": 0,
         "fall_delay_time": 0,
@@ -3255,8 +2984,8 @@
       },
       "children": [
         {
-          "id": "01da6574-7238-e557-c623-7937405edb7d",
-          "path": "/9/c/C",
+          "id": "f212da15-8f3f-1028-3647-a84ae6c958db",
+          "path": "/9/y/i",
           "attributes": {
             "name": "n"
           },
@@ -3273,8 +3002,8 @@
           "children": []
         },
         {
-          "id": "02345619-f243-87d3-a787-5a3518125369",
-          "path": "/9/c/v",
+          "id": "71aa85ed-ccd2-d3ee-2660-f9af541e8592",
+          "path": "/9/y/b",
           "attributes": {
             "name": "p"
           },
@@ -3293,43 +3022,67 @@
       ]
     },
     {
-      "id": "f66b3d64-47bf-4c56-595f-a2165a4a0ec0",
-      "path": "/9/C",
+      "id": "f367453f-3fb7-c529-6e72-f19f7e4fbce9",
+      "path": "/9/g",
       "attributes": {
-        "fall_time_constant": 0,
-        "fall_delay_time": 0,
-        "rise_time_constant": 0,
-        "rise_delay_time": 0,
+        "dc_offset": 0,
+        "phase": 0,
+        "fall_time": 0,
+        "rise_time": 0,
+        "delay_time": 0,
+        "period": 0,
+        "pulse_width": 0,
         "pulsed_value": 0,
         "initial_value": 0,
-        "name": "ExponentialVoltageSource"
+        "name": "PulseCurrentSource"
       },
       "attribute_meta": {
-        "fall_time_constant": {
-          "name": "tau2",
-          "parameter": "fall time constant",
-          "default_value": "Tstep",
-          "units": "sec",
+        "dc_offset": {
+          "name": "dc_offset",
+          "parameter": "dc offset",
+          "default_value": 0,
+          "units": "A",
           "type": "float"
         },
-        "fall_delay_time": {
-          "name": "Td2",
-          "parameter": "fall delay time",
-          "default_value": "sum(Td1, Tstep)",
-          "units": "sec",
-          "type": "float"
-        },
-        "rise_time_constant": {
-          "name": "tau1",
-          "parameter": "rise time constant",
-          "default_value": "Tstep",
-          "units": "sec",
-          "type": "float"
-        },
-        "rise_delay_time": {
-          "name": "Td1",
-          "parameter": "rise delay time",
+        "phase": {
+          "name": "Phase",
+          "parameter": "phase",
           "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "fall_time": {
+          "name": "Tf",
+          "parameter": "fall time",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_time": {
+          "name": "Tr",
+          "parameter": "rise time",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "delay_time": {
+          "name": "Td",
+          "parameter": "delay time",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "period": {
+          "name": "Period",
+          "parameter": "period",
+          "default_value": "Tstop",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulse_width": {
+          "name": "Pw",
+          "parameter": "pulse width",
+          "default_value": "Tstop",
           "units": "sec",
           "type": "float"
         },
@@ -3337,14 +3090,14 @@
           "name": "V2",
           "parameter": "pulsed value",
           "default_value": "",
-          "units": "V",
+          "units": "A",
           "type": "float"
         },
         "initial_value": {
           "name": "V1",
-          "parameter": "Initial value",
+          "parameter": "initial value",
           "default_value": "",
-          "units": "V",
+          "units": "A",
           "type": "float"
         }
       },
@@ -3355,7 +3108,7 @@
       "registry": {
         "isAbstract": false,
         "position": {
-          "x": 390,
+          "x": 220,
           "y": 1580
         }
       },
@@ -3378,8 +3131,8 @@
       },
       "children": [
         {
-          "id": "1c69849e-ed16-0207-24ce-b699c11ed40a",
-          "path": "/9/C/0",
+          "id": "b144d7be-695a-b1b6-dc40-6ba7da8865e7",
+          "path": "/9/g/3",
           "attributes": {
             "name": "n"
           },
@@ -3396,8 +3149,8 @@
           "children": []
         },
         {
-          "id": "1ca44247-5dda-5d29-d0c5-c5699f7dc3d8",
-          "path": "/9/C/2",
+          "id": "6ac69a68-7406-f4b1-5efa-8552e1dee6c9",
+          "path": "/9/g/T",
           "attributes": {
             "name": "p"
           },
@@ -3416,8 +3169,8 @@
       ]
     },
     {
-      "id": "354687f9-1dbf-6ec5-f050-afac76fd1c01",
-      "path": "/9/yJ",
+      "id": "27eeb700-afb7-9891-7555-79dd2d54fe9f",
+      "path": "/9/j",
       "attributes": {
         "dc_offset": 0,
         "phase": 0,
@@ -3525,8 +3278,8 @@
       },
       "children": [
         {
-          "id": "ceae1bbc-eee5-992f-f146-a0809a5159c9",
-          "path": "/9/yJ/c",
+          "id": "eeac9982-863e-0b9e-80ff-46858cb77c92",
+          "path": "/9/j/P",
           "attributes": {
             "name": "n"
           },
@@ -3543,8 +3296,8 @@
           "children": []
         },
         {
-          "id": "826273ca-5c0a-7cae-db11-41bf236fbd10",
-          "path": "/9/yJ/i",
+          "id": "d0cc150f-b64f-6828-93a0-225c1f0cb07e",
+          "path": "/9/j/K",
           "attributes": {
             "name": "p"
           },
@@ -3563,137 +3316,8 @@
       ]
     },
     {
-      "id": "2eb7f107-2d48-835d-05d6-15d7858d2731",
-      "path": "/9/v",
-      "attributes": {
-        "damping_factor": 0.01,
-        "delay": 0,
-        "frequency": 50,
-        "amplitude": 1,
-        "offset": 0,
-        "ac_magnitude": 1,
-        "dc_offset": 0,
-        "name": "AcLine"
-      },
-      "attribute_meta": {
-        "damping_factor": {
-          "name": "Df",
-          "parameter": "damping factor",
-          "default_value": "0.01",
-          "units": "Hz",
-          "type": "float"
-        },
-        "delay": {
-          "name": "Td",
-          "parameter": "delay",
-          "default_value": "0.0",
-          "units": "sec",
-          "type": "float"
-        },
-        "frequency": {
-          "name": "f",
-          "parameter": "frequency",
-          "default_value": "1 / TStop",
-          "units": "Hz",
-          "type": "float"
-        },
-        "amplitude": {
-          "name": "Va",
-          "parameter": "amplitude",
-          "default_value": "",
-          "type": "float"
-        },
-        "offset": {
-          "name": "Vo",
-          "parameter": "offset",
-          "default_value": "",
-          "type": "float"
-        },
-        "ac_magnitude": {
-          "name": "ac_magnitude",
-          "parameter": "ac magnitude",
-          "default_value": 0,
-          "units": "V",
-          "type": "float"
-        },
-        "dc_offset": {
-          "name": "dc_offset",
-          "parameter": "dc offset",
-          "default_value": 0,
-          "units": "V",
-          "type": "float"
-        }
-      },
-      "pointers": {
-        "base": "/9/M"
-      },
-      "pointer_meta": {},
-      "registry": {
-        "isAbstract": false,
-        "position": {
-          "x": 560,
-          "y": 1410
-        }
-      },
-      "sets": {},
-      "member_attributes": {},
-      "member_registry": {},
-      "children_meta": {
-        "/9/O": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/0": {
-          "min": -1,
-          "max": -1
-        },
-        "/9/R": {
-          "min": -1,
-          "max": -1
-        }
-      },
-      "children": [
-        {
-          "id": "e72847be-2c67-cc23-769e-d51a37cae423",
-          "path": "/9/v/6",
-          "attributes": {
-            "name": "p"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "328aa16c-869a-b670-776f-f03a25a4724f",
-          "path": "/9/v/a",
-          "attributes": {
-            "name": "n"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "e4e8f67c-8fc6-9187-c270-a61cf66730b5",
-      "path": "/9/T",
+      "id": "0a6569e5-d6e2-da1d-0588-e96483fbcc87",
+      "path": "/9/L",
       "attributes": {
         "damping_factor": 0.01,
         "delay": 0,
@@ -3785,8 +3409,8 @@
       },
       "children": [
         {
-          "id": "e3d6a300-c7e7-8b39-80ef-7cceb2900a1d",
-          "path": "/9/T/4",
+          "id": "8929889e-4363-1408-f982-a65a85eaa98f",
+          "path": "/9/L/q",
           "attributes": {
             "name": "n"
           },
@@ -3803,8 +3427,8 @@
           "children": []
         },
         {
-          "id": "58f09563-cc29-2f4b-4034-f9c4bf4226f4",
-          "path": "/9/T/i",
+          "id": "e091a7ff-b14c-bf44-caf3-5b3031d6f34b",
+          "path": "/9/L/Y",
           "attributes": {
             "name": "p"
           },
@@ -3823,8 +3447,8 @@
       ]
     },
     {
-      "id": "7e242eb0-351d-6449-56ff-6d453ef4b193",
-      "path": "/9/9w",
+      "id": "e3fdec67-7349-9cec-8f35-13cb7a1440ed",
+      "path": "/9/b",
       "attributes": {
         "damping_factor": 0.01,
         "delay": 0,
@@ -3916,8 +3540,8 @@
       },
       "children": [
         {
-          "id": "e9e8ffe2-beac-a97d-b3de-bdde79f9b2cd",
-          "path": "/9/9w/q",
+          "id": "b95df90b-0145-c92b-6564-55c93c58c007",
+          "path": "/9/b/C",
           "attributes": {
             "name": "n"
           },
@@ -3934,8 +3558,8 @@
           "children": []
         },
         {
-          "id": "05200cc8-c223-92b9-f92f-90014244932c",
-          "path": "/9/9w/f",
+          "id": "87296c1b-03f2-d248-3a00-845c2abb0d4a",
+          "path": "/9/b/M",
           "attributes": {
             "name": "p"
           },
@@ -3954,8 +3578,8 @@
       ]
     },
     {
-      "id": "58d4e8a6-b0c5-703e-d7dc-93b33aa736ea",
-      "path": "/9/e",
+      "id": "75a4f2f9-1e61-a7d5-6b20-30a81fafff01",
+      "path": "/9/F",
       "attributes": {
         "IC": 0,
         "UIC": false,
@@ -4002,8 +3626,8 @@
       },
       "children": [
         {
-          "id": "1d5170b9-fa0d-c021-6e7a-17ecc277317e",
-          "path": "/9/e/a",
+          "id": "d3e0ce33-405e-cce9-9a16-2caf39e5e28c",
+          "path": "/9/F/a",
           "attributes": {
             "name": "p"
           },
@@ -4020,8 +3644,8 @@
           "children": []
         },
         {
-          "id": "25689bab-1ce6-d546-5662-3f63cc5cef70",
-          "path": "/9/e/c",
+          "id": "0b33c6ee-31eb-57fb-f58f-fc3a492ecc90",
+          "path": "/9/F/C",
           "attributes": {
             "name": "n"
           },
@@ -4040,8 +3664,8 @@
       ]
     },
     {
-      "id": "71a5ad96-103f-af6a-3d5b-c5196bb12d8f",
-      "path": "/9/d",
+      "id": "afa94cdb-ea7b-c3a3-09ba-be601aefa1ea",
+      "path": "/9/z",
       "attributes": {
         "IC": 0,
         "UIC": false,
@@ -4088,8 +3712,8 @@
       },
       "children": [
         {
-          "id": "de60a479-9baa-c49b-f0c8-26471a02fde4",
-          "path": "/9/d/4",
+          "id": "968fdd2b-5bc6-d942-1a19-9e49f4cbaf18",
+          "path": "/9/z/i",
           "attributes": {
             "name": "p"
           },
@@ -4106,8 +3730,8 @@
           "children": []
         },
         {
-          "id": "228cbf8e-39ec-1929-548f-3eafe40c79c5",
-          "path": "/9/d/C",
+          "id": "847299ba-3e13-48f2-9af9-9ced7687a382",
+          "path": "/9/z/E",
           "attributes": {
             "name": "n"
           },
@@ -4126,8 +3750,8 @@
       ]
     },
     {
-      "id": "35bdfb30-d16f-4bf9-890a-def971c378b7",
-      "path": "/9/y",
+      "id": "2ad79267-7de3-55c3-feb7-fa1f61ecd934",
+      "path": "/9/m",
       "attributes": {
         "T_ref": 300.15,
         "alpha": 0,
@@ -4181,8 +3805,8 @@
       },
       "children": [
         {
-          "id": "e56dd5f5-4d20-3b44-8deb-e0cc7ec141f3",
-          "path": "/9/y/1",
+          "id": "b16c1a21-ef12-efd6-31a9-48fb59fe7f91",
+          "path": "/9/m/E",
           "attributes": {
             "name": "n"
           },
@@ -4199,8 +3823,8 @@
           "children": []
         },
         {
-          "id": "5ef12556-b2dc-3bb2-f1c1-2c8df654cc3d",
-          "path": "/9/y/X",
+          "id": "06a7c2a9-f64b-daa3-f219-67d8abc2f7a8",
+          "path": "/9/m/m",
           "attributes": {
             "name": "p"
           },
@@ -4219,8 +3843,8 @@
       ]
     },
     {
-      "id": "b128621e-2123-4e8f-2206-9c41099a43fe",
-      "path": "/9/Cn",
+      "id": "8705ebfc-5033-9f59-7261-42fa3e0565c0",
+      "path": "/9/K",
       "attributes": {
         "T_ref": 300.15,
         "alpha": 0,
@@ -4274,8 +3898,8 @@
       },
       "children": [
         {
-          "id": "e40f8b85-3d29-3c7c-eaec-17766ac73d02",
-          "path": "/9/Cn/J",
+          "id": "e3ab30eb-a2aa-4f32-05d3-704c09d76eb8",
+          "path": "/9/K/v",
           "attributes": {
             "name": "p"
           },
@@ -4292,8 +3916,8 @@
           "children": []
         },
         {
-          "id": "b8ff224d-d200-2e4a-3811-e3a9560acc77",
-          "path": "/9/Cn/l",
+          "id": "db205a8a-781c-10d4-a8a9-298d2ccf6ba1",
+          "path": "/9/K/L",
           "attributes": {
             "name": "n"
           },
@@ -4312,8 +3936,261 @@
       ]
     },
     {
-      "id": "fe14503e-f25c-c853-8989-9a7df11574b2",
-      "path": "/9/Z",
+      "id": "185290a5-cf5d-d6ab-691c-1a3a17801dfc",
+      "path": "/9/jD",
+      "attributes": {
+        "Rdm": 2000000,
+        "Rcm": 2000000000,
+        "Cin": 1.4e-12,
+        "Vos": 0.001,
+        "Ib": 8e-8,
+        "Ios": 2e-8,
+        "vcp": 0,
+        "vcm": 0,
+        "Avd0": 106,
+        "CMRR": 90,
+        "fp1": 5,
+        "fp2": 2000000,
+        "fp3": 20000000,
+        "fp4": 100000000,
+        "fz": 5000000,
+        "sr_p": 500000,
+        "sr_m": 500000,
+        "Rout": 75,
+        "Imaxso": 0.025,
+        "Imaxsi": 0.025,
+        "Ts": 0.0000012,
+        "name": "OpAmpDetailed"
+      },
+      "attribute_meta": {
+        "Rdm": {
+          "type": "float",
+          "description": "Input resistance (differential input mode)",
+          "unit": "Ohm"
+        },
+        "Rcm": {
+          "type": "float",
+          "description": "Input resistance (common mode)",
+          "unit": "Ohm"
+        },
+        "Cin": {
+          "type": "float",
+          "description": "Input capacitance",
+          "unit": "F"
+        },
+        "Vos": {
+          "type": "float",
+          "description": "Input offset voltage",
+          "unit": "V"
+        },
+        "Ib": {
+          "type": "float",
+          "description": "Input bias current",
+          "unit": "A"
+        },
+        "Ios": {
+          "type": "float",
+          "description": "Input offset current",
+          "unit": "A"
+        },
+        "vcp": {
+          "type": "float",
+          "description": "Correction value for limiting by p_supply",
+          "unit": "V"
+        },
+        "vcm": {
+          "type": "float",
+          "description": "Correction value for limiting by msupply",
+          "unit": "V"
+        },
+        "Avd0": {
+          "type": "float",
+          "description": "Differential amplifier [dB]"
+        },
+        "CMRR": {
+          "type": "float",
+          "description": "Common-mode rejection [dB]"
+        },
+        "fp1": {
+          "type": "float",
+          "description": "Dominant pole",
+          "unit": "Hz"
+        },
+        "fp2": {
+          "type": "float",
+          "description": "Pole frequency",
+          "unit": "Hz"
+        },
+        "fp3": {
+          "type": "float",
+          "description": "Pole frequency",
+          "unit": "Hz"
+        },
+        "fp4": {
+          "type": "float",
+          "description": "Pole frequency",
+          "unit": "Hz"
+        },
+        "fz": {
+          "type": "float",
+          "description": "Zero frequency",
+          "unit": "Hz"
+        },
+        "sr_p": {
+          "type": "float",
+          "description": "Slew rate for increase",
+          "unit": "V/s"
+        },
+        "sr_m": {
+          "type": "float",
+          "description": "Slew rate for decrease",
+          "unit": "V/s"
+        },
+        "Rout": {
+          "type": "float",
+          "description": "Output resistance",
+          "unit": "Ohm"
+        },
+        "Imaxso": {
+          "type": "float",
+          "description": "Maximal output current (source current)",
+          "unit": "A"
+        },
+        "Imaxsi": {
+          "type": "float",
+          "description": "Maximal output current (sink current)",
+          "unit": "A"
+        },
+        "Ts": {
+          "type": "float",
+          "description": "sampling time",
+          "unit": "s"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1070
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "5ac6a6e9-e6cc-f66c-d67f-349beabd348c",
+          "path": "/9/jD/b",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "b5812d96-4085-5a87-c91b-c9709aef2804",
+          "path": "/9/jD/M",
+          "attributes": {
+            "name": "p_supply"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "ad20c4f6-cdc9-79b7-e9bc-59c5064227ee",
+          "path": "/9/jD/P",
+          "attributes": {
+            "name": "outp"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "425ea4e4-7d3a-ba62-7dde-c9a57c6a24d1",
+          "path": "/9/jD/o",
+          "attributes": {
+            "name": "m"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "d5caa924-edd0-cced-32ce-412e46b4dae6",
+          "path": "/9/jD/X",
+          "attributes": {
+            "name": "m_supply"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "105283ed-18e7-d69b-59ea-64ab0f83fa66",
+      "path": "/9/dG",
       "attributes": {
         "Slope": 1,
         "name": "OpAmp"
@@ -4354,62 +4231,8 @@
       },
       "children": [
         {
-          "id": "fe201877-d821-b33b-dd8a-aac454dfeb80",
-          "path": "/9/Z/3",
-          "attributes": {
-            "name": "in_n"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "9f1b26e5-a298-5729-50d8-93534e5c7433",
-          "path": "/9/Z/k",
-          "attributes": {
-            "name": "out"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "e4448f64-feda-b2de-ddc6-f7eb4d88aac8",
-          "path": "/9/Z/F",
-          "attributes": {
-            "name": "VMax"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "659d7db5-4409-4a9f-294c-96268a7a2f9a",
-          "path": "/9/Z/D",
+          "id": "cd49e283-68ad-29dd-bdb0-8b3e8aa7f184",
+          "path": "/9/dG/1",
           "attributes": {
             "name": "in_p"
           },
@@ -4426,10 +4249,64 @@
           "children": []
         },
         {
-          "id": "a94d355f-3f8e-0d24-7cde-b62c2cc3d4be",
-          "path": "/9/Z/x",
+          "id": "bb6b0106-dcf7-2da5-e154-c5edf2fbd5ba",
+          "path": "/9/dG/4",
+          "attributes": {
+            "name": "out"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "0e00d893-a11f-b9aa-dc7a-b4c48e506410",
+          "path": "/9/dG/E",
           "attributes": {
             "name": "VMin"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "fafcec3a-233b-c546-b58e-4b7ab2f12000",
+          "path": "/9/dG/b",
+          "attributes": {
+            "name": "VMax"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "0fe1d2c7-3e19-5748-c925-12b117c99030",
+          "path": "/9/dG/k",
+          "attributes": {
+            "name": "in_n"
           },
           "attribute_meta": {},
           "pointers": {
@@ -4446,8 +4323,8 @@
       ]
     },
     {
-      "id": "5cfeffff-e76f-51d0-6b8d-a573c6ba6252",
-      "path": "/9/N",
+      "id": "4658eda7-3173-a9ad-e5dc-d5f85c64003b",
+      "path": "/9/Y",
       "attributes": {
         "gain": 1,
         "name": "CCC"
@@ -4488,44 +4365,8 @@
       },
       "children": [
         {
-          "id": "1c705183-65c5-40ec-6dfb-2e08b25fdcb3",
-          "path": "/9/N/J",
-          "attributes": {},
-          "attribute_meta": {},
-          "pointers": {
-            "src": "/9/N/A/1",
-            "dst": "/9/N/r",
-            "base": "/9/A"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "e359809b-7111-1841-f81c-d8c2d2710839",
-          "path": "/9/N/n",
-          "attributes": {},
-          "attribute_meta": {},
-          "pointers": {
-            "src": "/9/N/A/0",
-            "dst": "/9/N/N",
-            "base": "/9/A"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "dadaac92-8aad-17da-1959-a2b4b95ff605",
-          "path": "/9/N/A",
+          "id": "b7083ec4-4639-ef10-174c-9ec79c47cc3e",
+          "path": "/9/Y/2",
           "attributes": {},
           "attribute_meta": {},
           "pointers": {
@@ -4552,8 +4393,8 @@
           },
           "children": [
             {
-              "id": "195afef9-cfe5-c468-df78-7813e61fecdc",
-              "path": "/9/N/A/0",
+              "id": "74886caf-0371-3ca2-d16d-4460c307d6e7",
+              "path": "/9/Y/2/0",
               "attributes": {},
               "attribute_meta": {},
               "pointers": {
@@ -4568,8 +4409,8 @@
               "children": []
             },
             {
-              "id": "645b023e-e677-aaf1-9449-0ea2074ed1b6",
-              "path": "/9/N/A/1",
+              "id": "09899068-2ae3-523b-9a5c-32d12256eb8d",
+              "path": "/9/Y/2/1",
               "attributes": {},
               "attribute_meta": {},
               "pointers": {
@@ -4586,8 +4427,62 @@
           ]
         },
         {
-          "id": "31637571-8b84-baa0-345a-84aee22a798a",
-          "path": "/9/N/I",
+          "id": "e4d43a13-df89-f91f-a670-a4c5ebe26da3",
+          "path": "/9/Y/3",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "b87ff92b-eb6e-f093-c7d3-2c10675e6192",
+          "path": "/9/Y/m",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "src": "/9/Y/2/1",
+            "dst": "/9/Y/3",
+            "base": "/9/A"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "a2ac6d0c-6e53-f005-f2de-96d7bf3e44c0",
+          "path": "/9/Y/W",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "src": "/9/Y/2/0",
+            "dst": "/9/Y/R",
+            "base": "/9/A"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "01017bdd-39e6-6014-38b3-4133098f58ea",
+          "path": "/9/Y/t",
           "attributes": {
             "name": "p2"
           },
@@ -4604,8 +4499,8 @@
           "children": []
         },
         {
-          "id": "aba1a01f-5477-7c95-4df4-0ad4c934d3d8",
-          "path": "/9/N/N",
+          "id": "ca2bdc8d-e360-7284-8c2c-18502ee4d3cd",
+          "path": "/9/Y/R",
           "attributes": {
             "name": "n1"
           },
@@ -4622,28 +4517,10 @@
           "children": []
         },
         {
-          "id": "840f608f-4628-9714-4546-a769a4e9b678",
-          "path": "/9/N/s",
+          "id": "8dbcf13a-29c6-0abc-347f-22eabf5ff50f",
+          "path": "/9/Y/M",
           "attributes": {
             "name": "n2"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "eb3f4fec-fbe8-148d-c945-2b5bf54d9a94",
-          "path": "/9/N/r",
-          "attributes": {
-            "name": "p1"
           },
           "attribute_meta": {},
           "pointers": {
@@ -4660,8 +4537,8 @@
       ]
     },
     {
-      "id": "3dcea187-2750-d20c-abab-e5c19ebb86dc",
-      "path": "/9/J",
+      "id": "632032e5-480d-5ec4-127e-5f2124b93767",
+      "path": "/9/z1",
       "attributes": {
         "gain": 1,
         "name": "VCV"
@@ -4702,44 +4579,8 @@
       },
       "children": [
         {
-          "id": "7a1e114d-0cbd-21e0-89d2-4cd0dbd01432",
-          "path": "/9/J/v",
-          "attributes": {
-            "name": "n1"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "0297e9c7-13bc-7fcd-0f63-b6bd814ec384",
-          "path": "/9/J/I",
-          "attributes": {
-            "name": "p1"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "ebad40c2-484a-40f4-99e8-da272eb2925b",
-          "path": "/9/J/D",
+          "id": "78cddca3-65f3-8cf2-c821-fef92233e91e",
+          "path": "/9/z1/4",
           "attributes": {
             "name": "n2"
           },
@@ -4756,8 +4597,44 @@
           "children": []
         },
         {
-          "id": "eec8fa30-3c90-d603-7016-083d74c5622a",
-          "path": "/9/J/B",
+          "id": "ba3d3575-9e52-eb02-9d0a-5353500ceccf",
+          "path": "/9/z1/G",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "3f42f47a-eda1-2a5a-d2c5-13c8f3869250",
+          "path": "/9/z1/s",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "35c86fc4-f42f-8e35-652e-28274fb36f2f",
+          "path": "/9/z1/H",
           "attributes": {
             "name": "p2"
           },
@@ -4776,8 +4653,131 @@
       ]
     },
     {
-      "id": "e335780a-f8b8-57d1-2d8d-c34f439e568b",
-      "path": "/9/K",
+      "id": "7f631bfd-5d29-60c2-2b91-f23c1ffacac9",
+      "path": "/9/a",
+      "attributes": {
+        "G1": 1,
+        "G2": 1,
+        "name": "Gyrator"
+      },
+      "attribute_meta": {
+        "G1": {
+          "type": "float",
+          "description": "Gyration conductance",
+          "unit": "S"
+        },
+        "G2": {
+          "type": "float",
+          "description": "Gyration conductance",
+          "unit": "S"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 900
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "a352c196-0dd6-f4ec-b0af-9b93e5b0e9ab",
+          "path": "/9/a/P",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "006cef85-29e7-e1f6-db52-2c53a7c1e5c2",
+          "path": "/9/a/j",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "43a4e4f6-af2f-7bc9-ba7d-46abc0b9a922",
+          "path": "/9/a/F",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "9a69477d-403e-c63b-2121-4b396d5b0394",
+          "path": "/9/a/A",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "463c1112-d52f-9a12-d5b7-9e98b1db2b6f",
+      "path": "/9/i",
       "attributes": {
         "L1": 1,
         "L2": 1,
@@ -4831,44 +4831,8 @@
       },
       "children": [
         {
-          "id": "08f4e510-5e8c-5891-7d73-03ca6edeabb5",
-          "path": "/9/K/5",
-          "attributes": {
-            "name": "n2"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "a3fbea6a-c154-697f-e299-5872c3e90406",
-          "path": "/9/K/Q",
-          "attributes": {
-            "name": "n1"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "bcd38638-3671-93c9-f492-99e4805d4794",
-          "path": "/9/K/V",
+          "id": "40de3e85-bdcd-23d9-28e3-6ee49a2563c1",
+          "path": "/9/i/3",
           "attributes": {
             "name": "p1"
           },
@@ -4885,10 +4849,46 @@
           "children": []
         },
         {
-          "id": "73b4de7c-042a-1631-d83b-1ec254335baf",
-          "path": "/9/K/w",
+          "id": "5296abb7-d797-5191-71a6-e8b71e980043",
+          "path": "/9/i/6",
           "attributes": {
             "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "a08b0c16-e87a-8558-0946-6e2c00538ffc",
+          "path": "/9/i/t",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "13b5f5e3-5d59-e661-a91f-59c401e6ca32",
+          "path": "/9/i/m",
+          "attributes": {
+            "name": "n1"
           },
           "attribute_meta": {},
           "pointers": {
@@ -4905,8 +4905,8 @@
       ]
     },
     {
-      "id": "6a16336a-c986-85f1-cafd-1859d6e7b231",
-      "path": "/9/Sk",
+      "id": "158165a4-8dd0-be9b-fba4-e8fe9516f088",
+      "path": "/9/B",
       "attributes": {
         "Inom": 1,
         "Lnom": 1,
@@ -4966,8 +4966,8 @@
       },
       "children": [
         {
-          "id": "810a537a-48a3-b2a2-18ea-838c65e663bf",
-          "path": "/9/Sk/o",
+          "id": "7eabf693-c6d7-efe9-31d5-c852881131c4",
+          "path": "/9/B/i",
           "attributes": {
             "name": "n"
           },
@@ -4984,8 +4984,8 @@
           "children": []
         },
         {
-          "id": "ce831666-c829-a675-25ca-0e13c7897009",
-          "path": "/9/Sk/C",
+          "id": "3b7d7351-7bd9-07da-f4a3-8d12f9e210bd",
+          "path": "/9/B/Q",
           "attributes": {
             "name": "p"
           },
@@ -5004,8 +5004,8 @@
       ]
     },
     {
-      "id": "cbe92d07-f3fd-6a77-39c9-cc67072ba17e",
-      "path": "/9/p",
+      "id": "25227800-aa68-d0c5-f89a-1276f6970885",
+      "path": "/9/Q",
       "attributes": {
         "G": 1,
         "T_ref": 300.15,
@@ -5065,8 +5065,8 @@
       },
       "children": [
         {
-          "id": "24149526-2091-0772-5905-d51fc53e2cf8",
-          "path": "/9/p/M",
+          "id": "ec3c8b5c-b19c-92ec-324a-edb0e505cd87",
+          "path": "/9/Q/B",
           "attributes": {
             "name": "n"
           },
@@ -5083,8 +5083,8 @@
           "children": []
         },
         {
-          "id": "3139dfbc-a56c-c38a-efcb-f2ee86ef5003",
-          "path": "/9/p/Y",
+          "id": "c35d6eb3-9ab7-76ec-efb9-8d4a58141b20",
+          "path": "/9/Q/b",
           "attributes": {
             "name": "p"
           },
@@ -5103,8 +5103,8 @@
       ]
     },
     {
-      "id": "cb386823-58fb-f606-9430-9ab3351cf938",
-      "path": "/9/k",
+      "id": "961bede5-7510-7f35-6dd7-98223419bcd9",
+      "path": "/9/v",
       "attributes": {
         "transResistance": 1,
         "name": "CCV"
@@ -5146,13 +5146,13 @@
       },
       "children": [
         {
-          "id": "141ecf3a-e59c-795f-6b46-76483ae25670",
-          "path": "/9/k/5",
+          "id": "4beb6cf9-ff01-2fda-453f-6c1bca8941c9",
+          "path": "/9/v/0",
           "attributes": {},
           "attribute_meta": {},
           "pointers": {
-            "src": "/9/k/q/0",
-            "dst": "/9/k/D",
+            "src": "/9/v/C/1",
+            "dst": "/9/v/I",
             "base": "/9/A"
           },
           "pointer_meta": {},
@@ -5164,44 +5164,8 @@
           "children": []
         },
         {
-          "id": "34fbb9cc-9979-d5d5-8078-e33ccfdc2334",
-          "path": "/9/k/8",
-          "attributes": {},
-          "attribute_meta": {},
-          "pointers": {
-            "src": "/9/k/q/1",
-            "dst": "/9/k/l",
-            "base": "/9/A"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "10f50b27-0616-f96f-e89e-6599b3747118",
-          "path": "/9/k/N",
-          "attributes": {
-            "name": "p2"
-          },
-          "attribute_meta": {},
-          "pointers": {
-            "base": "/9/x"
-          },
-          "pointer_meta": {},
-          "registry": {},
-          "sets": {},
-          "member_attributes": {},
-          "member_registry": {},
-          "children_meta": null,
-          "children": []
-        },
-        {
-          "id": "fa9cee7e-7982-2c25-ed34-205df2991037",
-          "path": "/9/k/l",
+          "id": "5954ac61-72f1-7d89-f25d-04e721e0a512",
+          "path": "/9/v/I",
           "attributes": {
             "name": "p1"
           },
@@ -5218,8 +5182,26 @@
           "children": []
         },
         {
-          "id": "c2262611-5ce2-0edd-3540-b315a41f5584",
-          "path": "/9/k/q",
+          "id": "40f08c27-a0e8-3e3f-f2fc-0317c68a836a",
+          "path": "/9/v/w",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "src": "/9/v/C/0",
+            "dst": "/9/v/O",
+            "base": "/9/A"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "1d7588cd-b77a-3892-631c-dfb0b4b11adb",
+          "path": "/9/v/C",
           "attributes": {},
           "attribute_meta": {},
           "pointers": {
@@ -5246,8 +5228,8 @@
           },
           "children": [
             {
-              "id": "01a6747a-19aa-dd6f-f361-69b2fb5f4f5d",
-              "path": "/9/k/q/0",
+              "id": "def5daa6-f232-eb20-a53d-0517ebf10002",
+              "path": "/9/v/C/0",
               "attributes": {},
               "attribute_meta": {},
               "pointers": {
@@ -5262,8 +5244,8 @@
               "children": []
             },
             {
-              "id": "7ca788bd-3038-b3f6-b850-1f031a0e7237",
-              "path": "/9/k/q/1",
+              "id": "a3f42661-dba0-85b9-ee0c-73a60aa03d68",
+              "path": "/9/v/C/1",
               "attributes": {},
               "attribute_meta": {},
               "pointers": {
@@ -5280,8 +5262,8 @@
           ]
         },
         {
-          "id": "3b4b4c1e-0765-081c-fa2f-2205eb731f90",
-          "path": "/9/k/D",
+          "id": "056b9687-8c09-569c-ceb7-5874288fef91",
+          "path": "/9/v/O",
           "attributes": {
             "name": "n1"
           },
@@ -5298,10 +5280,28 @@
           "children": []
         },
         {
-          "id": "93ea1f81-5bb2-bbaf-36ba-e21c3ce45660",
-          "path": "/9/k/E",
+          "id": "acc1eca2-7b21-319e-3640-e2c563a81f9d",
+          "path": "/9/v/j",
           "attributes": {
             "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "75b792ce-2d8a-07b7-8df8-7a105d9e09d5",
+          "path": "/9/v/t",
+          "attributes": {
+            "name": "p2"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5318,8 +5318,8 @@
       ]
     },
     {
-      "id": "e0587a21-b59c-a14e-c42c-b40de284d3e6",
-      "path": "/9/m",
+      "id": "63a33746-5580-38cf-f800-0470f686d3a2",
+      "path": "/9/D",
       "attributes": {
         "C": 1,
         "name": "Capacitor"
@@ -5361,10 +5361,10 @@
       },
       "children": [
         {
-          "id": "83479816-3155-9bf5-567e-340c9444f370",
-          "path": "/9/m/L",
+          "id": "ba7e4ffa-e81c-9301-f3b4-9f98b2768527",
+          "path": "/9/D/2",
           "attributes": {
-            "name": "p"
+            "name": "n"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5379,10 +5379,10 @@
           "children": []
         },
         {
-          "id": "04862da1-cdc0-9409-a25e-618408c1826a",
-          "path": "/9/m/S",
+          "id": "8ccfd6bd-dcc2-5ccb-437e-2ea513bb5197",
+          "path": "/9/D/E",
           "attributes": {
-            "name": "n"
+            "name": "p"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5399,8 +5399,8 @@
       ]
     },
     {
-      "id": "f944e9d6-a0d5-b020-47b9-a616f2c67ab2",
-      "path": "/9/F",
+      "id": "1505501d-4633-e284-772c-c5c6e366a089",
+      "path": "/9/Bp",
       "attributes": {
         "R": 1,
         "T_ref": 293.15,
@@ -5470,8 +5470,8 @@
       },
       "children": [
         {
-          "id": "117b3f24-478f-3cf0-d440-5191af5be9fd",
-          "path": "/9/F/5",
+          "id": "077af81c-90a8-b3e1-aa91-e96bab111986",
+          "path": "/9/Bp/b",
           "attributes": {
             "name": "contact"
           },
@@ -5488,10 +5488,10 @@
           "children": []
         },
         {
-          "id": "d4f838cc-60cf-eda1-a115-0377932b9670",
-          "path": "/9/F/e",
+          "id": "11efa685-40e9-e241-2525-4ac4ad70f78c",
+          "path": "/9/Bp/Z",
           "attributes": {
-            "name": "pin_n"
+            "name": "pin_p"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5506,10 +5506,10 @@
           "children": []
         },
         {
-          "id": "c27d886e-bbe4-2582-8e86-ccb89cc8d071",
-          "path": "/9/F/A",
+          "id": "2dff6ffc-5e20-e6fb-127e-adc1209042b6",
+          "path": "/9/Bp/Y",
           "attributes": {
-            "name": "pin_p"
+            "name": "pin_n"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5526,8 +5526,8 @@
       ]
     },
     {
-      "id": "75e0a560-3560-e4e9-3a1b-81534a372f29",
-      "path": "/9/pK",
+      "id": "3ba8f0e1-d893-94a7-5d0d-8f55000dc443",
+      "path": "/9/RR",
       "attributes": {
         "L": 1,
         "name": "Inductor"
@@ -5569,8 +5569,8 @@
       },
       "children": [
         {
-          "id": "06784fb6-1922-6303-22c0-c412f448b6e7",
-          "path": "/9/pK/G",
+          "id": "0b9a5746-ee1f-43cb-1f06-13c8ee033fcc",
+          "path": "/9/RR/r",
           "attributes": {
             "name": "n"
           },
@@ -5587,8 +5587,8 @@
           "children": []
         },
         {
-          "id": "6403b58e-3e72-9b4e-d1b1-bc5f27adec2a",
-          "path": "/9/pK/h",
+          "id": "fb522113-df32-efaf-256f-c5c57b90ae46",
+          "path": "/9/RR/d",
           "attributes": {
             "name": "p"
           },
@@ -5607,8 +5607,8 @@
       ]
     },
     {
-      "id": "4daf8437-a170-f0e6-73ee-41a969e8e461",
-      "path": "/9/6h",
+      "id": "21e35d39-6e9d-0ce9-048a-d7e99a15077b",
+      "path": "/9/KF",
       "attributes": {
         "R": 1,
         "T_ref": 300.15,
@@ -5668,10 +5668,10 @@
       },
       "children": [
         {
-          "id": "0309bf5c-85e5-4cc8-5c33-712a89225904",
-          "path": "/9/6h/4",
+          "id": "3c3ff424-cefc-46bd-7fd7-8713df14d310",
+          "path": "/9/KF/R",
           "attributes": {
-            "name": "p"
+            "name": "n"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5686,10 +5686,10 @@
           "children": []
         },
         {
-          "id": "4186e3a4-e3ef-6f38-a60d-4cc25026194e",
-          "path": "/9/6h/a",
+          "id": "0bf2fa16-2901-a817-3672-7cbd65f0113a",
+          "path": "/9/KF/V",
           "attributes": {
-            "name": "n"
+            "name": "p"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5706,8 +5706,8 @@
       ]
     },
     {
-      "id": "0e432730-efd7-b03b-6250-580236cc4f50",
-      "path": "/9/f",
+      "id": "79e978ee-8fca-9951-625b-0d2fa274789f",
+      "path": "/9/MN",
       "attributes": {
         "name": "Semiconductors"
       },
@@ -5744,8 +5744,8 @@
       "children": []
     },
     {
-      "id": "dda2bd82-3b37-3ca7-6d4e-db5a48f75df9",
-      "path": "/9/1Y",
+      "id": "59ef67a6-3aca-d135-8a05-3ae683cc1c99",
+      "path": "/9/w",
       "attributes": {
         "W": 0.00002,
         "L": 0.000006,
@@ -5810,7 +5810,7 @@
         }
       },
       "pointers": {
-        "base": "/9/f"
+        "base": "/9/MN"
       },
       "pointer_meta": {},
       "registry": {
@@ -5839,8 +5839,8 @@
       },
       "children": [
         {
-          "id": "d83864d8-b009-55f6-d816-3b5a25e17da7",
-          "path": "/9/1Y/z",
+          "id": "0da89589-6d80-0ff6-e1b9-df341a7961fc",
+          "path": "/9/w/N",
           "attributes": {
             "name": "Source"
           },
@@ -5857,8 +5857,8 @@
           "children": []
         },
         {
-          "id": "dd22db92-ba2f-a737-b815-09b452dc7e64",
-          "path": "/9/1Y/M",
+          "id": "cbc5ce5f-a6f5-fb82-37d0-3624db1ebba7",
+          "path": "/9/w/K",
           "attributes": {
             "name": "Gate"
           },
@@ -5875,8 +5875,8 @@
           "children": []
         },
         {
-          "id": "4ef4b7d6-f165-5bc8-4423-b66333415fd8",
-          "path": "/9/1Y/a",
+          "id": "3e680167-8483-e877-b2cc-750f16ed17e4",
+          "path": "/9/w/x",
           "attributes": {
             "name": "Drain"
           },
@@ -5893,8 +5893,8 @@
           "children": []
         },
         {
-          "id": "c316bac9-3ebb-88ed-3957-04fdcc72ec8c",
-          "path": "/9/1Y/g",
+          "id": "5bf4080e-1116-2690-e4fc-8bbd2f917e06",
+          "path": "/9/w/e",
           "attributes": {
             "name": "Bulk"
           },
