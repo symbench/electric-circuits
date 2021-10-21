@@ -67,6 +67,22 @@ describe.only('AnnotationMetaTransformer', function () {
         });
     });
 
+    it('should find same attributes for LED and Diode', function () {
+        const diode = findByName(annotationSchema, 'Diode');
+        const led  = findByName(annotationSchema, 'LED');
+        assert(led.children_meta['@meta:color']);
+        delete led.children_meta['@meta:color'];
+
+        Object.keys(diode.children_meta).forEach(meta => {
+            const ledAttribute = led.children_meta[meta];
+            const diodeAttribute = diode.children_meta[meta];
+            if(diodeAttribute) {
+                assert(diodeAttribute.min === ledAttribute.min);
+                assert(diodeAttribute.max === ledAttribute.max);
+            }
+        });
+    });
+
     function findByName(language, name) {
         return language.children.find(node => node.id === `@name:${name}` || node.attributes.name === name);
     }

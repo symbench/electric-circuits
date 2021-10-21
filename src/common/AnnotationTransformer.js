@@ -10,23 +10,42 @@ function factory() {
 
     function translateToAnnotationMeta(nodeSchema) {
         assert(isLanguageContainer(nodeSchema), 'Expected language container but found: ' + JSON.stringify(nodeSchema));
-        const metaNodes = nodeSchema.children;
-        const components = getComponents(metaNodes);
+        const components = getNonAbstractChildrenOfType(nodeSchema, ELECTRIC_CIRCUITS_COMPONENT_BASE);
         const language = {};
-        language.children = components.flatMap((component) => {
+
+        const allAnnotations = components.flatMap((component) => {
             return transformToAnnotations(component, nodeSchema);
         });
+        language.children = onlyUnique(allAnnotations);
         return language;
     }
 
-    function getComponents(nodes) {
-        const basePath = findByName(nodes, ELECTRIC_CIRCUITS_COMPONENT_BASE);
-        return nodes.filter((node, _, records) => inheritsFrom(node, basePath, records));
+    function onlyUnique(annotations) {
+        const uniques = [];
+        annotations.forEach(annotation => {
+            const exists = uniques
+                .find(unique => unique.id === annotation.id && unique.pointers.base === annotation.pointers.base);
+            if (!exists) {
+                uniques.push(annotation);
+            }
+        });
+        return uniques;
+    }
+
+    function getNonAbstractChildrenOfType(schema, type) {
+        const baseNode = findByName(schema.children, type);
+        return schema.children.filter((node, _, records) => {
+            return inheritsFrom(node, baseNode, records) && !node.registry.isAbstract;
+        });
     }
 
     function transformToAnnotations(node, schema) {
+        const componentBase = findByName(schema.children, ELECTRIC_CIRCUITS_COMPONENT_BASE);
+        addIntermediateProperties(node, componentBase, schema);
+
         const component = transformNode(node, ANNOTATION_META_COMPONENT_BASE);
         const ports = transformPorts(node, schema);
+
         if(ports.length) {
             assignValidChildren(component, ports, 0, 1);
         }
@@ -37,6 +56,37 @@ function factory() {
         }
 
         return [component, ...ports, ...attributes];
+    }
+
+    function addIntermediateProperties(node, topParent, schema) {
+        let parentNode = findByPath(schema.children, node.pointers.base);
+        while(parentNode.id !== topParent.id) {
+            copyAttributes(parentNode, node);
+
+            node.children.forEach(child => {
+                const childInParent = parentNode.children.find(parentChild => child.pointers.base === parentChild.path);
+                if(childInParent) {
+                    child.pointers.base = childInParent.pointers.base;
+                    copyAttributes(childInParent, child);
+                }
+            });
+
+            parentNode = findByPath(schema.children, parentNode.pointers.base);
+        }
+    }
+
+    function copyAttributes(from, to) {
+        Object.entries(from.attributes).forEach(([key, value]) => {
+            if (!to.attributes[key]) {
+                to.attributes[key] = value;
+            }
+        });
+
+        Object.entries(from.attribute_meta).forEach(([key, value]) => {
+            if (!from.attribute_meta[key]) {
+                to.attribute_meta[key] = value;
+            }
+        });
     }
 
     function transformNode(node, base) {
@@ -61,21 +111,19 @@ function factory() {
     function transformAttributes(node) {
         let base;
         return Object.entries(node.attributes).map(([name, value]) => {
+            base = ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE;
             if (node.attribute_meta[name]) {
                 if (WEBGME_NUMERIC_TYPES.includes(node.attribute_meta[name].type)) {
                     base = ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE;
-                } else {
-                    base = ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE;
                 }
             }
-            let attributes = {};
-            if(name !== 'name'){
-                attributes[name] = value;
-            }
-
+            let attributes = {
+                name: name,
+                value: value,
+            };
 
             const attributeNode = {
-                id: `@meta:${name}`,
+                id: `@name:${name}`,
                 attributes: attributes,
                 pointers: {
                     base: `@meta:${base}`
@@ -85,17 +133,17 @@ function factory() {
             if (base === ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE) {
                 attributeNode.attributes.unit = node.attribute_meta[name] ? node.attribute_meta[name].unit : '';
             }
+
+            attributeNode.attributes.description = node.attribute_meta[name] ? node.attribute_meta[name].description : '';
             return attributeNode;
         });
     }
 
     function getPorts(node, schema) {
         const portBase = findByName(schema.children, ELECTRIC_CIRCUITS_PORT_BASE);
-        const ports = node.children.filter(child => {
-            console.log(node.attributes.name, child.attributes.name, inheritsFrom(child, portBase, schema.children));
-            return inheritsFrom(child, portBase, schema.children);
-        });
-        console.log(ports.map(port => port.attributes.name));
+        const ports = node.children.filter(child => inheritsFrom(child, portBase, schema.children));
+        ports.forEach(port => addIntermediateProperties(port, portBase, schema));
+
         return ports;
     }
 
