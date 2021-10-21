@@ -101,6 +101,9 @@ function factory() {
             attributes: {
                 name: node.attributes.name
             },
+            registry: {
+                isAbstract: false,
+            },
             pointers: {
                 base: `@meta:${base}`
             }
@@ -139,6 +142,10 @@ function factory() {
                 attributes: attributes,
                 pointers: {
                     base: `@meta:${base}`
+                },
+                registry: {
+                    isAbstract: false,
+                    isPort: true,
                 }
             };
 
@@ -165,7 +172,9 @@ function factory() {
     function transformPorts(node, schema) {
         return getPorts(node, schema)
             .map(port => {
-                return transformNode(port, ANNOTATION_META_PORT_BASE);
+                const portSchema = transformNode(port, ANNOTATION_META_PORT_BASE);
+                portSchema.registry.isPort = true;
+                return portSchema;
             });
     }
 
