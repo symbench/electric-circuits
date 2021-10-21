@@ -144,7 +144,6 @@ function factory() {
                 },
                 registry: {
                     isAbstract: false,
-                    isPort: true,
                 }
             };
 
