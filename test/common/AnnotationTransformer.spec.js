@@ -29,7 +29,10 @@ describe('AnnotationMetaTransformer', function () {
             Object.keys(child.attributes).forEach(attr => {
                 const annoNodes = findAllOfName(annotationSchema, attr);
                 if(annoNodes.length) {
-                    assert(annoNodes.some(annoNode => ['@meta:Textual', '@meta:Numeric'].includes(annoNode.pointers.base)));
+                    assert(
+                        annoNodes.some(annoNode => ['@meta:Textual', '@meta:Numeric'].includes(annoNode.pointers.base)),
+                        `${attr} inherits from ${annoNodes[0].pointers.base} instead of attribute type`
+                    );
                 }
             });
         });
@@ -40,7 +43,7 @@ describe('AnnotationMetaTransformer', function () {
         nodeSchema.children.forEach(schema => {
             if(annotationNames.includes(schema.attributes.name)) {
                 Object.keys(schema.attributes).forEach(attr => {
-                    assert(findByName(annotationSchema, attr));
+                    assert(findByName(annotationSchema, attr), `Could not find ${attr}`);
                 });
             }
         });
@@ -83,18 +86,10 @@ describe('AnnotationMetaTransformer', function () {
         });
     });
 
-    it('should resolve inherited attribute type', function () {
-        // TODO: add a better test for this
-        const idsAttrNodes = annotationSchema.children.filter(node => node.attributes.name === 'Ids');
-        assert.equal(idsAttrNodes.length, 1);
-        console.log({idsAttrNodes });
-    });
-
     it('should not contain colliding names', function () {
         const nodesByName = _.groupBy(annotationSchema.children, node => node.attributes.name);
         const duplicates = Object.values(nodesByName).filter(nodes => nodes.length > 1);
         // Ports *shouldn't* be a problem but they also shouldn't be top level...
-        console.log(annotationSchema.children.map(n => n.id));
         assert.equal(duplicates.length, 0, `Found name collisions:\n\t${prettyPrintDuplicates(duplicates).replace(/\n/gm, '\n\t')}`);
 
         function prettyPrintDuplicates(duplicates) {
@@ -107,11 +102,11 @@ describe('AnnotationMetaTransformer', function () {
     });
 
     function findByName(language, name) {
-        return language.children.find(node => node.id === `@name:${name}` || node.attributes.name === name);
+        return language.children.find(node => node.attributes.name === name);
     }
 
     function findAllOfName(language, name){
-        return language.children.filter(node => node.id === `@name:${name}` || node.attributes.name === name);
+        return language.children.filter(node => node.attributes.name === name);
     }
 
     describe('deepEquals', function() {

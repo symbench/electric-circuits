@@ -29,6 +29,7 @@ function factory() {
                 uniques.push(annotation);
             } else {
                 assert(
+                    [annotation, exists].find(n => n.pointers.base.includes('Port')) ||  // FIXME: Skip ports for now
                     deepEquals(annotation, exists),
                     `Found a conflict between:\n\t${JSON.stringify(annotation)}\n\t${JSON.stringify(exists)}`
                 );
@@ -96,7 +97,7 @@ function factory() {
 
     function transformNode(node, base) {
         return {
-            id: `@name:${node.attributes.name}`,
+            id: `@meta:${node.attributes.name}`,
             attributes: {
                 name: node.attributes.name
             },
@@ -115,10 +116,10 @@ function factory() {
 
     function transformAttributes(node) {
         let base;
-        return Object.entries(node.attributes).map(([name, value]) => {
+        const attributeNames = Object.keys(node.attributes);
+        return attributeNames.map(name => {
             base = ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE;
             if (node.attribute_meta[name]) {
-                console.log('has attribute meta');
                 if (WEBGME_NUMERIC_TYPES.includes(node.attribute_meta[name].type)) {
                     base = ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE;
                 }
@@ -130,11 +131,11 @@ function factory() {
             }
             let attributes = {
                 name: name,
-                value: value,
+                value: null,
             };
 
             const attributeNode = {
-                id: `@name:${name}`,
+                id: `@meta:${name}`,
                 attributes: attributes,
                 pointers: {
                     base: `@meta:${base}`
@@ -142,10 +143,13 @@ function factory() {
             };
 
             if (base === ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE) {
-                attributeNode.attributes.unit = node.attribute_meta[name] ? node.attribute_meta[name].unit : '';
+                // TODO: units vary based on the device. Not needed for annotations
+                //attributeNode.attributes.unit = node.attribute_meta[name] ? node.attribute_meta[name].unit : '';
+                attributeNode.attributes.unit = '';
             }
 
-            attributeNode.attributes.description = node.attribute_meta[name] ? node.attribute_meta[name].description : '';
+            // TODO: these descriptions are specific to the attribute's use for each node
+            //attributeNode.attributes.description = node.attribute_meta[name] ? node.attribute_meta[name].description : '';
             return attributeNode;
         });
     }
@@ -200,8 +204,8 @@ function factory() {
     }
 
     function deepEquals(obj1, obj2) {
-        const type = typeof obj1;
-        if (typeof obj2 !== type) {
+        const type = getType(obj1);
+        if (getType(obj2) !== type) {
             return false;
         }
 
@@ -216,6 +220,12 @@ function factory() {
         }
 
         return obj1 === obj2;
+    }
+
+    function getType(thing) {
+        if (Array.isArray(thing)) return 'array';
+        if (thing === null) return 'null';
+        return typeof thing;
     }
 
     translateToAnnotationMeta.deepEquals = deepEquals;
