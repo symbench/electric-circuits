@@ -23,8 +23,9 @@ function factory() {
     function onlyUnique(annotations) {
         const uniques = [];
         annotations.forEach(annotation => {
+            const areSameMetaDefs = (a, b) => a.id === b.id && a.pointers.base === b.pointers.base;
             const exists = uniques
-                .find(unique => unique.id === annotation.id && unique.pointers.base === annotation.pointers.base);
+                .find(unique => areSameMetaDefs(unique, annotation));
             if (!exists) {
                 uniques.push(annotation);
             }
@@ -83,7 +84,7 @@ function factory() {
         });
 
         Object.entries(from.attribute_meta).forEach(([key, value]) => {
-            if (!from.attribute_meta[key]) {
+            if (!to.attribute_meta[key]) {
                 to.attribute_meta[key] = value;
             }
         });

@@ -1,6 +1,6 @@
 /*eslint-env node, mocha*/
 
-describe.only('AnnotationMetaTransformer', function () {
+describe('AnnotationMetaTransformer', function () {
     const _ = require('lodash');
     const path = require('path');
     const fs = require('fs');
