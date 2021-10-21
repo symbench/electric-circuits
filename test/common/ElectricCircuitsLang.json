@@ -949,7 +949,7 @@
           "id": "cbaeeb1f-483e-280c-9a09-4653797f1b18",
           "path": "/9/9/G",
           "attributes": {
-            "name": "B"
+            "name": "Bulk"
           },
           "attribute_meta": {},
           "pointers": {
@@ -967,7 +967,7 @@
           "id": "e8c9fc99-8ea7-b54d-39ce-996581c0d575",
           "path": "/9/9/k",
           "attributes": {
-            "name": "C"
+            "name": "Collector"
           },
           "attribute_meta": {},
           "pointers": {
@@ -985,7 +985,7 @@
           "id": "19aea3f4-b4da-d85a-f6f8-ee5a2b80994d",
           "path": "/9/9/K",
           "attributes": {
-            "name": "E"
+            "name": "Emitter"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1278,7 +1278,7 @@
           "id": "fb7adce8-c65a-1d2d-780b-83dd20679e51",
           "path": "/9/6w/3",
           "attributes": {
-            "name": "B"
+            "name": "Bulk"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1296,7 +1296,7 @@
           "id": "aa748cef-cccb-e139-7363-d682765d3450",
           "path": "/9/6w/n",
           "attributes": {
-            "name": "C"
+            "name": "Collector"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1314,7 +1314,7 @@
           "id": "d53e05a0-9b51-5b34-92b4-09d5eb2d9c8f",
           "path": "/9/6w/h",
           "attributes": {
-            "name": "E"
+            "name": "Emitter"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1429,7 +1429,7 @@
           "id": "5f6cf7f8-a45d-177e-9bfb-5a7592510ce2",
           "path": "/9/M8/z",
           "attributes": {
-            "name": "G"
+            "name": "Gate"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1447,7 +1447,7 @@
           "id": "3062d09e-f15d-2606-c223-c9f6b52b1ed9",
           "path": "/9/M8/w",
           "attributes": {
-            "name": "D"
+            "name": "Drain"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1465,7 +1465,7 @@
           "id": "4aba2ca2-eb54-03f6-ab2f-5076a50e1419",
           "path": "/9/M8/Z",
           "attributes": {
-            "name": "B"
+            "name": "Bulk"
           },
           "attribute_meta": {},
           "pointers": {
@@ -1483,7 +1483,7 @@
           "id": "cb347f51-e0ee-dc27-ae13-29ff44c0d6bb",
           "path": "/9/M8/j",
           "attributes": {
-            "name": "S"
+            "name": "Source"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5842,7 +5842,7 @@
           "id": "d83864d8-b009-55f6-d816-3b5a25e17da7",
           "path": "/9/1Y/z",
           "attributes": {
-            "name": "S"
+            "name": "Source"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5860,7 +5860,7 @@
           "id": "dd22db92-ba2f-a737-b815-09b452dc7e64",
           "path": "/9/1Y/M",
           "attributes": {
-            "name": "G"
+            "name": "Gate"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5878,7 +5878,7 @@
           "id": "4ef4b7d6-f165-5bc8-4423-b66333415fd8",
           "path": "/9/1Y/a",
           "attributes": {
-            "name": "D"
+            "name": "Drain"
           },
           "attribute_meta": {},
           "pointers": {
@@ -5896,7 +5896,7 @@
           "id": "c316bac9-3ebb-88ed-3957-04fdcc72ec8c",
           "path": "/9/1Y/g",
           "attributes": {
-            "name": "B"
+            "name": "Bulk"
           },
           "attribute_meta": {},
           "pointers": {
