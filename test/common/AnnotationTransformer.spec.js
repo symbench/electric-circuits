@@ -12,7 +12,6 @@ describe.only('AnnotationMetaTransformer', function () {
         const filepath = path.resolve(__dirname, 'ElectricCircuitsLang.json');
         nodeSchema = JSON.parse(fs.readFileSync(filepath, 'utf-8'));
         annotationSchema = transform(nodeSchema);
-        fs.writeFileSync(path.resolve(__dirname, 'AnnotationsLanguage.json'), JSON.stringify(annotationSchema, null, 2));
     });
 
     it('should make components instances of @meta:Component', function () {
@@ -49,7 +48,7 @@ describe.only('AnnotationMetaTransformer', function () {
     it('should make attributes children multiplicity 0/1', function () {
         const annoComponents = annotationSchema.children.filter(node => node.pointers.base === '@meta:Component');
         annoComponents.forEach(component => {
-            assert (Object.values(component.children_meta)
+            assert(Object.values(component.children_meta)
                 .every(cardinality => cardinality.min === 0 && cardinality.max === 1));
         });
     });
@@ -77,10 +76,14 @@ describe.only('AnnotationMetaTransformer', function () {
             const ledAttribute = led.children_meta[meta];
             const diodeAttribute = diode.children_meta[meta];
             if(diodeAttribute) {
-                assert(diodeAttribute.min === ledAttribute.min);
-                assert(diodeAttribute.max === ledAttribute.max);
+                assert.equal(diodeAttribute.min, ledAttribute.min);
+                assert.equal(diodeAttribute.max, ledAttribute.max);
             }
         });
+    });
+
+    it('should resolve inherited attribute type', function () {
+        // TODO
     });
 
     function findByName(language, name) {
