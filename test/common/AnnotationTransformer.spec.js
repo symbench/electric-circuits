@@ -93,7 +93,8 @@ describe('AnnotationMetaTransformer', function () {
     it('should not contain colliding names', function () {
         const nodesByName = _.groupBy(annotationSchema.children, node => node.attributes.name);
         const duplicates = Object.values(nodesByName).filter(nodes => nodes.length > 1);
-        // Ports *shouldn't* be a problem
+        // Ports *shouldn't* be a problem but they also shouldn't be top level...
+        console.log(annotationSchema.children.map(n => n.id));
         assert.equal(duplicates.length, 0, `Found name collisions:\n\t${prettyPrintDuplicates(duplicates).replace(/\n/gm, '\n\t')}`);
 
         function prettyPrintDuplicates(duplicates) {
@@ -112,4 +113,32 @@ describe('AnnotationMetaTransformer', function () {
     function findAllOfName(language, name){
         return language.children.filter(node => node.id === `@name:${name}` || node.attributes.name === name);
     }
+
+    describe('deepEquals', function() {
+        const {deepEquals} = transform;
+
+        it('should return true w/ identical lists', function() {
+            assert(deepEquals([1,2,3], [1,2,3]));
+        });
+
+        it('should return false w/ shorter lists', function() {
+            assert(!deepEquals([1,2], [1,2,3]));
+        });
+
+        it('should return true w/ identical objects', function() {
+            assert(deepEquals({a: 1, b:2}, {a: 1, b:2}));
+        });
+
+        it('should return false w/ different sized objects', function() {
+            assert(!deepEquals({a: 1}, {a: 1, b:2}));
+        });
+
+        it('should return false w/ different objects', function() {
+            assert(!deepEquals({a: 1}, {a: 3}));
+        });
+
+        it('should return true w/ list item', function() {
+            assert(deepEquals({a: [1, 2]}, {a: [1, 2]}));
+        });
+    });
 });

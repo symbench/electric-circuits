@@ -23,11 +23,15 @@ function factory() {
     function onlyUnique(annotations) {
         const uniques = [];
         annotations.forEach(annotation => {
-            const areSameMetaDefs = (a, b) => a.id === b.id && a.pointers.base === b.pointers.base;
             const exists = uniques
-                .find(unique => areSameMetaDefs(unique, annotation));
+                .find(unique => unique.id === annotation.id);
             if (!exists) {
                 uniques.push(annotation);
+            } else {
+                assert(
+                    deepEquals(annotation, exists),
+                    `Found a conflict between:\n\t${JSON.stringify(annotation)}\n\t${JSON.stringify(exists)}`
+                );
             }
         });
         return uniques;
@@ -114,9 +118,15 @@ function factory() {
         return Object.entries(node.attributes).map(([name, value]) => {
             base = ANNOTATION_META_TEXTUAL_ATTRIBUTE_BASE;
             if (node.attribute_meta[name]) {
+                console.log('has attribute meta');
                 if (WEBGME_NUMERIC_TYPES.includes(node.attribute_meta[name].type)) {
                     base = ANNOTATION_META_NUMERIC_ATTRIBUTE_BASE;
                 }
+            } else {
+                assert(
+                    name === 'name',  // "name" is defined on the FCO and not included here. Everything else should be
+                    'Could not find definition for attribute: ' + name
+                );
             }
             let attributes = {
                 name: name,
@@ -189,6 +199,26 @@ function factory() {
         }
     }
 
+    function deepEquals(obj1, obj2) {
+        const type = typeof obj1;
+        if (typeof obj2 !== type) {
+            return false;
+        }
+
+        if (Array.isArray(obj1)) {
+            return obj1.length === obj2.length &&
+                obj1.reduce((isTrue, item, index) => isTrue && deepEquals(item, obj2[index]), true);
+        }
+
+        if (type === 'object') {
+            return deepEquals(Object.keys(obj1), Object.keys(obj2)) &&
+                Object.entries(obj1).reduce((isTrue, [key, value]) => isTrue && deepEquals(value, obj2[key]), true);
+        }
+
+        return obj1 === obj2;
+    }
+
+    translateToAnnotationMeta.deepEquals = deepEquals;
     return translateToAnnotationMeta;
 }
 
