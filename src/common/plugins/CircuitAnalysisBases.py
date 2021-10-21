@@ -441,19 +441,19 @@ class CircuitToPySpiceBase(PluginBase):
         if self.is_npn(node=node) or self.is_pnp(node=node):
             pyspice_ckt.Q(
                 get_next_label_for("Q", self.core.get_attribute(node, "name")),
-                component["C"],
-                component["B"],
-                component["E"],
+                component.get("Collector", component.get("C")),
+                component.get("Base", component.get("B")),
+                component.get("Emitter", component.get("E")),
                 model="QDummy",
             )
 
         if self.is_nmos(node=node) or self.is_pmos(node=node):
             pyspice_ckt.M(
                 get_next_label_for("M", self.core.get_attribute(node, "name")),
-                component["D"],
-                component["G"],
-                component["B"],
-                component["S"],
+                component.get("Drain", component.get("D")),
+                component.get("Gate", component.get("G")),
+                component.get("Bulk", component.get("B")),
+                component.get("Source", component.get("source")),
                 model="MDummy",
             )
 
