@@ -1,6 +1,7 @@
 /*eslint-env node, mocha*/
 
 describe.only('AnnotationMetaTransformer', function () {
+    const _ = require('lodash');
     const path = require('path');
     const fs = require('fs');
     const assert = require('assert');
@@ -83,7 +84,25 @@ describe.only('AnnotationMetaTransformer', function () {
     });
 
     it('should resolve inherited attribute type', function () {
-        // TODO
+        // TODO: add a better test for this
+        const idsAttrNodes = annotationSchema.children.filter(node => node.attributes.name === 'Ids');
+        assert.equal(idsAttrNodes.length, 1);
+        console.log({idsAttrNodes });
+    });
+
+    it('should not contain colliding names', function () {
+        const nodesByName = _.groupBy(annotationSchema.children, node => node.attributes.name);
+        const duplicates = Object.values(nodesByName).filter(nodes => nodes.length > 1);
+        // Ports *shouldn't* be a problem
+        assert.equal(duplicates.length, 0, `Found name collisions:\n\t${prettyPrintDuplicates(duplicates).replace(/\n/gm, '\n\t')}`);
+
+        function prettyPrintDuplicates(duplicates) {
+            return duplicates.map(nodes => {
+                const {name} = nodes[0].attributes;
+                const types = nodes.map(n => n.pointers.base);
+                return `${name}: ${types.join(', ')}`;
+            }).join('\n');
+        }
     });
 
     function findByName(language, name) {
