@@ -123,9 +123,9 @@ define([
         const pins = this._getPinNamesToIdsMap(node);
 
         if (ElectricCircuitsMETA.TYPE_INFO.isNPN(nodeId)){
-            return [pins['B'], pins['C'], pins['E']];
+            return [pins['Base'] || pins['B'], pins['Collector'] || pins['C'], pins['Emitter'] || pins['E']];
         } else if (ElectricCircuitsMETA.TYPE_INFO.isPNP(nodeId)) {
-            return [pins['B'], pins['E'], pins['C']];
+            return [pins['Base'] || pins['B'], pins['Emitter'] || pins['E'], pins['Collector'] || pins['C']];
         } else {
             return node.getChildrenIds().sort();
         }

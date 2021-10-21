@@ -85,6 +85,7 @@ define([
                 this.createPySpiceNodesOfType(state, cat);
             });
             this.createExtraNodes(state);
+            this.renamePinsOfTransistorMoSFET(state);
 
             await importer.apply(this.rootNode, state);
             this.createDocumentationNode();
@@ -514,6 +515,40 @@ define([
             const pointerNames = ['src', 'dst'];
             ends.forEach((end, index) => {
                 this.core.setPointer(wire, pointerNames[index], end);
+            });
+        }
+
+        renamePinsOfTransistorMoSFET(state){
+            const transistors = ['NPN', 'PNP'];
+            const mosfets = ['NMOS', 'PMOS'];
+            const pinsMapTransistor = {
+                'C': 'Collector',
+                'B': 'Base',
+                'E': 'Emitter',
+            };
+            const pinsMapMosFET = {
+                'G': 'Gate',
+                'D': 'Drain',
+                'B': 'Bulk',
+                'S': 'Source',
+            };
+
+            const electricCircuits = state.children.find(child => child.id === '@name:ElectricCircuits');
+            const transistorNodes = electricCircuits.children.filter(node => transistors.includes(node.id.replace(/@.*:/, '')));
+            const mosNodes = electricCircuits.children.filter(node => mosfets.includes(node.id.replace(/@.*:/, '')));
+            this.renamePins(transistorNodes, pinsMapTransistor);
+            this.renamePins(mosNodes, pinsMapMosFET);
+        }
+
+        renamePins(nodes, pinsMap) {
+            nodes.forEach(node => {
+                node.children.forEach(pin => {
+                    const pinName = pin.id.replace(/@.*:/, '');
+                    if (pinsMap[pinName]) {
+                        this.logger.info(`Renaming pin ${pin.id} to ${pinsMap[pinName]} for ${node.id}`);
+                        pin.id = `@name:${pinsMap[pinName]}`;
+                    }
+                });
             });
         }
 

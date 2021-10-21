@@ -168,9 +168,9 @@ define([], function () {
             const pinsMap = this.pinNamesToId(pins);
 
             if (this.isNPN(node) || this.isPNP(node)) {
-                json.attrs['.pin1'] = {port: pinsMap[this.isNPN(node) ? 'C' : 'E']};
-                json.attrs['.pin2'] = {port: pinsMap['B']};
-                json.attrs['.pin3'] = {port: pinsMap[this.isPNP(node) ? 'C' : 'E']};
+                json.attrs['.pin1'] = {port: pinsMap[this.isNPN(node) ? 'C' : 'E'] || pinsMap[this.isNPN(node) ? 'Collector' : 'Emitter']};
+                json.attrs['.pin2'] = {port: pinsMap['B'] || pinsMap['Base']};
+                json.attrs['.pin3'] = {port: pinsMap[this.isPNP(node) ? 'C' : 'E'] || pinsMap[this.isPNP(node) ? 'Collector' : 'Emitter']};
             } else if (this.isPotentiometer(node)) {
                 json.attrs['.pin1'] = {port: pinsMap['pin_p']};
                 json.attrs['.pin2'] = {port: pinsMap['pin_n']};
@@ -191,13 +191,13 @@ define([], function () {
                 let pinsOrder = [];
 
                 if (this.isMOS(node)) {
-                    pinsOrder = ['D', 'G', 'B', 'S'];
+                    pinsOrder = [['D', 'Drain'], ['G', 'Gate'], ['B', 'Bulk'], ['S', 'Source']];
                 } else if (this.isFourPinGenericComponent(node)) {
                     pinsOrder = ['p1', 'n1', 'p2', 'n2'];
                 }
 
                 pinsOrder.forEach((pin, index) => {
-                    json.attrs[`.pin${index + 1}`] = {port: pinsMap[pin]};
+                    json.attrs[`.pin${index + 1}`] = {port: Array.isArray(pin) ? pinsMap[pin[0]] || pinsMap[pin[1]]: pinsMap[pin]};
                 });
             }
         }

@@ -132,7 +132,7 @@ define([
 
     FETs.prototype.getSortedPinIds = function (node) {
         const pins = this._getPinNamesToIdsMap(node);
-        return [pins['B'], pins['G'], pins['D'], pins['S']];
+        return [pins['Bulk'] || pins['B'], pins['Gate'] || pins['G'], pins['Drain'] || pins['D'], pins['Source'] || pins['S']];
     };
 
     return FETs;
