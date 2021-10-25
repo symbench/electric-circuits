@@ -1,0 +1,5916 @@
+{
+  "id": "6da88192-3a2b-ae5b-0ce3-e8797e084dc6",
+  "path": "/9",
+  "attributes": {
+    "name": "ElectricCircuits"
+  },
+  "attribute_meta": {},
+  "pointers": {
+    "base": "/1"
+  },
+  "pointer_meta": {},
+  "registry": {
+    "validPlugins": "ExportToJSON",
+    "decorator": "DocumentDecorator",
+    "position": {
+      "x": 368,
+      "y": 151
+    }
+  },
+  "sets": {},
+  "member_attributes": {},
+  "member_registry": {},
+  "children_meta": {
+    "/9/t": {
+      "min": -1,
+      "max": -1
+    },
+    "/1": {
+      "min": -1,
+      "max": -1
+    },
+    "/9/W": {
+      "min": -1,
+      "max": -1
+    },
+    "/9/V": {
+      "min": -1,
+      "max": -1
+    }
+  },
+  "children": [
+    {
+      "id": "6da19dfc-98c7-09c3-4a0a-2751260b5dad",
+      "path": "/9/0",
+      "attributes": {
+        "name": "PortBase"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/1"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": true,
+        "position": {
+          "x": 560,
+          "y": 50
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": null,
+      "children": []
+    },
+    {
+      "id": "f10350c2-31cf-dd86-c320-f1356163556d",
+      "path": "/9/2",
+      "attributes": {
+        "parameter2": 0,
+        "parameter1": 1,
+        "time_delay": 0,
+        "duration": 0,
+        "random_type": "uniform",
+        "name": "RandomVoltageSource"
+      },
+      "attribute_meta": {
+        "parameter2": {
+          "type": "float"
+        },
+        "parameter1": {
+          "type": "float"
+        },
+        "time_delay": {
+          "name": "time_delay",
+          "parameter": "Delay Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "duration": {
+          "name": "duration",
+          "parameter": "Duration for random values to show up",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "random_type": {
+          "type": "string"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1920
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "3440f80a-df3c-eb65-475f-fd7ff2a0d99f",
+          "path": "/9/2/s",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "b09be3cc-1911-8c2d-6d00-b2bf16576b8b",
+          "path": "/9/2/F",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "dd881c9e-5530-2ac0-571f-ab9e08ff7daf",
+      "path": "/9/4",
+      "attributes": {
+        "T": 293.15,
+        "Bf": 50,
+        "Br": 0.1,
+        "Is": 1e-16,
+        "Vak": 0.02,
+        "Tauf": 1.2e-10,
+        "Taur": 5e-9,
+        "Ccs": 1e-12,
+        "Cje": 4e-13,
+        "Cjc": 5e-13,
+        "Phie": 0.8,
+        "Me": 0.4,
+        "Phic": 0.8,
+        "Mc": 0.333,
+        "Gbc": 1e-15,
+        "Gbe": 1e-15,
+        "Vt": 0.02585,
+        "EMin": -100,
+        "EMax": 40,
+        "name": "PNP"
+      },
+      "attribute_meta": {
+        "Bf": {
+          "type": "float",
+          "description": "Forward beta"
+        },
+        "Br": {
+          "type": "float",
+          "description": "Reverse beta"
+        },
+        "Is": {
+          "type": "float",
+          "description": "Transport saturation current",
+          "unit": "A"
+        },
+        "Vak": {
+          "type": "float",
+          "description": "Early voltage (inverse), 1/Volt",
+          "unit": "1/V"
+        },
+        "Tauf": {
+          "type": "float",
+          "description": "Ideal forward transit time",
+          "unit": "s"
+        },
+        "Taur": {
+          "type": "float",
+          "description": "Ideal reverse transit time",
+          "unit": "s"
+        },
+        "Ccs": {
+          "type": "float",
+          "description": "Collector-substrate(ground) cap.",
+          "unit": "F"
+        },
+        "Cje": {
+          "type": "float",
+          "description": "Base-emitter zero bias depletion cap.",
+          "unit": "F"
+        },
+        "Cjc": {
+          "type": "float",
+          "description": "Base-coll. zero bias depletion cap.",
+          "unit": "F"
+        },
+        "Phie": {
+          "type": "float",
+          "description": "Base-emitter diffusion voltage",
+          "unit": "V"
+        },
+        "Me": {
+          "type": "float",
+          "description": "Base-emitter gradation exponent"
+        },
+        "Phic": {
+          "type": "float",
+          "description": "Base-collector diffusion voltage",
+          "unit": "V"
+        },
+        "Mc": {
+          "type": "float",
+          "description": "Base-collector gradation exponent"
+        },
+        "Gbc": {
+          "type": "float",
+          "description": "Base-collector conductance",
+          "unit": "S"
+        },
+        "Gbe": {
+          "type": "float",
+          "description": "Base-emitter conductance",
+          "unit": "S"
+        },
+        "Vt": {
+          "type": "float",
+          "description": "Voltage equivalent of temperature",
+          "unit": "V"
+        },
+        "EMin": {
+          "type": "float",
+          "description": "if x < EMin, the exp(x) function is linearized"
+        },
+        "EMax": {
+          "type": "float",
+          "description": "if x > EMax, the exp(x) function is linearized"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/MN"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 2090
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "49f0c25f-6379-3922-6c85-572882d1e741",
+          "path": "/9/4/H",
+          "attributes": {
+            "name": "Base"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "e70399b6-5007-18d4-8016-9ae4511fbbfa",
+          "path": "/9/4/M",
+          "attributes": {
+            "name": "Collector"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "607ded29-fff3-10cc-41fd-b6e5f23769d1",
+          "path": "/9/4/t",
+          "attributes": {
+            "name": "Emitter"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "38c2240c-ba1e-d665-d198-bb49076259b1",
+      "path": "/9/6",
+      "attributes": {
+        "signal_frequency": 0,
+        "modulation_index": 0,
+        "carrier_frequency": 0,
+        "amplitude": 0,
+        "offset": 0,
+        "name": "SingleFrequencyFMVoltageSource"
+      },
+      "attribute_meta": {
+        "signal_frequency": {
+          "name": "Fs",
+          "parameter": "signal frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "modulation_index": {
+          "name": "Mdi",
+          "parameter": "modulation index",
+          "default_value": "",
+          "units": "",
+          "type": "float"
+        },
+        "carrier_frequency": {
+          "name": "Fc",
+          "parameter": "carrier frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1750
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "28aee397-7a6f-7244-2cb2-e51ebffdbdf6",
+          "path": "/9/6/h",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "36da6bb6-f4ea-b378-6e89-41700fe7789d",
+          "path": "/9/6/y",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "61cc7699-1ba3-d720-b031-25a178d378c6",
+      "path": "/9/7",
+      "attributes": {
+        "fall_time_constant": 0,
+        "fall_delay_time": 0,
+        "rise_time_constant": 0,
+        "rise_delay_time": 0,
+        "pulsed_value": 0,
+        "initial_value": 0,
+        "name": "ExponentialVoltageSource"
+      },
+      "attribute_meta": {
+        "fall_time_constant": {
+          "name": "tau2",
+          "parameter": "fall time constant",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "fall_delay_time": {
+          "name": "Td2",
+          "parameter": "fall delay time",
+          "default_value": "sum(Td1, Tstep)",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_time_constant": {
+          "name": "tau1",
+          "parameter": "rise time constant",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_delay_time": {
+          "name": "Td1",
+          "parameter": "rise delay time",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulsed_value": {
+          "name": "V2",
+          "parameter": "pulsed value",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "initial_value": {
+          "name": "V1",
+          "parameter": "Initial value",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1580
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "20c61ad4-ba15-93d3-6f80-b80d9082f5ba",
+          "path": "/9/7/O",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "25cd4f8a-0317-0f1a-69b4-9691abe07b5f",
+          "path": "/9/7/T",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "667dce87-f190-915d-7af2-83c8cf72f1d7",
+      "path": "/9/8",
+      "attributes": {
+        "transConductance": 1,
+        "name": "VCC"
+      },
+      "attribute_meta": {
+        "transConductance": {
+          "type": "float",
+          "description": "Transconductance",
+          "unit": "S"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 1070
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "837e6b92-dd16-eb3c-3765-b8153844b911",
+          "path": "/9/8/z",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "b4ede490-eae7-4ba6-2381-441b7ae0b01d",
+          "path": "/9/8/n",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "6e5e065b-cb35-807c-70e9-1b2c34df9279",
+          "path": "/9/8/j",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "2765782d-26cc-b3f1-70a8-afe2500e4699",
+          "path": "/9/8/S",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "d0e6e25a-707b-759a-ea8e-a35ed31ed0d5",
+      "path": "/9/9",
+      "attributes": {
+        "damping_factor": 0.01,
+        "delay": 0,
+        "frequency": 50,
+        "amplitude": 1,
+        "offset": 0,
+        "ac_magnitude": 1,
+        "dc_offset": 0,
+        "name": "AcLine"
+      },
+      "attribute_meta": {
+        "damping_factor": {
+          "name": "Df",
+          "parameter": "damping factor",
+          "default_value": "0.01",
+          "units": "Hz",
+          "type": "float"
+        },
+        "delay": {
+          "name": "Td",
+          "parameter": "delay",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "frequency": {
+          "name": "f",
+          "parameter": "frequency",
+          "default_value": "1 / TStop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "type": "float"
+        },
+        "ac_magnitude": {
+          "name": "ac_magnitude",
+          "parameter": "ac magnitude",
+          "default_value": 0,
+          "units": "V",
+          "type": "float"
+        },
+        "dc_offset": {
+          "name": "dc_offset",
+          "parameter": "dc offset",
+          "default_value": 0,
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 1410
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "9d8065c5-420a-1f3b-3bc3-48d1f4028930",
+          "path": "/9/9/7",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "9ea6427f-c967-d09e-4f9f-ea102d65985a",
+          "path": "/9/9/D",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "b7552bb9-7f67-a019-7109-35a81dbbcb78",
+      "path": "/9/kE",
+      "attributes": {
+        "T": 293.15,
+        "Bf": 50,
+        "Br": 0.1,
+        "Is": 1e-16,
+        "Vak": 0.02,
+        "Tauf": 1.2e-10,
+        "Taur": 5e-9,
+        "Ccs": 1e-12,
+        "Cje": 4e-13,
+        "Cjc": 5e-13,
+        "Phie": 0.8,
+        "Me": 0.4,
+        "Phic": 0.8,
+        "Mc": 0.333,
+        "Gbc": 1e-15,
+        "Gbe": 1e-15,
+        "Vt": 0.02585,
+        "EMin": -100,
+        "EMax": 40,
+        "IC": 0,
+        "UIC": false,
+        "name": "NPN"
+      },
+      "attribute_meta": {
+        "Bf": {
+          "type": "float",
+          "description": "Forward beta"
+        },
+        "Br": {
+          "type": "float",
+          "description": "Reverse beta"
+        },
+        "Is": {
+          "type": "float",
+          "description": "Transport saturation current",
+          "unit": "A"
+        },
+        "Vak": {
+          "type": "float",
+          "description": "Early voltage (inverse), 1/Volt",
+          "unit": "1/V"
+        },
+        "Tauf": {
+          "type": "float",
+          "description": "Ideal forward transit time",
+          "unit": "s"
+        },
+        "Taur": {
+          "type": "float",
+          "description": "Ideal reverse transit time",
+          "unit": "s"
+        },
+        "Ccs": {
+          "type": "float",
+          "description": "Collector-substrate(ground) cap.",
+          "unit": "F"
+        },
+        "Cje": {
+          "type": "float",
+          "description": "Base-emitter zero bias depletion cap.",
+          "unit": "F"
+        },
+        "Cjc": {
+          "type": "float",
+          "description": "Base-coll. zero bias depletion cap.",
+          "unit": "F"
+        },
+        "Phie": {
+          "type": "float",
+          "description": "Base-emitter diffusion voltage",
+          "unit": "V"
+        },
+        "Me": {
+          "type": "float",
+          "description": "Base-emitter gradation exponent"
+        },
+        "Phic": {
+          "type": "float",
+          "description": "Base-collector diffusion voltage",
+          "unit": "V"
+        },
+        "Mc": {
+          "type": "float",
+          "description": "Base-collector gradation exponent"
+        },
+        "Gbc": {
+          "type": "float",
+          "description": "Base-collector conductance",
+          "unit": "S"
+        },
+        "Gbe": {
+          "type": "float",
+          "description": "Base-emitter conductance",
+          "unit": "S"
+        },
+        "Vt": {
+          "type": "float",
+          "description": "Voltage equivalent of temperature",
+          "unit": "V"
+        },
+        "EMin": {
+          "type": "float",
+          "description": "if x < EMin, the exp(x) function is linearized"
+        },
+        "EMax": {
+          "type": "float",
+          "description": "if x > EMax, the exp(x) function is linearized"
+        },
+        "IC": {
+          "type": "float",
+          "description": "Initial Value",
+          "unit": "V"
+        },
+        "UIC": {
+          "type": "boolean",
+          "description": ""
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/MN"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 2090
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "f5951230-35ac-967c-1536-ba1440d68a87",
+          "path": "/9/kE/O",
+          "attributes": {
+            "name": "Emitter"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "86996e5f-1c31-6c7c-702a-5dbfe5517803",
+          "path": "/9/kE/U",
+          "attributes": {
+            "name": "Base"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "271bc438-0979-752d-f835-1639234f0542",
+          "path": "/9/kE/R",
+          "attributes": {
+            "name": "Collector"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "8e65af05-c4f8-fcae-4f43-092dd452f111",
+      "path": "/9/5z",
+      "attributes": {
+        "W": 0.00002,
+        "L": 0.000006,
+        "Beta": 0.0000105,
+        "Vt": -1,
+        "K2": 0.41,
+        "K5": 0.839,
+        "dW": -0.0000025,
+        "dL": -0.0000021,
+        "RDS": 10000000,
+        "T": 293.15,
+        "name": "PMOS"
+      },
+      "attribute_meta": {
+        "W": {
+          "type": "float",
+          "description": "Width",
+          "unit": "m"
+        },
+        "L": {
+          "type": "float",
+          "description": "Length",
+          "unit": "m"
+        },
+        "Beta": {
+          "type": "float",
+          "description": "Transconductance parameter",
+          "unit": "A/V2"
+        },
+        "Vt": {
+          "type": "float",
+          "description": "Zero bias threshold voltage",
+          "unit": "V"
+        },
+        "K2": {
+          "type": "float",
+          "description": "Bulk threshold parameter"
+        },
+        "K5": {
+          "type": "float",
+          "description": "Reduction of pinch-off region"
+        },
+        "dW": {
+          "type": "float",
+          "description": "Narrowing of channel",
+          "unit": "m"
+        },
+        "dL": {
+          "type": "float",
+          "description": "Shortening of channel",
+          "unit": "m"
+        },
+        "RDS": {
+          "type": "float",
+          "description": "Drain-Source-Resistance",
+          "unit": "Ohm"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/MN"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 2090
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "d192ed70-7fa6-bcab-14a4-9ed78d87731a",
+          "path": "/9/5z/5",
+          "attributes": {
+            "name": "Source"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "48e28641-2fd6-2660-d97b-aa6aeb726283",
+          "path": "/9/5z/F",
+          "attributes": {
+            "name": "Gate"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "961e268f-ebb2-ac4f-3018-d487b1f8218e",
+          "path": "/9/5z/I",
+          "attributes": {
+            "name": "Drain"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "a1e8d9d1-2688-269c-3306-3101ffa3750f",
+          "path": "/9/5z/j",
+          "attributes": {
+            "name": "Bulk"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "142636d7-27ec-5c04-0c37-c3c8a41e9b87",
+      "path": "/9/dj",
+      "attributes": {
+        "Ids": 0.000001,
+        "Vt": 0.04,
+        "Maxexp": 30,
+        "R": 100000000,
+        "Bv": 5.1,
+        "Ibv": 0.7,
+        "Nbv": 0.74,
+        "T": 293.15,
+        "name": "ZDiode"
+      },
+      "attribute_meta": {
+        "Ids": {
+          "type": "float",
+          "description": "Saturation current",
+          "unit": "A"
+        },
+        "Vt": {
+          "type": "float",
+          "description": "Voltage equivalent of temperature (kT/qn)",
+          "unit": "V"
+        },
+        "Maxexp": {
+          "type": "float",
+          "description": "Max. exponent for linear continuation"
+        },
+        "R": {
+          "type": "float",
+          "description": "Parallel ohmic resistance",
+          "unit": "Ohm"
+        },
+        "Bv": {
+          "type": "float",
+          "description": "Breakthrough voltage = Zener- or Z-voltage",
+          "unit": "V"
+        },
+        "Ibv": {
+          "type": "float",
+          "description": "Breakthrough knee current",
+          "unit": "A"
+        },
+        "Nbv": {
+          "type": "float",
+          "description": "Breakthrough emission coefficient"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/MN"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 2090
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "b0300e0b-5127-d72a-217c-66dcecf549cf",
+          "path": "/9/dj/5",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "2c4febbb-3d81-545c-a4eb-ebfd54153a0c",
+          "path": "/9/dj/G",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "17f8ddd9-9d76-c704-1130-49e0c44a522a",
+      "path": "/9/vH",
+      "attributes": {
+        "Ids": 0.000001,
+        "Vt": 0.04,
+        "Maxexp": 15,
+        "R": 100000000,
+        "T": 293.15,
+        "name": "Diode"
+      },
+      "attribute_meta": {
+        "Ids": {
+          "type": "float",
+          "description": "Saturation current",
+          "unit": "A"
+        },
+        "Vt": {
+          "type": "float",
+          "description": "Voltage equivalent of temperature (kT/qn)",
+          "unit": "V"
+        },
+        "Maxexp": {
+          "type": "float",
+          "description": "Max. exponent for linear continuation"
+        },
+        "R": {
+          "type": "float",
+          "description": "Parallel ohmic resistance",
+          "unit": "Ohm"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/MN"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1920
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "8f6490f1-3e37-2c48-a244-8fd96afbd77c",
+          "path": "/9/vH/M",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "51346f7f-d98b-40f0-9deb-62c915f2f4c9",
+          "path": "/9/vH/S",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "314d3761-7f5a-5374-23e2-88644cf7b565",
+      "path": "/9/NU",
+      "attributes": {
+        "color": "#FF0000",
+        "name": "LED"
+      },
+      "attribute_meta": {
+        "color": {
+          "type": "string",
+          "description": "The color of the LED"
+        }
+      },
+      "pointers": {
+        "base": "/9/vH"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "position": {
+          "x": 560,
+          "y": 2260
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "a9d17a49-dc1b-b838-9096-4e5de2463033",
+          "path": "/9/NU/M",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/vH/M"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "778185c7-3ba7-d480-af39-a34d9d4f1386",
+          "path": "/9/NU/S",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/vH/S"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "c0e991bb-cbc7-a9f8-ff9a-f5900a7c6c95",
+      "path": "/9/W",
+      "attributes": {
+        "name": "Circuit"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/1"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "validVisualizers": "ElectricCircuitsEditor ModelEditor",
+        "validPlugins": "ConvertCircuitToNetlist",
+        "isAbstract": false,
+        "decorator": "ElectricCircuitsDecorator",
+        "position": {
+          "x": 220,
+          "y": 0
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/W": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": []
+    },
+    {
+      "id": "6296544b-5de5-dd07-2029-0e36aef955be",
+      "path": "/9/O",
+      "attributes": {
+        "name": "ComponentBase"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/1"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": true,
+        "position": {
+          "x": 390,
+          "y": 50
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": []
+    },
+    {
+      "id": "8c893e7b-f9cf-c0de-1d97-167f7cc7f367",
+      "path": "/9/Wx",
+      "attributes": {
+        "name": "SchottkyDiode"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/9/vH"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "position": {
+          "x": 390,
+          "y": 2260
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "14157353-5a8e-2b92-aee3-d046d2767631",
+          "path": "/9/Wx/M",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/vH/M"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "ca458cdd-bd32-472a-914c-3d56ad7f5584",
+          "path": "/9/Wx/S",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/vH/S"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "52714660-37c2-3667-8b30-9625836ce166",
+      "path": "/9/R",
+      "attributes": {
+        "name": "ConnectionBase"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/1"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": true,
+        "position": {
+          "x": 730,
+          "y": 50
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": null,
+      "children": []
+    },
+    {
+      "id": "c7b82794-099a-b4b1-e3ba-6438646b5004",
+      "path": "/9/x",
+      "attributes": {
+        "name": "Pin"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/9/0"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "decorator": "ElectricCircuitsDecorator",
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 220
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": null,
+      "children": []
+    },
+    {
+      "id": "043d402c-10e8-582f-416a-856ae44c19b0",
+      "path": "/9/A",
+      "attributes": {
+        "name": "Wire"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "src": null,
+        "dst": null,
+        "base": "/9/R"
+      },
+      "pointer_meta": {
+        "src": {
+          "min": 1,
+          "max": 1,
+          "/9/x": {
+            "min": -1,
+            "max": 1
+          }
+        },
+        "dst": {
+          "min": 1,
+          "max": 1,
+          "/9/x": {
+            "min": -1,
+            "max": 1
+          }
+        }
+      },
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 220
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": null,
+      "children": []
+    },
+    {
+      "id": "12fdffb2-0fda-f9b1-a0f0-282bd4cb29b2",
+      "path": "/9/V",
+      "attributes": {
+        "documentation": "",
+        "name": "Documentation"
+      },
+      "attribute_meta": {
+        "documentation": {
+          "type": "string",
+          "isPassword": false
+        }
+      },
+      "pointers": {
+        "base": "/1"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "position": {
+          "x": 730,
+          "y": 220
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": null,
+      "children": []
+    },
+    {
+      "id": "09f2221a-4e53-8124-6146-035bd2f120bb",
+      "path": "/9/t",
+      "attributes": {
+        "name": "ElectricCircuitsFolder"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/1"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "validPlugins": "ConvertNetlistToCircuit",
+        "isAbstract": false,
+        "decorator": "ElectricCircuitsDecorator",
+        "position": {
+          "x": 560,
+          "y": 220
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/W": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/V": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": []
+    },
+    {
+      "id": "256e1edb-4dde-28bd-5458-aeecf09683d6",
+      "path": "/9/M",
+      "attributes": {
+        "name": "Basic"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/9/O"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "decorator": "ElectricCircuitsDecorator",
+        "isAbstract": true,
+        "position": {
+          "x": 730,
+          "y": 390
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": []
+    },
+    {
+      "id": "bc659d92-847f-5d85-05ee-84aec94665ba",
+      "path": "/9/E",
+      "attributes": {
+        "name": "Junction"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "decorator": "ElectricCircuitsDecorator",
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 390
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "bebd76c9-c849-e26c-3dcf-ec239946ceef",
+          "path": "/9/E/D",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 341,
+              "y": 107
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "8203cb73-742b-a6d0-9aa9-4493685e742e",
+          "path": "/9/E/b",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 381,
+              "y": 204
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "e0c32971-807e-5ad4-4bd5-99673683fc65",
+          "path": "/9/E/E",
+          "attributes": {
+            "name": "p3"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 324,
+              "y": 358
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "82b3e8b0-c72c-62ce-e569-f109eae9b4ee",
+          "path": "/9/E/c",
+          "attributes": {
+            "name": "p4"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 613,
+              "y": 385
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "f77c7928-e3bb-a106-6803-91012d1b531c",
+      "path": "/9/U",
+      "attributes": {
+        "I": 0,
+        "name": "Current"
+      },
+      "attribute_meta": {
+        "I": {
+          "type": "float",
+          "description": "Current in Amperes",
+          "isPassword": false
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "decorator": "ElectricCircuitsDecorator",
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 390
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "2aa79ccb-7540-f889-7911-ff83956628fb",
+          "path": "/9/U/7",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 268,
+              "y": 210
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "b1a0f88e-4357-f641-953c-a3b23a3a34d8",
+          "path": "/9/U/Q",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 257,
+              "y": 132
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "f7163146-a144-b440-2e5a-2a20794bd559",
+      "path": "/9/G",
+      "attributes": {
+        "V": 0,
+        "name": "Voltage"
+      },
+      "attribute_meta": {
+        "V": {
+          "type": "float",
+          "description": "Voltage in Volts\n\n",
+          "isPassword": false
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "decorator": "ElectricCircuitsDecorator",
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 390
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "3496632d-e40c-67f2-e87b-f087260bcf80",
+          "path": "/9/G/0",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 243,
+              "y": 209
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "49979fea-cd9e-096b-a34a-8636c75af2ea",
+          "path": "/9/G/1",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 244,
+              "y": 105
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "e1697fb2-d391-8335-f062-e1c627607d8f",
+      "path": "/9/l",
+      "attributes": {
+        "name": "Ground"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 730
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "4add627e-d13b-e6f2-b3f2-b7101449e128",
+          "path": "/9/l/v",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {
+            "position": {
+              "x": 326,
+              "y": 121
+            }
+          },
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "1a6cd1f9-627c-9120-3f7e-691f2cd2782a",
+      "path": "/9/c",
+      "attributes": {
+        "parameter2": 0,
+        "parameter1": 1,
+        "time_delay": 0,
+        "duration": 0,
+        "random_type": "uniform",
+        "name": "RandomCurrentSource"
+      },
+      "attribute_meta": {
+        "parameter2": {
+          "type": "float"
+        },
+        "parameter1": {
+          "type": "float"
+        },
+        "time_delay": {
+          "name": "time_delay",
+          "parameter": "Delay Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "duration": {
+          "name": "duration",
+          "parameter": "Duration for random values to show up",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "random_type": {
+          "type": "string"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 1920
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "df3a7659-17d1-23d6-c989-4066610ace6e",
+          "path": "/9/c/q",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "ca64dd7c-b66e-008c-66ca-f985e9ed6c73",
+          "path": "/9/c/P",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "8f625668-d6d8-94ee-65c6-0ac60ba92825",
+      "path": "/9/q",
+      "attributes": {
+        "signal_delay": 0,
+        "carrier_frequency": 0,
+        "modulating_frequency": 0,
+        "amplitude": 0,
+        "offset": 0,
+        "name": "AmplitudeModulatedCurrentSource"
+      },
+      "attribute_meta": {
+        "signal_delay": {
+          "name": "Td",
+          "parameter": "signal delay",
+          "default_value": "",
+          "units": "s",
+          "type": "float"
+        },
+        "carrier_frequency": {
+          "name": "Fc",
+          "parameter": "carrier frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "modulating_frequency": {
+          "name": "Mf",
+          "parameter": "modulating frequency",
+          "default_value": "",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 1920
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "4a960884-cbdc-5062-dd4a-2c08eeb7e434",
+          "path": "/9/q/c",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "6f8001ed-311a-5ab6-a0aa-1d6133e9248c",
+          "path": "/9/q/X",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "f9e6150c-fe0e-7262-ed7d-fa859dd38b02",
+      "path": "/9/J",
+      "attributes": {
+        "signal_delay": 0,
+        "carrier_frequency": 0,
+        "modulating_frequency": 0,
+        "amplitude": 0,
+        "offset": 0,
+        "name": "AmplitudeModulatedVoltageSource"
+      },
+      "attribute_meta": {
+        "signal_delay": {
+          "name": "Td",
+          "parameter": "signal delay",
+          "default_value": "",
+          "units": "s",
+          "type": "float"
+        },
+        "carrier_frequency": {
+          "name": "Fc",
+          "parameter": "carrier frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "modulating_frequency": {
+          "name": "Mf",
+          "parameter": "modulating frequency",
+          "default_value": "",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1750
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "e4628f1f-e941-4616-3b81-6dbc8c52d6b6",
+          "path": "/9/J/1",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "df396732-b84f-878f-25cb-04c1ae23f2d8",
+          "path": "/9/J/x",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "f3a4c109-6156-295b-872d-9ed60349e2bd",
+      "path": "/9/C",
+      "attributes": {
+        "signal_frequency": 0,
+        "modulation_index": 0,
+        "carrier_frequency": 0,
+        "amplitude": 0,
+        "offset": 0,
+        "name": "SingleFrequencyFMCurrentSource"
+      },
+      "attribute_meta": {
+        "signal_frequency": {
+          "name": "Fs",
+          "parameter": "signal frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "modulation_index": {
+          "name": "Mdi",
+          "parameter": "modulation index",
+          "default_value": "",
+          "units": "",
+          "type": "float"
+        },
+        "carrier_frequency": {
+          "name": "Fc",
+          "parameter": "carrier frequency",
+          "default_value": "1 / Tstop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 1750
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "8f7ab1d8-84ba-2501-2af0-23ed90a0443a",
+          "path": "/9/C/0",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "62318f0e-b631-a76e-e28c-482071da46f1",
+          "path": "/9/C/9",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "7ef363fa-659d-4b09-4cb3-397651f19967",
+      "path": "/9/r",
+      "attributes": {
+        "delay_time": 0,
+        "repeate_time": 0,
+        "values": "[(0, 0)]",
+        "name": "PieceWiseLinearCurrentSource"
+      },
+      "attribute_meta": {
+        "delay_time": {
+          "name": "delay_time",
+          "parameter": "Delay Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "repeate_time": {
+          "name": "repeate_time",
+          "parameter": "Repeat Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "values": {
+          "name": "values",
+          "parameter": "Piecewise Linear Values",
+          "default_value": "[(0, 0)]",
+          "units": "A",
+          "type": "string"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 1750
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "e36eb358-a33d-52e3-18b7-12b440aac37e",
+          "path": "/9/r/2",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "5f6a9db8-5654-6e2e-5536-dbf988baf421",
+          "path": "/9/r/6",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "863547ca-a077-472f-ca59-b2750ce78979",
+      "path": "/9/kG",
+      "attributes": {
+        "delay_time": 0,
+        "repeate_time": 0,
+        "values": "[(0, 0)]",
+        "name": "PieceWiseLinearVoltageSource"
+      },
+      "attribute_meta": {
+        "delay_time": {
+          "name": "delay_time",
+          "parameter": "Delay Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "repeate_time": {
+          "name": "repeate_time",
+          "parameter": "Repeat Time",
+          "default_value": 0,
+          "units": "sec",
+          "type": "float"
+        },
+        "values": {
+          "name": "values",
+          "parameter": "Piecewise Linear Values",
+          "default_value": "[(0, 0)]",
+          "units": "V",
+          "type": "string"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1580
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "36fd248d-5376-1af3-daee-bc0411b3266e",
+          "path": "/9/kG/4",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "97d5f56c-92d2-c30f-f008-7010ff273162",
+          "path": "/9/kG/a",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "c9a5572a-b9f2-1867-488e-13edb88f3501",
+      "path": "/9/y",
+      "attributes": {
+        "fall_time_constant": 0,
+        "fall_delay_time": 0,
+        "rise_time_constant": 0,
+        "rise_delay_time": 0,
+        "pulsed_value": 0,
+        "initial_value": 0,
+        "name": "ExponentialCurrentSource"
+      },
+      "attribute_meta": {
+        "fall_time_constant": {
+          "name": "tau2",
+          "parameter": "fall time constant",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "fall_delay_time": {
+          "name": "Td2",
+          "parameter": "fall delay time",
+          "default_value": "sum(Td1, Tstep)",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_time_constant": {
+          "name": "tau1",
+          "parameter": "rise time constant",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_delay_time": {
+          "name": "Td1",
+          "parameter": "rise delay time",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulsed_value": {
+          "name": "V2",
+          "parameter": "pulsed value",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        },
+        "initial_value": {
+          "name": "V1",
+          "parameter": "Initial value",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 1580
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "f212da15-8f3f-1028-3647-a84ae6c958db",
+          "path": "/9/y/i",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "71aa85ed-ccd2-d3ee-2660-f9af541e8592",
+          "path": "/9/y/b",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "f367453f-3fb7-c529-6e72-f19f7e4fbce9",
+      "path": "/9/g",
+      "attributes": {
+        "dc_offset": 0,
+        "phase": 0,
+        "fall_time": 0,
+        "rise_time": 0,
+        "delay_time": 0,
+        "period": 0,
+        "pulse_width": 0,
+        "pulsed_value": 0,
+        "initial_value": 0,
+        "name": "PulseCurrentSource"
+      },
+      "attribute_meta": {
+        "dc_offset": {
+          "name": "dc_offset",
+          "parameter": "dc offset",
+          "default_value": 0,
+          "units": "A",
+          "type": "float"
+        },
+        "phase": {
+          "name": "Phase",
+          "parameter": "phase",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "fall_time": {
+          "name": "Tf",
+          "parameter": "fall time",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_time": {
+          "name": "Tr",
+          "parameter": "rise time",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "delay_time": {
+          "name": "Td",
+          "parameter": "delay time",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "period": {
+          "name": "Period",
+          "parameter": "period",
+          "default_value": "Tstop",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulse_width": {
+          "name": "Pw",
+          "parameter": "pulse width",
+          "default_value": "Tstop",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulsed_value": {
+          "name": "V2",
+          "parameter": "pulsed value",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        },
+        "initial_value": {
+          "name": "V1",
+          "parameter": "initial value",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 1580
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "b144d7be-695a-b1b6-dc40-6ba7da8865e7",
+          "path": "/9/g/3",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "6ac69a68-7406-f4b1-5efa-8552e1dee6c9",
+          "path": "/9/g/T",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "27eeb700-afb7-9891-7555-79dd2d54fe9f",
+      "path": "/9/j",
+      "attributes": {
+        "dc_offset": 0,
+        "phase": 0,
+        "fall_time": 0,
+        "rise_time": 0,
+        "delay_time": 0,
+        "period": 0,
+        "pulse_width": 0,
+        "pulsed_value": 0,
+        "initial_value": 0,
+        "name": "PulseVoltageSource"
+      },
+      "attribute_meta": {
+        "dc_offset": {
+          "name": "dc_offset",
+          "parameter": "dc offset",
+          "default_value": 0,
+          "units": "V",
+          "type": "float"
+        },
+        "phase": {
+          "name": "Phase",
+          "parameter": "phase",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "fall_time": {
+          "name": "Tf",
+          "parameter": "fall time",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "rise_time": {
+          "name": "Tr",
+          "parameter": "rise time",
+          "default_value": "Tstep",
+          "units": "sec",
+          "type": "float"
+        },
+        "delay_time": {
+          "name": "Td",
+          "parameter": "delay time",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "period": {
+          "name": "Period",
+          "parameter": "period",
+          "default_value": "Tstop",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulse_width": {
+          "name": "Pw",
+          "parameter": "pulse width",
+          "default_value": "Tstop",
+          "units": "sec",
+          "type": "float"
+        },
+        "pulsed_value": {
+          "name": "V2",
+          "parameter": "pulsed value",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "initial_value": {
+          "name": "V1",
+          "parameter": "initial value",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1410
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "eeac9982-863e-0b9e-80ff-46858cb77c92",
+          "path": "/9/j/P",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "d0cc150f-b64f-6828-93a0-225c1f0cb07e",
+          "path": "/9/j/K",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "0a6569e5-d6e2-da1d-0588-e96483fbcc87",
+      "path": "/9/L",
+      "attributes": {
+        "damping_factor": 0.01,
+        "delay": 0,
+        "frequency": 50,
+        "amplitude": 1,
+        "offset": 0,
+        "ac_magnitude": 1,
+        "dc_offset": 0,
+        "name": "SinusoidalCurrentSource"
+      },
+      "attribute_meta": {
+        "damping_factor": {
+          "name": "Df",
+          "parameter": "damping factor",
+          "default_value": "0.01",
+          "units": "Hz",
+          "type": "float"
+        },
+        "delay": {
+          "name": "Td",
+          "parameter": "delay",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "frequency": {
+          "name": "f",
+          "parameter": "frequency",
+          "default_value": "1 / TStop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "units": "A",
+          "type": "float"
+        },
+        "ac_magnitude": {
+          "name": "ac_magnitude",
+          "parameter": "ac magnitude",
+          "default_value": 0,
+          "units": "A",
+          "type": "float"
+        },
+        "dc_offset": {
+          "name": "dc_offset",
+          "parameter": "dc offset",
+          "default_value": 0,
+          "units": "A",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1410
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "8929889e-4363-1408-f982-a65a85eaa98f",
+          "path": "/9/L/q",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "e091a7ff-b14c-bf44-caf3-5b3031d6f34b",
+          "path": "/9/L/Y",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "e3fdec67-7349-9cec-8f35-13cb7a1440ed",
+      "path": "/9/b",
+      "attributes": {
+        "damping_factor": 0.01,
+        "delay": 0,
+        "frequency": 50,
+        "amplitude": 1,
+        "offset": 0,
+        "ac_magnitude": 1,
+        "dc_offset": 0,
+        "name": "SinusoidalVoltageSource"
+      },
+      "attribute_meta": {
+        "damping_factor": {
+          "name": "Df",
+          "parameter": "damping factor",
+          "default_value": "0.01",
+          "units": "Hz",
+          "type": "float"
+        },
+        "delay": {
+          "name": "Td",
+          "parameter": "delay",
+          "default_value": "0.0",
+          "units": "sec",
+          "type": "float"
+        },
+        "frequency": {
+          "name": "f",
+          "parameter": "frequency",
+          "default_value": "1 / TStop",
+          "units": "Hz",
+          "type": "float"
+        },
+        "amplitude": {
+          "name": "Va",
+          "parameter": "amplitude",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "offset": {
+          "name": "Vo",
+          "parameter": "offset",
+          "default_value": "",
+          "units": "V",
+          "type": "float"
+        },
+        "ac_magnitude": {
+          "name": "ac_magnitude",
+          "parameter": "ac magnitude",
+          "default_value": 0,
+          "units": "V",
+          "type": "float"
+        },
+        "dc_offset": {
+          "name": "dc_offset",
+          "parameter": "dc offset",
+          "default_value": 0,
+          "units": "V",
+          "type": "float"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 1410
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "b95df90b-0145-c92b-6564-55c93c58c007",
+          "path": "/9/b/C",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "87296c1b-03f2-d248-3a00-845c2abb0d4a",
+          "path": "/9/b/M",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "75a4f2f9-1e61-a7d5-6b20-30a81fafff01",
+      "path": "/9/F",
+      "attributes": {
+        "IC": 0,
+        "UIC": false,
+        "name": "VariableInductor"
+      },
+      "attribute_meta": {
+        "IC": {
+          "type": "float",
+          "description": "Initial Value",
+          "unit": "A"
+        },
+        "UIC": {
+          "type": "boolean",
+          "description": ""
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1240
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "d3e0ce33-405e-cce9-9a16-2caf39e5e28c",
+          "path": "/9/F/a",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "0b33c6ee-31eb-57fb-f58f-fc3a492ecc90",
+          "path": "/9/F/C",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "afa94cdb-ea7b-c3a3-09ba-be601aefa1ea",
+      "path": "/9/z",
+      "attributes": {
+        "IC": 0,
+        "UIC": false,
+        "name": "VariableCapacitor"
+      },
+      "attribute_meta": {
+        "IC": {
+          "type": "float",
+          "description": "Initial Value",
+          "unit": "V"
+        },
+        "UIC": {
+          "type": "boolean",
+          "description": ""
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 1240
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "968fdd2b-5bc6-d942-1a19-9e49f4cbaf18",
+          "path": "/9/z/i",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "847299ba-3e13-48f2-9af9-9ced7687a382",
+          "path": "/9/z/E",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "2ad79267-7de3-55c3-feb7-fa1f61ecd934",
+      "path": "/9/m",
+      "attributes": {
+        "T_ref": 300.15,
+        "alpha": 0,
+        "T": 293.15,
+        "name": "VariableConductor"
+      },
+      "attribute_meta": {
+        "T_ref": {
+          "type": "float",
+          "description": "Reference temperature",
+          "unit": "K"
+        },
+        "alpha": {
+          "type": "float",
+          "description": "Temperature coefficient of conductance (G_actual = G/(1 + alpha*(T_heatPort - T_ref))",
+          "unit": "1/K"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1240
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "b16c1a21-ef12-efd6-31a9-48fb59fe7f91",
+          "path": "/9/m/E",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "06a7c2a9-f64b-daa3-f219-67d8abc2f7a8",
+          "path": "/9/m/m",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "8705ebfc-5033-9f59-7261-42fa3e0565c0",
+      "path": "/9/K",
+      "attributes": {
+        "T_ref": 300.15,
+        "alpha": 0,
+        "T": 293.15,
+        "name": "VariableResistor"
+      },
+      "attribute_meta": {
+        "T_ref": {
+          "type": "float",
+          "description": "Reference temperature",
+          "unit": "K"
+        },
+        "alpha": {
+          "type": "float",
+          "description": "Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref))",
+          "unit": "1/K"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 1240
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "e3ab30eb-a2aa-4f32-05d3-704c09d76eb8",
+          "path": "/9/K/v",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "db205a8a-781c-10d4-a8a9-298d2ccf6ba1",
+          "path": "/9/K/L",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "185290a5-cf5d-d6ab-691c-1a3a17801dfc",
+      "path": "/9/jD",
+      "attributes": {
+        "Rdm": 2000000,
+        "Rcm": 2000000000,
+        "Cin": 1.4e-12,
+        "Vos": 0.001,
+        "Ib": 8e-8,
+        "Ios": 2e-8,
+        "vcp": 0,
+        "vcm": 0,
+        "Avd0": 106,
+        "CMRR": 90,
+        "fp1": 5,
+        "fp2": 2000000,
+        "fp3": 20000000,
+        "fp4": 100000000,
+        "fz": 5000000,
+        "sr_p": 500000,
+        "sr_m": 500000,
+        "Rout": 75,
+        "Imaxso": 0.025,
+        "Imaxsi": 0.025,
+        "Ts": 0.0000012,
+        "name": "OpAmpDetailed"
+      },
+      "attribute_meta": {
+        "Rdm": {
+          "type": "float",
+          "description": "Input resistance (differential input mode)",
+          "unit": "Ohm"
+        },
+        "Rcm": {
+          "type": "float",
+          "description": "Input resistance (common mode)",
+          "unit": "Ohm"
+        },
+        "Cin": {
+          "type": "float",
+          "description": "Input capacitance",
+          "unit": "F"
+        },
+        "Vos": {
+          "type": "float",
+          "description": "Input offset voltage",
+          "unit": "V"
+        },
+        "Ib": {
+          "type": "float",
+          "description": "Input bias current",
+          "unit": "A"
+        },
+        "Ios": {
+          "type": "float",
+          "description": "Input offset current",
+          "unit": "A"
+        },
+        "vcp": {
+          "type": "float",
+          "description": "Correction value for limiting by p_supply",
+          "unit": "V"
+        },
+        "vcm": {
+          "type": "float",
+          "description": "Correction value for limiting by msupply",
+          "unit": "V"
+        },
+        "Avd0": {
+          "type": "float",
+          "description": "Differential amplifier [dB]"
+        },
+        "CMRR": {
+          "type": "float",
+          "description": "Common-mode rejection [dB]"
+        },
+        "fp1": {
+          "type": "float",
+          "description": "Dominant pole",
+          "unit": "Hz"
+        },
+        "fp2": {
+          "type": "float",
+          "description": "Pole frequency",
+          "unit": "Hz"
+        },
+        "fp3": {
+          "type": "float",
+          "description": "Pole frequency",
+          "unit": "Hz"
+        },
+        "fp4": {
+          "type": "float",
+          "description": "Pole frequency",
+          "unit": "Hz"
+        },
+        "fz": {
+          "type": "float",
+          "description": "Zero frequency",
+          "unit": "Hz"
+        },
+        "sr_p": {
+          "type": "float",
+          "description": "Slew rate for increase",
+          "unit": "V/s"
+        },
+        "sr_m": {
+          "type": "float",
+          "description": "Slew rate for decrease",
+          "unit": "V/s"
+        },
+        "Rout": {
+          "type": "float",
+          "description": "Output resistance",
+          "unit": "Ohm"
+        },
+        "Imaxso": {
+          "type": "float",
+          "description": "Maximal output current (source current)",
+          "unit": "A"
+        },
+        "Imaxsi": {
+          "type": "float",
+          "description": "Maximal output current (sink current)",
+          "unit": "A"
+        },
+        "Ts": {
+          "type": "float",
+          "description": "sampling time",
+          "unit": "s"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 1070
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "5ac6a6e9-e6cc-f66c-d67f-349beabd348c",
+          "path": "/9/jD/b",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "b5812d96-4085-5a87-c91b-c9709aef2804",
+          "path": "/9/jD/M",
+          "attributes": {
+            "name": "p_supply"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "ad20c4f6-cdc9-79b7-e9bc-59c5064227ee",
+          "path": "/9/jD/P",
+          "attributes": {
+            "name": "outp"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "425ea4e4-7d3a-ba62-7dde-c9a57c6a24d1",
+          "path": "/9/jD/o",
+          "attributes": {
+            "name": "m"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "d5caa924-edd0-cced-32ce-412e46b4dae6",
+          "path": "/9/jD/X",
+          "attributes": {
+            "name": "m_supply"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "105283ed-18e7-d69b-59ea-64ab0f83fa66",
+      "path": "/9/dG",
+      "attributes": {
+        "Slope": 1,
+        "name": "OpAmp"
+      },
+      "attribute_meta": {
+        "Slope": {
+          "type": "float",
+          "description": "Slope of the out.v/vin characteristic at vin=0"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 1070
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "cd49e283-68ad-29dd-bdb0-8b3e8aa7f184",
+          "path": "/9/dG/1",
+          "attributes": {
+            "name": "in_p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "bb6b0106-dcf7-2da5-e154-c5edf2fbd5ba",
+          "path": "/9/dG/4",
+          "attributes": {
+            "name": "out"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "0e00d893-a11f-b9aa-dc7a-b4c48e506410",
+          "path": "/9/dG/E",
+          "attributes": {
+            "name": "VMin"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "fafcec3a-233b-c546-b58e-4b7ab2f12000",
+          "path": "/9/dG/b",
+          "attributes": {
+            "name": "VMax"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "0fe1d2c7-3e19-5748-c925-12b117c99030",
+          "path": "/9/dG/k",
+          "attributes": {
+            "name": "in_n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "4658eda7-3173-a9ad-e5dc-d5f85c64003b",
+      "path": "/9/Y",
+      "attributes": {
+        "gain": 1,
+        "name": "CCC"
+      },
+      "attribute_meta": {
+        "gain": {
+          "type": "float",
+          "description": "Current gain"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 1070
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "b7083ec4-4639-ef10-174c-9ec79c47cc3e",
+          "path": "/9/Y/2",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/G"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": {
+            "/9/O": {
+              "min": -1,
+              "max": -1
+            },
+            "/9/0": {
+              "min": -1,
+              "max": -1
+            },
+            "/9/R": {
+              "min": -1,
+              "max": -1
+            }
+          },
+          "children": [
+            {
+              "id": "74886caf-0371-3ca2-d16d-4460c307d6e7",
+              "path": "/9/Y/2/0",
+              "attributes": {},
+              "attribute_meta": {},
+              "pointers": {
+                "base": "/9/G/0"
+              },
+              "pointer_meta": {},
+              "registry": {},
+              "sets": {},
+              "member_attributes": {},
+              "member_registry": {},
+              "children_meta": null,
+              "children": []
+            },
+            {
+              "id": "09899068-2ae3-523b-9a5c-32d12256eb8d",
+              "path": "/9/Y/2/1",
+              "attributes": {},
+              "attribute_meta": {},
+              "pointers": {
+                "base": "/9/G/1"
+              },
+              "pointer_meta": {},
+              "registry": {},
+              "sets": {},
+              "member_attributes": {},
+              "member_registry": {},
+              "children_meta": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "e4d43a13-df89-f91f-a670-a4c5ebe26da3",
+          "path": "/9/Y/3",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "b87ff92b-eb6e-f093-c7d3-2c10675e6192",
+          "path": "/9/Y/m",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "src": "/9/Y/2/1",
+            "dst": "/9/Y/3",
+            "base": "/9/A"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "a2ac6d0c-6e53-f005-f2de-96d7bf3e44c0",
+          "path": "/9/Y/W",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "src": "/9/Y/2/0",
+            "dst": "/9/Y/R",
+            "base": "/9/A"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "01017bdd-39e6-6014-38b3-4133098f58ea",
+          "path": "/9/Y/t",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "ca2bdc8d-e360-7284-8c2c-18502ee4d3cd",
+          "path": "/9/Y/R",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "8dbcf13a-29c6-0abc-347f-22eabf5ff50f",
+          "path": "/9/Y/M",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "632032e5-480d-5ec4-127e-5f2124b93767",
+      "path": "/9/z1",
+      "attributes": {
+        "gain": 1,
+        "name": "VCV"
+      },
+      "attribute_meta": {
+        "gain": {
+          "type": "float",
+          "description": "Voltage gain"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 900
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "78cddca3-65f3-8cf2-c821-fef92233e91e",
+          "path": "/9/z1/4",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "ba3d3575-9e52-eb02-9d0a-5353500ceccf",
+          "path": "/9/z1/G",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "3f42f47a-eda1-2a5a-d2c5-13c8f3869250",
+          "path": "/9/z1/s",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "35c86fc4-f42f-8e35-652e-28274fb36f2f",
+          "path": "/9/z1/H",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "7f631bfd-5d29-60c2-2b91-f23c1ffacac9",
+      "path": "/9/a",
+      "attributes": {
+        "G1": 1,
+        "G2": 1,
+        "name": "Gyrator"
+      },
+      "attribute_meta": {
+        "G1": {
+          "type": "float",
+          "description": "Gyration conductance",
+          "unit": "S"
+        },
+        "G2": {
+          "type": "float",
+          "description": "Gyration conductance",
+          "unit": "S"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 900
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "a352c196-0dd6-f4ec-b0af-9b93e5b0e9ab",
+          "path": "/9/a/P",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "006cef85-29e7-e1f6-db52-2c53a7c1e5c2",
+          "path": "/9/a/j",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "43a4e4f6-af2f-7bc9-ba7d-46abc0b9a922",
+          "path": "/9/a/F",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "9a69477d-403e-c63b-2121-4b396d5b0394",
+          "path": "/9/a/A",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "463c1112-d52f-9a12-d5b7-9e98b1db2b6f",
+      "path": "/9/i",
+      "attributes": {
+        "L1": 1,
+        "L2": 1,
+        "M": 1,
+        "name": "Transformer"
+      },
+      "attribute_meta": {
+        "L1": {
+          "type": "float",
+          "description": "Primary inductance",
+          "unit": "H"
+        },
+        "L2": {
+          "type": "float",
+          "description": "Secondary inductance",
+          "unit": "H"
+        },
+        "M": {
+          "type": "float",
+          "description": "Coupling inductance",
+          "unit": "H"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 900
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "40de3e85-bdcd-23d9-28e3-6ee49a2563c1",
+          "path": "/9/i/3",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "5296abb7-d797-5191-71a6-e8b71e980043",
+          "path": "/9/i/6",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "a08b0c16-e87a-8558-0946-6e2c00538ffc",
+          "path": "/9/i/t",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "13b5f5e3-5d59-e661-a91f-59c401e6ca32",
+          "path": "/9/i/m",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "158165a4-8dd0-be9b-fba4-e8fe9516f088",
+      "path": "/9/B",
+      "attributes": {
+        "Inom": 1,
+        "Lnom": 1,
+        "Lzer": 1,
+        "Linf": 1,
+        "name": "SaturatingInductor"
+      },
+      "attribute_meta": {
+        "Inom": {
+          "type": "float",
+          "description": "Nominal current",
+          "unit": "A"
+        },
+        "Lnom": {
+          "type": "float",
+          "description": "Nominal inductance at Nominal current",
+          "unit": "H"
+        },
+        "Lzer": {
+          "type": "float",
+          "description": "Inductance near current=0",
+          "unit": "H"
+        },
+        "Linf": {
+          "type": "float",
+          "description": "Inductance at large currents",
+          "unit": "H"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 900
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "7eabf693-c6d7-efe9-31d5-c852881131c4",
+          "path": "/9/B/i",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "3b7d7351-7bd9-07da-f4a3-8d12f9e210bd",
+          "path": "/9/B/Q",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "25227800-aa68-d0c5-f89a-1276f6970885",
+      "path": "/9/Q",
+      "attributes": {
+        "G": 1,
+        "T_ref": 300.15,
+        "alpha": 0,
+        "T": 293.15,
+        "name": "Conductor"
+      },
+      "attribute_meta": {
+        "G": {
+          "type": "float",
+          "description": "Conductance at temperature T_ref",
+          "unit": "S"
+        },
+        "T_ref": {
+          "type": "float",
+          "description": "Reference temperature",
+          "unit": "K"
+        },
+        "alpha": {
+          "type": "float",
+          "description": "Temperature coefficient of conductance (G_actual = G_ref/(1 + alpha*(T_heatPort - T_ref))",
+          "unit": "1/K"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 730
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "ec3c8b5c-b19c-92ec-324a-edb0e505cd87",
+          "path": "/9/Q/B",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "c35d6eb3-9ab7-76ec-efb9-8d4a58141b20",
+          "path": "/9/Q/b",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "961bede5-7510-7f35-6dd7-98223419bcd9",
+      "path": "/9/v",
+      "attributes": {
+        "transResistance": 1,
+        "name": "CCV"
+      },
+      "attribute_meta": {
+        "transResistance": {
+          "type": "float",
+          "description": "Transresistance",
+          "unit": "Ohm"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 730
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "4beb6cf9-ff01-2fda-453f-6c1bca8941c9",
+          "path": "/9/v/0",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "src": "/9/v/C/1",
+            "dst": "/9/v/I",
+            "base": "/9/A"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "5954ac61-72f1-7d89-f25d-04e721e0a512",
+          "path": "/9/v/I",
+          "attributes": {
+            "name": "p1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "40f08c27-a0e8-3e3f-f2fc-0317c68a836a",
+          "path": "/9/v/w",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "src": "/9/v/C/0",
+            "dst": "/9/v/O",
+            "base": "/9/A"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "1d7588cd-b77a-3892-631c-dfb0b4b11adb",
+          "path": "/9/v/C",
+          "attributes": {},
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/G"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": {
+            "/9/O": {
+              "min": -1,
+              "max": -1
+            },
+            "/9/0": {
+              "min": -1,
+              "max": -1
+            },
+            "/9/R": {
+              "min": -1,
+              "max": -1
+            }
+          },
+          "children": [
+            {
+              "id": "def5daa6-f232-eb20-a53d-0517ebf10002",
+              "path": "/9/v/C/0",
+              "attributes": {},
+              "attribute_meta": {},
+              "pointers": {
+                "base": "/9/G/0"
+              },
+              "pointer_meta": {},
+              "registry": {},
+              "sets": {},
+              "member_attributes": {},
+              "member_registry": {},
+              "children_meta": null,
+              "children": []
+            },
+            {
+              "id": "a3f42661-dba0-85b9-ee0c-73a60aa03d68",
+              "path": "/9/v/C/1",
+              "attributes": {},
+              "attribute_meta": {},
+              "pointers": {
+                "base": "/9/G/1"
+              },
+              "pointer_meta": {},
+              "registry": {},
+              "sets": {},
+              "member_attributes": {},
+              "member_registry": {},
+              "children_meta": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "056b9687-8c09-569c-ceb7-5874288fef91",
+          "path": "/9/v/O",
+          "attributes": {
+            "name": "n1"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "acc1eca2-7b21-319e-3640-e2c563a81f9d",
+          "path": "/9/v/j",
+          "attributes": {
+            "name": "n2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "75b792ce-2d8a-07b7-8df8-7a105d9e09d5",
+          "path": "/9/v/t",
+          "attributes": {
+            "name": "p2"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "63a33746-5580-38cf-f800-0470f686d3a2",
+      "path": "/9/D",
+      "attributes": {
+        "C": 1,
+        "name": "Capacitor"
+      },
+      "attribute_meta": {
+        "C": {
+          "type": "float",
+          "description": "Capacitance",
+          "unit": "F"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 730
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "ba7e4ffa-e81c-9301-f3b4-9f98b2768527",
+          "path": "/9/D/2",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "8ccfd6bd-dcc2-5ccb-437e-2ea513bb5197",
+          "path": "/9/D/E",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "1505501d-4633-e284-772c-c5c6e366a089",
+      "path": "/9/Bp",
+      "attributes": {
+        "R": 1,
+        "T_ref": 293.15,
+        "alpha": 0,
+        "useRinput": false,
+        "rConstant": 0.5,
+        "T": 293.15,
+        "name": "Potentiometer"
+      },
+      "attribute_meta": {
+        "R": {
+          "type": "float",
+          "description": "Resistance at temperature T_ref",
+          "unit": "Ohm"
+        },
+        "T_ref": {
+          "type": "float",
+          "description": "Reference temperature",
+          "unit": "K"
+        },
+        "alpha": {
+          "type": "float",
+          "description": "Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref))",
+          "unit": "1/K"
+        },
+        "useRinput": {
+          "type": "boolean",
+          "description": "use input for 0<r<1 (else constant)"
+        },
+        "rConstant": {
+          "type": "float",
+          "description": "Contact between n (r=0) and p (r=1)"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 730,
+          "y": 560
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "077af81c-90a8-b3e1-aa91-e96bab111986",
+          "path": "/9/Bp/b",
+          "attributes": {
+            "name": "contact"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "11efa685-40e9-e241-2525-4ac4ad70f78c",
+          "path": "/9/Bp/Z",
+          "attributes": {
+            "name": "pin_p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "2dff6ffc-5e20-e6fb-127e-adc1209042b6",
+          "path": "/9/Bp/Y",
+          "attributes": {
+            "name": "pin_n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "3ba8f0e1-d893-94a7-5d0d-8f55000dc443",
+      "path": "/9/RR",
+      "attributes": {
+        "L": 1,
+        "name": "Inductor"
+      },
+      "attribute_meta": {
+        "L": {
+          "type": "float",
+          "description": "Inductance",
+          "unit": "H"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 560,
+          "y": 560
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "0b9a5746-ee1f-43cb-1f06-13c8ee033fcc",
+          "path": "/9/RR/r",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "fb522113-df32-efaf-256f-c5c57b90ae46",
+          "path": "/9/RR/d",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "21e35d39-6e9d-0ce9-048a-d7e99a15077b",
+      "path": "/9/KF",
+      "attributes": {
+        "R": 1,
+        "T_ref": 300.15,
+        "alpha": 0,
+        "T": 293.15,
+        "name": "Resistor"
+      },
+      "attribute_meta": {
+        "R": {
+          "type": "float",
+          "description": "Resistance at temperature T_ref",
+          "unit": "Ohm"
+        },
+        "T_ref": {
+          "type": "float",
+          "description": "Reference temperature",
+          "unit": "K"
+        },
+        "alpha": {
+          "type": "float",
+          "description": "Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref))",
+          "unit": "1/K"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/M"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 390,
+          "y": 560
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "3c3ff424-cefc-46bd-7fd7-8713df14d310",
+          "path": "/9/KF/R",
+          "attributes": {
+            "name": "n"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "0bf2fa16-2901-a817-3672-7cbd65f0113a",
+          "path": "/9/KF/V",
+          "attributes": {
+            "name": "p"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "79e978ee-8fca-9951-625b-0d2fa274789f",
+      "path": "/9/MN",
+      "attributes": {
+        "name": "Semiconductors"
+      },
+      "attribute_meta": {},
+      "pointers": {
+        "base": "/9/O"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "decorator": "ElectricCircuitsDecorator",
+        "isAbstract": true,
+        "position": {
+          "x": 220,
+          "y": 560
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": []
+    },
+    {
+      "id": "59ef67a6-3aca-d135-8a05-3ae683cc1c99",
+      "path": "/9/w",
+      "attributes": {
+        "W": 0.00002,
+        "L": 0.000006,
+        "Beta": 0.000041,
+        "Vt": 0.8,
+        "K2": 1.144,
+        "K5": 0.7311,
+        "dW": -0.0000025,
+        "dL": -0.0000015,
+        "RDS": 10000000,
+        "T": 293.15,
+        "name": "NMOS"
+      },
+      "attribute_meta": {
+        "W": {
+          "type": "float",
+          "description": "Width",
+          "unit": "m"
+        },
+        "L": {
+          "type": "float",
+          "description": "Length",
+          "unit": "m"
+        },
+        "Beta": {
+          "type": "float",
+          "description": "Transconductance parameter",
+          "unit": "A/V2"
+        },
+        "Vt": {
+          "type": "float",
+          "description": "Zero bias threshold voltage",
+          "unit": "V"
+        },
+        "K2": {
+          "type": "float",
+          "description": "Bulk threshold parameter"
+        },
+        "K5": {
+          "type": "float",
+          "description": "Reduction of pinch-off region"
+        },
+        "dW": {
+          "type": "float",
+          "description": "narrowing of channel",
+          "unit": "m"
+        },
+        "dL": {
+          "type": "float",
+          "description": "shortening of channel",
+          "unit": "m"
+        },
+        "RDS": {
+          "type": "float",
+          "description": "Drain-Source-Resistance",
+          "unit": "Ohm"
+        },
+        "T": {
+          "type": "float",
+          "description": "Fixed device temperature if useHeatPort = false",
+          "unit": "K"
+        }
+      },
+      "pointers": {
+        "base": "/9/MN"
+      },
+      "pointer_meta": {},
+      "registry": {
+        "isAbstract": false,
+        "position": {
+          "x": 220,
+          "y": 2260
+        }
+      },
+      "sets": {},
+      "member_attributes": {},
+      "member_registry": {},
+      "children_meta": {
+        "/9/O": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/0": {
+          "min": -1,
+          "max": -1
+        },
+        "/9/R": {
+          "min": -1,
+          "max": -1
+        }
+      },
+      "children": [
+        {
+          "id": "0da89589-6d80-0ff6-e1b9-df341a7961fc",
+          "path": "/9/w/N",
+          "attributes": {
+            "name": "Source"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "cbc5ce5f-a6f5-fb82-37d0-3624db1ebba7",
+          "path": "/9/w/K",
+          "attributes": {
+            "name": "Gate"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "3e680167-8483-e877-b2cc-750f16ed17e4",
+          "path": "/9/w/x",
+          "attributes": {
+            "name": "Drain"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        },
+        {
+          "id": "5bf4080e-1116-2690-e4fc-8bbd2f917e06",
+          "path": "/9/w/e",
+          "attributes": {
+            "name": "Bulk"
+          },
+          "attribute_meta": {},
+          "pointers": {
+            "base": "/9/x"
+          },
+          "pointer_meta": {},
+          "registry": {},
+          "sets": {},
+          "member_attributes": {},
+          "member_registry": {},
+          "children_meta": null,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

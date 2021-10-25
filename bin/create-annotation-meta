@@ -1,0 +1,13 @@
+#! /bin/node
+
+const [file] = process.argv.slice(2);
+
+if (!file) {
+    console.error('usage: create-annotation-meta <file>');
+    process.exit(1);
+}
+
+const path = require('path');
+const data = require(path.relative(__dirname, file));
+const transform = require('../src/common/AnnotationTransformer');
+console.log(JSON.stringify(transform(data)));
