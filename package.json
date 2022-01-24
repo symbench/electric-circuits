@@ -39,7 +39,7 @@
     "jszip": "^3.6.0",
     "lodash-amd": "^4.17.15",
     "webgme-bindings": "github:webgme/bindings",
-    "webgme-json-importer": "github:deepforge-dev/webgme-json-importer"
+    "webgme-json-importer": "^1.2.0"
   },
   "description": "First, install the electric-circuits following: - [NodeJS](https://nodejs.org/en/) (v4.x.x recommended) - [MongoDB](https://www.mongodb.com/)",
   "main": "app.js",

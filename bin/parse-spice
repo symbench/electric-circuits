@@ -109,42 +109,42 @@ def _get_missing_attribute_meta(param: str, class_name: str) -> dict:
             "name": "dc_offset",
             "parameter": "dc offset",
             "default_value": 0,
-            "units": "A" if "Current" in class_name else "V",
+            "unit": "A" if "Current" in class_name else "V",
         }
     elif param == "ac_magnitude":
         return {
             "name": "ac_magnitude",
             "parameter": "ac magnitude",
             "default_value": 0,
-            "units": "A" if "Current" in class_name else "V",
+            "unit": "A" if "Current" in class_name else "V",
         }
     elif param == "values":
         return {
             "name": "values",
             "parameter": "Piecewise Linear Values",
             "default_value": "[(0, 0)]",
-            "units": "A" if "Current" in class_name else "V",
+            "unit": "A" if "Current" in class_name else "V",
         }
     elif param == "repeate_time":
         return {
             "name": "repeate_time",
             "parameter": "Repeat Time",
             "default_value": 0,
-            "units": "sec",
+            "unit": "sec",
         }
     elif param == "delay_time" or param == "time_delay":
         return {
             "name": param,
             "parameter": "Delay Time",
             "default_value": 0,
-            "units": "sec",
+            "unit": "sec",
         }
     elif param == "duration":
         return {
             "name": "duration",
             "parameter": "Duration for random values to show up",
             "default_value": 0,
-            "units": "sec",
+            "unit": "sec",
         }
     else:
         return {}
@@ -270,6 +270,9 @@ class PySpiceParser:
                         params_dict[self._to_camel_case(meta_keys[j])] = "A"
                     elif "Voltage" in class_name:
                         params_dict[self._to_camel_case(meta_keys[j])] = "V"
+
+                if "units" in params_dict:
+                    params_dict["unit"] = params_dict.pop("units")
 
                 meta_dict[param_name] = params_dict
 
@@ -483,7 +486,7 @@ class NGSpiceManualParser:
                 else value,
                 "meta": {
                     "description": df_row["Parameter"].replace("\r", " "),
-                    "units": None
+                    "unit": None
                     if str(unit := UNICODE_MAP.get(df_row["Units"], df_row["Units"]))
                     in ("nan", "-")
                     else unit,

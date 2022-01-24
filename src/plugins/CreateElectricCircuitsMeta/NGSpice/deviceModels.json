@@ -34,7 +34,7 @@
           "default": 1e-14,
           "meta": {
             "description": "Saturation current",
-            "units": "A",
+            "unit": "A",
             "alternateName": "JS",
             "scaleFactor": "area"
           }
@@ -44,7 +44,7 @@
           "default": 0.0,
           "meta": {
             "description": "Sidewall saturation current",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "perimeter"
           }
@@ -54,7 +54,7 @@
           "default": 1.0,
           "meta": {
             "description": "Emission coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -64,7 +64,7 @@
           "default": 0.0,
           "meta": {
             "description": "Ohmic resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": "1/area"
           }
@@ -74,7 +74,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Reverse breakdown voltage",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -84,7 +84,7 @@
           "default": 0.001,
           "meta": {
             "description": "Current at breakdown voltage",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -94,7 +94,7 @@
           "default": "N",
           "meta": {
             "description": "Breakdown Emission Coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -104,7 +104,7 @@
           "default": 0.0,
           "meta": {
             "description": "Forward knee current",
-            "units": "A",
+            "unit": "A",
             "alternateName": "IK",
             "scaleFactor": null
           }
@@ -114,7 +114,7 @@
           "default": 0.0,
           "meta": {
             "description": "Reverse knee current",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -124,7 +124,7 @@
           "default": 0.0,
           "meta": {
             "description": "Tunneling saturation current",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -134,7 +134,7 @@
           "default": 0.0,
           "meta": {
             "description": "Tunneling sidewall saturation current",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "perimeter"
           }
@@ -144,7 +144,7 @@
           "default": 30.0,
           "meta": {
             "description": "Tunneling emission coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -154,7 +154,7 @@
           "default": 3.0,
           "meta": {
             "description": "Tunneling saturation current exponential",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -164,7 +164,7 @@
           "default": 1.0,
           "meta": {
             "description": "EG correction factor for tunneling",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -174,7 +174,7 @@
           "default": 1e-14,
           "meta": {
             "description": "Recombination saturation current",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -184,7 +184,7 @@
           "default": 1.0,
           "meta": {
             "description": "Recombination current emission coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -194,7 +194,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias junction bottom-wall capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": "CJ0",
             "scaleFactor": "area"
           }
@@ -204,7 +204,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias junction sidewall capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": "CJSW",
             "scaleFactor": "perimeter"
           }
@@ -214,7 +214,7 @@
           "default": 0.5,
           "meta": {
             "description": "Coefficient for forward-bias depletion bottom-wall capacitance formula",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -224,7 +224,7 @@
           "default": 0.5,
           "meta": {
             "description": "Coefficient for forward-bias depletion sidewall capacitance formula",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -234,7 +234,7 @@
           "default": 0.5,
           "meta": {
             "description": "Area junction grading coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": "MJ",
             "scaleFactor": null
           }
@@ -244,7 +244,7 @@
           "default": 0.33,
           "meta": {
             "description": "Periphery junction grading coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -254,7 +254,7 @@
           "default": 1.0,
           "meta": {
             "description": "Junction potential",
-            "units": "V",
+            "unit": "V",
             "alternateName": "PB",
             "scaleFactor": null
           }
@@ -264,7 +264,7 @@
           "default": 1.0,
           "meta": {
             "description": "Periphery junction potential",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -274,7 +274,7 @@
           "default": 1.11,
           "meta": {
             "description": "Activation energy",
-            "units": "eV",
+            "unit": "eV",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -284,7 +284,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order tempco for MJ",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -294,7 +294,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order tempco for MJ",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -304,7 +304,7 @@
           "default": 27.0,
           "meta": {
             "description": "Parameter measurement temperature",
-            "units": "Celsius",
+            "unit": "Celsius",
             "alternateName": "TREF",
             "scaleFactor": null
           }
@@ -314,7 +314,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order tempco for RS",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": "TRS",
             "scaleFactor": null
           }
@@ -324,7 +324,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order tempco for RS",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -334,7 +334,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order tempco for MJ",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -344,7 +344,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order tempco for MJ",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -354,7 +354,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order tempco for TT",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -364,7 +364,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order tempco for TT",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -374,7 +374,7 @@
           "default": 3.0,
           "meta": {
             "description": "Saturation current temperature exponent",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -384,7 +384,7 @@
           "default": 0.0,
           "meta": {
             "description": "Diode temperature equation selector",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -394,7 +394,7 @@
           "default": 0.0,
           "meta": {
             "description": "Diode capac. temperature equation selector",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -404,7 +404,7 @@
           "default": 0.0,
           "meta": {
             "description": "Area junct. cap. temperature coefficient",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": "CTC",
             "scaleFactor": null
           }
@@ -414,7 +414,7 @@
           "default": 0.0,
           "meta": {
             "description": "Perimeter junct. cap. temperature coefficient",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -424,7 +424,7 @@
           "default": 0.0,
           "meta": {
             "description": "Breakdown voltage temperature coefficient",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -434,7 +434,7 @@
           "default": 0.0,
           "meta": {
             "description": "Flicker noise coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -444,7 +444,7 @@
           "default": 1.0,
           "meta": {
             "description": "Flicker noise exponent",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": ""
           }
@@ -454,7 +454,7 @@
           "default": 0.0,
           "meta": {
             "description": "Transit-time",
-            "units": "sec",
+            "unit": "sec",
             "alternateName": null,
             "scaleFactor": ""
           }
@@ -471,7 +471,7 @@
           "default": 1.0,
           "meta": {
             "description": "Substrate connection: for vertical geometry, -1 for lateral geometry (level 2 only).",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -481,7 +481,7 @@
           "default": 1e-16,
           "meta": {
             "description": "Transport saturation current.",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -491,7 +491,7 @@
           "default": 1e-16,
           "meta": {
             "description": "Reverse saturation current, substrate-to-collector for vertical device or substrate-to-base for lateral (level 2 only).",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -501,7 +501,7 @@
           "default": 100.0,
           "meta": {
             "description": "Ideal maximum forward beta.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -511,7 +511,7 @@
           "default": 1.0,
           "meta": {
             "description": "Forward current emission coefficient.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -521,7 +521,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Forward Early voltage.",
-            "units": "V",
+            "unit": "V",
             "alternateName": "VA",
             "scaleFactor": null
           }
@@ -531,7 +531,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Corner for forward beta current roll-off.",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -541,7 +541,7 @@
           "default": 0.5,
           "meta": {
             "description": "High current Beta rolloff exponent",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -551,7 +551,7 @@
           "default": 0.0,
           "meta": {
             "description": "B-E leakage saturation current.",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -561,7 +561,7 @@
           "default": 1.5,
           "meta": {
             "description": "B-E leakage emission coefficient.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -571,7 +571,7 @@
           "default": 1.0,
           "meta": {
             "description": "Ideal maximum reverse beta.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -581,7 +581,7 @@
           "default": 1.0,
           "meta": {
             "description": "Reverse current emission coefficient.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -591,7 +591,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Reverse Early voltage.",
-            "units": "V",
+            "unit": "V",
             "alternateName": "VB",
             "scaleFactor": null
           }
@@ -601,7 +601,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Corner for reverse beta high current roll-off.",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -611,7 +611,7 @@
           "default": 0.0,
           "meta": {
             "description": "B-C leakage saturation current (area is \u2018areab\u2019 for vertical devices and \u2018areac\u2019 for lateral).",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -621,7 +621,7 @@
           "default": 2.0,
           "meta": {
             "description": "B-C leakage emission coefficient.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -631,7 +631,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero bias base resistance.",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -641,7 +641,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Current where base resistance falls halfway to its min value.",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -651,7 +651,7 @@
           "default": "RB",
           "meta": {
             "description": "Minimum base resistance at high currents.",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -661,7 +661,7 @@
           "default": 0.0,
           "meta": {
             "description": "Emitter resistance.",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -671,7 +671,7 @@
           "default": 0.0,
           "meta": {
             "description": "Collector resistance.",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -681,7 +681,7 @@
           "default": 0.0,
           "meta": {
             "description": "B-E zero-bias depletion capacitance.",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -691,7 +691,7 @@
           "default": 0.75,
           "meta": {
             "description": "B-E built-in potential.",
-            "units": "V",
+            "unit": "V",
             "alternateName": "PE",
             "scaleFactor": null
           }
@@ -701,7 +701,7 @@
           "default": 0.33,
           "meta": {
             "description": "B-E junction exponential factor.",
-            "units": null,
+            "unit": null,
             "alternateName": "ME",
             "scaleFactor": null
           }
@@ -711,7 +711,7 @@
           "default": 0.0,
           "meta": {
             "description": "Ideal forward transit time.",
-            "units": "sec",
+            "unit": "sec",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -721,7 +721,7 @@
           "default": 0.0,
           "meta": {
             "description": "Coefficient for bias dependence of TF.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -731,7 +731,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Voltage describing VBC dependence of TF.",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -741,7 +741,7 @@
           "default": 0.0,
           "meta": {
             "description": "1 Excess phase at freq=Hz. 2\u03c0T F",
-            "units": "deg",
+            "unit": "deg",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -751,7 +751,7 @@
           "default": 0.0,
           "meta": {
             "description": "B-C zero-bias depletion capacitance (area is \u2018areab\u2019 for vertical devices and \u2018areac\u2019 for lateral).",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -761,7 +761,7 @@
           "default": 0.75,
           "meta": {
             "description": "B-C built-in potential.",
-            "units": "V",
+            "unit": "V",
             "alternateName": "PC",
             "scaleFactor": null
           }
@@ -771,7 +771,7 @@
           "default": 0.33,
           "meta": {
             "description": "B-C junction exponential factor.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -781,7 +781,7 @@
           "default": 1.0,
           "meta": {
             "description": "Fraction of B-C depletion capacitance connected to internal base node.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -791,7 +791,7 @@
           "default": 0.0,
           "meta": {
             "description": "Ideal reverse transit time.",
-            "units": "sec",
+            "unit": "sec",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -801,7 +801,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias collector-substrate capacitance (area is \u2018areac\u2019 for vertical devices and \u2018areab\u2019 for lateral).",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -811,7 +811,7 @@
           "default": 0.75,
           "meta": {
             "description": "Substrate junction built-in potential.",
-            "units": "V",
+            "unit": "V",
             "alternateName": "PS",
             "scaleFactor": null
           }
@@ -821,7 +821,7 @@
           "default": 0.0,
           "meta": {
             "description": "Substrate junction exponential factor.",
-            "units": null,
+            "unit": null,
             "alternateName": "MS",
             "scaleFactor": null
           }
@@ -831,7 +831,7 @@
           "default": 0.0,
           "meta": {
             "description": "Forward and reverse beta temperature exponent.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -841,7 +841,7 @@
           "default": 1.11,
           "meta": {
             "description": "Energy gap for temperature effect on IS.",
-            "units": "eV",
+            "unit": "eV",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -851,7 +851,7 @@
           "default": 3.0,
           "meta": {
             "description": "Temperature exponent for effect on IS.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -861,7 +861,7 @@
           "default": 0.0,
           "meta": {
             "description": "Flicker-noise coefficient.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -871,7 +871,7 @@
           "default": 1.0,
           "meta": {
             "description": "Flicker-noise exponent.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -881,7 +881,7 @@
           "default": 0.5,
           "meta": {
             "description": "Coefficient for forward-bias depletion capacitance formula.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -891,7 +891,7 @@
           "default": 27.0,
           "meta": {
             "description": "Parameter measurement temperature.",
-            "units": "Celsius",
+            "unit": "Celsius",
             "alternateName": "TREF",
             "scaleFactor": null
           }
@@ -901,7 +901,7 @@
           "default": 0.0,
           "meta": {
             "description": "BJT temperature equation selector",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -911,7 +911,7 @@
           "default": 0.0,
           "meta": {
             "description": "BJT capac. temperature equation selector",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -921,7 +921,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for RE.",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -931,7 +931,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for RE.",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -941,7 +941,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for RC .",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -951,7 +951,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for RC.",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -961,7 +961,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for RB.",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -971,7 +971,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for RBM",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -981,7 +981,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for RBM",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -991,7 +991,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for BF",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1001,7 +1001,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for BF",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1011,7 +1011,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for BR",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1021,7 +1021,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for BR",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1031,7 +1031,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for IKF",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1041,7 +1041,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for IKF",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1051,7 +1051,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for IKR",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1061,7 +1061,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for IKR",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1071,7 +1071,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for IRB",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1081,7 +1081,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for IRB",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1091,7 +1091,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for NC",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1101,7 +1101,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for NC",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1111,7 +1111,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for NE",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1121,7 +1121,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for NE",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1131,7 +1131,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for NF",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1141,7 +1141,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for NF",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1151,7 +1151,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for IKF",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1161,7 +1161,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for IKF",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1171,7 +1171,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for VAF",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1181,7 +1181,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for VAF",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1191,7 +1191,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for VAR",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1201,7 +1201,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for CJC",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1211,7 +1211,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for CJE",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1221,7 +1221,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for CJS",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1231,7 +1231,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for VJC",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1241,7 +1241,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for VJE",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1251,7 +1251,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for ITF",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1261,7 +1261,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for ITF",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1271,7 +1271,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for TF",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1281,7 +1281,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for TF",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1291,7 +1291,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for TR",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1301,7 +1301,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for TR",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1311,7 +1311,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for MJE",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1321,7 +1321,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for MJE",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1331,7 +1331,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for MJC",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1341,7 +1341,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for MJC",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1351,7 +1351,7 @@
           "default": 0.0,
           "meta": {
             "description": "High-current parameter for effect on TF.",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": "area"
           }
@@ -1361,7 +1361,7 @@
           "default": 0.0,
           "meta": {
             "description": "2nd order temperature coefficient for RB",
-            "units": "1/Celsius^2",
+            "unit": "1/Celsius^2",
             "alternateName": null,
             "scaleFactor": ""
           }
@@ -1371,7 +1371,7 @@
           "default": 0.0,
           "meta": {
             "description": "1st order temperature coefficient for VAR",
-            "units": "1/Celsius",
+            "unit": "1/Celsius",
             "alternateName": null,
             "scaleFactor": ""
           }
@@ -1388,7 +1388,7 @@
           "default": 1,
           "meta": {
             "description": "Model index",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1398,7 +1398,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias threshold voltage (VT 0)",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1408,7 +1408,7 @@
           "default": 2e-05,
           "meta": {
             "description": "Transconductance parameter",
-            "units": "A/V 2",
+            "unit": "A/V 2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1418,7 +1418,7 @@
           "default": 0.0,
           "meta": {
             "description": "Bulk threshold parameter",
-            "units": "V^0.5",
+            "unit": "V^0.5",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1428,7 +1428,7 @@
           "default": 0.6,
           "meta": {
             "description": "Surface potential (U)",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1438,7 +1438,7 @@
           "default": 0.0,
           "meta": {
             "description": "Channel length modulation (MOS1 and MOS2 only) (\u03bb )",
-            "units": "1/V",
+            "unit": "1/V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1448,7 +1448,7 @@
           "default": 0.0,
           "meta": {
             "description": "Drain ohmic resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1458,7 +1458,7 @@
           "default": 0.0,
           "meta": {
             "description": "Source ohmic resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1468,7 +1468,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias B-D junction capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1478,7 +1478,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias B-S junction capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1488,7 +1488,7 @@
           "default": 1e-14,
           "meta": {
             "description": "Bulk junction saturation current (IS)",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1498,7 +1498,7 @@
           "default": 0.8,
           "meta": {
             "description": "Bulk junction potential",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1508,7 +1508,7 @@
           "default": 0.0,
           "meta": {
             "description": "Gate-source overlap capacitance per meter channel width",
-            "units": "F/m",
+            "unit": "F/m",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1518,7 +1518,7 @@
           "default": 0.0,
           "meta": {
             "description": "Gate-drain overlap capacitance per meter channel width",
-            "units": "F/m",
+            "unit": "F/m",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1528,7 +1528,7 @@
           "default": 0.0,
           "meta": {
             "description": "Gate-bulk overlap capacitance per meter channel width",
-            "units": "F/m",
+            "unit": "F/m",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1538,7 +1538,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias bulk junction bottom cap. per sq-meter of junction area",
-            "units": "F/m^2",
+            "unit": "F/m^2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1548,7 +1548,7 @@
           "default": 0.5,
           "meta": {
             "description": "Bulk junction bottom grading coeff.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1558,7 +1558,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias bulk junction sidewall cap. per meter of junction perimeter",
-            "units": "F/m",
+            "unit": "F/m",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1568,7 +1568,7 @@
           "default": 0.5,
           "meta": {
             "description": "Bulk junction sidewall grading coeff.",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1578,7 +1578,7 @@
           "default": 0.0,
           "meta": {
             "description": "Bulk junction saturation current",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1588,7 +1588,7 @@
           "default": 1e-07,
           "meta": {
             "description": "Oxide thickness",
-            "units": "m",
+            "unit": "m",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1598,7 +1598,7 @@
           "default": 0.0,
           "meta": {
             "description": "Substrate doping",
-            "units": "cm^-3",
+            "unit": "cm^-3",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1608,7 +1608,7 @@
           "default": 0.0,
           "meta": {
             "description": "Surface state density",
-            "units": "cm^-2",
+            "unit": "cm^-2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1618,7 +1618,7 @@
           "default": 0.0,
           "meta": {
             "description": "Fast surface state density",
-            "units": "cm^-2",
+            "unit": "cm^-2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1628,7 +1628,7 @@
           "default": 1.0,
           "meta": {
             "description": "Type of gate material: +1 opp. to substrate, -1 same as substrate, 0 Al gate",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1638,7 +1638,7 @@
           "default": 0.0,
           "meta": {
             "description": "Metallurgical junction depth",
-            "units": "m",
+            "unit": "m",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1648,7 +1648,7 @@
           "default": 0.0,
           "meta": {
             "description": "Lateral diffusion",
-            "units": "m",
+            "unit": "m",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1658,7 +1658,7 @@
           "default": 600.0,
           "meta": {
             "description": "Surface mobility",
-            "units": "cm2/V \u00b7sec",
+            "unit": "cm2/V \u00b7sec",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1668,7 +1668,7 @@
           "default": 10000.0,
           "meta": {
             "description": "Critical field for mobility degradation (MOS2 only)",
-            "units": "V/cm",
+            "unit": "V/cm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1678,7 +1678,7 @@
           "default": 0.0,
           "meta": {
             "description": "Critical field exponent in mobility degradation (MOS2 only)",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1688,7 +1688,7 @@
           "default": 0.0,
           "meta": {
             "description": "Transverse field coeff. (mobility) (deleted for MOS2)",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1698,7 +1698,7 @@
           "default": 0.0,
           "meta": {
             "description": "Maximum drift velocity of carriers",
-            "units": "m/s",
+            "unit": "m/s",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1708,7 +1708,7 @@
           "default": 1.0,
           "meta": {
             "description": "Total channel-charge (fixed and mobile) coefficient (MOS2 only)",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1718,7 +1718,7 @@
           "default": 0.0,
           "meta": {
             "description": "Flicker noise coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1728,7 +1728,7 @@
           "default": 1.0,
           "meta": {
             "description": "Flicker noise exponent",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1738,7 +1738,7 @@
           "default": 0.5,
           "meta": {
             "description": "Coefficient for forward-bias depletion capacitance formula",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1748,7 +1748,7 @@
           "default": 0.0,
           "meta": {
             "description": "Width effect on threshold voltage (MOS2 and MOS3)",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1758,7 +1758,7 @@
           "default": 0.0,
           "meta": {
             "description": "Mobility modulation (MOS3 only)",
-            "units": "1/V",
+            "unit": "1/V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1768,7 +1768,7 @@
           "default": 0.2,
           "meta": {
             "description": "Saturation field factor (MOS3 only)",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1778,7 +1778,7 @@
           "default": 27.0,
           "meta": {
             "description": "Parameter measurement temperature",
-            "units": "Celsius",
+            "unit": "Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1788,7 +1788,7 @@
           "default": 0.0,
           "meta": {
             "description": "Static feedback (MOS3 only)",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1798,7 +1798,7 @@
           "default": 0.0,
           "meta": {
             "description": "Drain and source diffusion sheet resistance",
-            "units": "\u2126/",
+            "unit": "\u2126/",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1821,7 +1821,7 @@
           "default": "default, if not given",
           "meta": {
             "description": "NMOS",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1831,7 +1831,7 @@
           "default": "required, if PMOS",
           "meta": {
             "description": "PMOS",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1841,7 +1841,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias threshold voltage (VT 0)",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1851,7 +1851,7 @@
           "default": 1.0,
           "meta": {
             "description": "Transconductance parameter",
-            "units": "A/V 2",
+            "unit": "A/V 2",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1861,7 +1861,7 @@
           "default": 0.0,
           "meta": {
             "description": "Channel length modulation (\u03bb )",
-            "units": "1/V",
+            "unit": "1/V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1871,7 +1871,7 @@
           "default": 0.0,
           "meta": {
             "description": "Drain ohmic resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1881,7 +1881,7 @@
           "default": 0.0,
           "meta": {
             "description": "Source ohmic resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1891,7 +1891,7 @@
           "default": 0.0,
           "meta": {
             "description": "Gate ohmic resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1901,7 +1901,7 @@
           "default": 0.0,
           "meta": {
             "description": "Flicker noise coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1911,7 +1911,7 @@
           "default": 1.0,
           "meta": {
             "description": "Flicker noise exponent",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1921,7 +1921,7 @@
           "default": 27.0,
           "meta": {
             "description": "Parameter measurement temperature",
-            "units": "Celsius",
+            "unit": "Celsius",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1931,7 +1931,7 @@
           "default": 0.0,
           "meta": {
             "description": "Quasi saturation resistance fitting parameter",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1941,7 +1941,7 @@
           "default": 1e-14,
           "meta": {
             "description": "Quasi saturation voltage fitting parameter",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1951,7 +1951,7 @@
           "default": 1.0,
           "meta": {
             "description": "Conductance multiplier in triode region",
-            "units": "\u2212",
+            "unit": "\u2212",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1961,7 +1961,7 @@
           "default": 0.0,
           "meta": {
             "description": "slope in the dual parameter subthreshold model",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1971,7 +1971,7 @@
           "default": 0.0,
           "meta": {
             "description": "shift along gate voltage axis in the dual parameter subthreshold model",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1981,7 +1981,7 @@
           "default": 0.0,
           "meta": {
             "description": "slope in the single parameter subthreshold model",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -1991,7 +1991,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Vds breakdown voltage",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2001,7 +2001,7 @@
           "default": 1e-10,
           "meta": {
             "description": "Current at Vds=bv",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2011,7 +2011,7 @@
           "default": 1.0,
           "meta": {
             "description": "Vds breakdown emission coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2021,7 +2021,7 @@
           "default": "Infinity",
           "meta": {
             "description": "Drain-source shunt resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2031,7 +2031,7 @@
           "default": 0.0,
           "meta": {
             "description": "Body diode ohmic resistance",
-            "units": "Ohm",
+            "unit": "Ohm",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2041,7 +2041,7 @@
           "default": 0.0,
           "meta": {
             "description": "Body diode emission coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2051,7 +2051,7 @@
           "default": 0.0,
           "meta": {
             "description": "Body diode transit time",
-            "units": "s",
+            "unit": "s",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2061,7 +2061,7 @@
           "default": 1.11,
           "meta": {
             "description": "Body diode activation energy for temperature effect on IS",
-            "units": "eV",
+            "unit": "eV",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2071,7 +2071,7 @@
           "default": 0.0,
           "meta": {
             "description": "Body diode saturation current temperature exponent",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2081,7 +2081,7 @@
           "default": 1e-14,
           "meta": {
             "description": "Body diode saturation current",
-            "units": "A",
+            "unit": "A",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2091,7 +2091,7 @@
           "default": 0.8,
           "meta": {
             "description": "Body diode junction potential",
-            "units": "V",
+            "unit": "V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2101,7 +2101,7 @@
           "default": 0.0,
           "meta": {
             "description": "Body diode coefficient for forward-bias depletion capacitance formula",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2111,7 +2111,7 @@
           "default": 0.0,
           "meta": {
             "description": "Zero-bias body diode junction capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2121,7 +2121,7 @@
           "default": 1.0,
           "meta": {
             "description": "Body diode grading coefficient",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2131,7 +2131,7 @@
           "default": 0.0,
           "meta": {
             "description": "Minimum non-linear G-D capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2141,7 +2141,7 @@
           "default": 0.0,
           "meta": {
             "description": "Maximum non-linear G-D capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2151,7 +2151,7 @@
           "default": 1.0,
           "meta": {
             "description": "Non-linear Cgd capacitance parameter",
-            "units": null,
+            "unit": null,
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2161,7 +2161,7 @@
           "default": 0.0,
           "meta": {
             "description": "Gate-source capacitance",
-            "units": "F",
+            "unit": "F",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2171,7 +2171,7 @@
           "default": 0.0,
           "meta": {
             "description": "Vgs influence on mobility",
-            "units": "1/V",
+            "unit": "1/V",
             "alternateName": null,
             "scaleFactor": null
           }
@@ -2190,6 +2190,6 @@
   "info": {
     "source": "NGSpice 31 user manual",
     "url": "http://ngspice.sourceforge.net/docs/ngspice-31-manual.pdf",
-    "lastModified": "2021-04-06 10:05:28.121200"
+    "lastModified": "2022-01-24 09:16:53.787942"
   }
 }
