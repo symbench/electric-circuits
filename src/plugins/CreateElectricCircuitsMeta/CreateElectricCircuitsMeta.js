@@ -2,6 +2,7 @@
 /*eslint-env node, browser*/
 
 define([
+    './UnitRegExp',
     'webgme-json-importer/JSONImporter',
     'text!./metadata.json',
     'plugin/PluginBase',
@@ -9,6 +10,7 @@ define([
     'common/util/guid',
     'text!./PySpice/elements.json'
 ], function (
+    getUnitRegExp,
     JSONImporter,
     pluginMetadata,
     PluginBase,
@@ -377,8 +379,10 @@ define([
                 delete node.attributes.ModelicaURI;
                 delete node.attributes.ShortName;
                 delete node.attributes.useHeatPort;
+
                 categoryMetaNode.attributes = node.attributes;
                 categoryMetaNode.attribute_meta = node.attribute_meta;
+                this.addUnitRegExp(categoryMetaNode);
                 this.addToDocumentation(categoryMetaNode);
             });
         }
@@ -402,7 +406,17 @@ define([
                         this._createPinNode(pinNames[j])
                     );
                 }
+                this.addUnitRegExp(metaNode);
                 this.addToDocumentation(metaNode);
+            });
+        }
+
+        addUnitRegExp(metaNode) {
+            Object.entries(metaNode.attribute_meta).forEach(([k, v]) => {
+                if (v.unit) {
+                    const unitRegExp = getUnitRegExp(v.unit);
+                    unitRegExp ? metaNode.attribute_meta[k].unitRegExp = unitRegExp: null;
+                }
             });
         }
 
