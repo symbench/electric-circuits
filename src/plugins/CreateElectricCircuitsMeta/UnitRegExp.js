@@ -52,9 +52,9 @@ define([], function () {
 
     Object.entries(UNITS_TO_PLACEHOLDERS).forEach(([k, v]) => {
         if (!PLACEHOLDER_TO_UNITS[v]) {
-            PLACEHOLDER_TO_UNITS[v] = [k];
+            PLACEHOLDER_TO_UNITS[v] = [`${k}$`];
         } else {
-            PLACEHOLDER_TO_UNITS[v].push(k);
+            PLACEHOLDER_TO_UNITS[v].push(`${k}$`);
         }
     });
 

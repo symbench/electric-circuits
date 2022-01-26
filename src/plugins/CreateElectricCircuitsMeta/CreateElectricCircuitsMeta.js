@@ -406,6 +406,7 @@ define([
                         this._createPinNode(pinNames[j])
                     );
                 }
+                this.addUnitRegExp(metaNode);
                 this.addToDocumentation(metaNode);
             });
         }
@@ -414,7 +415,6 @@ define([
             Object.entries(metaNode.attribute_meta).forEach(([k, v]) => {
                 if (v.unit) {
                     const unitRegExp = getUnitRegExp(v.unit);
-                    console.log(unitRegExp);
                     unitRegExp ? metaNode.attribute_meta[k].unitRegExp = unitRegExp: null;
                 }
             });
