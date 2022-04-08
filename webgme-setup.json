@@ -21,6 +21,10 @@
       "ConvertNetlistToCircuit": {
         "src": "src/plugins/ConvertNetlistToCircuit",
         "test": "test/plugins/ConvertNetlistToCircuit"
+      },
+      "CreateCircuitFromAnnotations": {
+        "src": "src/plugins/CreateCircuitFromAnnotations",
+        "test": "test/plugins/CreateCircuitFromAnnotations"
       }
     },
     "seeds": {

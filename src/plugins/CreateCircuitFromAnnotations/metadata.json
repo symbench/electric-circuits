@@ -1,0 +1,21 @@
+{
+  "id": "CreateCircuitFromAnnotations",
+  "name": "CreateCircuitFromAnnotations",
+  "version": "0.1.0",
+  "description": "",
+  "icon": {
+    "class": "glyphicon glyphicon-cog",
+    "src": ""
+  },
+  "disableServerSideExecution": false,
+  "disableBrowserSideExecution": false,
+  "dependencies": [],
+  "writeAccessRequired": false,
+  "configStructure": [{
+    "name": "annotations",
+    "displayName": "Input Annotations",
+    "description": "The input annotation JSON file in the webgme-json-import (WJI) format",
+    "valueType": "asset",
+    "readOnly": false
+  }]
+}
