@@ -35,7 +35,25 @@ function factory(guid) {
         }
 
         _reassignJunctionEdges(annotations) {
-            const wires = annotations.c
+            const junctions = Object.fromEntries(annotations.children.filter(this._isJunction).map(j => [j.id, j]));
+            const wires = annotations.children.filter(this._isWire);
+
+            const isAJunctionId = id => !!junctions[id];
+
+            const getRandomChild = node => {
+                const index = Math.floor(Math.random() * node.children.length);
+                return node.children[index];
+            };
+
+            wires.forEach(wire => {
+                if (isAJunctionId(wire.pointers.src)) {
+                    wire.pointers.src = getRandomChild(junctions[wire.pointers.src]).id;
+                }
+
+                if (isAJunctionId(wire.pointers.dst)) {
+                    wire.pointers.dst = getRandomChild(junctions[wire.pointers.dst]).id;
+                }
+            });
         }
 
         _isIntersection(node) {
