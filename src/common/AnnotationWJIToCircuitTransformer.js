@@ -71,10 +71,11 @@ function factory(guid) {
         _getPortsWJI(portNames) {
             return portNames.map(name => {
                 const id = `@id:${guid()}`;
-                const pointers = {base: "@meta:Port"};
+                const attributes = {name};
+                const pointers = {base: "@meta:Pin"};
                 return {
                     id,
-                    name,
+                    attributes,
                     pointers
                 };
             });

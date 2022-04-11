@@ -11,12 +11,14 @@ define([
     'plugin/PluginConfig',
     'text!./metadata.json',
     'plugin/PluginBase',
-    'electric-circuits/AnnotationWJIToCircuitTransformer'
+    'electric-circuits/AnnotationWJIToCircuitTransformer',
+    'webgme-json-importer/JSONImporter',
 ], function (
     PluginConfig,
     pluginMetadata,
     PluginBase,
-    AnnotationWJIToCircuitTransformer) {
+    AnnotationWJIToCircuitTransformer,
+    JSONImporter,) {
     'use strict';
 
     pluginMetadata = JSON.parse(pluginMetadata);
@@ -30,9 +32,14 @@ define([
         async main() {
             const annotationWJI = await this.blobClient.getObjectAsJSON(this.getCurrentConfig().annotations);
             const circuitWJITransformer = new AnnotationWJIToCircuitTransformer();
-            // console.log(annotationToCircuitWJI);
             circuitWJITransformer.transform(annotationWJI);
-            console.log(annotationWJI);
+            const node = this.core.createNode({
+               parent: this.activeNode,
+               base: this.META['Circuit']
+            });
+            const importer = new JSONImporter(this.core, this.rootNode);
+            await importer.apply(node, annotationWJI);
+            await this.save('Model updated to new state.');
             this.result.setSuccess(true);
         }
     }
