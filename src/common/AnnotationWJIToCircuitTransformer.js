@@ -1,6 +1,5 @@
 /* globals define */
 function factory(guid) {
-
     class AnnotationWJIToCircuitTransformer {
         transform(annotationsWJI) {
             this._transformIntersections(annotationsWJI);
@@ -47,11 +46,11 @@ function factory(guid) {
 
             wires.forEach(wire => {
                 if (isAJunctionId(wire.pointers.src)) {
-                    wire.pointers.src = getRandomChild(junctions[wire.pointers.src]).id;
+                    wire.pointers.src = `@id:${getRandomChild(junctions[wire.pointers.src]).alias}`;
                 }
 
                 if (isAJunctionId(wire.pointers.dst)) {
-                    wire.pointers.dst = getRandomChild(junctions[wire.pointers.dst]).id;
+                    wire.pointers.dst = `@id:${getRandomChild(junctions[wire.pointers.dst]).alias}`;
                 }
             });
         }
@@ -70,11 +69,12 @@ function factory(guid) {
 
         _getPortsWJI(portNames) {
             return portNames.map(name => {
-                const id = `@id:${guid()}`;
+                const id = `${guid()}`;
                 const attributes = {name};
                 const pointers = {base: "@meta:Pin"};
                 return {
-                    id,
+                    alias: id,
+                    id: `@name:${name}`,
                     attributes,
                     pointers
                 };

@@ -33,12 +33,8 @@ define([
             const annotationWJI = await this.blobClient.getObjectAsJSON(this.getCurrentConfig().annotations);
             const circuitWJITransformer = new AnnotationWJIToCircuitTransformer();
             circuitWJITransformer.transform(annotationWJI);
-            const node = this.core.createNode({
-               parent: this.activeNode,
-               base: this.META['Circuit']
-            });
             const importer = new JSONImporter(this.core, this.rootNode);
-            await importer.apply(node, annotationWJI);
+            await importer.import(this.activeNode, annotationWJI);
             await this.save('Model updated to new state.');
             this.result.setSuccess(true);
         }
